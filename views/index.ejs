@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PT Lab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <script src="/javascripts/angularApp.js"></script>
+    <script scr="/javascripts/scroll.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl" id="nav">
+      <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                      data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#/home">Planet Talent Lab</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-left">
+                  <li><a href="#home">Home</a></li>
+                  <li><a href="#voorwie">Voor wie</a></li>
+                  <li><a href="#ruimtes">Ruimtes</a></li>
+                  <li><a href="#prijzen">Prijzen</a></li>
+                  <li><a href="#practicals">Practicals</a></li>
+                  <li><a href="#agenda">Agenda</a></li>
+                  <li><a href="#/contact">Contact</a></li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+  </nav>
+
+<!--Home-->
+  <section id="home">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-10 col-md-offset-1 text-center">
+                    <img src="images/Logo_PTLab-03.jpg" alt="Logo Planet Talent Lab Groen" class="center-block" width="304" height="150">
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                    </p>
+                  </div>
+              </div>
+          </div>
+  </section>
+<!--Voor wie-->
+  <section class="bg-yellow" id="voorwie">
+          <div class="container">
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                  <h2 class="section-heading section-heading-voorwie">Voor wie ?</h2>
+                </div>
+                <div class="block">
+                  <div class="col-md-3 text-center">
+                    <div class="block-title">Trainers/Managers</div>
+                    <div class="block-text">
+                      Er kan een van de 4 ruimtes gereserveerd worden voor uw evenement.
+                      U kan dan ook kiezen of u bij dit evenement catering wil.
+                    </div>
+                    <button class="btn-primary btn-block">Vraag een offerte aan</button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <div class="block-title">Co-workers</div>
+                    <div class="block-text">
+                      U kan één keer gratis onze faciliteiten testen wanneer u aan co-working doet.
+                      Hierdoor kan u wanneer u thuis werkt, prive en werk gescheiden houden.
+                    </div>
+                    <button class="btn-primary btn-block">Probeer gratis</button>
+                  </div>
+                  <div class="col-md-3 text-center">
+                    <div class="block-title">Studenten</div>
+                    <div class="block-text">
+                      Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
+                    </div>
+                    <button class="btn-primary btn-block">Boek je gratis plaats</button>
+                  </div>
+                </div>
+                <!--  <div class="col-md-10 col-md-offset-1 text-center">
+                      <h2 class="section-heading">Voor wie ?</h2>
+                      <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                      Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                      Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                      </p>
+                      <p>
+                        <a href="#nav">Back to top</a>
+                      </p>
+                  </div>-->
+              </div>
+          </div>
+  </section>
+<!--Ruimtes-->
+  <section id="ruimtes">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-10 col-md-offset-1 text-center">
+                      <h2 class="section-heading">Ruimtes</h2>
+                      <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                      Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                      Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                      </p>
+                      <p>
+                        <a href="#nav">Back to top</a>
+                      </p>
+                  </div>
+              </div>
+          </div>
+  </section>
+<!--Prijzen-->
+<section class="bg-yellow" id="Prijzen">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2 class="section-heading">Prijzen</h2>
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                    </p>
+                    <p>
+                      <a href="#nav">Back to top</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+</section>
+<!--Agenda-->
+<section id="agenda">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2 class="section-heading">Agenda</h2>
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                    </p>
+                    <p>
+                      <a href="#nav">Back to top</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+</section>
+<!--Praktische Zaken-->
+<section class="bg-yellow" id="practicals">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2 class="section-heading">Practicals</h2>
+                    <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
+                    </p>
+                    <p>
+                      <a href="#nav">Back to top</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+</section>
+</body>
+
+</html>
