@@ -9,6 +9,10 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
     <script src="/javascripts/angularApp.js"></script>
     <script scr="/javascripts/scroll.js"></script>
@@ -37,20 +41,20 @@
                   <li><a href="#prijzen">Prijzen</a></li>
                   <li><a href="#practicals">Practicals</a></li>
                   <li><a href="#agenda">Agenda</a></li>
-                  <li><a href="#/contact">Contact</a></li>
+                  <li><a href="/contact">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
               </ul>
           </div>
           <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
   </nav>
-
+  <a href="#" id="scroll" style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
 <!--Home-->
   <section id="home">
           <div class="container">
               <div class="row">
                   <div class="col-md-10 col-md-offset-1 text-center">
-                    <img src="images/Logo_PTLab-03.jpg" alt="Logo Planet Talent Lab Groen" class="center-block" width="304" height="150">
+                    <img src="images/Logo_PTLab-03.jpg" alt="Logo Planet Talent Lab Groen" class="center-block" width="304" height="150" id="logo">
                     <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
 
@@ -94,19 +98,6 @@
                     <button class="btn-primary btn-block">Boek je gratis plaats</button>
                   </div>
                 </div>
-                <!--  <div class="col-md-10 col-md-offset-1 text-center">
-                      <h2 class="section-heading">Voor wie ?</h2>
-                      <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
-
-                      Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
-
-                      Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
-                      </p>
-                      <p>
-                        <a href="#nav">Back to top</a>
-                      </p>
-                  </div>-->
               </div>
           </div>
   </section>
@@ -123,15 +114,117 @@
 
                       Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                       </p>
-                      <p>
-                        <a href="#nav">Back to top</a>
-                      </p>
+
+                      <div>
+                        <div class="col-md-6 text-center">
+                          <div class="clickable-block" id="coworkinglabtitle">
+                            <div class="block-title">Co-working Lab</div>
+                            <div class="block-image">
+                              <!--<img src="images/vergaderzaal1_test.jpg" alt="Vergaderzaal 1" align="middle" id="vergaderzaal1test"/>-->
+                            </div>
+                          </div>
+                          <button class="btn-primary btn-block" id="btnCoworking">Reserveer</button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <div class="clickable-block" id="meetingroomtitle">
+                            <div class="block-title">Meeting Room</div>
+                            <div class="block-image">
+
+                            </div>
+                          </div>
+                          <button class="btn-primary btn-block" id="btnMeetingRoom">Reserveer</button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <div class="clickable-block" id="trainingroomtitle">
+                            <div class="block-title">Training Room</div>
+                            <div class="block-image">
+
+                            </div>
+                          </div>
+                          <button class="btn-primary btn-block" id="btnTrainingRoom">Reserveer</button>
+                        </div>
+                        <div class="col-md-6 text-center">
+                          <div class="clickable-block" id="boardroomtitle">
+                            <div class="block-title">Board Room</div>
+                            <div class="block-image">
+
+                            </div>
+                          </div>
+                          <button class="btn-primary btn-block" id="btnBoardRoom">Reserveer</button>
+                        </div>
+                      </div>
                   </div>
               </div>
           </div>
   </section>
+
+  <section class="bg-red" id="sectionCoworking">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+          <h3>
+            Co-working Lab
+          </h3>
+          <ul>
+            <li>10 personen</li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-red" id="sectionMeetingRoom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+          <h3>
+            Meeting Room
+          </h3>
+          <ul>
+            <li>15 personen</li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-red" id="sectionTrainingRoom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+          <h3>
+            Training Room
+          </h3>
+          <ul>
+            <li>50 personen</li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-red" id="sectionBoardRoom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+          <h3>
+            Board Room
+          </h3>
+          <ul>
+            <li>30 personen</li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
 <!--Prijzen-->
-<section class="bg-yellow" id="Prijzen">
+<section class="bg-yellow" id="prijzen">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
@@ -143,35 +236,12 @@
 
                     Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                     </p>
-                    <p>
-                      <a href="#nav">Back to top</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-</section>
-<!--Agenda-->
-<section id="agenda">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 text-center">
-                    <h2 class="section-heading">Agenda</h2>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
-
-                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
-
-                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
-                    </p>
-                    <p>
-                      <a href="#nav">Back to top</a>
-                    </p>
                 </div>
             </div>
         </div>
 </section>
 <!--Praktische Zaken-->
-<section class="bg-yellow" id="practicals">
+<section id="practicals">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
@@ -183,8 +253,22 @@
 
                     Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                     </p>
+                </div>
+            </div>
+        </div>
+</section>
+<!--Agenda-->
+<section class="bg-yellow" id="agenda">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2 class="section-heading">Agenda</h2>
                     <p>
-                      <a href="#nav">Back to top</a>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
+
+                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
+
+                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                     </p>
                 </div>
             </div>

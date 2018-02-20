@@ -343,4 +343,88 @@ $(document).ready(function(){
     } // End if
   });
 });
+
+$(document).ready(function() {
+  $("#meetingroomtitle").on('click', function(event) {
+    console.log("click on meetingroom");
+    $("#sectionCoworking").slideUp("slow", function() {
+      $("#sectionBoardRoom").slideUp("slow", function(){
+        $("#sectionTrainingRoom").slideUp("slow",function(){
+          $("#sectionMeetingRoom").slideToggle("slow");
+        });
+      });
+    });
+  });
+});
+
+$(document).ready(function() {
+  $("#trainingroomtitle").on('click', function(event) {
+    console.log("click on trainingroom");
+    $("#sectionCoworking").slideUp("slow", function() {
+      $("#sectionMeetingRoom").slideUp("slow", function(){
+        $("#sectionBoardRoom").slideUp("slow", function(){
+          $("#sectionTrainingRoom").slideToggle("slow");
+        });
+      });
+    });
+  });
+});
+
+$(document).ready(function() {
+  $("#boardroomtitle").on('click', function(event) {
+    console.log("click on boardroom");
+    $("#sectionCoworking").slideUp("slow", function() {
+      $("#sectionMeetingRoom").slideUp("slow", function(){
+        $("#sectionTrainingRoom").slideUp("slow", function(){
+          $("#sectionBoardRoom").slideToggle("slow");
+        });
+      });
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#coworkinglabtitle").on('click', function(event) {
+    //if clicked again on the same section, the section needs to close.
+    //if another  section is open, close the other section and open the one that is clicked on.
+    console.log("click on coworking");
+    $("#sectionMeetingRoom").slideUp("slow", function() {
+      $("#sectionBoardRoom").slideUp("slow", function() {
+        $("#sectionTrainingRoom").slideUp("slow", function() {
+          $("#sectionCoworking").slideToggle("slow");
+        });
+      });
+    });
+  });
+});
+
+$(document).ready(function(){
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('#scroll').fadeIn();
+        } else {
+            $('#scroll').fadeOut();
+        }
+    });
+    $('#scroll').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+    });
+});
+
+$(document).ready(function(){
+  var images = ["images/Logo_PTLab-01.jpg","images/Logo_PTLab-02.jpg","images/Logo_PTLab-03.jpg"];
+  var i = 0;
+  $img = $("#logo");
+  setInterval(function () {
+        i++;
+        if (i >= images.length) {
+            i = 0;
+        }
+        $img.fadeOut(function () {
+            $img.attr('src', images[i]).fadeIn();
+        })
+    }, 6000)
+});
+
 //<div class="wrapper"> <div ng-show="error.message" class="alert alert-danger alert-custom" role="alert">{{error.message}}</div>      <form ng-submit="register()" class="form-signin">          <h2 class="form-signin-heading text-center">Register</h2>        <input type="text" class="form-control form-login" name="username" placeholder="Username" required                 ng-model="user.username"/>    <input type="email" class="form-control form-login" name="emailadres" placeholder="Email Address" required             autofocus ng-model="user.emailadres"/>    <input type="password" class="form-control form-login" name="password" placeholder="Password" required             ng-model="user.password"/><button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>  </form></div>'
