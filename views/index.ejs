@@ -14,34 +14,38 @@
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous"></script>
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
     <script src="/javascripts/angularApp.js"></script>
-    <script scr="/javascripts/scroll.js"></script>
+    <script src="/javascripts/map.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPN6Y8-z-axiYzczvl5knkasvMKaGDpvU"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
   <nav class="navbar navbar-default navbar-static-top" ng-controller="NavCtrl" id="nav">
-      <div class="container">
+      <div class="container-fluid header-top">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                      data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      data-target="#navbar-pt">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#/home">Planet Talent Lab</a>
+              <h3><small>Topstarters in ICT, sales & management</small></h3>
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-left">
+          <div class="collapse navbar-collapse" id="navbar-pt">
+              <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
                   <li><a href="#home">Home</a></li>
                   <li><a href="#voorwie">Voor wie</a></li>
                   <li><a href="#ruimtes">Ruimtes</a></li>
                   <li><a href="#prijzen">Prijzen</a></li>
                   <li><a href="#practicals">Practicals</a></li>
                   <li><a href="#agenda">Agenda</a></li>
-                  <li><a href="/contact">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
+                  <li><a href="#contact">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
               </ul>
           </div>
           <!-- /.navbar-collapse -->
@@ -72,9 +76,7 @@
               <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
                   <h2 class="section-heading section-heading-voorwie">Voor wie ?</h2>
-                </div>
-                <div class="block">
-                  <div class="col-md-3 text-center">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class="block-title">Trainers/Managers</div>
                     <div class="block-text">
                       Er kan een van de 4 ruimtes gereserveerd worden voor uw evenement.
@@ -82,7 +84,7 @@
                     </div>
                     <button class="btn-primary btn-block">Vraag een offerte aan</button>
                   </div>
-                  <div class="col-md-3 text-center">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class="block-title">Co-workers</div>
                     <div class="block-text">
                       U kan één keer gratis onze faciliteiten testen wanneer u aan co-working doet.
@@ -90,7 +92,7 @@
                     </div>
                     <button class="btn-primary btn-block">Probeer gratis</button>
                   </div>
-                  <div class="col-md-3 text-center">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                     <div class="block-title">Studenten</div>
                     <div class="block-text">
                       Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
@@ -116,7 +118,7 @@
                       </p>
 
                       <div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                           <div class="clickable-block" id="coworkinglabtitle">
                             <div class="block-title">Co-working Lab</div>
                             <div class="block-image">
@@ -125,7 +127,7 @@
                           </div>
                           <button class="btn-primary btn-block" id="btnCoworking">Reserveer</button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                           <div class="clickable-block" id="meetingroomtitle">
                             <div class="block-title">Meeting Room</div>
                             <div class="block-image">
@@ -134,7 +136,7 @@
                           </div>
                           <button class="btn-primary btn-block" id="btnMeetingRoom">Reserveer</button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                           <div class="clickable-block" id="trainingroomtitle">
                             <div class="block-title">Training Room</div>
                             <div class="block-image">
@@ -143,7 +145,7 @@
                           </div>
                           <button class="btn-primary btn-block" id="btnTrainingRoom">Reserveer</button>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                           <div class="clickable-block" id="boardroomtitle">
                             <div class="block-title">Board Room</div>
                             <div class="block-image">
@@ -165,9 +167,8 @@
           <h3>
             Co-working Lab
           </h3>
-          <ul>
+          <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
             <li>10 personen</li>
-            <li></li>
           </ul>
         </div>
       </div>
@@ -181,9 +182,8 @@
           <h3>
             Meeting Room
           </h3>
-          <ul>
+          <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
             <li>15 personen</li>
-            <li></li>
           </ul>
         </div>
       </div>
@@ -197,9 +197,8 @@
           <h3>
             Training Room
           </h3>
-          <ul>
+          <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
             <li>50 personen</li>
-            <li></li>
           </ul>
         </div>
       </div>
@@ -213,9 +212,8 @@
           <h3>
             Board Room
           </h3>
-          <ul>
+          <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
             <li>30 personen</li>
-            <li></li>
           </ul>
         </div>
       </div>
@@ -248,15 +246,79 @@
                     <h2 class="section-heading">Practicals</h2>
                     <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
-
-                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
-
-                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                     </p>
                 </div>
             </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1 text-center">
+                <h3 class="section-heading">Voorzieningen</h3>
+                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+                  <div class="service-box">
+                    <i class="fa fa-4x fa-globe"></i>
+                    <h4>Internet</h4>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+                  <div class="service-box">
+                    <i class="fa fa-4x fa-print"></i>
+                    <h4>Printer</h4>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+                  <div class="service-box">
+                    <i class="fa fa-4x fa-coffee"></i>
+                    <h4>Koffie/water bar</h4>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+                  <div class="service-box">
+                    <i class="fa fa-4x fa-cutlery"></i>
+                    <h4>Catering</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1 text-center">
+                <h3 class="section-heading">Openingsuren</h3>
+                <table class="table table-hover text-center">
+                  <tr>
+                    <td class="col-md-6 col-sm-6 col-xs-6 right-align">Maandag</td>
+                    <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-6 col-sm-6 col-xs-6 right-align">Dinsdag</td>
+                    <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-6 col-sm-6 col-xs-6 right-align">Woensdag</td>
+                    <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-6 col-sm-6 col-xs-6 right-align">Donderdag</td>
+                    <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-6 col-sm-6 col-xs-6 right-align">Vrijdag</td>
+                    <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1 text-center">
+                <h3 class="section-heading">Adres</h3>
+                <p>
+                  Planet Talent <br/>
+                  Frank van Dyckelaan 7b <br/>
+                  9140 Temse <br/>
+                  <i class="fa fa-1x fa-phone"></i> +32 3 226 48 28
+                </p>
+              </div>
+            </div>
         </div>
 </section>
+<div id="map"></div>
 <!--Agenda-->
 <section class="bg-yellow" id="agenda">
         <div class="container">
@@ -274,6 +336,24 @@
             </div>
         </div>
 </section>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <ui-view></ui-view>
+    </div>
+</div>
+<script type="text/ng-template" id="contact">
+    <div class="page-header">
+        <h2>Contact</h2>
+
+        <form>
+          <p>Naam</p>
+          <p>Email</p>
+          <p>Telefoon</p>
+          <p>Vraag</p>
+        </form>
+    </div>
+</script>
+
 </body>
 
 </html>

@@ -1,15 +1,91 @@
+@font-face {
+font-family: 'AshleyScriptMT';
+src: url('/fonts/AshleyScriptMT.otf') format('opentype');
+font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  h3 {
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+}
+
+h3 {
+  margin-bottom: 25px;
+}
+
+@media (max-width: 1052px) {
+
+    .navbar-default .nav > li > a,
+    .navbar-default .nav > li > a:focus {
+        color:black;
+    }
+
+    .navbar-default{
+        background-color: white;
+    }
+
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+        margin-top: 18px;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
 .navbar{
-  background-color: #FFBF3B;
+  background-color: #eee;
+  margin-bottom: 0px;
 }
 
 .navbar-default .navbar-brand{
-  color: #fff !important;
+  color: #000000 !important;
   font-size: 2em;
 }
 
 .navbar-default .navbar-nav>li>a {
-    margin-left:15px;
-    color: #fff !important;
+    margin-left:5px;
+    color: #000000 !important;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -25,15 +101,15 @@
 }
 
 .navbar-default .navbar-toggle:hover .icon-bar{
-    background-color: #f49504;
+    background-color: #404041;
 }
 
 .navbar-default .navbar-toggle:focus .icon-bar{
-    background-color: #f49504;
+    background-color: #404041;
 }
 
 .navbar-default .navbar-text {
-  color: #fff !important;
+  color: #000000 !important;
 }
 
 .btn {
@@ -69,8 +145,8 @@
 
 .block {
   text-align: center;
-  margin-left: 20%;
-  margin-right: 0%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-block {
@@ -92,12 +168,12 @@
 .block-text {
   background-color: white;
   padding: 10px;
-  height: 150px;
+  min-height: 150px;
 }
 
 section {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 h2 {
@@ -113,7 +189,7 @@ h2 {
 }
 
 body {
-  font-family: "Trebuchet MS";
+  font-family: "Roboto",Helvetica,Arial,sans-serif;
   font-style: normal;
 }
 
@@ -124,10 +200,6 @@ body {
 #sectionCoworking, #sectionMeetingRoom, #sectionTrainingRoom, #sectionBoardRoom {
   display: none;
   color: white;
-}
-
-ul {
-  list-style-position: inside;
 }
 
 .clickable-block {
@@ -141,17 +213,18 @@ ul {
 
 #scroll {
     position:fixed;
-    right:10px;
-    bottom:10px;
+    right:20px;
+    bottom:20px;
     cursor:pointer;
     width:50px;
     height:50px;
-    background-color:#A40D4E;
+    background-color:#404041;
     text-indent:-9999px;
     display:none;
     -webkit-border-radius:60px;
     -moz-border-radius:60px;
-    border-radius:60px
+    border-radius:60px;
+    z-index: 1;
 }
 #scroll span {
     position:absolute;
@@ -165,7 +238,100 @@ ul {
     border-bottom-color:#ffffff;
 }
 #scroll:hover {
-    background-color:#15B366;
+    background-color:#A9A9A9;
     opacity:1;filter:"alpha(opacity=100)";
     -ms-filter:"alpha(opacity=100)";
+}
+
+#map {
+  height: 500px;
+  display: block;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  margin-top: 5px;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.section-heading {
+  font-family: 'AshleyScriptMT';
+  text-transform: uppercase;
+}
+
+.nobullets {
+  list-style-type: none;
+}
+
+.bullets {
+  list-style-position: inside;
+}
+
+.roomblock {
+  margin-top: 2em;
+}
+
+.table {
+  width: 50%;
+  margin: 0px auto;
+  float: none;
+}
+
+.nav-small-combined {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #eee;
+}
+
+.nav-small {
+    /*float: right;*/
+    z-index: 1001;
+    /*position: relative;*/
+    font-size: 14px;
+}
+
+.pull-right {
+    /*float: right !important;*/
+}
+
+h3 small {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+small {
+  font-weight: 100 !important;
+}
+
+.nav-small a {
+  display: list-item;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 100 !important;
+}
+
+.nav-small li, .nav-small a {
+  /*float: left;*/
+  line-height: 150%;
+}
+
+.nav-small-combined li{
+    margin: 0 10px;
+    /*float: left;*/
+    font-size: 14px;
+    font-weight: 100 !important;
+    /*margin-top: 20px;*/
+}
+
+.nav-small li a:hover, .nav-small li.active a {
+  text-decoration: underline;
+  color: #000000;
+  font-weight: 100 !important;
 }
