@@ -1,11 +1,3 @@
-.green {
-  color: #1dd217;
-}
-
-.red {
-  color: #ea3102;
-}
-
 .navbar{
   background-color: #FFBF3B;
 }
@@ -44,61 +36,6 @@
   color: #fff !important;
 }
 
-.wrapper {
-	margin-top: 80px;
-  margin-bottom: 80px;
-}
-
-.form-signin {
-  background: #eee !important;
-  max-width: 380px;
-  padding: 15px 35px 45px;
-  margin: 0 auto;
-  border: 1px solid rgba(0,0,0,0.1);
-
-}
-.form-signin-heading {
-    margin-bottom: 50px;
-}
-
-.alert-custom{
-  max-width: 380px;
-  margin: 0 auto;
-  margin-bottom: 30px;
-}
-
-	.form-control .form-login {
-	  position: relative;
-	  font-size: 16px;
-	  height: auto;
-	  padding: 10px;
-	}
-
-	input[type="email"] {
-    margin-top: 20px;
-	  margin-bottom: 20px;
-	}
-
-  input[type="text"] {
-    margin-top: 20px;
-	  margin-bottom: 20px;
-	}
-
-	input[type="password"] {
-	  margin-bottom: 20px;
-	}
-
-.ul>li{
-  margin-left:8px
-}
-.dropdown-margin{
-  margin-left:8px;
-}
-
-.max-cell {
-  width: 500px;
-}
-
 .btn {
   background-color: #f49504;
   border-color: #f49504;
@@ -112,19 +49,6 @@
 .btn:focus {
   background-color: #df950f;
   border-color: #df950f;
-}
-
-.glyphicon.glyphicon-cloud {
-  font-size: 50px;
-  color: #f49504;
-}
-
-.glyphicon.glyphicon-cloud:hover {
-  color: #df950f;
-}
-
-.glyphicon.glyphicon-cloud:focus {
-  color: #df950f;
 }
 
 .bg-yellow {
