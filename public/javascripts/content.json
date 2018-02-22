@@ -1,0 +1,71 @@
+{
+  "openingsuren": {
+    "dag": [
+      {
+        "-id": "1",
+        "-name": "maandag",
+        "naam": "Maandag",
+        "openingsuur": {
+          "uur": "9",
+          "minuut": "0"
+        },
+        "sluitingsuur": {
+          "uur": "17",
+          "minuut": "30"
+        }
+      },
+      {
+        "-id": "2",
+        "-name": "dinsdag",
+        "naam": "Dinsdag",
+        "openingsuur": {
+          "uur": "9",
+          "minuut": "0"
+        },
+        "sluitingsuur": {
+          "uur": "17",
+          "minuut": "30"
+        }
+      },
+      {
+        "-id": "3",
+        "-name": "woensdag",
+        "naam": "Woensdag",
+        "openingsuur": {
+          "uur": "9",
+          "minuut": "0"
+        },
+        "sluitingsuur": {
+          "uur": "17",
+          "minuut": "30"
+        }
+      },
+      {
+        "-id": "4",
+        "-name": "donderdag",
+        "naam": "Donderdag",
+        "openingsuur": {
+          "uur": "9",
+          "minuut": "0"
+        },
+        "sluitingsuur": {
+          "uur": "17",
+          "minuut": "30"
+        }
+      },
+      {
+        "-id": "5",
+        "-name": "vrijdag",
+        "naam": "Vrijdag",
+        "openingsuur": {
+          "uur": "9",
+          "minuut": "0"
+        },
+        "sluitingsuur": {
+          "uur": "17",
+          "minuut": "30"
+        }
+      }
+    ]
+  }
+}

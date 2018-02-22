@@ -112,21 +112,6 @@ h3 {
   color: #000000 !important;
 }
 
-.btn {
-  background-color: #f49504;
-  border-color: #f49504;
-}
-
-.btn:hover {
-  background-color: #df950f;
-  border-color: #df950f;
-}
-
-.btn:focus {
-  background-color: #df950f;
-  border-color: #df950f;
-}
-
 .bg-yellow {
   background-color: #FFBF3B;
 }
