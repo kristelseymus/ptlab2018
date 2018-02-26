@@ -1,27 +1,81 @@
-var app = angular.module('ptlab', ['ui.router']);
+var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'ngMessages']);
 
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
+'$mdDateLocaleProvider',
+function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
+  $mdDateLocaleProvider.formatDate = function(date) {
+    return moment(date).format('DD MMMM YYYY');
+ };
+ $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+ $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+ $mdDateLocaleProvider.days = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+ $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Woe', 'Don', 'Vrij', 'Zat'];
+ $mdDateLocaleProvider.firstDayOfWeek = 1;
   $stateProvider
     .state('home', {
       url: '/home',
-      controller: 'httpController',
+      controller: 'OpeningsurenController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/home.html'
+      /*resolve: {
+        openingsuren: function($stateParams, OpeningsurenController){
+          return OpeningsurenController.getOpeningsuren();
+        }
+      }*/
     })
+    .state('boekplaatsstudent', {
+      url: '/boekplaatsstudent',
+      controller: 'BoekPlaatsStudentController',
+      controllerAs: 'ctrl',
+      templateUrl: '/templates/boekplaatsstudent.html'
+    })
+    /*
+    .state('voorwie', {
+      url: '/voorwie',
+      controller: 'VoorwieController',
+      controllerAs: 'ctrl'
+    })
+    .state('ruimtes', {
+      url: '/ruimtes',
+      controller: 'RuimtesController',
+      controllerAs: 'ctrl'
+    })
+    .state('prijzen', {
+      url: '/prijzen',
+      controller: 'PrijzenController',
+      controllerAs: 'ctrl'
+    })
+    .state('practicals', {
+      url: '/practicals',
+      controller: 'PracticalsController',
+      controllerAs: 'ctrl'
+    })
+    .state('agenda', {
+      url: '/agenda',
+      controller: 'AgendaController',
+      controllerAs: 'ctrl'
+    })*/
     .state('contact', {
       url: '/contact',
-      templateUrl: '/templates/contact.html'
+      templateUrl: '/templates/contact.html',
     });
 
   $urlRouterProvider.otherwise('home');
 }]);
 
-app.controller('httpController', function ($scope, $http) {
+app.controller('OpeningsurenController', function ($scope, $http, $rootScope) {
   var vm = this;
-  vm.openingsuren = null;
+  vm.openingsuren = [];
+  vm.maandag = "Maandag";
+
+  $rootScope.$on('$viewContentLoading', function(event, viewConfig)
+  {
+    console.log("in $rootScope");
+    // code die wordt uitgevoerd voor de view gerendered wordt.
+    activate();
+  });
 
   activate();
           /*  $http.get('http://localhost:3000/content.xml',
@@ -41,132 +95,37 @@ app.controller('httpController', function ($scope, $http) {
             });*/
 
       function activate(){
-        return load();
-      }
-
-      function load(){
-        getOpeningsuren();
+        console.log("hallo controller");
+        return getOpeningsuren();
       }
 
       function getOpeningsuren(){
           $.getJSON("/javascripts/content.json", function (data) {
             $.each(data, function (index, value) {
-              vm.openingsuren = data.openingsuren
-              console.log(vm.openingsuren);
+              vm.openingsuren = data.openingsuren.dag;
+
+              console.log(JSON.stringify(vm.openingsuren));
               return vm.openingsuren;
             });
           });
       }
+
+      function testController(){
+        console.log("WE ZITTEN IN DE CONTROLLER");
+      }
+});
+
+app.controller('BoekPlaatsStudentController', function($scope, $http){
+  var vm = this;
+  vm.datum = new Date();
+  vm.isOpen = false;
+
+  function getTodayDate(){
+    return new Date();
+  }
 });
 
 
-$(document).ready(function(){
-  // Add smooth scrolling to all links
-  $("a").on('click', function(event) {
-
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-
-      // Store hash
-      var hash = this.hash;
-
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 800, function(){
-
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
-    } // End if
-  });
-});
-
-$(document).ready(function() {
-  $("#meetingroomtitle").on('click', function(event) {
-    console.log("click on meetingroom");
-    $("#sectionCoworking").slideUp("slow", function() {
-      $("#sectionBoardRoom").slideUp("slow", function(){
-        $("#sectionTrainingRoom").slideUp("slow",function(){
-          $("#sectionMeetingRoom").slideToggle("slow");
-        });
-      });
-    });
-  });
-});
-
-$(document).ready(function() {
-  $("#trainingroomtitle").on('click', function(event) {
-    console.log("click on trainingroom");
-    $("#sectionCoworking").slideUp("slow", function() {
-      $("#sectionMeetingRoom").slideUp("slow", function(){
-        $("#sectionBoardRoom").slideUp("slow", function(){
-          $("#sectionTrainingRoom").slideToggle("slow");
-        });
-      });
-    });
-  });
-});
-
-$(document).ready(function() {
-  $("#boardroomtitle").on('click', function(event) {
-    console.log("click on boardroom");
-    $("#sectionCoworking").slideUp("slow", function() {
-      $("#sectionMeetingRoom").slideUp("slow", function(){
-        $("#sectionTrainingRoom").slideUp("slow", function(){
-          $("#sectionBoardRoom").slideToggle("slow");
-        });
-      });
-    });
-  });
-});
-
-$(document).ready(function(){
-  $("#coworkinglabtitle").on('click', function(event) {
-    //if clicked again on the same section, the section needs to close.
-    //if another  section is open, close the other section and open the one that is clicked on.
-    console.log("click on coworking");
-    $("#sectionMeetingRoom").slideUp("slow", function() {
-      $("#sectionBoardRoom").slideUp("slow", function() {
-        $("#sectionTrainingRoom").slideUp("slow", function() {
-          $("#sectionCoworking").slideToggle("slow");
-        });
-      });
-    });
-  });
-});
-
-$(document).ready(function(){
-    $(window).scroll(function(){
-        if ($(this).scrollTop() > 100) {
-            $('#scroll').fadeIn();
-        } else {
-            $('#scroll').fadeOut();
-        }
-    });
-    $('#scroll').click(function(){
-        $("html, body").animate({ scrollTop: 0 }, 600);
-        return false;
-    });
-});
-
-$(document).ready(function(){
-  var images = ["images/Logo_PTLab-01.jpg","images/Logo_PTLab-02.jpg","images/Logo_PTLab-03.jpg"];
-  var i = 0;
-  $img = $("#logo");
-  setInterval(function () {
-        i++;
-        if (i >= images.length) {
-            i = 0;
-        }
-        $img.fadeOut(function () {
-            $img.attr('src', images[i]).fadeIn();
-        })
-    }, 6000)
-});
 
 //Hiding the navbar collapsed when there is a click on a link in the nav menu.
 /*
@@ -175,5 +134,3 @@ $(document).on('click','.navbar-collapse.in',function(e) {
         $(this).collapse('hide');
     }
 });*/
-
-//<div class="wrapper"> <div ng-show="error.message" class="alert alert-danger alert-custom" role="alert">{{error.message}}</div>      <form ng-submit="register()" class="form-signin">          <h2 class="form-signin-heading text-center">Register</h2>        <input type="text" class="form-control form-login" name="username" placeholder="Username" required                 ng-model="user.username"/>    <input type="email" class="form-control form-login" name="emailadres" placeholder="Email Address" required             autofocus ng-model="user.emailadres"/>    <input type="password" class="form-control form-login" name="password" placeholder="Password" required             ng-model="user.password"/><button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>  </form></div>'

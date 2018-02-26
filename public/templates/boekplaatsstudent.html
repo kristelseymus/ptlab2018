@@ -1,0 +1,33 @@
+<section ng-controller="BoekPlaatsStudentController as ctrl">
+        <div class="container" id="boekplaatsstudent">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                  <h2 class="section-heading">Boek een gratis plaats</h2>
+                  <form ng-submit="ctrl.boekPlaatsStudent()">
+                    <div class="form-group">
+                      <label>Voornaam</label>
+                      <input type="text" class="form-control" placeholder="Jan" ng-model="ctrl.student.voornaam"
+                      required/>
+                    </div>
+                    <div class="form-group">
+                      <label>Naam</label>
+                      <input type="text" class="form-control" placeholder="Jansen" ng-model="ctrl.student.naam"
+                      required/>
+                    </div>
+                    <div class="form-group">
+                      <md-content layout-padding ng-cloak>
+                        <div layout-gt-xs="row">
+                          <div flex-gt-xs>
+                            <label>Kies een datum</label>
+                            <md-datepicker ng-model="ctrl.datum" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
+                          </div>
+                        </div>
+                      </md-content>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Reserveer</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+        <div id="cover"></div>
+</section>

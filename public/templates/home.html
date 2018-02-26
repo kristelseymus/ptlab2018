@@ -41,7 +41,7 @@
                   <div class="block-text">
                     Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
                   </div>
-                  <button class="btn-primary btn-block">Boek je gratis plaats</button>
+                  <a href="#boekplaatsstudent" class="btn-primary btn-block">Boek je gratis plaats</a>
                 </div>
               </div>
             </div>
@@ -196,25 +196,25 @@
           <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
               <h3 class="section-heading">Voorzieningen</h3>
-              <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+              <div class="col-md-3 col-sm-3 col-xs-6 text-center">
                 <div class="service-box">
                   <i class="fa fa-4x fa-globe"></i>
                   <h4>Internet</h4>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+              <div class="col-md-3 col-sm-3 col-xs-6 text-center">
                 <div class="service-box">
                   <i class="fa fa-4x fa-print"></i>
                   <h4>Printer</h4>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+              <div class="col-md-3 col-sm-3 col-xs-6 text-center">
                 <div class="service-box">
                   <i class="fa fa-4x fa-coffee"></i>
                   <h4>Koffie/water bar</h4>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+              <div class="col-md-3 col-sm-3 col-xs-6 text-center">
                 <div class="service-box">
                   <i class="fa fa-4x fa-cutlery"></i>
                   <h4>Catering</h4>
@@ -225,15 +225,15 @@
           <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
               <h3 class="section-heading">Openingsuren</h3>
-              <div>{{ctrl.openingsuren.dag}}</div>
               <table class="table table-hover text-center">
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align"></td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
-                <tr ng-repeat="dag in ctrl.openingsuren.dag">
+                <tr ng-repeat="dag in ctrl.openingsuren">
                   <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{dag.naam}}</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">{{dag.uur}}</td>
+                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">{{dag.openingsuur.uur}}u{{dag.openingsuur.minuut}} tot {{dag.sluitingsuur.uur}}u{{dag.sluitingsuur.minuut}}</td>
+                </tr>
+                <!--
+                <tr>
+                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{ctrl.maandag}}</td>
+                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
                 </tr>
                 <tr>
                   <td class="col-md-6 col-sm-6 col-xs-6 right-align">Dinsdag</td>
@@ -250,7 +250,7 @@
                 <tr>
                   <td class="col-md-6 col-sm-6 col-xs-6 right-align">Vrijdag</td>
                   <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
+                </tr>-->
               </table>
             </div>
           </div>

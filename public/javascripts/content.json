@@ -2,12 +2,11 @@
   "openingsuren": {
     "dag": [
       {
-        "-id": "1",
-        "-name": "maandag",
+        "id": "1",
         "naam": "Maandag",
         "openingsuur": {
           "uur": "9",
-          "minuut": "0"
+          "minuut": "00"
         },
         "sluitingsuur": {
           "uur": "17",
@@ -15,12 +14,11 @@
         }
       },
       {
-        "-id": "2",
-        "-name": "dinsdag",
+        "id": "2",
         "naam": "Dinsdag",
         "openingsuur": {
           "uur": "9",
-          "minuut": "0"
+          "minuut": "00"
         },
         "sluitingsuur": {
           "uur": "17",
@@ -28,12 +26,11 @@
         }
       },
       {
-        "-id": "3",
-        "-name": "woensdag",
+        "id": "3",
         "naam": "Woensdag",
         "openingsuur": {
           "uur": "9",
-          "minuut": "0"
+          "minuut": "00"
         },
         "sluitingsuur": {
           "uur": "17",
@@ -41,12 +38,11 @@
         }
       },
       {
-        "-id": "4",
-        "-name": "donderdag",
+        "id": "4",
         "naam": "Donderdag",
         "openingsuur": {
           "uur": "9",
-          "minuut": "0"
+          "minuut": "00"
         },
         "sluitingsuur": {
           "uur": "17",
@@ -54,12 +50,11 @@
         }
       },
       {
-        "-id": "5",
-        "-name": "vrijdag",
+        "id": "5",
         "naam": "Vrijdag",
         "openingsuur": {
           "uur": "9",
-          "minuut": "0"
+          "minuut": "00"
         },
         "sluitingsuur": {
           "uur": "17",
