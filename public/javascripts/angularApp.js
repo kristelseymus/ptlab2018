@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'ngMessages']);
 
 app.config([
@@ -6,7 +8,7 @@ app.config([
 '$mdDateLocaleProvider',
 function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
   $mdDateLocaleProvider.formatDate = function(date) {
-    return moment(date).format('DD MMMM YYYY');
+    return moment(date).format('DD/MM/YYYY');
  };
  $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
  $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
@@ -16,14 +18,9 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
-      controller: 'OpeningsurenController',
+      controller: 'MainController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/home.html'
-      /*resolve: {
-        openingsuren: function($stateParams, OpeningsurenController){
-          return OpeningsurenController.getOpeningsuren();
-        }
-      }*/
     })
     .state('boekplaatsstudent', {
       url: '/boekplaatsstudent',
@@ -31,100 +28,101 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
       controllerAs: 'ctrl',
       templateUrl: '/templates/boekplaatsstudent.html'
     })
-    /*
-    .state('voorwie', {
-      url: '/voorwie',
-      controller: 'VoorwieController',
-      controllerAs: 'ctrl'
+    .state('gratisplaats', {
+      url: '/gratisplaats',
+      controller: 'GratisPlaatsController',
+      controllerAs: 'ctrl',
+      templateUrl: '/templates/gratisplaats.html'
     })
-    .state('ruimtes', {
-      url: '/ruimtes',
-      controller: 'RuimtesController',
-      controllerAs: 'ctrl'
+    .state('vraagofferteaan', {
+      url: '/vraagofferteaan',
+      controller: 'VraagOfferteAanController',
+      controllerAs: 'ctrl',
+      templateUrl: '/templates/vraagofferteaan.html'
     })
-    .state('prijzen', {
-      url: '/prijzen',
-      controller: 'PrijzenController',
-      controllerAs: 'ctrl'
-    })
-    .state('practicals', {
-      url: '/practicals',
-      controller: 'PracticalsController',
-      controllerAs: 'ctrl'
-    })
-    .state('agenda', {
-      url: '/agenda',
-      controller: 'AgendaController',
-      controllerAs: 'ctrl'
-    })*/
     .state('contact', {
       url: '/contact',
-      templateUrl: '/templates/contact.html',
+      controller: 'ContactController',
+      controllerAs: 'ctrl',
+      templateUrl: '/templates/contact.html'
     });
 
   $urlRouterProvider.otherwise('home');
 }]);
 
-app.controller('OpeningsurenController', function ($scope, $http, $rootScope) {
+// MAINCONTROLLER VOOR HOMEPAGINA
+
+app.controller('MainController', function ($scope, $http, $rootScope) {
   var vm = this;
   vm.openingsuren = [];
-  vm.maandag = "Maandag";
 
-  $rootScope.$on('$viewContentLoading', function(event, viewConfig)
-  {
-    console.log("in $rootScope");
-    // code die wordt uitgevoerd voor de view gerendered wordt.
-    activate();
-  });
+  //var previous = null;
+  //var current = null;
 
   activate();
-          /*  $http.get('http://localhost:3000/content.xml',
-                {
-                      transformResponse: function (cnv) {
-                      var x2js = new X2JS();
-                      var aftCnv = x2js.xml_str2json(cnv);
-                      return aftCnv;
-                }
-            })
-            .success(function (response) {
-              console.log('TEST 123');
-                console.log(response);
-            })
-            .error(function (data, status){
-              console.error(data, status);
-            });*/
 
-      function activate(){
-        console.log("hallo controller");
-        return getOpeningsuren();
-      }
+  function activate() {
+      console.log("activate controller");
+      getOpeningsuren();
+      return vm.openingsuren;
 
-      function getOpeningsuren(){
-          $.getJSON("/javascripts/content.json", function (data) {
+              /*setInterval(function(){
+                $.getJSON("/javascripts/content.json", function(json){
+                  current = JSON.stringify(json);
+                  if(previous && current && previous !== current){
+                    console.log('refresh');
+                    location.reload();
+                  }
+                  previous = current;
+                });
+              }, 2000);*/
+  }
+
+  function getOpeningsuren(){
+      return $http.get('/javascripts/content.json').success(function(data){
+        vm.openingsuren = data.openingsuren.dag;
+      });
+        /*  $.getJSON("/javascripts/content.json", function (data) {
             $.each(data, function (index, value) {
               vm.openingsuren = data.openingsuren.dag;
-
-              console.log(JSON.stringify(vm.openingsuren));
               return vm.openingsuren;
             });
-          });
-      }
-
-      function testController(){
-        console.log("WE ZITTEN IN DE CONTROLLER");
-      }
+          });*/
+  }
 });
 
-app.controller('BoekPlaatsStudentController', function($scope, $http){
+// BOEK EEN PLAATS DOOR STUDENT CONTROLLER
+
+app.controller('BoekPlaatsStudentController', ['$scope', '$http', function($scope, $http){
   var vm = this;
-  vm.datum = new Date();
+  vm.datum = getTodayDate();
   vm.isOpen = false;
+  vm.student = null;
+  vm.aantalPlaatsen = 20;
 
   function getTodayDate(){
     return new Date();
   }
+
+  function boekPlaatsStudent(){
+    if(vm.datum < getTodayDate()){};
+    vm.aantalPlaatsen = 15;
+    return vm.student;
+  }
+}]);
+
+// GRATIS PLAATS BOEKEN DOOR EEN CO-WORKER
+
+app.controller('GratisPlaatsController', function($scope, $http){
+  var vm = this;
+
 });
 
+// RUIMTE HUREN, OFFERTE AANVRAGEN DOOR MANAGER OF TRAINER VOOR TRAINING OF EVENT TE ORGANISEREN
+
+app.controller('VraagOfferteAanController', function($scope, $http){
+  var vm = this;
+});
 
 
 //Hiding the navbar collapsed when there is a click on a link in the nav menu.

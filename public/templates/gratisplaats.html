@@ -1,17 +1,17 @@
-<section id="sectionboekplaatsstudent">
-        <div class="container" id="boekplaatsstudent">
+<section id="sectiongratisplaats">
+        <div class="container" id="gratisplaats">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
-                  <h2 class="section-heading">Boek een studieplek</h2>
-                  <form ng-submit="ctrl.boekPlaatsStudent()">
-                    <div class="form-group">
-                      <label>Naam</label>
-                      <input type="text" class="form-control" placeholder="Jansen" ng-model="ctrl.student.naam"
-                      required/>
-                    </div>
+                  <h2 class="section-heading">Boek een gratis plaats</h2>
+                  <form ng-submit="ctrl.gratisPlaats()">
                     <div class="form-group">
                       <label>Voornaam</label>
                       <input type="text" class="form-control" placeholder="Jan" ng-model="ctrl.student.voornaam"
+                      required/>
+                    </div>
+                    <div class="form-group">
+                      <label>Naam</label>
+                      <input type="text" class="form-control" placeholder="Jansen" ng-model="ctrl.student.naam"
                       required/>
                     </div>
                     <div class="form-group">
@@ -26,14 +26,6 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Reserveer</button>
                   </form>
-
-                  <div>{{ctrl.student}}</div>
-                  <div>{{ctrl.student.naam}}</div>
-                  <div>{{ctrl.student.voornaam}}</div>
-                  <div>{{ctrl.datum}}</div>
-                  <div>{{ctrl.getTodayDate}}</div>
-                  <div>{{ctrl.aantalPlaatsen}}</div>
-
                 </div>
             </div>
         </div>

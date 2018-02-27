@@ -134,14 +134,42 @@ h3 {
   margin-right: auto;
 }
 
-.btn-block {
+.btn-block{
   background-color: #15B366;
   border: none;
-  padding: 10px;
+  padding: 12px;
 }
 
-.btn-block:hover {
+.btn-block:hover{
   background-color: #04B431;
+}
+
+.btn-block:focus {
+  background-color: #04B431;
+}
+
+.btn-block:focus,.btn-block:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.btn-reserveer {
+  background-color: #15B366;
+  border: none;
+}
+
+.btn-reserveer:hover {
+  background-color: #04B431;
+}
+
+.btn-reserveer:focus {
+  background-color: #04B431;
+  border-color: #04B431;
+}
+
+.btn-reserveer:focus,.btn-reserveer:active {
+   outline: none !important;
+   box-shadow: none;
 }
 
 .block-title {
@@ -151,9 +179,7 @@ h3 {
 }
 
 .block-text {
-  background-color: white;
   padding: 10px;
-  min-height: 150px;
 }
 
 section {
@@ -167,10 +193,10 @@ h2 {
 
 #voorwie {
   background: linear-gradient(
-      rgba(50, 50, 50, 0.45),
-      rgba(50, 50, 50, 0.45)
+      rgba(50, 50, 50, 0.6),
+      rgba(50, 50, 50, 0.6)
     ), url("/images/BBQ.jpg") no-repeat bottom;
-  height: 500px;
+  min-height: 500px;
 }
 
 body {
@@ -179,7 +205,7 @@ body {
 }
 
 .section-heading-voorwie {
-  color: white;
+ background-color: white;
 }
 
 #sectionCoworking, #sectionMeetingRoom, #sectionTrainingRoom, #sectionBoardRoom {
@@ -193,7 +219,7 @@ body {
 
 .block-image {
   height: 150px;
-  background: url("/images/vergaderzaal3_test.jpg") no-repeat bottom;
+  background: url("/images/vergaderzaal2_test.jpg") no-repeat bottom;
 }
 
 #scroll {
@@ -247,6 +273,7 @@ body {
 .section-heading {
   font-family: 'AshleyScriptMT';
   text-transform: uppercase;
+  margin-top: 30px;
 }
 
 .nobullets {
@@ -320,29 +347,41 @@ small {
   color: #000000;
   font-weight: 100 !important;
 }
-/*
-#cover{
-    position:fixed;
-    top:0;
-    left:0;
-    background:rgba(0,0,0,0.6);
-    z-index:5;
-    width:100%;
-    height:100%;
-    display:none;
-}*//*
-#boekplaatsstudent
-{
-    height:380px;
-    width:340px;
-    margin:0 auto;
-    position:relative;
-    z-index:10;
-    display:none;
-	border:5px solid #cccccc;
-	border-radius:10px;
+
+.btn {
+  border-radius: 0;
 }
-#boekplaatsstudent:target, #boekplaatsstudent:target + #cover{
-    display:block;
-    opacity:2;
-}*/
+
+ md-tabs .md-tab.md-active{
+   color: #15B366;
+ }
+
+ md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+   background-color: #15B366;
+   color: #15B366;
+ }
+
+md-tab-item:active{
+  color: black;
+}
+
+.img-vergaderzaal1{
+  width: 50%;
+  height: 50%;
+  float: left;
+}
+
+md-content {
+  color: white;
+  background-color: rgba(0,0,0,0);
+  min-height: 500px;
+}
+
+md-tabs .md-tab{
+  color: black;
+}
+
+md-tabs md-tabs-wrapper{
+  border-color: rgba(0,0,0,0);
+  background-color: white;
+}

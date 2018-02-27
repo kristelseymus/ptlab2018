@@ -14,39 +14,100 @@
             </div>
         </div>
 </section>
+
 <!--Voor wie-->
-<section class="bg-yellow" id="voorwie">
+<div class="row text-center section-heading-voorwie">
+<h2 class="section-heading">Voor wie ?</h2>
+</div>
+<div id="voorwie" ng-cloak>
+<md-content>
+  <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always" md-center-tabs md-swipe-content>
+    <md-tab label="Trainers en managers">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 text-center">
+            <md-content>
+              <h2 class="section-heading">Trainers en Managers</h2>
+              <div id="trainerblock">
+                Er kan een van de 4 ruimtes gereserveerd worden voor uw evenement.
+                U kan dan ook kiezen of u bij dit evenement catering wil.
+              </div>
+              <a href="#vraagofferteaan" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Vraag een offerte aan</a>
+            </md-content>
+          </div>
+        </div>
+      </div>
+    </md-tab>
+    <md-tab label="Co-workers">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 text-center">
+            <md-content>
+              <h1 class="md-display-2">Co-workers</h1>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
+              <div id="coworkingblock">
+                U kan één keer gratis onze faciliteiten testen wanneer u aan co-working doet.
+                Hierdoor kan u wanneer u thuis werkt, prive en werk gescheiden houden.
+              </div>
+              <a href="#gratisplaats" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Probeer gratis</a>
+            </md-content>
+          </div>
+        </div>
+      </div>
+    </md-tab>
+    <md-tab label="Studenten">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 text-center">
+            <md-content>
+              <h1 class="md-display-2">Studenten</h1>
+              <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+              <div id="studentenblock">
+                Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
+              </div>
+              <a href="#boekplaatsstudent" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Boek je gratis plaats</a>
+            </md-content>
+          </div>
+        </div>
+      </div>
+    </md-tab>
+  </md-tabs>
+</md-content>
+</div>
+<!--<section class="bg-yellow" id="voorwie">
         <div class="container">
             <div class="row">
-              <div class="col-md-10 col-md-offset-1 text-center">
-                <h2 class="section-heading section-heading-voorwie">Voor wie ?</h2>
-                <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+              <div class="col-md-10 col-md-offset-1">
+
+
+
+                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
                   <div class="block-title">Trainers/Managers</div>
-                  <div class="block-text">
+                  <div id="trainerblock" class="block-text">
                     Er kan een van de 4 ruimtes gereserveerd worden voor uw evenement.
                     U kan dan ook kiezen of u bij dit evenement catering wil.
                   </div>
-                  <button class="btn-primary btn-block">Vraag een offerte aan</button>
+                  <a href="#vraagofferteaan" class="btn btn-primary btn-block">Vraag een offerte aan</a>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
                   <div class="block-title">Co-workers</div>
-                  <div class="block-text">
+                  <div id="coworkingblock" class="block-text">
                     U kan één keer gratis onze faciliteiten testen wanneer u aan co-working doet.
                     Hierdoor kan u wanneer u thuis werkt, prive en werk gescheiden houden.
                   </div>
-                  <button class="btn-primary btn-block">Probeer gratis</button>
+                  <a href="#gratisplaats" class="btn btn-primary btn-block">Probeer gratis</a>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+                <div class="col-md-4 col-sm-4 col-xs-12 text-center">
                   <div class="block-title">Studenten</div>
-                  <div class="block-text">
+                  <div id="studentenblock" class="block-text">
                     Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
                   </div>
-                  <a href="#boekplaatsstudent" class="btn-primary btn-block">Boek je gratis plaats</a>
+                  <a href="#boekplaatsstudent" class="btn btn-primary btn-block">Boek je gratis plaats</a>
                 </div>
               </div>
             </div>
         </div>
-</section>
+</section>-->
 <!--Ruimtes-->
 <section id="ruimtes">
         <div class="container">
@@ -230,27 +291,6 @@
                   <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{dag.naam}}</td>
                   <td class="col-md-6 col-sm-6 col-xs-6 left-align">{{dag.openingsuur.uur}}u{{dag.openingsuur.minuut}} tot {{dag.sluitingsuur.uur}}u{{dag.sluitingsuur.minuut}}</td>
                 </tr>
-                <!--
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{ctrl.maandag}}</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">Dinsdag</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">Woensdag</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">Donderdag</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>
-                <tr>
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">Vrijdag</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">9u - 17u</td>
-                </tr>-->
               </table>
             </div>
           </div>
