@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
+    <form ng-submit="ctrl.register()" class="form-signin">
+        <h2 class="form-signin-heading text-center">Register</h2>
+        <input type="text" class="form-control form-login" name="voornaam" placeholder="Voornaam" required=""
+               ng-model="ctrl.user.voornaam"
+        />
+        <input type="text" class="form-control form-login" name="naam" placeholder="Naam" required=""
+               ng-model="ctrl.user.naam"
+        />
+        <input type="email" class="form-control form-login" name="username" placeholder="Email" required=""
+               ng-model="ctrl.user.username"
+        />
+        <input type="password" class="form-control form-login" name="wachtwoord" placeholder="Wachtwoord" required=""
+               ng-model="ctrl.user.password"
+        />
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    </form>
+</div>

@@ -9,11 +9,13 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+
 
 </head>
 
 <body ng-app="ptlab">
-  <nav class="navbar navbar-default navbar-static-top" id="nav">
+  <nav class="navbar navbar-default navbar-static-top" id="nav" ng-controller="NavController as ctrl">
       <div class="container-fluid header-top">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
@@ -35,18 +37,34 @@
                   <li><a href="#prijzen" class="navigatieitem">Prijzen</a></li>
                   <li><a href="#practicals" class="navigatieitem">Practicals</a></li>
                   <li><a href="#agenda" class="navigatieitem">Agenda</a></li>
-                  <li><a href="#/contact">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
+                  <li><a href="#/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
+                  <li><a ng-hide="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/login">Log In</a></li>
+                  <li><a ng-hide="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/register">Register</a></li>
               </ul>
           </div>
           <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
   </nav>
-
-
   <div ui-view></div>
   <a href="#" id="scroll" style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
+  <div ng-controller="NavController as ctrl" ng-show="ctrl.isLoggedIn()">
+  <md-fab-speed-dial id="btnMenu" md-open="ctrl.isOpen" ng-mouseenter="ctrl.isOpen = true"ng-mouseleave="ctrl.isOpen = false"  md-direction="left" class="md-scale md-fab-bottom-right">
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab md-warn">
+        <md-icon>menu</md-icon>
+      </md-button>
+    </md-fab-trigger>
 
+    <md-fab-actions>
+      <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="ctrl.logOut()">
+        <md-icon aria-label="Sign Out">power_settings_new</md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+  </div>
+
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPN6Y8-z-axiYzczvl5knkasvMKaGDpvU"></script>
   <!-- Angular -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
@@ -59,7 +77,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPN6Y8-z-axiYzczvl5knkasvMKaGDpvU"></script>
   <script src="/javascripts/angularApp.js"></script>
   <script src="/javascripts/map.js"></script>
   <script src="/javascripts/xml2json.js"></script>
@@ -68,6 +85,14 @@
   <script src="/javascripts/logocycling.js"></script>
   <script src="/javascripts/scrolltotop.js"></script>
   <script src="/javascripts/heightadjust.js"></script>
+  <script src="/services/authService.js"></script>
+  <script src="/controllers/MainController.js"></script>
+  <script src="/controllers/AuthController.js"></script>
+  <script src="/controllers/NavController.js"></script>
+  <script src="/controllers/BoekPlaatsStudentController.js"></script>
+  <script src="/controllers/ContactController.js"></script>
+  <script src="/controllers/GratisPlaatsController.js"></script>
+  <script src="/controllers/VraagOfferteAanController.js"></script>
 
 </body>
 

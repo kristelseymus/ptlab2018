@@ -180,6 +180,7 @@ h3 {
 
 .block-text {
   padding: 10px;
+  background-color: white;
 }
 
 section {
@@ -202,10 +203,12 @@ h2 {
 body {
   font-family: "Roboto",Helvetica,Arial,sans-serif;
   font-style: normal;
+  position: absolute;
 }
 
 .section-heading-voorwie {
- background-color: white;
+ color: white;
+ margin-bottom: 0px;
 }
 
 #sectionCoworking, #sectionMeetingRoom, #sectionTrainingRoom, #sectionBoardRoom {
@@ -225,11 +228,11 @@ body {
 #scroll {
     position:fixed;
     right:20px;
-    bottom:20px;
+    bottom:80px;
     cursor:pointer;
     width:50px;
     height:50px;
-    background-color:#404041;
+    background-color:#7ACED5;
     text-indent:-9999px;
     display:none;
     -webkit-border-radius:60px;
@@ -352,6 +355,66 @@ small {
   border-radius: 0;
 }
 
+.btn-verzenden {
+  border-radius: 5px;
+}
+
+#trainerblock{
+  overflow: hidden;
+}
+
+.img-vergaderzaal1{
+  width: 50%;
+  height: 50%;
+  float: left;
+}
+
+.wrapper {
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.form-signin {
+  background: #eee !important;
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  border: 1px solid rgba(0,0,0,0.1);
+
+}
+
+.alert-custom{
+
+  margin: 0 auto;
+  max-width: 380px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+	.form-control .form-login {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+	}
+
+	input[type="email"] {
+    margin-top: 20px;
+	  margin-bottom: 20px;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	}
+
+  input[type="text"] {
+    margin-top: 20px;
+	  margin-bottom: 20px;
+	}
+
+
+/*
+
  md-tabs .md-tab.md-active{
    color: #15B366;
  }
@@ -365,23 +428,87 @@ md-tab-item:active{
   color: black;
 }
 
-.img-vergaderzaal1{
-  width: 50%;
-  height: 50%;
-  float: left;
-}
-
 md-content {
   color: white;
   background-color: rgba(0,0,0,0);
-  min-height: 500px;
 }
 
 md-tabs .md-tab{
-  color: black;
+  color: white;
 }
 
 md-tabs md-tabs-wrapper{
   border-color: rgba(0,0,0,0);
-  background-color: white;
+  background-color: none;
 }
+
+md-tab-item.md-tab {
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 0px;
+}*/
+/*
+#btnMenu {
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    cursor:pointer;
+    width:50px;
+    height:50px;
+    text-indent:-9999px;
+    -webkit-border-radius:60px;
+    -moz-border-radius:60px;
+    border-radius:60px;
+    z-index: 1;
+}*/
+
+.md-button.md-warn.md-fab {
+  background-color: #A40D4E;
+}
+
+.md-button.md-warn.md-fab:not([disabled]):hover{
+  background-color: #15B366;
+}
+
+.fabSpeedDial .text-capitalize {
+  text-transform: capitalize;
+}
+
+.fabSpeedDial .md-fab:hover, .fabSpeedDialdemoBasicUsage .md-fab.md-focused {
+  background-color: #000 !important;
+}
+
+.fabSpeedDial p.note {
+  font-size: 1.2rem;
+}
+
+md-fab-speed-dial.md-fab-bottom-right {
+top: auto;
+left: auto;
+bottom: 20px !important;
+right: 20px !important;
+position: fixed !important;
+z-index: 1;
+}
+
+button.md-fab.md-warn.md-button.md-ink-ripple {
+  width: 50px !important;
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+md-fab-trigger {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/*
+#btnMenu {
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    cursor:pointer;
+    text-indent:-9999px;
+    z-index: 1;
+}*/

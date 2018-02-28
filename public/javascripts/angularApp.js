@@ -20,38 +20,81 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
       url: '/home',
       controller: 'MainController',
       controllerAs: 'ctrl',
-      templateUrl: '/templates/home.html'
+      templateUrl: '/templates/home.html',
+
     })
     .state('boekplaatsstudent', {
       url: '/boekplaatsstudent',
       controller: 'BoekPlaatsStudentController',
       controllerAs: 'ctrl',
-      templateUrl: '/templates/boekplaatsstudent.html'
+      templateUrl: '/templates/boekplaatsstudent.html',
+      onEnter: ['$state', 'auth', function ($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
     })
     .state('gratisplaats', {
       url: '/gratisplaats',
       controller: 'GratisPlaatsController',
       controllerAs: 'ctrl',
-      templateUrl: '/templates/gratisplaats.html'
+      templateUrl: '/templates/gratisplaats.html',
+      onEnter: ['$state', 'auth', function ($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
     })
     .state('vraagofferteaan', {
       url: '/vraagofferteaan',
       controller: 'VraagOfferteAanController',
       controllerAs: 'ctrl',
-      templateUrl: '/templates/vraagofferteaan.html'
+      templateUrl: '/templates/vraagofferteaan.html',
+      onEnter: ['$state', 'auth', function ($state, auth) {
+                if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                }
+            }]
     })
     .state('contact', {
       url: '/contact',
       controller: 'ContactController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/contact.html'
-    });
-
+    })
+    .state('login', {
+      url: '/login',
+      templateUrl: '/templates/login.html',
+      controller: 'AuthController',
+      controllerAs: 'ctrl',
+      onEnter: ['$state', 'auth', function ($state, auth) {
+                if (auth.isLoggedIn()) {
+                    $state.go('home');
+                }
+            }]
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: '/templates/register.html',
+        controller: 'AuthController',
+        controllerAs: 'ctrl'
+      })
+      .state('changepassword', {
+        url: '/changepassword',
+        templateUrl: '/templates/changepassword.html',
+        controller: 'AuthController',
+        controllerAs: 'ctrl',
+        onEnter: ['$state', 'auth', function ($state, auth) {
+                  if (!auth.isLoggedIn()) {
+                    $state.go('login');
+                  }
+              }]
+        });
   $urlRouterProvider.otherwise('home');
 }]);
 
 // MAINCONTROLLER VOOR HOMEPAGINA
-
+/*
 app.controller('MainController', function ($scope, $http, $rootScope) {
   var vm = this;
   vm.openingsuren = [];
@@ -75,7 +118,7 @@ app.controller('MainController', function ($scope, $http, $rootScope) {
                   }
                   previous = current;
                 });
-              }, 2000);*/
+              }, 2000);*//*
   }
 
   function getOpeningsuren(){
@@ -87,13 +130,12 @@ app.controller('MainController', function ($scope, $http, $rootScope) {
               vm.openingsuren = data.openingsuren.dag;
               return vm.openingsuren;
             });
-          });*/
+          });*//*
   }
-});
+});*/
 
 // BOEK EEN PLAATS DOOR STUDENT CONTROLLER
-
-app.controller('BoekPlaatsStudentController', ['$scope', '$http', function($scope, $http){
+/*app.controller('BoekPlaatsStudentController', ['$scope', '$http', function($scope, $http){
   var vm = this;
   vm.datum = getTodayDate();
   vm.isOpen = false;
@@ -109,20 +151,25 @@ app.controller('BoekPlaatsStudentController', ['$scope', '$http', function($scop
     vm.aantalPlaatsen = 15;
     return vm.student;
   }
-}]);
+}]);*/
 
 // GRATIS PLAATS BOEKEN DOOR EEN CO-WORKER
-
+/*
 app.controller('GratisPlaatsController', function($scope, $http){
   var vm = this;
 
-});
+});*/
 
 // RUIMTE HUREN, OFFERTE AANVRAGEN DOOR MANAGER OF TRAINER VOOR TRAINING OF EVENT TE ORGANISEREN
-
+/*
 app.controller('VraagOfferteAanController', function($scope, $http){
   var vm = this;
-});
+});*/
+
+// CONTACT CONTROLLER
+/*app.controller('ContactController', function($scope, $http){
+  var vm = this;
+});*/
 
 
 //Hiding the navbar collapsed when there is a click on a link in the nav menu.

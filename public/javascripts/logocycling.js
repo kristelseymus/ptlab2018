@@ -11,5 +11,5 @@ $(document).ready(function(){
         $img.fadeOut(function () {
             $img.attr('src', images[i]).fadeIn();
         })
-    }, 6000)
+    }, 8000)
 });
