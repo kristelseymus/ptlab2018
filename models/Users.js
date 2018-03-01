@@ -10,7 +10,7 @@ var UserSchema = new mongoose.Schema({
     },
     voornaam: String,
     naam: String,
-    dateOfCreation : Date,
+    dateOfCreation : {type: Date, default: Date.now},
     isAdmin: {type: Boolean, default: false},
     hash: String,
     salt: String,

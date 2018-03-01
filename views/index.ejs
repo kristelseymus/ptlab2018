@@ -3,6 +3,7 @@
 
 <head>
     <title>PT Lab</title>
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
@@ -14,7 +15,7 @@
 
 </head>
 
-<body ng-app="ptlab">
+<body ng-app="ptlab" smooth-scrolling>
   <nav class="navbar navbar-default navbar-static-top" id="nav" ng-controller="NavController as ctrl">
       <div class="container-fluid header-top">
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -31,15 +32,15 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="navbar-pt">
               <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
-                  <li><a href="#" class="navigatieitem">Home</a></li>
-                  <li><a href="#voorwie" class="navigatieitem">Voor wie</a></li>
-                  <li><a href="#ruimtes" class="navigatieitem">Ruimtes</a></li>
-                  <li><a href="#prijzen" class="navigatieitem">Prijzen</a></li>
-                  <li><a href="#practicals" class="navigatieitem">Practicals</a></li>
-                  <li><a href="#agenda" class="navigatieitem">Agenda</a></li>
-                  <li><a href="#/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
-                  <li><a ng-hide="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/login">Log In</a></li>
-                  <li><a ng-hide="ctrl.isLoggedIn()" class="nav-item nav-link" href="#/register">Register</a></li>
+                  <li><a href="/home" class="navigatieitem">Home</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
+                  <li><a href="/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
+                  <li><a ng-hide="ctrl.isLoggedIn()" href="/login">Log In</a></li>
+                  <li><a ng-hide="ctrl.isLoggedIn()" href="/register">Register</a></li>
               </ul>
           </div>
           <!-- /.navbar-collapse -->
@@ -47,7 +48,7 @@
       <!-- /.container-fluid -->
   </nav>
   <div ui-view></div>
-  <a href="#" id="scroll" style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
+  <a href="#" id="scroll" scroll-to-top style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
   <div ng-controller="NavController as ctrl" ng-show="ctrl.isLoggedIn()">
   <md-fab-speed-dial id="btnMenu" md-open="ctrl.isOpen" ng-mouseenter="ctrl.isOpen = true"ng-mouseleave="ctrl.isOpen = false"  md-direction="left" class="md-scale md-fab-bottom-right">
     <md-fab-trigger>
@@ -57,8 +58,11 @@
     </md-fab-trigger>
 
     <md-fab-actions>
-      <md-button aria-label="Twitter" class="md-fab md-raised md-mini" ng-click="ctrl.logOut()">
+      <md-button aria-label="logout" class="md-fab md-raised md-mini" ng-click="ctrl.logOut()">
         <md-icon aria-label="Sign Out">power_settings_new</md-icon>
+      </md-button>
+      <md-button aria-label="Settings" class="md-fab md-raised md-mini" ng-click="">
+        <md-icon aria-label="Settings">settings</md-icon>
       </md-button>
     </md-fab-actions>
   </md-fab-speed-dial>
@@ -72,19 +76,23 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.2/angular-scroll.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
   <script src="/javascripts/angularApp.js"></script>
-  <script src="/javascripts/map.js"></script>
   <script src="/javascripts/xml2json.js"></script>
-  <script src="/javascripts/smoothscrolling.js"></script>
-  <script src="/javascripts/inforooms.js"></script>
-  <script src="/javascripts/logocycling.js"></script>
-  <script src="/javascripts/scrolltotop.js"></script>
-  <script src="/javascripts/heightadjust.js"></script>
+
+  <script src="/javascripts/directives/open-sections.js"></script>
+  <script src="/javascripts/directives/mymap.js"></script>
+  <script src="/javascripts/directives/scale-blocks.js"></script>
+  <script src="/javascripts/directives/logo-cycling.js"></script>
+  <script src="/javascripts/directives/scroll-to-top.js"></script>
+  <!--<script src="/javascripts/directives/smooth-scrolling.js"></script>-->
+
   <script src="/services/authService.js"></script>
   <script src="/controllers/MainController.js"></script>
   <script src="/controllers/AuthController.js"></script>

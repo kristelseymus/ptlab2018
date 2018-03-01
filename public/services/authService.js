@@ -12,6 +12,7 @@
             saveToken: saveToken,
             getToken: getToken,
             getUser: getUser,
+            //getUserByEmail: getUserByEmail,
             isLoggedIn: isLoggedIn,
             currentUser: currentUser,
             register: register,
@@ -36,6 +37,11 @@
 
             });
         }
+        /*function getUserByEmail(email) {
+            return $http.get('/api/users/{email}').success(function(data) {
+              return data;
+            });
+        }*/
         function getAllUsers(){
             return $http.get('/api/users/nonadmins').success(function(data) {
                 return data;
@@ -79,6 +85,9 @@
                 }
             }).success(function(data) {
                 saveToken(data.token);
+                console.log("data: " + data);
+                console.log(data);
+                console.log("token: " + data.token);
             }).error(function(err){
               console.log(user);
               console.log(err);

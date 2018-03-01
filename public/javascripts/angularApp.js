@@ -1,12 +1,19 @@
 'use strict';
 
-var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'ngMessages']);
+var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'ngMessages', 'duScroll']);
+
+app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
+  $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+    if($location.hash()) $anchorScroll();
+  });
+}])
 
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
 '$mdDateLocaleProvider',
-function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
+'$locationProvider',
+function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationProvider) {
   $mdDateLocaleProvider.formatDate = function(date) {
     return moment(date).format('DD/MM/YYYY');
  };
@@ -15,6 +22,11 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider) {
  $mdDateLocaleProvider.days = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
  $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Woe', 'Don', 'Vrij', 'Zat'];
  $mdDateLocaleProvider.firstDayOfWeek = 1;
+ $locationProvider.hashPrefix('');
+ $locationProvider.html5Mode({
+       enabled: true,
+       requireBase: false
+  });
   $stateProvider
     .state('home', {
       url: '/home',

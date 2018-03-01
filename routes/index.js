@@ -22,6 +22,53 @@
         });
     });
 
+    router.get('/home', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+
+    router.get('/home#voorwie', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/home#ruimtes', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/home#prijzen', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/home#practicals', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/home#agenda', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/contact', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/login', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/register', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+
 
     module.exports = router;
 
