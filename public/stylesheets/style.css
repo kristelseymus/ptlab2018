@@ -228,7 +228,7 @@ body {
 #scroll {
     position:fixed;
     right:20px;
-    bottom:80px;
+    bottom:20px;
     cursor:pointer;
     width:50px;
     height:50px;
@@ -479,12 +479,12 @@ md-tab-item.md-tab {
   font-size: 1.2rem;
 }
 
-md-fab-speed-dial.md-fab-bottom-right {
-top: auto;
+md-fab-speed-dial.md-fab-top-right {
+top: 80px !important;
 left: auto;
-bottom: 20px !important;
+bottom: auto;
 right: 20px !important;
-position: fixed !important;
+position: absolute !important;
 z-index: 1;
 }
 
@@ -508,12 +508,110 @@ a:hover,a:focus,a:active{
   outline: none !important;
 }
 
-/*
-#btnMenu {
-    position:fixed;
-    left:20px;
-    bottom:20px;
-    cursor:pointer;
-    text-indent:-9999px;
-    z-index: 1;
-}*/
+.section-heading-agenda {
+  padding-bottom: 0px;
+}
+
+md-toolbar:not(.md-menu-toolbar){
+  background-color: #FFBF3B;
+  fill: #A40D4E;
+}
+
+calendar-md{
+  min-height: 500px !important;
+  margin-bottom: 50px;
+}
+
+calendar-md md-content{
+  min-height: 500px !important;
+}
+
+md-toolbar-tools layout-row {
+  background-color: #FFBF3B;
+}
+
+md-toolbar {
+  z-index: 0 !important;
+}
+
+.calendar-md-title {
+  font-family: 'AshleyScriptMT';
+  text-transform: uppercase;
+  color: black;
+}
+
+.md-icon-button {
+  background-color: #15B366 !important;
+  color: #404041;
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
+  color: #404041 !important;
+  fill: #404041 !important;
+}
+
+.footer-copyright {
+  line-height: 80px !important;
+}
+
+.dropdown-menu ul li {
+    width: 100% !important;
+}
+
+/* TEST *//*
+.demo-md-panel {
+  min-height: 500px;
+}
+
+.demo-dialog-example {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
+      0 13px 19px 2px rgba(0, 0, 0, 0.14),
+      0 5px 24px 4px rgba(0, 0, 0, 0.12);
+  width: 500px;
+}
+
+.demo-dialog-content {
+  padding: 0 15px;
+  width: 100%;
+}
+
+.demo-dialog-content img {
+  height: 300px;
+  margin: auto;
+}
+
+.demo-dialog-button {
+  width: 100%;
+}
+
+.demo-menu-example {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
+      0 13px 19px 2px rgba(0, 0, 0, 0.14),
+      0 5px 24px 4px rgba(0, 0, 0, 0.12);
+  width: 256px;
+}
+
+.demo-menu-item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  padding: 0 16px;
+  position: relative;
+  transition: background 0.15s linear;
+  width: auto;
+}
+
+.demo-menu-item:hover,
+.demo-menu-item:focus {
+  background-color: rgb(238, 238, 238);
+}
+
+.demo-menu-item.selected {
+  color: rgb(16, 108, 200);
+}
+*/

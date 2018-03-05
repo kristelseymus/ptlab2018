@@ -13,7 +13,7 @@
               $("#logo").fadeOut(function () {
                   $("#logo").attr('src', images[i]).fadeIn();
               })
-          }, 8000)
+          }, 10000)
       };
 
       return {

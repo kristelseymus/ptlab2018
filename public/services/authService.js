@@ -12,8 +12,8 @@
             saveToken: saveToken,
             getToken: getToken,
             getUser: getUser,
-            //getUserByEmail: getUserByEmail,
             isLoggedIn: isLoggedIn,
+            isAdmin: isAdmin,
             currentUser: currentUser,
             register: register,
             logIn: logIn,
@@ -32,9 +32,12 @@
             });
         }
         function getUser(id) {
-            return $http.get('/api/users/{id}').success(function(data) {
+            return $http.get('/api/users/' + id).success(function(data) {
                 return data;
 
+            }).error(function(err){
+              console.log("Error: " + err);
+              return err;
             });
         }
         /*function getUserByEmail(email) {
@@ -45,7 +48,7 @@
         function getAllUsers(){
             return $http.get('/api/users/nonadmins').success(function(data) {
                 return data;
-            });
+            }).console.error();;
         }
 
         function saveToken(token) {
@@ -64,11 +67,18 @@
                 return false;
             }
         }
+        function isAdmin() {
+          if (isLoggedIn()) {
+              var token = getToken();
+              var payload = angular.fromJson($window.atob(token.split('.')[1]));
+              return payload.isAdmin;
+          }
+        }
         function currentUser() {
             if (isLoggedIn()) {
                 var token = getToken();
                 var payload = angular.fromJson($window.atob(token.split('.')[1]));
-                return payload.username;
+                return payload.name;
             }
         }
         function register(user) {
@@ -85,12 +95,7 @@
                 }
             }).success(function(data) {
                 saveToken(data.token);
-                console.log("data: " + data);
-                console.log(data);
-                console.log("token: " + data.token);
             }).error(function(err){
-              console.log(user);
-              console.log(err);
               return err;
             });
         }
@@ -113,6 +118,5 @@
                 return res.data;
             })
         }
-
     }
 })();

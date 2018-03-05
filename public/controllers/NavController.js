@@ -9,10 +9,10 @@
       var vm = this;
 
       vm.isLoggedIn = auth.isLoggedIn;
+      vm.isAdmin = auth.isAdmin;
       vm.currentUser = auth.currentUser;
       vm.isOpen = false;
-      //vm.isAdmin = isAdmin;
-
+      vm.users = [];
       vm.logOut = logOut;
 
       function logOut() {
@@ -20,12 +20,5 @@
         $state.go('login');
         }
 
-    /*  function isAdmin(){
-        console.log("isAdmin called");
-        //var user = auth.getUserByEmail(vm.currentUser);
-        console.log(user);
-        return user.isAdmin;
-      }
-*/
     }
 })();

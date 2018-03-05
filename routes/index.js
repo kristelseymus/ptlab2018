@@ -68,6 +68,11 @@
         title: 'Express'
       });
     });
+    router.get('/settings', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      });
+    });
 
 
     module.exports = router;

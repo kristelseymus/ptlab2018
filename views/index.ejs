@@ -32,15 +32,34 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="navbar-pt">
               <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
-                  <li><a href="/home" class="navigatieitem">Home</a></li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" href="/home">Home
+                    <span class="dropdown-toggle caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
+                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
+                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
+                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
+                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
+                    </ul>
+                  </li>
+                  <!--<li><a href="/home" class="navigatieitem">Home</a></li>
                   <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
                   <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
                   <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
                   <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
+                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>-->
                   <li><a href="/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
                   <li><a ng-hide="ctrl.isLoggedIn()" href="/login">Log In</a></li>
                   <li><a ng-hide="ctrl.isLoggedIn()" href="/register">Register</a></li>
+                  <li class="dropdown">
+                    <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" ng-show="ctrl.isLoggedIn()"> Welkom {{ctrl.currentUser()}}
+                    <span class="dropdown-toggle caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()">Log Out</a></li>
+                      <li><a ng-show="ctrl.isAdmin()" href="/settings">Settings</a></li>
+                    </ul>
+                  </li>
               </ul>
           </div>
           <!-- /.navbar-collapse -->
@@ -49,24 +68,24 @@
   </nav>
   <div ui-view></div>
   <a href="#" id="scroll" scroll-to-top style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
-  <div ng-controller="NavController as ctrl" ng-show="ctrl.isLoggedIn()">
-  <md-fab-speed-dial id="btnMenu" md-open="ctrl.isOpen" ng-mouseenter="ctrl.isOpen = true"ng-mouseleave="ctrl.isOpen = false"  md-direction="left" class="md-scale md-fab-bottom-right">
-    <md-fab-trigger>
-      <md-button aria-label="menu" class="md-fab md-warn">
-        <md-icon>menu</md-icon>
-      </md-button>
-    </md-fab-trigger>
 
-    <md-fab-actions>
-      <md-button aria-label="logout" class="md-fab md-raised md-mini" ng-click="ctrl.logOut()">
-        <md-icon aria-label="Sign Out">power_settings_new</md-icon>
-      </md-button>
-      <md-button aria-label="Settings" class="md-fab md-raised md-mini" ng-click="">
-        <md-icon aria-label="Settings">settings</md-icon>
-      </md-button>
-    </md-fab-actions>
-  </md-fab-speed-dial>
-  </div>
+  <!--Footer-->
+     <footer>
+         <!--Footer Links-->
+         <div class="container-fluid text-center text-md-left">
+             <div class="row">
+             </div>
+         </div>
+         <!--/.Footer Links-->
+         <!--Copyright-->
+         <div class="footer-copyright py-3 text-center">
+             <div class="container-fluid">
+                 &copy; 2018 <a href="https://www.planet-talent.com/"> Planet-Talent </a>
+             </div>
+         </div>
+         <!--/.Copyright-->
+     </footer>
+     <!--/.Footer-->
 
   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPN6Y8-z-axiYzczvl5knkasvMKaGDpvU"></script>
   <!-- Angular -->
@@ -82,6 +101,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.rawgit.com/bradberger/angular-material-calendar/master/dist/angular-material-calendar.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.5/angular-locale_nl-be.js"></script>
 
   <script src="/javascripts/angularApp.js"></script>
   <script src="/javascripts/xml2json.js"></script>
@@ -101,6 +124,8 @@
   <script src="/controllers/ContactController.js"></script>
   <script src="/controllers/GratisPlaatsController.js"></script>
   <script src="/controllers/VraagOfferteAanController.js"></script>
+  <script src="/controllers/SettingsController.js"></script>
+  <script src="/controllers/PanelController.js"></script>
 
 </body>
 

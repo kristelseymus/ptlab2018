@@ -8,6 +8,7 @@
     var passport = require('passport');
     var User = mongoose.model('User');
     var jwt = require('express-jwt');
+    var jwttoken = require('jsonwebtoken');
     var auth = jwt({
         secret: 'SECRET',
         userProperty: 'payload'
@@ -60,10 +61,17 @@
                 return next(err);
             }
             if (user) {
-                //if(!user.isAdmin)
-                  //  return res.status(401).json({message : "Geen admin zegt post"});
+                const payload = {
+                  id: user._id,
+                  isAdmin: user.isAdmin,
+                  username: user.username,
+                  name: user.fullName
+                };
+                const tok = jwttoken.sign(payload, "superSecret", {
+                  expiresIn: 86400,
+                });
                 return res.json({
-                    token: user.generateJWT(),
+                    token: tok,
                     userid : user._id
                 });
             } else {
@@ -84,7 +92,8 @@
             if (user) {
                 return res.json({
                     token: user.generateJWT(),
-                    userid : user._id
+                    userid : user._id,
+                    isAdmin: user.isAdmin
                 });
             } else {
                 return res.status(401).json(info);
@@ -116,7 +125,9 @@
             }
 
             res.json(users);
+            console.log(users);
         });
+        console.log("hello");
     });
     router.get('/nonadmins', function(req, res, next) {
         User.find({'isAdmin': 'false'},function(err, users) {
@@ -129,6 +140,7 @@
     });
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
+        console.log("hello2");
     });
 
     router.put('/:user', function (req, res) {

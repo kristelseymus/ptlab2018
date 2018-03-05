@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'ngMessages', 'duScroll']);
+var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll']);
 
 app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
@@ -101,6 +101,21 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
                     $state.go('login');
                   }
               }]
+        })
+        .state('settings', {
+          url: '/settings',
+          templateUrl: '/templates/settings.html',
+          controller: 'SettingsController',
+          controllerAs: 'ctrl',
+          onEnter: ['$state', 'auth', function ($state, auth) {
+                    if (!auth.isLoggedIn()) {
+                      $state.go('login');
+                    } else {
+                      if(!auth.isAdmin()){
+                        $state.go('home')
+                      }
+                    }
+                }]
         });
   $urlRouterProvider.otherwise('home');
 }]);

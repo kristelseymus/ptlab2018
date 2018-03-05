@@ -320,12 +320,23 @@
       <div class="container">
           <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
-                  <h2 class="section-heading">Agenda</h2>
-                  <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet
-                  </p>
-                  <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+                  <h2 class="section-heading section-heading-agenda">Agenda</h2>
               </div>
           </div>
       </div>
 </section>
+<calendar-md flex layout layout-fill
+calendar-direction="direction"
+on-prev-month="prevMonth"
+on-next-month="nextMonth"
+on-day-click="dayClick"
+title-format="'MMMM y'"
+ng-model='selectedDate'
+week-starts-on="Monday"
+tooltips="tooltips"
+day-format="dayFormat"
+day-label-format="'EEE'"
+day-label-tooltip-format="'EEEE'"
+day-tooltip-format="'fullDate'"
+day-content="setDayContent"
+disable-future-selection="false"></calendar-md>
