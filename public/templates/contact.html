@@ -1,27 +1,75 @@
 <section id="contact">
-  <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-    <h2 class="section-heading">Contact</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 text-center">
+        <h2 class="section-heading">Contact</h2>
+        <!--
           <form method="POST" class="form-horizontal">
-                <p>
-                  <label for="naam" class="box">Naam: </label>
-                  <input type="text" name="naam" id="naam" placeholder="Naam" class="form-control" required>
-                </p>
-                <p>
-                  <label for="email" class="box">Email: </label>
-                  <input type="email" name="email" id="email" placeholder="talent@planet-talent.be" class="form-control" required>
-                </p>
-                <p>
-                  <label for="telefoon" class="box">Telefoon:</label>
-                  <input type="tel" id="telefoon" name="telefoon" class="form-control" required/>
-                </p>
-                <p>
-                  <label for="vraag" class="box">Vraag:</label>
-                  <textarea id="vraag" name="vraag" rows="5" class="form-control"></textarea>
-                </p>
+                <label for="naam" class="col-md-2 col-sm-2 col-xs-12">Naam: </label>
+                <input type="text" name="naam" id="naam" placeholder="Naam" class="col-md-10 col-sm-10 col-xs-12" required>
+                <label for="email" class="col-md-2 col-sm-2 col-xs-12">Email: </label>
+                <input type="email" name="email" id="email" placeholder="talent@planet-talent.be" class="col-md-10 col-sm-10 col-xs-12" required>
+                <label for="telefoon" class="col-md-2 col-sm-2 col-xs-12">Telefoon:</label>
+                <input type="tel" id="telefoon" name="telefoon" class="col-md-10 col-sm-10 col-xs-12" required/>
+                <label for="vraag" class="col-md-2 col-sm-2 col-xs-12">Vraag:</label>
+                <textarea id="vraag" name="vraag" rows="5" class="col-md-10 col-sm-10 col-xs-12"></textarea>
                 <p class="text-center">
                   <button type="submit" class="btn-lg btn btn-success btn-verzenden">Verzenden</button>
                 </p>
                 <input type="hidden" name="_next" value="/home.html" />
-            </form>
+            </form>-->
+
+            <!-- CONTENT TEST -->
+            <div class="contactwrapper" layout="column" layout-padding ng-cloak>
+              <br/>
+              <form ng-submit="ctrl.submitForm()" name="contactForm">
+              <md-content class="md-no-momentum no-background">
+                <div layout="row">
+                  <md-input-container md-no-float class="md-block" flex="50">
+                    <md-icon>person</md-icon>
+                    <input ng-model="ctrl.contact.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
+                    <div ng-messages="contactForm.voornaam.$error">
+                      <div ng-message="required">Voornaam is verplicht.</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container md-no-float class="md-block" flex="50">
+                    <input ng-model="ctrl.contact.naam" type="text" name="naam" placeholder="Naam *" required>
+                    <div ng-messages="contactForm.naam.$error">
+                      <div ng-message="required">Naam is verplicht.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon>phone</md-icon>
+                  <input ng-model="ctrl.contact.telefoon" type="text" placeholder="Telefoon">
+                </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon>email</md-icon>
+                  <input ng-model="ctrl.contact.email" type="email" name="email" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" >
+                  <div ng-messages="contactForm.email.$error" multiple md-auto-hide="false">
+                    <div ng-message="required">
+                      Email is verplicht.
+                    </div>
+                    <div ng-message="pattern">
+                      Geen geldig email adres.
+                    </div>
+        </div>
+                </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-icon>message</md-icon>
+                  <textarea ng-model="ctrl.contact.bericht" type="text" name="bericht" placeholder="Bericht *" required rows="3"></textarea>
+                  <div ng-messages="contactForm.bericht.$error">
+                    <div ng-message="required">Dit moet ingevuld zijn.</div>
+                  </div>
+                </md-input-container>
+                <div layout="row">
+                  <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Verzend</md-button>
+                </div>
+              </md-content>
+              </form>
+            </div>
+            <!-- CONTENT TEST -->
+      </div>
     </div>
+  </div>
 </section>

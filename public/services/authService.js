@@ -21,7 +21,8 @@
             changePassword: changePassword,
             getAll: getAll,
             getAllUsers: getAllUsers,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            getCurrentUser: getCurrentUser
         };
         return service;
 
@@ -78,7 +79,7 @@
             if (isLoggedIn()) {
                 var token = getToken();
                 var payload = angular.fromJson($window.atob(token.split('.')[1]));
-                return payload.name;
+                return payload.fullName;
             }
         }
         function register(user) {
@@ -117,6 +118,18 @@
             }).then(function(res) {
                 return res.data;
             })
+        }
+        function getCurrentUser(){
+          var token = getToken();
+          var payload = angular.fromJson($window.atob(token.split('.')[1]));
+          var user = {
+            username: payload.username,
+            fullName: payload.fullName,
+            isAdmin: payload.isAdmin,
+            voornaam: payload.voornaam,
+            naam: payload.naam
+          };
+          return user;
         }
     }
 })();

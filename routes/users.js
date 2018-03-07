@@ -65,7 +65,9 @@
                   id: user._id,
                   isAdmin: user.isAdmin,
                   username: user.username,
-                  name: user.fullName
+                  fullName: user.fullName,
+                  voornaam: user.voornaam,
+                  naam: user.naam 
                 };
                 const tok = jwttoken.sign(payload, "superSecret", {
                   expiresIn: 86400,

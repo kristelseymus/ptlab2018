@@ -19,12 +19,17 @@
       vm.changePassword = changePassword;
       vm.getAll = getAll;
       vm.deleteUser = deleteUser;
+      //vm.showDialog = showDialog;
 
       activate();
 
       function activate() {
           return getAll();
       }
+
+    //  this._mdPanel = $mdPanel;
+    //  this.disableParentScroll = false;
+
       function register(){
         auth.register(vm.user).error(function(error){
           vm.error = error;
@@ -47,12 +52,20 @@
           $state.go('home');
         });
       }
-      function logIn(){
+      function logIn(form){
         auth.logIn(vm.user)
         .error(function(error){
           vm.error = error;
           vm.message = error.message;
+          if(vm.message === "Incorrect username.") {
+            form.wachtwoord.$error.incorrectpassword = false;
+            form.username.$error.incorrectusername = true;
+          } else if(vm.message === "Incorrect password.") {
+            form.username.$error.incorrectusername = false;
+            form.wachtwoord.$error.incorrectpassword = true;
+          }
         }).then(function(){
+    //        LoginDialogController.prototype.closeDialog();
             $state.go('home');
         });
       }
@@ -85,6 +98,44 @@
           });
       }
 
+    /*   function showDialog() {
+         console.log("in showDialog");
+        var position = this._mdPanel.newPanelPosition()
+            .absolute()
+            .center();
+
+        var config = {
+          attachTo: angular.element(document.body),
+          controller: LoginDialogController,
+          controllerAs: 'loginPanelCtrl',
+          disableParentScroll: this.disableParentScroll,
+          templateUrl: '/templates/login.html',
+          hasBackdrop: true,
+          panelClass: 'demo-dialog-example',
+          position: position,
+          trapFocus: true,
+          zIndex: 150,
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          focusOnOpen: true
+        };
+
+        this._mdPanel.open(config);
+      };
+
+      function LoginDialogController(mdPanelRef) {
+        this._mdPanelRef = mdPanelRef;
+      };
+
+
+      LoginDialogController.prototype.closeDialog = function() {
+        var panelRef = this._mdPanelRef;
+
+        panelRef && panelRef.close().then(function() {
+          angular.element(document.querySelector('.demo-dialog-open-button')).focus();
+          panelRef.destroy();
+        });
+      };*/
 
 
   }

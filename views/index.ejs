@@ -16,76 +16,90 @@
 </head>
 
 <body ng-app="ptlab" smooth-scrolling>
-  <nav class="navbar navbar-default navbar-static-top" id="nav" ng-controller="NavController as ctrl">
-      <div class="container-fluid header-top">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                      data-target="#navbar-pt">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <h3><small>Topstarters in ICT, sales & management</small></h3>
-          </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="navbar-pt">
-              <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
-                  <li class="dropdown">
-                    <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" href="/home">Home
-                    <span class="dropdown-toggle caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
-                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
-                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
-                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
-                      <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
-                    </ul>
-                  </li>
-                  <!--<li><a href="/home" class="navigatieitem">Home</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
-                  <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>-->
-                  <li><a href="/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
-                  <li><a ng-hide="ctrl.isLoggedIn()" href="/login">Log In</a></li>
-                  <li><a ng-hide="ctrl.isLoggedIn()" href="/register">Register</a></li>
-                  <li class="dropdown">
-                    <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" ng-show="ctrl.isLoggedIn()"> Welkom {{ctrl.currentUser()}}
-                    <span class="dropdown-toggle caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()">Log Out</a></li>
-                      <li><a ng-show="ctrl.isAdmin()" href="/settings">Settings</a></li>
-                    </ul>
-                  </li>
-              </ul>
-          </div>
-          <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-  </nav>
-  <div ui-view></div>
-  <a href="#" id="scroll" scroll-to-top style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
 
-  <!--Footer-->
-     <footer>
-         <!--Footer Links-->
-         <div class="container-fluid text-center text-md-left">
-             <div class="row">
-             </div>
-         </div>
-         <!--/.Footer Links-->
-         <!--Copyright-->
-         <div class="footer-copyright py-3 text-center">
-             <div class="container-fluid">
-                 &copy; 2018 <a href="https://www.planet-talent.com/"> Planet-Talent </a>
-             </div>
-         </div>
-         <!--/.Copyright-->
-     </footer>
-     <!--/.Footer-->
+  <div id="cont">
+     <div id="header">
+       <nav class="navbar navbar-default navbar-static-top" id="nav" ng-controller="NavController as ctrl">
+           <div class="container-fluid header-top">
+               <!-- Brand and toggle get grouped for better mobile display -->
+               <div class="navbar-header">
+                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                           data-target="#navbar-pt">
+                       <span class="sr-only">Toggle navigation</span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                   </button>
+                   <h3><small>Topstarters in ICT, sales & management</small></h3>
+               </div>
+               <!-- Collect the nav links, forms, and other content for toggling -->
+               <div class="collapse navbar-collapse" id="navbar-pt">
+                   <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
+                       <li class="dropdown">
+                         <a class="dropdown-toggle navigatieitem" data-toggle="dropdown">Home
+                         <span class="dropdown-toggle caret"></span></a>
+                         <ul class="dropdown-menu">
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home" class="navigatieitem">Home</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
+                         </ul>
+                       </li>
+                       <!--<li><a href="/home" class="navigatieitem">Home</a></li>
+                       <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
+                       <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
+                       <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
+                       <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
+                       <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>-->
+                       <li><a href="/contact" id="closeNav">Contact</a></li> <!--Contact pagina op nieuwe pagina-->
+                       <li>
+                         <a ng-hide="ctrl.isLoggedIn()" href="/login">Log In</a>
+                       </li>
+                       <li>
+                         <a ng-hide="ctrl.isLoggedIn()" href="/register">Register</a>
+                       </li>
+                       <li class="dropdown">
+                         <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" ng-show="ctrl.isLoggedIn()"> Welkom {{ctrl.currentUser()}}
+                         <span class="dropdown-toggle caret"></span></a>
+                         <ul class="dropdown-menu">
+                           <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()">Log Out</a></li>
+                           <li><a ng-show="ctrl.isAdmin()" href="/settings">Settings</a></li>
+                         </ul>
+                       </li>
+                   </ul>
+               </div>
+               <!-- /.navbar-collapse -->
+           </div>
+           <!-- /.container-fluid -->
+       </nav>
+     </div>
+     <div id="body">
+       <div ui-view></div>
+       <a href="#" id="scroll" scroll-to-top style="display: none;"><span class="glyphicon glyphicon-arrow-up"></span></a>
+     </div>
+     <div id="footer">
+       <!--Footer-->
+          <footer>
+              <!--Footer Links-->
+              <div class="container-fluid text-center text-md-left">
+                  <div class="row">
+                  </div>
+              </div>
+              <!--/.Footer Links-->
+              <!--Copyright-->
+              <div class="footer-copyright py-3 text-center">
+                  <div class="container-fluid">
+                      Copyright &copy; 2018 Planet Talent
+                  </div>
+              </div>
+              <!--/.Copyright-->
+          </footer>
+          <!--/.Footer-->
+     </div>
+  </div>
+
 
   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPN6Y8-z-axiYzczvl5knkasvMKaGDpvU"></script>
   <!-- Angular -->
@@ -102,7 +116,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 
-  <script src="https://cdn.rawgit.com/bradberger/angular-material-calendar/master/dist/angular-material-calendar.js"></script>
+  <!--<script src="https://cdn.rawgit.com/bradberger/angular-material-calendar/master/dist/angular-material-calendar.js"></script>-->
+  <script type="text/javascript" src="/scripts/angular-material-calendar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.5/angular-locale_nl-be.js"></script>
 
@@ -125,7 +140,6 @@
   <script src="/controllers/GratisPlaatsController.js"></script>
   <script src="/controllers/VraagOfferteAanController.js"></script>
   <script src="/controllers/SettingsController.js"></script>
-  <script src="/controllers/PanelController.js"></script>
 
 </body>
 

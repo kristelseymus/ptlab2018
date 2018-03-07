@@ -13,6 +13,18 @@
       vm.student = null;
       vm.aantalPlaatsen = 20;
       vm.boekPlaatsStudent = boekPlaatsStudent;
+      vm.user = {};
+      vm.disabled = false;
+
+      activate();
+
+      function activate(){
+        vm.user = auth.getCurrentUser();
+        if(vm.user != null){
+          vm.disabled = true;
+        }
+        return vm.user;
+      }
 
       function getTodayDate(){
         return new Date();

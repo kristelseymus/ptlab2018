@@ -394,7 +394,7 @@ small {
 	  height: auto;
 	  padding: 10px;
 	}
-
+/*
 	input[type="email"] {
     margin-top: 20px;
 	  margin-bottom: 20px;
@@ -408,7 +408,7 @@ small {
     margin-top: 20px;
 	  margin-bottom: 20px;
 	}
-
+*/
 
 /*
 
@@ -526,8 +526,14 @@ calendar-md md-content{
   min-height: 500px !important;
 }
 
-md-toolbar-tools layout-row {
+div.md-toolbar-tools.layout-row {
   background-color: #FFBF3B;
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+
+h2.calendar-md-title {
+  padding-top: 10px;
 }
 
 md-toolbar {
@@ -541,8 +547,16 @@ md-toolbar {
 }
 
 .md-icon-button {
-  background-color: #15B366 !important;
   color: #404041;
+  font-size: 40px !important;
+}
+
+.mid-icon-button-left {
+  margin-left: 50px !important;
+}
+
+.md-icon-button-right {
+  margin-right: 50px !important;
 }
 
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
@@ -552,6 +566,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-me
 
 .footer-copyright {
   line-height: 80px !important;
+  background-color: #eee;
 }
 
 .dropdown-menu ul li {
@@ -615,3 +630,50 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-me
   color: rgb(16, 108, 200);
 }
 */
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#cont {
+   min-height:100%;
+   position:relative;
+}
+#body {
+   padding-bottom:80px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:80px;   /* Height of the footer */
+   background:#6cf;
+}
+
+.contactwrapper{
+  border: 1px solid rgba(0,0,0,.03);
+  margin: 4px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+  -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+}
+
+.no-background {
+  background-color: rgb(255, 255, 255);
+}
+
+.md-input-messages-animation {
+  font-size: 0.8em;
+  text-align: left;
+  width: 100%;
+}
+
+.btnSubmitContact {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background-color: #15B366 !important;
+}
+
+div.alert {
+  margin-bottom: 0;
+}

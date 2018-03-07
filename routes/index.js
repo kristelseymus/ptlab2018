@@ -73,6 +73,21 @@
         title: 'Express'
       });
     });
+    router.get('/boekplaatsstudent', function(req, res, next){
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/vraagofferteaan', function(req, res, next){
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    router.get('/gratisplaats', function(req, res, next){
+      res.render('index', {
+        title: 'Express'
+      });
+    });
 
 
     module.exports = router;
