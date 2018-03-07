@@ -61,19 +61,8 @@
                 return next(err);
             }
             if (user) {
-                const payload = {
-                  id: user._id,
-                  isAdmin: user.isAdmin,
-                  username: user.username,
-                  fullName: user.fullName,
-                  voornaam: user.voornaam,
-                  naam: user.naam 
-                };
-                const tok = jwttoken.sign(payload, "superSecret", {
-                  expiresIn: 86400,
-                });
                 return res.json({
-                    token: tok,
+                    token: user.generateJWT(),
                     userid : user._id
                 });
             } else {

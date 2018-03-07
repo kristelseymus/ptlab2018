@@ -677,3 +677,9 @@ body {
 div.alert {
   margin-bottom: 0;
 }
+
+.iconperson{
+  margin-top: 25px !important;
+  margin-bottom: 0px !important;
+  color: rgba(0,0,0,1);
+}

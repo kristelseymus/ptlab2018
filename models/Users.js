@@ -14,7 +14,11 @@ var UserSchema = new mongoose.Schema({
     isAdmin: {type: Boolean, default: false},
     hash: String,
     salt: String,
-    fullName : String
+    fullName : String,
+    reservaties : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Reservatie'
+    }]
 });
 
 UserSchema.methods.setPassword = function(password) {
@@ -34,9 +38,30 @@ UserSchema.methods.generateJWT = function() {
   var exp = new Date(today);
   exp.setDate(today.getDate() + 60);
 
+/*
+  const payload = {
+    id: user._id,
+    isAdmin: user.isAdmin,
+    username: user.username,
+    fullName: user.fullName,
+    voornaam: user.voornaam,
+    naam: user.naam
+  };
+  const tok = jwttoken.sign(payload, "superSecret", {
+    expiresIn: 86400,
+  });
+  return res.json({
+      token: tok,
+      userid : user._id
+  });*/
+
   return jwt.sign({
     _id : this._id,
     username: this.username,
+    isAdmin: this.isAdmin,
+    fullName: this.fullName,
+    voornaam: this.voornaam,
+    naam: this.naam ,
     exp: parseInt(exp.getTime() / 1000)
     }, 'SECRET');
 };

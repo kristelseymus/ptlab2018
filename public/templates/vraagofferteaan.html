@@ -1,1 +1,66 @@
-<h1>Vraag een offerte aan</h1>
+<section id="sectionvraagofferteaan" ng-init="ctrl.getRuimtes()">
+        <div class="container" id="vraagofferteaan">
+            <div class="row">
+                <div class="col-md-12">
+                  <!-- CONTENT TEST -->
+                  <div class="contactwrapper" layout="column" layout-padding ng-cloak>
+
+                    <div class="row text-center">
+                      <h2 class="section-heading">Vraag een offerte aan</h2>
+                    </div>
+                    <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
+                    <form ng-submit="ctrl.vraagOfferteAan()" name="vraagOfferteAanForm">
+                    <md-content class="md-no-momentum no-background">
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Voornaam</label>
+                          <input ng-model="ctrl.offerte.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                        <md-input-container md-no-float class="md-block" flex="50">
+                          <label>Naam</label>
+                          <input ng-model="ctrl.offerte.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>Email</label>
+                          <input ng-model="ctrl.offerte.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Datum</label>
+                          <md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="33">
+                          <label>Aantal Personen</label>
+                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="5" max="{{ctrl.selectedRoom.aantalPersonen}}">
+                          <div ng-messages="vraagOfferteAanForm.aantalpersonen.$error" multiple>
+                            <div ng-message="required">Aantal personen is verplicht.</div>
+                            <div ng-message="min">Minimum aantal personen is 5.</div>
+                            <div ng-message="max">Maximum aantal personen is {{ctrl.selectedRoom.aantalPersonen}}.</div>
+                          </div>
+
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="33">
+                          <label>Ruimtes</label>
+                          <md-select ng-model="ctrl.offerte.ruimte" name="ruimte" required>
+                            <md-option ng-repeat="ruimte in ctrl.ruimtes" value="{{ruimte.name}}">
+                              {{ruimte.name}}
+                            </md-option>
+                          </md-select>
+                          <div ng-messages="vraagOfferteAanForm.ruimte.$error">
+                            <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+                      </md-content>
+                      <div layout="row">
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Vraag Offerte Aan</md-button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+</section>

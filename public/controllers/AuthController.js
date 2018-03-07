@@ -30,12 +30,15 @@
     //  this._mdPanel = $mdPanel;
     //  this.disableParentScroll = false;
 
-      function register(){
+      function register(form){
         auth.register(vm.user).error(function(error){
           vm.error = error;
           vm.message = error.message;
+          if(vm.message === "User already exists") {
+            form.username.$error.exists = true;
+          }
         }).then(function(){
-          $state.go('home');
+          $state.go('login');
         });
       }
       function changePassword(){

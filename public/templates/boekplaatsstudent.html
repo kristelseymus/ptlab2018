@@ -11,71 +11,40 @@
 <section id="sectionboekplaatsstudent">
         <div class="container" id="boekplaatsstudent">
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 text-center">
+                <div class="col-md-10 col-md-offset-1">
                   <!-- CONTENT TEST -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak>
 
-                    <div class="row">
+                    <div class="row text-center">
                       <h2 class="section-heading">Boek een studieplek</h2>
                     </div>
                     <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
                     <form ng-submit="ctrl.boekPlaatsStudent()" name="boekPlaatsStudentForm">
                     <md-content class="md-no-momentum no-background">
-                      <div layout="row">
-                        <md-input-container md-no-float class="md-block" flex="50">
-                          <input ng-model="ctrl.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
-                          <div ng-messages="boekPlaatsStudentForm.voornaam.$error">
-                            <div ng-message="required">Voornaam is verplicht.</div>
-                          </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Voornaam</label>
+                          <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
                         <md-input-container md-no-float class="md-block" flex="50">
-                          <input ng-model="ctrl.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
-                          <div ng-messages="boekPlaatsStudentForm.naam.$error">
-                            <div ng-message="required">Naam is verplicht.</div>
-                          </div>
+                          <label>Naam</label>
+                          <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
                       </div>
-                      <div layout="row"><md-icon>person</md-icon></div>
-                      <md-input-container md-no-float class="md-block" layout="row">
-                        <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
-                        <div ng-messages="signInForm.username.$error" multiple md-auto-hide="false">
-                          <div ng-message="required">
-                            Email is leeg.
-                          </div>
-                          <div ng-message="pattern">
-                            Geen geldig email adres.
-                          </div>
-                          <div ng-message="incorrectusername">
-                            Gebruiker bestaat niet.
-                          </div>
-                        </div>
-                      </md-input-container>
-                      <div layout="row"><md-icon>lock</md-icon></div>
-                      <md-input-container md-no-float class="md-block">
-                        <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord" required>
-                        <div ng-messages="signInForm.wachtwoord.$error" md-auto-hide="false">
-                          <div ng-message="required">
-                            Waschtwoord is leeg.
-                          </div>
-                          <div ng-message="incorrectpassword">
-                            Wachtwoord is niet geldig.
-                          </div>
-                        </div>
-                      </md-input-container>
-                      <md-input-container>
-                        <md-content layout-padding ng-cloak>
-                          <div layout-gt-xs="row">
-                            <div flex-gt-xs>
-                              <label>Kies een datum</label>
-                              <md-datepicker ng-model="ctrl.datum" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
-                            </div>
-                          </div>
-                        </md-content>
-                      </md-input-container>
-                      <div layout="row">
-                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Login</md-button>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>Email</label>
+                          <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                        <md-input-container>
+                          <label>Datum</label>
+                          <md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
+                        </md-input-container>
                       </div>
-                    </md-content>
+                      </md-content>
+                      <div layout="row">
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Reserveer</md-button>
+                      </div>
                     </form>
                   </div>
                   <!-- CONTENT TEST -->

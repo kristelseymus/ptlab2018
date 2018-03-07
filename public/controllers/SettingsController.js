@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService'];
 
-    function SettingsController(auth, $state){
+    function SettingsController(auth, $state, ruimteService){
       var vm = this;
     }
 })();

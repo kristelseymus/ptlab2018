@@ -9,7 +9,7 @@
                 <h2 class="section-heading">Registreer</h2>
               </div>
               <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
-              <form ng-submit="ctrl.register()" name="registerForm">
+              <form ng-submit="ctrl.register(registerForm)" name="registerForm">
               <md-content class="md-no-momentum no-background">
                 <div layout="row">
                   <md-input-container md-no-float class="md-block" flex="50">
@@ -35,6 +35,9 @@
                     </div>
                     <div ng-message="pattern">
                       Geen geldig email adres.
+                    </div>
+                    <div ng-message="exists">
+                      Er bestaat al een gebruiker met dit email adres.
                     </div>
                   </div>
                 </md-input-container>

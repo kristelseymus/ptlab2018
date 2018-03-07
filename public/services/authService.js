@@ -53,10 +53,10 @@
         }
 
         function saveToken(token) {
-            $window.localStorage['ptlab-app-token'] = token;
+            $window.sessionStorage['ptlab-app-token'] = token;
         }
         function getToken() {
-            return $window.localStorage['ptlab-app-token'];
+            return $window.sessionStorage['ptlab-app-token'];
         }
         function isLoggedIn() {
             var token = getToken();
@@ -101,7 +101,7 @@
             });
         }
         function logOut(){
-            $window.localStorage.removeItem('ptlab-app-token');
+            $window.sessionStorage.removeItem('ptlab-app-token');
         }
         function changePassword(user){
           return $http.put("/changepassword",user, {
@@ -123,6 +123,7 @@
           var token = getToken();
           var payload = angular.fromJson($window.atob(token.split('.')[1]));
           var user = {
+            _id: payload._id,
             username: payload.username,
             fullName: payload.fullName,
             isAdmin: payload.isAdmin,

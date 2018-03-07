@@ -37,7 +37,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
     })
     .state('boekplaatsstudent', {
       url: '/boekplaatsstudent',
-      controller: 'BoekPlaatsStudentController',
+      controller: 'ReservatieController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/boekplaatsstudent.html',
       onEnter: ['$state', 'auth', function ($state, auth) {
@@ -48,7 +48,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
     })
     .state('gratisplaats', {
       url: '/gratisplaats',
-      controller: 'GratisPlaatsController',
+      controller: 'ReservatieController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/gratisplaats.html',
       onEnter: ['$state', 'auth', function ($state, auth) {
@@ -59,7 +59,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
     })
     .state('vraagofferteaan', {
       url: '/vraagofferteaan',
-      controller: 'VraagOfferteAanController',
+      controller: 'ReservatieController',
       controllerAs: 'ctrl',
       templateUrl: '/templates/vraagofferteaan.html',
       onEnter: ['$state', 'auth', function ($state, auth) {
@@ -114,6 +114,17 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
                       if(!auth.isAdmin()){
                         $state.go('home')
                       }
+                    }
+                }]
+        })
+        .state('mijnreservaties', {
+          url: '/mijnreservaties',
+          templateUrl: '/templates/mijnreservaties.html',
+          controller: 'ReservatieController',
+          controllerAs: 'ctrl',
+          onEnter: ['$state', 'auth', function ($state, auth) {
+                    if (!auth.isLoggedIn()) {
+                      $state.go('login');
                     }
                 }]
         });
