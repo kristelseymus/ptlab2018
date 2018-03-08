@@ -38,7 +38,12 @@
                         </md-input-container>
                         <md-input-container>
                           <label>Datum</label>
-                          <md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
+                          <input type="datetime-local" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>
+                          <div ng-messages="boekPlaatsStudentForm.date.$error" multiple>
+                            <div ng-message="required">Datum is verplicht.</div>
+                            <div ng-message="min">Er kan geen datum in het verleden gekozen worden.</div>
+                          </div>
+                          <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         </md-input-container>
                       </div>
                       </md-content>

@@ -10,6 +10,7 @@
     var Reservatie = mongoose.model('Reservatie');
     var User = mongoose.model('User');
     var Ruimte = mongoose.model('Ruimte');
+    var ReservatieType = mongoose.model('ReservatieType');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var auth = jwt({
@@ -126,6 +127,15 @@
         });
     });
 
+    router.get('/api/reservaties', function(req, res, next) {
+      Reservatie.find(function(err, reservaties) {
+        if(err){
+          return next(err);
+        }
+        res.json(reservaties);
+      }).populate('user');
+    });
+
     router.get('/api/reservaties/user/:user', function (req, res) {
         res.json(req.reservaties);
     });
@@ -148,8 +158,46 @@
     //endregion
 
     //region ruimtes
-    
+    router.post('/api/ruimtes', auth, function (req, res, next) {
+        var ruimte = new Ruimte(req.body);
+        console.log(ruimte);
+        console.log(ruimte.name);
+        ruimte.save(function (err, ruimte) {
+            if (err) {
+                return next(err);
+            }
+        });
+    });
 
+    router.get('/api/ruimtes', function (req, res, next) {
+        Ruimte.find(function (err, ruimtes) {
+            if (err) {
+                return next(err);
+            }
+            res.json(ruimtes);
+        });
+    });
+
+    //endregion
+
+    //region ReservatieTypes
+    router.post('/api/reservatietypes', auth, function(req, res, next){
+      var reservatieType = new ReservatieType(req.body);
+      reservatieType.save(function(err, reservatieType) {
+        if(err) {
+          return next(err);
+        }
+      });
+    });
+
+    router.get('/api/reservatietypes', function(req, res, next){
+      ReservatieType.find(function (err, reservatietypes){
+        if(err) {
+          return next(err);
+        }
+        res.json(reservatietypes);
+      });
+    });
     //endregion
 
     module.exports = router;

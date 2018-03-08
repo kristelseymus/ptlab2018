@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var ReservatieTypeSchema = new mongoose.Schema({
-    name: String
+    name: String,
+    idnumber: Number
 });
 
 mongoose.model('ReservatieType', ReservatieTypeSchema);

@@ -14,7 +14,8 @@
             get: get,
             update: update,
             deleteReservatie: deleteReservatie,
-            getReservatiesUser: getReservatiesUser
+            getReservatiesUser: getReservatiesUser,
+            getReservatieTypes: getReservatieTypes
         };
         return service;
 
@@ -70,6 +71,12 @@
             }).then(function (res) {
                 return res.data;
             })
+        }
+
+        function getReservatieTypes() {
+          return $http.get('/api/reservatietypes').success(function (data) {
+              return data;
+          });
         }
     }
 })();

@@ -1,9 +1,134 @@
 <section id="settings">
         <div class="container">
             <div class="row">
-              <div class="col-md-10 col-md-offset-1 text-center">
-                <h2 class="section-heading">Settings</h2>
-              </div>
+                <div class="col-md-12">
+                  <div class="row text-center">
+                    <h2 class="section-heading">Settings</h2>
+                  </div>
+
+                  <!--Ruimtes -->
+                  <div class="contactwrapper" layout="column" layout-padding ng-cloak>
+                    <div class="row text-center">
+                      <h3 class="section-heading">Ruimtes</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1 text-center">
+                          <h4 class="section-heading">Bekijken</h4>
+                          <table class="table table-hover table-settings">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Naam
+                                </th>
+                                <th>
+                                  Maximum aantal personen
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="ruimte in ctrl.ruimtes">
+                                <td>{{ruimte.name}}</td>
+                                <td>{{ruimte.aantalPlaatsen}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                      <h4 class="section-heading">Aanmaken</h4>
+                    </div>
+                    <form ng-submit="ctrl.createRuimte()" name="createRuimteForm">
+                    <md-content class="md-no-momentum no-background">
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Naam</label>
+                          <input ng-model="ctrl.ruimte.name" type="text" name="name" placeholder="Naam *" required>
+                          <div ng-messages="createRuimteForm.name.$error">
+                            <div ng-message="required">Naam is verplicht.</div>
+                          </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Maximum aantal beschikbare plaatsen</label>
+                          <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum Aantal Beschikbare Plaatsen *" required>
+                          <div ng-messages="createRuimteForm.aantalplaatsen.$error">
+                            <div ng-message="required">Maximum aantal beschikbare plaatsen is verplicht.</div>
+                          </div>
+                        </md-input-container>
+                       </div>
+                      </md-content>
+                      <div layout="row">
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Maak ruimte</md-button>
+                      </div>
+                    </form>
+                    <!-- Ruimtes lijst -->
+
+                  </div>
+                  <!-- EINDE Ruimtes -->
+                  <!-- Reservaties -->
+                  <div class="contactwrapper" layout="column" layout-padding ng-cloak>
+                    <div class="row text-center">
+                      <h3 class="section-heading">Reservaties</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1 text-center table-responsive-md">
+                          <h4 class="section-heading">Bekijken</h4>
+                          <table class="table table-hover table-settings">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Naam gebruiker
+                                </th>
+                                <th>
+                                  Email gebruiker
+                                </th>
+                                <th>
+                                  Datum
+                                </th>
+                                <th>
+                                  Ruimte
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="reservatie in ctrl.reservaties">
+                                <td>{{reservatie.user.fullName}}</td>
+                                <td>{{reservatie.user.username}}</td>
+                                <td>{{reservatie.startdate | date:'dd MMMM yyyy H:mm'}}</td>
+                                <td></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- Ruimtes lijst-->
+                        <!--  <div class="container">
+                              <div class="row">
+                                  <div class="col-md-10 col-md-offset-1 text-center">
+                                    <h2 class="section-heading">Ruimtes</h2>
+                                    <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th>
+                                            Naam
+                                          </th>
+                                          <th>
+                                            Maximum aantal personen
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="ruimte in ctrl.ruimtes">
+                                          <td>{{ruimte.name}}</td>
+                                          <td>{{ruimte.aantalPlaatsen}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                              </div>
+                          </div>-->
+                  <!-- Einde ruimtes lijst -->
+                </div>
             </div>
         </div>
 </section>
