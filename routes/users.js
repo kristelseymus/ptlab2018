@@ -31,6 +31,7 @@
         user.setPassword(req.body.password);
         user.voornaam = req.body.voornaam;
         user.naam = req.body.naam;
+        user.typeUser = req.body.typeUser;
         user.fullName = req.body.voornaam + " " + req.body.naam;
         user.save(options, function(err) {
             if (err) {

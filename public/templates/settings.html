@@ -87,10 +87,47 @@
                                 <th>
                                   Ruimte
                                 </th>
+                                <th>
+                                  Deel van de dag
+                                </th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr ng-repeat="reservatie in ctrl.reservaties">
+                                <td>{{reservatie.user.fullName}}</td>
+                                <td>{{reservatie.user.username}}</td>
+                                <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                                <td></td>
+                                <td>{{reservatie.keuzeDag}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1 text-center">
+                          <h4 class="section-heading">Zoek reservaties op dag</h4>
+                          <form ng-submit="ctrl.getReservatiesByDay()">
+                            <input type="date" ng-model="ctrl.day"></input>
+                            <button type="submit">Get</button>
+                          </form>
+                          <table class="table table-hover table-settings">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Naam gebruiker
+                                </th>
+                                <th>
+                                  Email gebruiker
+                                </th>
+                                <th>
+                                  Datum
+                                </th>
+                                <th>
+                                  Ruimte
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="reservatie in ctrl.reservatiesday">
                                 <td>{{reservatie.user.fullName}}</td>
                                 <td>{{reservatie.user.username}}</td>
                                 <td>{{reservatie.startdate | date:'dd MMMM yyyy H:mm'}}</td>

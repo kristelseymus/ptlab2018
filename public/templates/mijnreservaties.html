@@ -12,12 +12,16 @@
                         <th>
                           Datum
                         </th>
+                        <th>
+                          Deel van de dag
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="reservatie in ctrl.reservaties">
                         <td>Naam= {{reservatie.user}}</td>
-                        <td>{{reservatie.startdate | date:'dd MMMM yyyy H:mm'}}</td>
+                        <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                        <td>{{reservatie.keuzeDag}}</td>
                       </tr>
                     </tbody>
                   </table>

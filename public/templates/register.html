@@ -50,6 +50,16 @@
                     </div>
                   </div>
                 </md-input-container>
+                <md-input-container md-no-float class="md-block">
+                  <md-select ng-model="ctrl.user.typeUser" name="typeUser" required aria-label="selectTypeUser">
+                    <md-option ng-repeat="type in ctrl.typesUser" ng-value="type">
+                      {{type}}
+                    </md-option>
+                  </md-select>
+                  <div ng-messages="registerForm.typeUser.$error">
+                    <div ng-message="required">Er moet een type gekozen worden.</div>
+                  </div>
+                </md-input-container>
                 <div layout="row">
                   <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Registreer</md-button>
                 </div>

@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var ReservatieSchema = new mongoose.Schema({
     name: String,
     startdate: Date,
-    duration: Number,
     paid: Boolean,
+    keuzeDag: String,
     ruimte: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ruimte'

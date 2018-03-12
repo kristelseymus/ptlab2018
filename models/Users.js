@@ -12,6 +12,11 @@ var UserSchema = new mongoose.Schema({
     naam: String,
     dateOfCreation : {type: Date, default: Date.now},
     isAdmin: {type: Boolean, default: false},
+    typeUser: {
+        type: String,
+        enum : ['STUDENT','COWORKER', 'MANAGER'],
+        default: 'MANAGER'
+    },
     hash: String,
     salt: String,
     fullName : String,

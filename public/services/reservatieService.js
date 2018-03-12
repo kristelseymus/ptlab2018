@@ -15,7 +15,8 @@
             update: update,
             deleteReservatie: deleteReservatie,
             getReservatiesUser: getReservatiesUser,
-            getReservatieTypes: getReservatieTypes
+            getReservatieTypes: getReservatieTypes,
+            getReservatiesByDay: getReservatiesByDay
         };
         return service;
 
@@ -26,16 +27,37 @@
         }
 
         function create(reservatie) {
-          console.log("service: ");
-          console.log(reservatie);
-          console.log(reservatie.user);
-            return $http.post('/api/reservaties', reservatie, {
-                headers: {
-                    Authorization: 'Bearer ' + auth.getToken()
-                }
-            }).success(function (data) {
-                return data;
-            });
+          return $http.post('/api/reservaties', reservatie, {
+              headers: {
+                  Authorization: 'Bearer ' + auth.getToken()
+              }
+          }).success(function (data) {
+              return data;
+          }).error(function(err){
+            return err;
+          });
+          /*var noSpace = false;
+          var reser = null;
+          getReservatiesByDay(reservatie.startdate).then(function(res){
+            for(var item of res){
+              console.log(item);
+              if(item.keuzeDag === reservatie.keuzeDag){
+                noSpace = true;
+                break;
+              }
+            }
+            console.log("service: ");
+            console.log(reservatie);
+            console.log(reservatie.user);
+            console.log("noSpace: " + noSpace);
+            if(noSpace === false){
+
+            } else {
+              return next(new Error("No space left in room"));
+            }
+          });*/
+
+
         }
 
         function get(id) {
@@ -46,7 +68,6 @@
 
         function getReservatiesUser(id){
           return $http.get('/api/reservaties/user/' + id).then(function(res){
-            console.log(res.data);
             return res.data;
           })
         }
@@ -77,6 +98,14 @@
           return $http.get('/api/reservatietypes').success(function (data) {
               return data;
           });
+        }
+
+        function getReservatiesByDay(date) {
+          return $http.get('api/reservaties/' + date).then(function (res) {
+            console.log(res);
+            console.log(res.data);
+            return res.data;
+          })
         }
     }
 })();

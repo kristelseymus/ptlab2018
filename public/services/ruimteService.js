@@ -8,6 +8,7 @@
     function ruimteService($log, $http, auth) {
         var service = {
             getAll: getAll,
+            getAvailableRooms: getAvailableRooms,
             create: create,
             get: get,
             update: update,
@@ -19,6 +20,10 @@
             return $http.get('/api/ruimtes').success(function (data) {
                 return data;
             });
+        }
+
+        function getAvailableRooms(date) {
+            
         }
 
         function create(ruimte) {

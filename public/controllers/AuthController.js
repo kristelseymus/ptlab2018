@@ -10,6 +10,7 @@
       vm.user = {};
       vm.users = [];
       vm.password = null;
+      vm.typesUser = ['STUDENT','COWORKER','MANAGER'];
 
       vm.register = register;
       vm.logIn = logIn;
@@ -31,6 +32,8 @@
     //  this.disableParentScroll = false;
 
       function register(form){
+        console.log("in register");
+        console.log(vm.user);
         auth.register(vm.user).error(function(error){
           vm.error = error;
           vm.message = error.message;

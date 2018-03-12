@@ -18,7 +18,7 @@
                     <div class="row text-center">
                       <h2 class="section-heading">Boek een studieplek</h2>
                     </div>
-                    <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
+                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
                     <form ng-submit="ctrl.boekPlaatsStudent()" name="boekPlaatsStudentForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
@@ -36,15 +36,29 @@
                           <label>Email</label>
                           <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
                         </md-input-container>
-                        <md-input-container>
-                          <label>Datum</label>
-                          <input type="datetime-local" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="75">
+                          <md-calendar ng-model="ctrl.reservatie.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" ng-change="ctrl.getAvailablePlaces()"></md-calendar>
+                          <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
                           <div ng-messages="boekPlaatsStudentForm.date.$error" multiple>
                             <div ng-message="required">Datum is verplicht.</div>
-                            <div ng-message="min">Er kan geen datum in het verleden gekozen worden.</div>
+                            <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
                           </div>
                           <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true" ng-change="ctrl.getAvailablePlaces()">
+                            <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
+                            <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
+                            <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
+                          </md-radio-group>
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                      </div>
+                      <div layout-gt-xs="row">
+                        BESCHIKBARE PLAATSEN: {{ctrl.availablePlaces}}
                       </div>
                       </md-content>
                       <div layout="row">

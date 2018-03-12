@@ -1,7 +1,7 @@
 <section id="sectionvraagofferteaan">
         <div class="container" id="vraagofferteaan">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <!-- CONTENT TEST -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak>
 
@@ -57,18 +57,6 @@
                             <div ng-message="required">Er moet een ruimte gekozen worden.</div>
                           </div>
                         </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <!--<md-input-container class="md-block" flex-gt-xs flex="33">
-                          <label>Aantal Personen</label>
-                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="5" max="{{ctrl.selectedRoom.aantalPersonen}}">
-                          <div ng-messages="vraagOfferteAanForm.aantalpersonen.$error" multiple>
-                            <div ng-message="required">Aantal personen is verplicht.</div>
-                            <div ng-message="min">Minimum aantal personen is 5.</div>
-                            <div ng-message="max">Maximum aantal personen is {{ctrl.selectedRoom.aantalPersonen}}.</div>
-                          </div>
-
-                        </md-input-container>-->
                         <md-input-container class="md-block" flex-gt-xs flex="33">
                           <label>Type</label>
                           <md-select ng-model="ctrl.offerte.type" name="type" required>
@@ -80,6 +68,12 @@
                             <div ng-message="required">Er moet een type gekozen worden.</div>
                           </div>
                         </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-slider-container class="md-block" flex-gt-xs>
+                          <md-slider flex min="0" max="255" ng-model="ctrl.startTime" aria-label="red" id="time-slider" step="50"></md-slider>
+                        </md-slider-container>
+                        <div>{{ctrl.startTime}}</div>
                       </div>
                       </md-content>
                       <div layout="row">

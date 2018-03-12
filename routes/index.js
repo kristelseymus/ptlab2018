@@ -99,32 +99,78 @@
 
     //region Reservaties
     router.post('/api/reservaties', auth, function (req, res, next) {
+        var noSpace = false;
+        var reservatiesThisDay = {};
         var reservatie = new Reservatie(req.body);
         console.log(reservatie);
         console.log(reservatie.user);
-        reservatie.save(function (err, reservatie) {
+
+        //Controle of reservatie nog mogelijk is.
+        var nextDay = new Date(reservatie.startdate);
+        nextDay.setDate(reservatie.startdate.getDate()+1);
+        var query = Reservatie.find({'startdate': {'$gte':reservatie.startdate,"$lt": nextDay}}).populate('user');
+        query.exec(function (err, reservaties) {
+          reservatiesThisDay = reservaties;
+          console.log("API Reservaties POST")
+          console.log(reservaties);
+          console.log(reservatiesThisDay);
+          for(var item of reservatiesThisDay){
+            //Hij gaat in de for loop
+            console.log("INFOR")
+            console.log(item);
+            //De logs worden uitgevoerd.
+            if(item.keuzeDag === "volledigedag"){
+              console.log("in if");
+              noSpace = true;
+              break;
+            } else if (item.keuzeDag === reservatie.keuzeDag) {
+              noSpace = true;
+              break;
+            }
+            //IF HET AANTAL BESCHIKBARE PLAATSEN IN DE RUIMTE, OP DIT MOMENT, < HET AANTAL NODIGE PLAATSEN
+          }
             if (err) {
                 return next(err);
             }
-        });
-        User.findOne({ '_id' : new ObjectId(reservatie.user) }).exec(function (err, user) {
-            if (err) {
-                res.send(err);
-                console.log(err);
-            }
-            console.log("USER");
-            console.log(user);
-            console.log(reservatie.user);
-            console.log("USER RESERVATIES");
-            console.log(user.reservaties);
-            user.reservaties.addToSet(reservatie);
-            user.save(function (err) {
+        }).then(function (que){
+          console.log(reservatiesThisDay);
+
+
+          //Einde controle
+          if(noSpace === false) {
+            console.log(noSpace);
+            reservatie.save(function (err, reservatie) {
+                if (err) {
+                    return next(err);
+                }
+            });
+            User.findOne({ '_id' : new ObjectId(reservatie.user) }).exec(function (err, user) {
                 if (err) {
                     res.send(err);
+                    console.log(err);
                 }
-                res.json(user);
+                console.log("USER");
+                console.log(user);
+                console.log(reservatie.user);
+                console.log("USER RESERVATIES");
+                console.log(user.reservaties);
+                user.reservaties.addToSet(reservatie);
+                user.save(function (err) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    res.json(user);
+                });
             });
+          } else {
+            return res.status(400).json({
+                message: 'Geen plaats op het gekozen tijdstip.'
+            });
+          }
         });
+
+
+
     });
 
     router.get('/api/reservaties', function(req, res, next) {
@@ -134,6 +180,27 @@
         }
         res.json(reservaties);
       }).populate('user');
+    });
+
+    router.param('date', function (req, res, next, date) {
+        var day = new Date(date);
+        var nextDay = new Date(date);
+        nextDay.setDate(day.getDate()+1);
+        var query = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user');
+        query.exec(function (err, reservaties) {
+            if (err) {
+                return next(err);
+            }
+            if (!reservaties) {
+                return next(new Error('can\'t find reservations'));
+            }
+            req.reservaties = reservaties;
+            return next();
+        })
+    });
+
+    router.get('/api/reservaties/:date', function (req, res, next) {
+        res.json(req.reservaties);
     });
 
     router.get('/api/reservaties/user/:user', function (req, res) {
