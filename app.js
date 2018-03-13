@@ -9,8 +9,9 @@ var passport = require('passport');
 
 require('./models/Users');
 require('./models/Reservaties');
-require('./models/ReservatieType');
+require('./models/EventType');
 require('./models/Ruimtes');
+require('./models/Events');
 require('./config/passport');
 
 

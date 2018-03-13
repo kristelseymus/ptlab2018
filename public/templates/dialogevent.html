@@ -1,0 +1,20 @@
+<md-dialog aria-label="Event Dialog" ng-controller="MainController as ctrl">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Evenementen op {{ctrl.dateClicked | date:"dd/MM/yyyy"}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width:800px;max-height:810px; ">
+
+    </md-dialog-content>
+
+    <!--<md-dialog-actions layout="row">
+    Hier kunnen allemaal buttons staan voor acties uit te voeren.
+    </md-dialog-actions>-->
+  </form>
+</md-dialog>

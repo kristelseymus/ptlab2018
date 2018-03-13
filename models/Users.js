@@ -23,6 +23,10 @@ var UserSchema = new mongoose.Schema({
     reservaties : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservatie'
+    }],
+    events : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
     }]
 });
 

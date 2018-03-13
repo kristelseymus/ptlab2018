@@ -10,7 +10,8 @@
     var Reservatie = mongoose.model('Reservatie');
     var User = mongoose.model('User');
     var Ruimte = mongoose.model('Ruimte');
-    var ReservatieType = mongoose.model('ReservatieType');
+    var EventType = mongoose.model('EventType');
+    var Evenement = mongoose.model('Event');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var auth = jwt({
@@ -184,6 +185,8 @@
 
     router.param('date', function (req, res, next, date) {
         var day = new Date(date);
+        day.setHours(0,0,0,0)
+        console.log(date);
         var nextDay = new Date(date);
         nextDay.setDate(day.getDate()+1);
         var query = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user');
@@ -247,25 +250,51 @@
 
     //endregion
 
-    //region ReservatieTypes
-    router.post('/api/reservatietypes', auth, function(req, res, next){
-      var reservatieType = new ReservatieType(req.body);
-      reservatieType.save(function(err, reservatieType) {
+    //region EventTypes
+    router.post('/api/eventtypes', auth, function(req, res, next){
+      var eventType = new EventType(req.body);
+      eventType.save(function(err, eventType) {
         if(err) {
           return next(err);
         }
       });
     });
 
-    router.get('/api/reservatietypes', function(req, res, next){
-      ReservatieType.find(function (err, reservatietypes){
+    router.get('/api/eventtypes', function(req, res, next){
+      EventType.find(function (err, eventtypes){
         if(err) {
           return next(err);
         }
-        res.json(reservatietypes);
+        res.json(eventtypes);
       });
     });
     //endregion
+
+    //region Events
+
+    //GetAll
+    router.get('/api/events', function(req, res, next) {
+      Evenement.find(function(err, events) {
+        if(err){
+          return next(err);
+        }
+        res.json(events);
+      }).populate('user').populate('ruimte').populate('eventType');
+    });
+    //Create
+    router.post('/api/events', auth, function (req, res, next) {
+        var evenement = new Evenement(req.body);
+        console.log("in index");
+        console.log(evenement);
+        console.log(req.body);
+        console.log(evenement.name);
+        evenement.save(function (err, evenement) {
+            if (err) {
+                return next(err);
+            }
+        });
+    });
+    //endregion Events
 
     module.exports = router;
 

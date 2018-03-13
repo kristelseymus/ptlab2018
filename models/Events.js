@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
 
-var ReservatieSchema = new mongoose.Schema({
+var EventSchema = new mongoose.Schema({
     name: String,
+    description: String,
     startdate: Date,
-    paid: Boolean,
     keuzeDag: String,
+    publiek: Boolean,
+    catering: Boolean,
     ruimte: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ruimte'
@@ -12,7 +14,11 @@ var ReservatieSchema = new mongoose.Schema({
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    eventType: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'EventType'
     }
 });
 
-mongoose.model('Reservatie', ReservatieSchema);
+mongoose.model('Event', EventSchema);

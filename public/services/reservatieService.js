@@ -101,6 +101,7 @@
         }
 
         function getReservatiesByDay(date) {
+          console.log(date);
           return $http.get('api/reservaties/' + date).then(function (res) {
             console.log(res);
             console.log(res.data);

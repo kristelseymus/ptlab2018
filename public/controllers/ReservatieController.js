@@ -30,12 +30,12 @@
       vm.reservatie.user = {};
       vm.offerte.user = {};
       vm.reservaties = {};
-      vm.types = {};
+    //  vm.types = {};
       vm.currentUser = {};
       vm.ruimtes = {};
       vm.getReservatiesUser = getReservatiesUser;
       vm.getRuimtes = getRuimtes;
-      vm.getReservatieTypes = getReservatieTypes;
+    //  vm.getReservatieTypes = getReservatieTypes;
       vm.getAvailablePlaces = getAvailablePlaces;
       vm.selectedRoom = {};
       vm.availableRooms = {};
@@ -56,7 +56,7 @@
         );
         vm.availablePlaces = 0;
         vm.reservatie.datum = getTodayDate();
-        vm.types = getReservatieTypes();
+      //  vm.types = getReservatieTypes();
         vm.ruimtes = getRuimtes();
         vm.availableRooms = getAvailableRooms();
         if(vm.reservatie.user != null){
@@ -93,13 +93,13 @@
           return vm.availableRooms;
         });*/
       }
-
+/*
       function getReservatieTypes(){
         vm.types = reservatieService.getReservatieTypes().then(function(res){
           vm.types = res.data;
           return vm.types;
         });
-      }
+      }*/
 
       function getReservatiesUser(){
         vm.reservaties = reservatieService.getReservatiesUser(vm.currentUser._id).then(function(res){
@@ -109,10 +109,6 @@
       }
 
       function boekPlaatsStudent(){
-        //var reservatieType = new ReservatieType();
-        //reservatieType.name = "Student";
-        //vm.reservatie.reservatieType = reservatieType;
-
         if(!vm.availablePlaces > 0){
           vm.message = "Er is geen plaats meer op dit moment."
           return;

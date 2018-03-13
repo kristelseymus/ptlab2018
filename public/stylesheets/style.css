@@ -709,3 +709,27 @@ div.md-toast-content {
 .table-settings th {
   text-align: center;
 }
+
+html.md-default-theme, html, body.md-default-theme, body {
+  background-color: rgb(255,255,255) !important;
+}
+
+md-checkbox.md-checked .md-icon{
+  background-color: #15B366;
+}
+
+.hr-settings{
+   border: none;
+   height: 2px;
+   background-color: #A40D4E; /* Modern Browsers */
+}
+
+.item-box{
+  background-color: #15B366;
+  border-radius: 5px;
+}
+
+.md-toolbar-tools h2{
+  padding-bottom: 20px !important;
+  padding-top: 20px !important;
+}
