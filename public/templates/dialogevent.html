@@ -1,5 +1,4 @@
-<md-dialog aria-label="Event Dialog" ng-controller="MainController as ctrl">
-  <form>
+<md-dialog aria-label="Event Dialog">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Evenementen op {{ctrl.dateClicked | date:"dd/MM/yyyy"}}</h2>
@@ -10,11 +9,19 @@
       </div>
     </md-toolbar>
     <md-dialog-content style="max-width:800px;max-height:810px; ">
-
+      <md-list>
+        <md-list-item ng-repeat="event in ctrl.eventsday">
+          <div class="md-list-item-text">
+            <h4>{{event.name}}</h4>
+            <h5>{{event.eventType.name}}</h5>
+            <p>{{event.description}}</p>
+          </div>
+        </md-list-item>
+      </md-list>
     </md-dialog-content>
 
     <!--<md-dialog-actions layout="row">
     Hier kunnen allemaal buttons staan voor acties uit te voeren.
     </md-dialog-actions>-->
-  </form>
+
 </md-dialog>

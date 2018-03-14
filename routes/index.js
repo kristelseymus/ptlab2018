@@ -100,78 +100,25 @@
 
     //region Reservaties
     router.post('/api/reservaties', auth, function (req, res, next) {
-        var noSpace = false;
-        var reservatiesThisDay = {};
         var reservatie = new Reservatie(req.body);
-        console.log(reservatie);
-        console.log(reservatie.user);
 
-        //Controle of reservatie nog mogelijk is.
-        var nextDay = new Date(reservatie.startdate);
-        nextDay.setDate(reservatie.startdate.getDate()+1);
-        var query = Reservatie.find({'startdate': {'$gte':reservatie.startdate,"$lt": nextDay}}).populate('user');
-        query.exec(function (err, reservaties) {
-          reservatiesThisDay = reservaties;
-          console.log("API Reservaties POST")
-          console.log(reservaties);
-          console.log(reservatiesThisDay);
-          for(var item of reservatiesThisDay){
-            //Hij gaat in de for loop
-            console.log("INFOR")
-            console.log(item);
-            //De logs worden uitgevoerd.
-            if(item.keuzeDag === "volledigedag"){
-              console.log("in if");
-              noSpace = true;
-              break;
-            } else if (item.keuzeDag === reservatie.keuzeDag) {
-              noSpace = true;
-              break;
-            }
-            //IF HET AANTAL BESCHIKBARE PLAATSEN IN DE RUIMTE, OP DIT MOMENT, < HET AANTAL NODIGE PLAATSEN
-          }
+        reservatie.save(function (err, reservatie) {
             if (err) {
                 return next(err);
             }
-        }).then(function (que){
-          console.log(reservatiesThisDay);
-
-
-          //Einde controle
-          if(noSpace === false) {
-            console.log(noSpace);
-            reservatie.save(function (err, reservatie) {
-                if (err) {
-                    return next(err);
-                }
-            });
-            User.findOne({ '_id' : new ObjectId(reservatie.user) }).exec(function (err, user) {
+        });
+        User.findOne({ '_id' : new ObjectId(reservatie.user) }).exec(function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.reservaties.addToSet(reservatie);
+            user.save(function (err) {
                 if (err) {
                     res.send(err);
-                    console.log(err);
                 }
-                console.log("USER");
-                console.log(user);
-                console.log(reservatie.user);
-                console.log("USER RESERVATIES");
-                console.log(user.reservaties);
-                user.reservaties.addToSet(reservatie);
-                user.save(function (err) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    res.json(user);
-                });
+                res.json(user);
             });
-          } else {
-            return res.status(400).json({
-                message: 'Geen plaats op het gekozen tijdstip.'
-            });
-          }
         });
-
-
-
     });
 
     router.get('/api/reservaties', function(req, res, next) {
@@ -180,7 +127,7 @@
           return next(err);
         }
         res.json(reservaties);
-      }).populate('user');
+      }).populate('user').populate('ruimte');
     });
 
     router.param('date', function (req, res, next, date) {
@@ -211,7 +158,7 @@
     });
 
     router.param('user', function (req, res, next, id) {
-        var query = User.findById(id).populate('reservaties');
+        var query = User.findById(id).populate({path: 'reservaties', populate :{path: 'ruimte'}});
 
         query.exec(function (err, user) {
             if (err) {
@@ -224,6 +171,40 @@
             req.reservaties = user.reservaties;
             return next();
         });
+    });
+    //Delete reservatie
+    router.delete('/api/reservaties/:reservatie', auth, function (req, res, next) {
+        Reservatie.remove({
+            _id: req.reservatie._id
+        }, function (err, reservatie) {
+            if (err) {
+              console.log("in remove");
+              console.log(err);
+              console.log(res);
+                res.send(err);
+            }
+            res.json({
+                message: 'Reservatie deleted'
+            });
+        });
+      /*  User.findById(req.reservatie.user, function (err, user) {
+            if (err) {
+              console.log("in find")
+                console.log(err);
+                console.log(res);
+                res.send(err);
+            }
+            user.reservaties.pull(req.reservatie._id);
+            user.save(function (err) {
+                if (err) {
+                  console.log("in save");
+                    console.log(err);
+                    console.log(res);
+                    res.send(err);
+                }
+                res.json(user);
+            })
+        });*/
     });
     //endregion
 
@@ -293,6 +274,29 @@
                 return next(err);
             }
         });
+    });
+    //Get by day
+    router.param('day', function (req, res, next, date) {
+        var day = new Date(date);
+        day.setHours(0,0,0,0)
+        console.log(date);
+        var nextDay = new Date(date);
+        nextDay.setDate(day.getDate()+1);
+        var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user');
+        query.exec(function (err, events) {
+            if (err) {
+                return next(err);
+            }
+            if (!events) {
+                return next(new Error('can\'t find events'));
+            }
+            req.events = events;
+            return next();
+        })
+    });
+
+    router.get('/api/events/:day', function (req, res, next) {
+        res.json(req.events);
     });
     //endregion Events
 

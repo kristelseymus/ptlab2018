@@ -85,13 +85,18 @@
         }
 
         function deleteReservatie(reservatie) {
-            return $http.delete('/api/reservatie/' + reservatie._id, {
+          console.log(reservatie);
+            return $http.delete('/api/reservaties/' + reservatie._id, reservatie, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }
-            }).then(function (res) {
-                return res.data;
-            })
+            }).success(function (res) {
+              console.log(res);
+              return res.data;
+            }).error(function (error){
+              console.log(auth.getToken());
+              console.log(error);
+            });
         }
 
         function getReservatieTypes() {

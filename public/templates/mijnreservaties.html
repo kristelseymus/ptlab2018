@@ -3,25 +3,33 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
                   <h2 class="section-heading">Mijn Reservaties</h2>
+                </div>
+                <div class="col-md-10 col-md-offset-1">
                   <table class="table table-hover">
                     <thead>
                       <tr>
                         <th>
-                          User
-                        </th>
-                        <th>
                           Datum
                         </th>
                         <th>
-                          Deel van de dag
+                          Wanneer
                         </th>
+                        <th>
+                          Ruimte
+                        </th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="reservatie in ctrl.reservaties">
-                        <td>Naam= {{reservatie.user}}</td>
                         <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                        <td>{{reservatie.keuzeDag}}</td>
+                        <td ng-switch="reservatie.keuzeDag">
+                          <div ng-switch-when="voormiddag">Voormiddag</div>
+                          <div ng-switch-when="namiddag">Namiddag</div>
+                          <div ng-switch-when="volledigedag">Volledige dag</div>
+                        </td>
+                        <td>{{reservatie.ruimte.name}}</td>
+                        <td><md-icon ng-click="ctrl.deleteReservatie(reservatie)">delete</md-icon></td>
                       </tr>
                     </tbody>
                   </table>

@@ -293,7 +293,6 @@ body {
 }
 
 .table {
-  width: 50%;
   margin: 0px auto;
   float: none;
 }
@@ -687,6 +686,7 @@ div.alert {
 #toast-container
 {
   position: fixed;
+  width: 100%;
   bottom: 0 !important;
   left: 0 !important;
   right: 0 !important;
@@ -697,6 +697,22 @@ div.alert {
 
 div.md-toast-content {
   background-color: rgba(21,179,102,1) !important;
+
+}
+
+#toast-container-alert
+{
+  position: fixed;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 999;
+  overflow: visible !important;
+  text-align: center;
+}
+
+#toast-container-alert div.md-toast-content {
+  background-color: rgba(164,13,78,1) !important;
 
 }
 

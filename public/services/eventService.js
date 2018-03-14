@@ -14,7 +14,8 @@
             get: get,
             update: update,
             //deleteEvent: deleteEvent,
-            getEventTypes: getEventTypes
+            getEventTypes: getEventTypes,
+            getEventsByDay: getEventsByDay
         };
         return service;
 
@@ -68,6 +69,15 @@
           return $http.get('/api/eventtypes').success(function (data) {
               return data;
           });
+        }
+
+        function getEventsByDay(date) {
+          console.log(date);
+          return $http.get('api/events/' + date).then(function (res) {
+            console.log(res);
+            console.log(res.data);
+            return res.data;
+          })
         }
     }
 })();

@@ -23,7 +23,7 @@
         }
 
         function getAvailableRooms(date) {
-            
+
         }
 
         function create(ruimte) {
@@ -54,7 +54,7 @@
         }
 
         function deleteRuimte(ruimte) {
-            return $http.delete('/api/ruimtes/' + reservatie._id, {
+            return $http.delete('/api/ruimtes/' + ruimte._id, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }

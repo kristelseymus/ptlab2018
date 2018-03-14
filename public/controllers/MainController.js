@@ -17,6 +17,8 @@
         $scope.dayClick = dayClick;
         $scope.cancel = cancel;
         vm.showDialog = showDialog;
+        vm.eventsday = {};
+        vm.getEventsByDay = getEventsByDay;
 
         activate();
 
@@ -28,6 +30,7 @@
             getUsers();
             getOpeningsuren();
             getEvents();
+            //eventsByDay(new Date());
         }
 
         function getUsers() {
@@ -39,6 +42,7 @@
         }
 
         function getOpeningsuren(){
+          //Moet naar websiteService
             return $http.get('/javascripts/content.json').success(function(data){
               vm.openingsuren = data.openingsuren.dag;
             });
@@ -46,12 +50,9 @@
 
         function getEvents(){
           vm.events = eventService.getAll().then(function(res){
-            console.log(res.data);
-            console.log("in getEvents MainController");
             vm.events = res.data;
             var evenement;
             for(evenement of vm.events){
-              console.log(evenement);
               var content = createContentCalendar(evenement);
               setDayContent(evenement.startdate, content);
             }
@@ -66,9 +67,10 @@
         function dayClick(date){
           console.log("Clicked on date");
           console.log(date);
-          vm.dateClicked.setDate(date);
-          showDialog();
+          vm.dateClicked = date;
           console.log(vm.dateClicked);
+          getEventsByDay(date);
+          showDialog();
         }
 
         function cancel(){
@@ -82,18 +84,31 @@
         }
 
         function showDialog(ev) {
-
+          console.log("showDialog");
+          console.log(vm.eventsday);
           $mdDialog.show({
             parent: angular.element(document.body),
+            controller: MainController,
+            controllerAs: 'ctrl',
             templateUrl: '/templates/dialogevent.html',
             hasBackdrop: true,
             panelClass: 'dialog-events',
-            targetEvent: ev,
+            //targetEvent: ev,
             clickOutsideToClose: true,
             escapeToClose: true,
             allowParentalScroll: true
           });
-        };
+        }
+
+        function getEventsByDay(date){
+          vm.eventsday = eventService.getEventsByDay(date).then(function(res){
+            vm.eventsday = res;
+            console.log("res");
+            console.log(res);
+            console.log(vm.eventsday);
+            return vm.eventsday;
+          });
+        }
     }
 
 })();
