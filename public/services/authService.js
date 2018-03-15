@@ -128,7 +128,8 @@
             fullName: payload.fullName,
             isAdmin: payload.isAdmin,
             voornaam: payload.voornaam,
-            naam: payload.naam
+            naam: payload.naam,
+            typeuser: payload.typeuser
           };
           return user;
         }

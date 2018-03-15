@@ -557,11 +557,11 @@ md-toolbar {
 .md-icon-button-right {
   margin-right: 50px !important;
 }
-
+/*
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
   color: #404041 !important;
   fill: #404041 !important;
-}
+}*/
 
 .footer-copyright {
   line-height: 80px !important;
@@ -686,10 +686,11 @@ div.alert {
 #toast-container
 {
   position: fixed;
-  width: 100%;
+  width: 300px !important;
+  margin-left: -150px !important;
   bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
+  left: 50% !important;
+  right: 50% !important;
   z-index: 999;
   overflow: visible !important;
   text-align: center;
@@ -703,9 +704,11 @@ div.md-toast-content {
 #toast-container-alert
 {
   position: fixed;
+  width: 300px !important;
+  margin-left: -150px !important;
   bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
+  left: 50% !important;
+  right: 50% !important;
   z-index: 999;
   overflow: visible !important;
   text-align: center;
@@ -748,4 +751,22 @@ md-checkbox.md-checked .md-icon{
 .md-toolbar-tools h2{
   padding-bottom: 20px !important;
   padding-top: 20px !important;
+}
+
+div.md-toolbar-tools {
+  background-color: #15B366;
+}
+
+.close-dialog{
+  color: white !important;
+}
+
+.btn-primary[disabled]{
+  background-color: #A40D4E!important;
+  opacity: 1;
+}
+
+.div-empty {
+  padding-left: 16px;
+  padding-right: 16px;
 }

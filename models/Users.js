@@ -70,7 +70,8 @@ UserSchema.methods.generateJWT = function() {
     isAdmin: this.isAdmin,
     fullName: this.fullName,
     voornaam: this.voornaam,
-    naam: this.naam ,
+    naam: this.naam,
+    typeuser: this.typeUser,
     exp: parseInt(exp.getTime() / 1000)
     }, 'SECRET');
 };

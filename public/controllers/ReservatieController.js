@@ -81,18 +81,18 @@
           //Bij alle reservaties zal worden gekeken welke ruimte is gereserveerd.
           //Alle reservaties met dezelfde ruimte als de gewenste ruimte,
           //zullen worden toegevoegd aan de reservaties array.
-          allereservaties.forEach(function(reserv){
-            console.log(reserv.ruimte);
-            console.log(vm.reservatie.ruimte._id)
-            if(reserv.ruimte === vm.reservatie.ruimte._id){
-              console.log("gelijk");
-              reservaties.push(reserv);
-            }
-          });
+          if(!res){
+            return vm.availablePlaces = vm.reservatie.ruimte.aantalPlaatsen;
+          } else {
+            allereservaties.forEach(function(reserv){
+              if(reserv.ruimte === vm.reservatie.ruimte._id){
+                reservaties.push(reserv);
+              }
+            });
+          }
           if(!reservaties){
             //Als reservaties leeg is, dan zijn er geen reservaties opgeslagen in deze ruimte op deze dag.
             vm.availablePlaces = vm.reservatie.ruimte.aantalPlaatsen;
-            console.log(vm.availablePlaces);
             return vm.availablePlaces;
           }
 
@@ -120,15 +120,12 @@
           } else {
              //Er werd geen volledige dag gekozen.
             reservaties.forEach(function(reser){
-              console.log(reser.keuzeDag);
               if(vm.reservatie.keuzeDag === reser.keuzeDag || reser.keuzeDag === 'volledigedag'){
                 temp += 1;
               }
             });
           }
-          console.log(temp);
           vm.availablePlaces = vm.reservatie.ruimte.aantalPlaatsen - temp;
-          console.log(vm.availablePlaces);
           return vm.availablePlaces;
         });
       }
@@ -173,75 +170,118 @@
       }
 
       function boekPlaatsStudent(){
-        //Controleer of er geen event plaatsvindt.
-        vm.events = eventService.getEventsByDay(vm.reservatie.startdate);
-        if(vm.events.length === 0){ //Er vindt geen event plaats
-          if(!vm.availablePlaces > 0){
-            $mdToast.show($mdToast.simple()
-              .content('Er is geen plaats meer op dit moment.')
-             .position('bottom left')
-             .parent($("#toast-container-alert"))
-             .hideDelay(3000)
-
-           );
-            //vm.message = "Er is geen plaats meer op dit moment."
-            return;
-          } else { //Er is wel nog een plaats
-            return  reservatieService.create(vm.reservatie).success(function (data) {
-              console.log(data);
-              $mdToast.show($mdToast.simple()
-                .content('U hebt succesvol een plaats gereserveerd.')
-               .position('bottom left')
-               .parent($("#toast-container"))
-               .hideDelay(3000)
-
-             );
-              $state.go("home")
-            }).error(function(error){
-              vm.message = error.message;
-               console.log(error);
-            });
-          }
-        } else {
-          var ev
-          for (ev in vm.events){
-            if(ev.keuzeDag === vm.reservatie.keuzeDag){ // Vind event plaats op bepaald deel dag.
-              vm.message = "Er vindt een evenement plaats op dit moment van de dag."
-              return;
-            } else if(ev.keuzeDag === 'volledigedag'){
-              vm.message = "Er vindt een evenement plaats op dit moment dan de dag."
-              return
+        //Checken of een student al een reservatie heeft op deze dag.
+        var hasreservation = false;
+        var tempvar = false;
+        reservatieService.getReservatiesByDay(vm.reservatie.startdate).then(function(res){
+          for(var i=0; i<res.length; i++){
+            console.log(res[i]);
+            if(vm.reservatie.user._id === res[i].user._id){
+              console.log('gelijk');
+              hasreservation = true;
             }
           }
-          //Komt uit for loop, dus geen event gevonden dat op het gekozen moment plaatsvindt.
-          //Nu controle of er dan nog plaats is.
-          if(!vm.availablePlaces > 0){
+          if(hasreservation){
+            console.log('showdialog reser');
             $mdToast.show($mdToast.simple()
-              .content('Er is geen plaats meer op dit moment.')
+              .content('U hebt al een reservatie op de gekozen dag.')
              .position('bottom left')
              .parent($("#toast-container-alert"))
              .hideDelay(3000)
-
-           );
-            //vm.message = "Er is geen plaats meer op dit moment."
+            );
             return;
-          } else { //Er is wel nog een plaats
-            return  reservatieService.create(vm.reservatie).success(function (data) {
-              console.log(data);
-              $mdToast.show($mdToast.simple()
-                .content('U hebt succesvol een plaats gereserveerd.')
-               .position('bottom left')
-               .parent($("#toast-container"))
-               .hideDelay(3000)
+          } else {
+          //Controleer of er geen event plaatsvindt.
+            vm.events = eventService.getEventsByDay(vm.reservatie.startdate).then(function(res){
+              if(vm.events.length === 0){ //Er vindt geen event plaats
+                if(!vm.availablePlaces > 0){
+                  $mdToast.show($mdToast.simple()
+                    .content('Er is geen plaats meer op dit moment.')
+                   .position('bottom left')
+                   .parent($("#toast-container-alert"))
+                   .hideDelay(3000)
+                 );
+                  //vm.message = "Er is geen plaats meer op dit moment."
+                  return;
+                } else { //Er is wel nog een plaats
+                  return  reservatieService.create(vm.reservatie).success(function (data) {
+                    $mdToast.show($mdToast.simple()
+                      .content('U hebt succesvol een plaats gereserveerd.')
+                     .position('bottom left')
+                     .parent($("#toast-container"))
+                     .hideDelay(3000)
 
-             );
-              $state.go("home")
-            }).error(function(error){
-              vm.message = error.message;
-               console.log(error);
+                   );
+                    $state.go("home")
+                  }).error(function(error){
+                    vm.message = error.message;
+                  });
+                }
+              } else {
+                console.log("zit in events");
+                for(var i=0; i<vm.events.length; i++) {
+                  console.log("Zit in for")
+                  console.log(vm.events[i]);
+                  if(vm.events[i].keuzeDag === vm.reservatie.keuzeDag){ // Vind event plaats op bepaald deel dag.
+                    $mdToast.show($mdToast.simple()
+                      .content('Er vindt een evenement plaats op dit moment dan de dag.')
+                     .position('bottom left')
+                     .parent($("#toast-container-alert"))
+                     .hideDelay(3000)
+                    );
+                    console.log("gelijk");
+                    tempvar=true;
+                    return;
+                  } else if(vm.events[i].keuzeDag === 'volledigedag'){
+                    $mdToast.show($mdToast.simple()
+                      .content('Er vindt een evenement plaats op dit moment dan de dag.')
+                     .position('bottom left')
+                     .parent($("#toast-container-alert"))
+                     .hideDelay(3000)
+                    );
+                    console.log("gelijk2")
+                    tempvar=true;
+                    return;
+                  }
+                }
+
+                //Komt uit for loop, dus geen event gevonden dat op het gekozen moment plaatsvindt.
+                //Nu controle of er dan nog plaats is.
+                console.log("uit for loop" + tempvar);
+                if(!tempvar){ //Geen events overlappen
+                  if(!vm.availablePlaces > 0){
+                    $mdToast.show($mdToast.simple()
+                      .content('Er is geen plaats meer op dit moment.')
+                     .position('bottom left')
+                     .parent($("#toast-container-alert"))
+                     .hideDelay(3000)
+
+                   );
+                    //vm.message = "Er is geen plaats meer op dit moment."
+                    return;
+                  } else { //Er is wel nog een plaats
+                    return  reservatieService.create(vm.reservatie).success(function (data) {
+                      console.log(data);
+                      $mdToast.show($mdToast.simple()
+                        .content('U hebt succesvol een plaats gereserveerd.')
+                       .position('bottom left')
+                       .parent($("#toast-container"))
+                       .hideDelay(3000)
+
+                     );
+                      $state.go("home")
+                    }).error(function(error){
+                      vm.message = error.message;
+                       console.log(error);
+                    });
+                  }
+                }
+
+              }
             });
+
           }
-        }
+        });
 
         //message toevoegen
       }

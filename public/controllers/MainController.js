@@ -4,9 +4,9 @@
 
     angular.module('ptlab').controller('MainController', MainController);
 
-    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'MaterialCalendarData', '$scope', '$mdDialog'];
+    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'MaterialCalendarData', '$scope', '$mdDialog', '$timeout'];
 
-    function MainController($http, $log, auth, $state, $stateParams, eventService, MaterialCalendarData, $scope, $mdDialog) {
+    function MainController($http, $log, auth, $state, $stateParams, eventService, MaterialCalendarData, $scope, $mdDialog, $timeout) {
         var vm = this;
         vm.users = [];
         vm.getUsers = getUsers;
@@ -15,10 +15,13 @@
         vm.setDayContent = setDayContent;
         vm.dateClicked = new Date();
         $scope.dayClick = dayClick;
-        $scope.cancel = cancel;
         vm.showDialog = showDialog;
         vm.eventsday = {};
         vm.getEventsByDay = getEventsByDay;
+        vm.userStudent = true;
+        vm.userCoworker = true;
+        vm.userManager = true;
+        vm.dayContent = "";
 
         activate();
 
@@ -30,6 +33,20 @@
             getUsers();
             getOpeningsuren();
             getEvents();
+            /*switch (auth.getCurrentUser().typeuser) {
+              case "STUDENT": vm.userStudent = false
+                break;
+              case "COWORKER": vm.userCoworker = false
+                break;
+              case "MANAGER": vm.userManager = false
+                break;
+            }
+            if(auth.getCurrentUser().isAdmin){
+              //False is niet gedisabled
+              vm.userStudent = false;
+              vm.userCoworker = false;
+              vm.userManager = false;
+            }*/
             //eventsByDay(new Date());
         }
 
@@ -52,10 +69,36 @@
           vm.events = eventService.getAll().then(function(res){
             vm.events = res.data;
             var evenement;
+
+            //Met een tweedimensionale array kan een datum gebruikt worden als een key
+            //en de value gekoppeld aan deze key zou dan een array zijn van evenementen.
+            //Met andere woorden zullen de evenementen dan gegroepeerd/verzameld worden op datum.
+
+            //Doorloop vm.events
+            //Als er een gelijke datum zich al in de 1ste dimensie bevindt, dan zal het evenement
+            //toegevoegd worden aan deze datum zijn array.
+
+            //Wanneer er geen datum gevonden wordt die overeenkomt, dan zal er een nieuwe datum
+            //toegevoegd worden in de eerste dimensie. Het evenement kan hier dan worden bijgevoegd.
+
+            //Wanneer dan alle evenementen overlopen zijn, dan zal voor elke datum
+            //de methode setDayContent aangeroepen worden met een string die gemaakt is van
+            //html code met daarin alle evenementen van deze dag.
+
+            //Wanneer dit dan afgelopen is dan zouden alle evenementen van deze dag samen moeten zitten
+            //in 1 string bestaande uit een soort van html pagina met daarin blokken.
+            //Elke block is dan een evenement met daarin de titel van het evenement.
+            //var keyValues = {};
+            //keyValues.id1 = {};
+            //keyValues.id1.events = [];
             for(evenement of vm.events){
-              var content = createContentCalendar(evenement);
-              setDayContent(evenement.startdate, content);
+              //keyValues.id1.events.push(evenement);
+              createContentCalendar(evenement);
+              console.log(MaterialCalendarData.getDayKey(new Date(evenement.startdate)));
+              setDayContent(evenement.startdate, vm.dayContent);
             }
+            console.log(vm.dayContent);
+            console.log(keyValues);
             return vm.events;
           });
         }
@@ -65,22 +108,14 @@
         }
 
         function dayClick(date){
-          console.log("Clicked on date");
-          console.log(date);
           vm.dateClicked = date;
-          console.log(vm.dateClicked);
           getEventsByDay(date);
-          showDialog();
-        }
 
-        function cancel(){
-          $mdDialog.cancel();
         }
 
         function createContentCalendar(evenement){
-          var string = "";
-          string += "<div class='item-box text-center'><h7>" + evenement.name + "</h7></div>";
-          return string;
+          vm.dayContent = "<div class='item-box text-center'><h7>" + evenement.name + "</h7></div>";
+          return vm.dayContent;
         }
 
         function showDialog(ev) {
@@ -88,12 +123,18 @@
           console.log(vm.eventsday);
           $mdDialog.show({
             parent: angular.element(document.body),
-            controller: MainController,
+            //controller: MainController,
+            //controllerAs: 'ctrl',
+            locals: {
+              eventsday: vm.eventsday,
+              day: vm.dateClicked
+            },
+            controller: 'CalendarController',
             controllerAs: 'ctrl',
             templateUrl: '/templates/dialogevent.html',
             hasBackdrop: true,
             panelClass: 'dialog-events',
-            //targetEvent: ev,
+            targetEvent: ev,
             clickOutsideToClose: true,
             escapeToClose: true,
             allowParentalScroll: true
@@ -103,9 +144,7 @@
         function getEventsByDay(date){
           vm.eventsday = eventService.getEventsByDay(date).then(function(res){
             vm.eventsday = res;
-            console.log("res");
-            console.log(res);
-            console.log(vm.eventsday);
+            $timeout(showDialog, 0);
             return vm.eventsday;
           });
         }

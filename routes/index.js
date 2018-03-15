@@ -136,7 +136,7 @@
         console.log(date);
         var nextDay = new Date(date);
         nextDay.setDate(day.getDate()+1);
-        var query = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user');
+        var query = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
             if (err) {
                 return next(err);
@@ -265,14 +265,25 @@
     //Create
     router.post('/api/events', auth, function (req, res, next) {
         var evenement = new Evenement(req.body);
-        console.log("in index");
-        console.log(evenement);
-        console.log(req.body);
-        console.log(evenement.name);
-        evenement.save(function (err, evenement) {
+        var query = User.findById(evenement.user);
+        query.exec(function(err, user) {
             if (err) {
                 return next(err);
             }
+            if (!user) {
+                return next(new Error('can\'t find user'));
+            }
+            console.log(evenement);
+            if(user.isAdmin){
+              evenement.save(function (err, evenement) {
+                  if (err) {
+                      return next(err);
+                  }
+              });
+            } else {
+              return next(new Error('U moet een admin zijn om een event aan te maken'));
+            }
+            return next();
         });
     });
     //Get by day
@@ -282,7 +293,7 @@
         console.log(date);
         var nextDay = new Date(date);
         nextDay.setDate(day.getDate()+1);
-        var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user');
+        var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
         query.exec(function (err, events) {
             if (err) {
                 return next(err);
@@ -292,13 +303,40 @@
             }
             req.events = events;
             return next();
-        })
+        });
     });
 
     router.get('/api/events/:day', function (req, res, next) {
         res.json(req.events);
     });
     //endregion Events
+
+    //region Contact
+    /*app.post('/sendcontact', function (req, res) {
+    var data=req.body;
+
+    var smtpTransport = nodemailer.createTransport("SMTP",{
+       service: "Gmail",
+       auth: {
+       user: "email@gmail.com",
+       pass: "gmailPassword"
+       }});
+
+   smtpTransport.sendMail({  //email options
+   from: "Sender Name <email@gmail.com>",
+   to: "Receiver Name <receiver@email.com>", // receiver
+   subject: "Emailing with nodemailer", // subject
+   html: "here your data goes" // body (var data which we've declared)
+    }, function(error, response){  //callback
+         if(error){
+           console.log(error);
+        }else{
+           console.log("Message sent: " + res.message);
+       }
+
+   smtpTransport.close();
+ }); });*/
+    //endregion
 
     module.exports = router;
 

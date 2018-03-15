@@ -16,6 +16,7 @@
       vm.event = {};
       vm.reservatiesday = {};
       vm.day = new Date();
+      vm.time;
 
       vm.getReservatiesByDay = getReservatiesByDay;
       vm.getRuimtes = getRuimtes;
@@ -79,6 +80,9 @@
       }
 
       function createEvent(){
+        vm.event.startdate.setHours(vm.starttime.getHours());
+        vm.event.startdate.setMinutes(vm.starttime.getMinutes());
+        vm.event.user = auth.getCurrentUser();
         eventService.create(vm.event);
         console.log(vm.event);
         $mdToast.show($mdToast.simple()

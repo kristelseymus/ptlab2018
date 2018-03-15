@@ -100,7 +100,7 @@
                       <td>{{reservatie.user.fullName}}</td>
                       <td>{{reservatie.user.username}}</td>
                       <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                      <td></td>
+                      <td>{{reservatie.ruimte.name}}</td>
                       <td>{{reservatie.keuzeDag}}</td>
                     </tr>
                   </tbody>
@@ -108,10 +108,10 @@
               </div>
               <div class="col-md-10 col-md-offset-1 text-center">
                 <h4 class="section-heading">Zoek reservaties op dag</h4>
-                <form ng-submit="ctrl.getReservatiesByDay()">
-                  <input type="date" ng-model="ctrl.day"></input>
-                  <button type="submit">Get</button>
-                </form>
+                <md-input-container flex-gt-xs>
+                  <md-datepicker ng-model="ctrl.day" name="date" ng-change="ctrl.getReservatiesByDay()"></md-datepicker>
+                  <!--<input type="date" ng-model="ctrl.day"></input>-->
+                </md-input-container>
                 <table class="table table-hover table-settings">
                   <thead>
                     <tr>
@@ -133,8 +133,8 @@
                     <tr ng-repeat="reservatie in ctrl.reservatiesday">
                       <td>{{reservatie.user.fullName}}</td>
                       <td>{{reservatie.user.username}}</td>
-                      <td>{{reservatie.startdate | date:'dd MMMM yyyy H:mm'}}</td>
-                      <td></td>
+                      <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                      <td>{{reservatie.ruimte.name}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -173,6 +173,14 @@
                 <div ng-messages="createEventForm.date.$error" multiple>
                   <div ng-message="required">Datum is verplicht.</div>
                   <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
+                </div>
+                <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-xs>
+                <input type="time" ng-model="ctrl.starttime" required name="time" aria-label="Timepicker Event"></input>
+                <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
+                <div ng-messages="createEventForm.time.$error" multiple>
+                  <div ng-message="required">Tijd is verplicht.</div>
                 </div>
                 <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
               </md-input-container>
