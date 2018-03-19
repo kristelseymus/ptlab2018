@@ -18,6 +18,10 @@
       vm.day = new Date();
       vm.time;
 
+      vm.todayDate = new Date();
+      vm.minDate = null;
+      vm.maxDate = null;
+
       vm.getReservatiesByDay = getReservatiesByDay;
       vm.getRuimtes = getRuimtes;
       vm.getReservaties = getReservaties;
@@ -32,6 +36,13 @@
       function activate(){
         vm.event.publiek = false;
         vm.event.catering = false;
+        vm.minDate = new Date(vm.todayDate);
+        vm.minDate.setDate(vm.todayDate.getDate()+5);
+        vm.maxDate =  new Date(
+          vm.todayDate.getFullYear(),
+          vm.todayDate.getMonth() + 3,
+          vm.todayDate.getDate()
+        );
         getReservaties();
         getEvents();
         getEventTypes();

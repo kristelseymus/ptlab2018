@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var moment = require('moment');
 
 require('./models/Users');
 require('./models/Reservaties');
@@ -13,6 +14,8 @@ require('./models/EventType');
 require('./models/Ruimtes');
 require('./models/Events');
 require('./config/passport');
+
+moment.locale('nl');
 
 
 //mongoose.connect('mongodb://localhost/news');
@@ -45,7 +48,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(__dirname + '/node_modules/angular-material-calendar/dist/'));
+app.use('/scripts', express.static(__dirname + '/node_modules'));
 
 app.use(passport.initialize());
 

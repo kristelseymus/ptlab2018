@@ -30,6 +30,7 @@
       vm.reservatie.user = {};
       vm.offerte.user = {};
       vm.reservaties = {};
+      vm.eventTypes = {};
     //  vm.types = {};
       vm.currentUser = {};
       vm.ruimtes = {};
@@ -39,6 +40,7 @@
       vm.getRuimtes = getRuimtes;
       vm.getAvailablePlaces = getAvailablePlaces;
       vm.deleteReservatie = deleteReservatie;
+      vm.getEventTypes = getEventTypes;
     //  vm.getReservatieTypes = getReservatieTypes;
 
       activate();
@@ -59,6 +61,7 @@
       //  vm.types = getReservatieTypes();
         vm.ruimtes = getRuimtes();
         vm.availableRooms = getAvailableRooms();
+        vm.eventTypes = getEventTypes();
         if(vm.reservatie.user != null){
           vm.disabled = true;
         }
@@ -146,6 +149,16 @@
           vm.availableRooms = res.data;
           return vm.availableRooms;
         });*/
+      }
+
+      function getEventTypes(){
+        vm.eventTypes = eventService.getEventTypes().then(function(res){
+          console.log(res.data);
+          console.log("in getEventTypes");
+          vm.eventTypes = res.data;
+          return vm.eventTypes;
+        });
+
       }
 /*
       function getReservatieTypes(){
@@ -287,16 +300,48 @@
       }
 
       function vraagOfferteAan(){
+        vm.offerte.startdate.setHours(vm.startTime.getHours());
+        vm.offerte.startdate.setMinutes(vm.startTime.getMinutes());
+        //if(vm.startTime.getHours() >= 12){
+        //  vm.offerte.keuzeDag = "namiddag";
+        //} else if(vm.duration)
         console.log('vraagOfferteAan called');
         console.log(vm.offerte);
+        if(vm.offerte.aantalpersonen > vm.offerte.ruimte.aantalPlaatsen){
           $mdToast.show($mdToast.simple()
-            .content('De offerte is aangevraagd')
+            .content('Het maximum aantal personen in de '+ vm.offerte.ruimte.name +' is '+ vm.offerte.ruimte.aantalPlaatsen +' personen')
            .position('bottom left')
-           .parent($("#toast-container"))
+           .parent($("#toast-container-alert"))
            .hideDelay(3000)
+          );
+       } else {
+         reservatieService.getReservatiesByDay(vm.offerte.startdate).then(function(res){
+           console.log(res);
+           if(res.length === 0) { //Geen reservaties
+             $mdToast.show($mdToast.simple()
+               .content('De offerte is aangevraagd')
+              .position('bottom left')
+              .parent($("#toast-container"))
+              .hideDelay(3000)
+             );
 
-         );
-        $state.go('home');
+             //Wat te doen met offertes ? Doorsturen via email of
+             //opslaan in db en weergeven in settings en laten omzetten in een event door een admin.
+             
+
+             //$state.go('home');
+           } else {
+             $mdToast.show($mdToast.simple()
+               .content('Er is geen plaats op de gekozen dag.')
+              .position('bottom left')
+              .parent($("#toast-container-alert"))
+              .hideDelay(3000)
+             );
+           }
+
+         });
+
+       }
       }
 
       function probeerGratis(){

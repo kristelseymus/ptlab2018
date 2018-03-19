@@ -511,10 +511,10 @@ a:hover,a:focus,a:active{
   padding-bottom: 0px;
 }
 
-md-toolbar:not(.md-menu-toolbar){
+/*md-toolbar:not(.md-menu-toolbar){
   background-color: #FFBF3B;
   fill: #A40D4E;
-}
+}*/
 
 calendar-md{
   min-height: 500px !important;
@@ -544,7 +544,7 @@ md-toolbar {
   text-transform: uppercase;
   color: black;
 }
-
+/*
 .md-icon-button {
   color: #404041;
   font-size: 40px !important;
@@ -556,7 +556,7 @@ md-toolbar {
 
 .md-icon-button-right {
   margin-right: 50px !important;
-}
+}*/
 /*
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
   color: #404041 !important;
@@ -769,4 +769,59 @@ div.md-toolbar-tools {
 .div-empty {
   padding-left: 16px;
   padding-right: 16px;
+}
+/*
+.mdp-calendar-days .md-button {
+  font-size: 12px !important;
+}
+
+.mdp-clock .md-button {
+  font-size: 12px !important;
+}*/
+/*
+md-input-container:not(.md-input-has-value) input:not(:focus){
+  color: black !important;
+}*/
+
+md-input-container:not(.md-input-has-value) input:not(:focus), md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-ampm-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-day-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-hour-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-millisecond-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-minute-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-month-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-second-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-text, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-week-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-year-field
+{
+  color: black !important;
+}
+
+.md-button.md-default-theme.md-accent.md-raised, .md-button.md-accent.md-raised, .md-button.md-default-theme.md-accent.md-fab, .md-button.md-accent.md-fab {
+  background-color: rgb(121,134,2036) !important;
+}
+.md-button.md-accent.md-raised:not([disabled]):hover {
+  background-color: rgb(121,134,203) !important;
+}
+
+.mdp-calendar-monthyear {
+  font-size: 13px !important;
+}
+
+.mdp-calendar-week-days {
+  font-size: 12px !important;
+}
+
+.mdp-calendar-days .md-button {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.md-button.md-icon-button {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.mdp-datepicker.portrait .mdp-calendar-days>* {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.mdp-calendar-days {
+  font-size: 16px !important;
+}
+
+div.mdp-calendar .md-button.md-icon-button{
+  padding: 0;
 }

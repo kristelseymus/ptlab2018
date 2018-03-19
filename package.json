@@ -16,6 +16,7 @@
     "angular": "^1.6.9",
     "angular-google-map": "0.0.2",
     "angular-material-calendar": "^0.2.14",
+    "angular-material-picker": "^0.7.7",
     "angular-ui-bootstrap": "^2.5.6",
     "body-parser": "~1.15.1",
     "bootstrap": "^4.0.0",
