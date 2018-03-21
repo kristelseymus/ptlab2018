@@ -98,7 +98,7 @@
               setDayContent(evenement.startdate, vm.dayContent);
             }
             console.log(vm.dayContent);
-            console.log(keyValues);
+            //console.log(keyValues);
             return vm.events;
           });
         }
@@ -114,7 +114,7 @@
         }
 
         function createContentCalendar(evenement){
-          vm.dayContent = "<div class='item-box text-center'><h7>" + evenement.name + "</h7></div>";
+          vm.dayContent = "<div class='item-box text-center'></div>";
           return vm.dayContent;
         }
 

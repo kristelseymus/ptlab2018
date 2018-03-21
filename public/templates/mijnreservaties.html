@@ -29,7 +29,7 @@
                           <div ng-switch-when="volledigedag">Volledige dag</div>
                         </td>
                         <td>{{reservatie.ruimte.name}}</td>
-                        <td><md-icon ng-click="ctrl.deleteReservatie(reservatie)">delete</md-icon></td>
+                        <td><button type="button" class="btn btn-warning" ng-click="ctrl.deleteReservatie(reservatie)">Annuleer Reservatie</button></td>
                       </tr>
                     </tbody>
                   </table>

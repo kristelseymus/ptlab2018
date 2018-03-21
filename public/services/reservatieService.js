@@ -85,16 +85,16 @@
         }
 
         function deleteReservatie(reservatie) {
-          console.log(reservatie);
-            return $http.delete('/api/reservaties/' + reservatie._id, reservatie, {
+          console.log("in deleteService");
+          console.log(reservatie._id);
+          console.log(reservatie.user);
+            return $http.delete('/api/reservaties/' + reservatie._id + '/' + reservatie.user, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }
             }).success(function (res) {
-              console.log(res);
               return res.data;
             }).error(function (error){
-              console.log(auth.getToken());
               console.log(error);
             });
         }

@@ -38,18 +38,23 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        Aantal Beschikbare Plaatsen: {{ctrl.availablePlaces}}
-                      </div>
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="75">
-                          <md-calendar ng-model="ctrl.reservatie.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" ng-change="ctrl.getAvailablePlaces()"></md-calendar>
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Student">
+                          <div ng-messages="boekPlaatsStudentForm.date.$error">
+                           <div ng-message="required">Datum is verplicht</div>
+                           <div ng-message="format">Verkeerd formaat</div>
+                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                          </div>
+                        </mdp-date-picker>
+                        <!--<md-input-container class="md-block" flex-gt-xs flex="75">
+                          <md-calendar ng-model="ctrl.reservatie.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" ng-change="ctrl.getAvailablePlaces()"></md-calendar>-->
                           <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
-                          <div ng-messages="boekPlaatsStudentForm.date.$error" multiple>
+                          <!--<div ng-messages="boekPlaatsStudentForm.date.$error" multiple>
                             <div ng-message="required">Datum is verplicht.</div>
                             <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
-                          </div>
+                          </div>-->
                           <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
-                        </md-input-container>
+                        <!--</md-input-container>-->
                         <md-input-container class="md-block" flex-gt-xs flex="25">
                           <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true" ng-change="ctrl.getAvailablePlaces()">
                             <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>

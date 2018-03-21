@@ -31,6 +31,12 @@
       vm.createRuimte = createRuimte;
       vm.createEvent = createEvent;
 
+      vm.weekendDisable = function(date) {
+        var temp = new Date(date);
+        var day = temp.getDay();
+        return day === 0 || day === 6;
+      };
+
       activate();
 
       function activate(){

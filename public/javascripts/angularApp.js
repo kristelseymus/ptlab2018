@@ -18,7 +18,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
     months : 'Januari_Februari_Maart_April_Mei_Juni_Juli_Augustus_September_Oktober_November_December'.split('_'),
     monthsShort : 'jan._feb._mrt._apr._mei_juni_juli_aug._sept._okt._nov._dec.'.split('_'),
     monthsParseExact : true,
-    weekdays : 'zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag'.split('_'),
+    weekdays : 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
     weekdaysShort : 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
     weekdaysMin : 'Zo_Ma_Di_Woe_Do_Vrij_Za'.split('_'),
     weekdaysParseExact : true,
@@ -79,7 +79,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
  };
  $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
  $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
- $mdDateLocaleProvider.days = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+ $mdDateLocaleProvider.days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
  $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Woe', 'Don', 'Vrij', 'Zat'];
  $mdDateLocaleProvider.firstDayOfWeek = 1;
  $locationProvider.hashPrefix('');

@@ -1,146 +1,268 @@
 <div class="row text-center">
   <h2 class="section-heading">Settings</h2>
 </div>
-<section>
-      <div class="container">
-          <div class="row">
-              <div class="col-md-12">
-                  <!--Ruimtes -->
-                    <div class="row text-center">
-                      <h3 class="section-heading">Ruimtes</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 text-center">
-                          <h4 class="section-heading">Bekijken</h4>
-                          <table class="table table-hover table-settings">
-                            <thead>
-                              <tr>
-                                <th>
-                                  Naam
-                                </th>
-                                <th>
-                                  Maximum aantal personen
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr ng-repeat="ruimte in ctrl.ruimtes">
-                                <td>{{ruimte.name}}</td>
-                                <td>{{ruimte.aantalPlaatsen}}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                    </div>
-                    <div class="row text-center">
-                      <h4 class="section-heading">Aanmaken</h4>
-                    </div>
-                    <form ng-submit="ctrl.createRuimte()" name="createRuimteForm">
-                    <md-content class="md-no-momentum no-background">
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="50">
-                          <label>Naam</label>
-                          <input ng-model="ctrl.ruimte.name" type="text" name="name" placeholder="Naam *" required>
-                          <div ng-messages="createRuimteForm.name.$error">
-                            <div ng-message="required">Naam is verplicht.</div>
-                          </div>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-xs flex="50">
-                          <label>Maximum aantal beschikbare plaatsen</label>
-                          <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum Aantal Beschikbare Plaatsen *" required>
-                          <div ng-messages="createRuimteForm.aantalplaatsen.$error">
-                            <div ng-message="required">Maximum aantal beschikbare plaatsen is verplicht.</div>
-                          </div>
-                        </md-input-container>
-                       </div>
-                      </md-content>
-                      <div layout="row">
-                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Maak ruimte</md-button>
-                      </div>
-                    </form>
-                  <!-- EINDE Ruimtes -->
+  <md-content class="no-background">
+    <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
+      <md-tab label="ruimtes">
+        <md-content class="md-padding no-background">
+          <!--Ruimtes -->
+            <div class="row text-center">
+              <h3 class="section-heading">Ruimtes</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center">
+                  <h4 class="section-heading">Bekijken</h4>
+                  <table class="table table-hover table-settings">
+                    <thead>
+                      <tr>
+                        <th>
+                          Naam
+                        </th>
+                        <th>
+                          Maximum aantal personen
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="ruimte in ctrl.ruimtes">
+                        <td>{{ruimte.name}}</td>
+                        <td>{{ruimte.aantalPlaatsen}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
             </div>
-        </div>
-</section>
-<hr class="hr-settings"></hr>
-<section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <!-- Reservaties -->
-          <div class="row text-center">
-            <h3 class="section-heading">Reservaties</h3>
-          </div>
-          <div class="row">
-              <div class="col-md-10 col-md-offset-1 text-center table-responsive-md">
-                <h4 class="section-heading">Bekijken</h4>
-                <table class="table table-hover table-settings">
-                  <thead>
-                    <tr>
-                      <th>
-                        Naam gebruiker
-                      </th>
-                      <th>
-                        Email gebruiker
-                      </th>
-                      <th>
-                        Datum
-                      </th>
-                      <th>
-                        Ruimte
-                      </th>
-                      <th>
-                        Deel van de dag
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="reservatie in ctrl.reservaties">
-                      <td>{{reservatie.user.fullName}}</td>
-                      <td>{{reservatie.user.username}}</td>
-                      <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                      <td>{{reservatie.ruimte.name}}</td>
-                      <td>{{reservatie.keuzeDag}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-md-10 col-md-offset-1 text-center">
-                <h4 class="section-heading">Zoek reservaties op dag</h4>
-                <md-input-container flex-gt-xs>
-                  <md-datepicker ng-model="ctrl.day" name="date" ng-change="ctrl.getReservatiesByDay()"></md-datepicker>
-                  <!--<input type="date" ng-model="ctrl.day"></input>-->
+            <div class="row text-center">
+              <h4 class="section-heading">Aanmaken</h4>
+            </div>
+            <form ng-submit="ctrl.createRuimte()" name="createRuimteForm">
+            <md-content class="md-no-momentum no-background">
+              <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-xs flex="50">
+                  <label>Naam</label>
+                  <input ng-model="ctrl.ruimte.name" type="text" name="name" placeholder="Naam *" required>
+                  <div ng-messages="createRuimteForm.name.$error">
+                    <div ng-message="required">Naam is verplicht.</div>
+                  </div>
                 </md-input-container>
-                <table class="table table-hover table-settings">
-                  <thead>
-                    <tr>
-                      <th>
-                        Naam gebruiker
-                      </th>
-                      <th>
-                        Email gebruiker
-                      </th>
-                      <th>
-                        Datum
-                      </th>
-                      <th>
-                        Ruimte
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr ng-repeat="reservatie in ctrl.reservatiesday">
-                      <td>{{reservatie.user.fullName}}</td>
-                      <td>{{reservatie.user.username}}</td>
-                      <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                      <td>{{reservatie.ruimte.name}}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <md-input-container class="md-block" flex-gt-xs flex="50">
+                  <label>Maximum aantal beschikbare plaatsen</label>
+                  <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum Aantal Beschikbare Plaatsen *" required>
+                  <div ng-messages="createRuimteForm.aantalplaatsen.$error">
+                    <div ng-message="required">Maximum aantal beschikbare plaatsen is verplicht.</div>
+                  </div>
+                </md-input-container>
+               </div>
+              </md-content>
+              <div layout="row">
+                <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Maak ruimte</md-button>
               </div>
-          </div>
-        <!-- EINDE Reservaties-->
+            </form>
+          <!-- EINDE Ruimtes -->
+        </md-content>
+      </md-tab>
+      <md-tab label="evenementen">
+        <md-content class="md-padding no-background">
+          <!-- EVENTS -->
+            <div class="row text-center">
+              <h3 class="section-heading">Evenementen</h3>
+            </div>
+            <div class="row text-center">
+              <h4 class="section-heading">Aanmaken</h4>
+            </div>
+            <form ng-submit="ctrl.createEvent()" name="createEventForm">
+              <md-content class="md-no-momentum no-background">
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Naam</label>
+                    <input ng-model="ctrl.event.name" type="text" name="name" placeholder="Naam *" required>
+                    <div ng-messages="createEventForm.name.$error">
+                      <div ng-message="required">Naam is verplicht.</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Aantal minuten</label>
+                    <input ng-model="ctrl.event.duur" type="number" name="aantalminuten" placeholder="Aantal minuten *" required min="30" max="300"></input>
+                    <div ng-messages="createEventForm.aantalminuten.$error" multiple>
+                      <div ng-message="required">Aantal minuten is verplicht.</div>
+                      <div ng-message="min">Het minimum aantal minuten is 30 minuten.</div>
+                      <div ng-message="max">Het maximum aantal minuten is 5 uur (300 minuten).</div>
+                    </div>
+                  </md-input-container>
+                 </div>
+                 <div layout-gt-xs="row">
+                   <!--<md-input-container class="md-block" flex-gt-xs>-->
+                     <!--<md-datepicker ng-model="ctrl.event.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event"></md-datepicker>-->
+                     <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
+                     <!--<div ng-messages="createEventForm.date.$error" multiple>
+                       <div ng-message="required">Datum is verplicht.</div>
+                       <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
+                     </div>-->
+                     <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
+                   <!--</md-input-container>-->
+                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event">
+                     <div ng-messages="createEventForm.date.$error">
+                      <div ng-message="required">Datum is verplicht</div>
+                      <div ng-message="format">Verkeerd formaat</div>
+                      <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                      <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                     </div>
+                   </mdp-date-picker>
+                   <mdp-time-picker ng-model="ctrl.starttime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
+                   <!--<div ng-messages="createEventForm.time.$error" multiple>
+                     <div ng-message="required">Tijd is verplicht.</div>
+                   </div>-->
+                   <md-input-container class="md-block" flex-gt-xs>
+
+                     <!--<input type="time" ng-model="ctrl.starttime" required name="time" aria-label="Timepicker Event"></input>-->
+                     <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
+
+                     <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
+                   </md-input-container>
+                 </div>
+                 <div layout-gt-xs="row">
+                   <md-input-container class="md-block" flex-gt-xs>
+                     <label>Beschrijving</label>
+                     <textarea ng-model="ctrl.event.description" type="text" name="description" placeholder="Beschrijving *" required rows="5"></textarea>
+                     <div ng-messages="createEventForm.description.$error">
+                       <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
+                     </div>
+                   </md-input-container>
+                 </div>
+                 <div layout-gt-xs="row">
+                   <md-input-container class="md-block" flex-gt-xs flex="25">
+                     <md-radio-group ng-model="ctrl.event.keuzeDag" md-no-ink="true">
+                       <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
+                       <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
+                       <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
+                     </md-radio-group>
+                   </md-input-container>
+                   <md-input-container class="md-block" flex-gt-xs flex="25">
+                     <md-checkbox ng-model="ctrl.event.publiek" name="checkboxPubliek" aria-label="Checkbox Publiek" md-no-ink>
+                         Publiek evenement
+                     </md-checkbox>
+                     <br/>
+                     <md-checkbox ng-model="ctrl.event.catering" name="checkboxCatering" aria-label="Checkbox Catering" md-no-ink>
+                         Catering
+                     </md-checkbox>
+                   </md-input-container>
+                   <md-input-container class="md-block" flex-gt-xs flex="25">
+                     <label>Type event</label>
+                     <md-select ng-model="ctrl.event.eventType" name="eventType" required>
+                       <md-option ng-repeat="eventType in ctrl.eventTypes" ng-value="eventType">
+                         {{eventType.name}}
+                       </md-option>
+                     </md-select>
+                     <div ng-messages="createEventForm.eventType.$error">
+                       <div ng-message="required">Er moet een type evenement gekozen worden.</div>
+                     </div>
+                   </md-input-container>
+                   <md-input-container class="md-block" flex-gt-xs flex="25">
+                     <label>Ruimtes</label>
+                     <md-select ng-model="ctrl.event.ruimte" name="ruimte" required>
+                       <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
+                         {{ruimte.name}}
+                       </md-option>
+                     </md-select>
+                     <div ng-messages="createEventForm.ruimte.$error">
+                       <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+                     </div>
+                   </md-input-container>
+                 </div>
+                </md-content>
+                <div layout="row">
+                  <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Maak event</md-button>
+                </div>
+              </form>
+              <!-- EINDE EVENTS -->
+        </md-content>
+      </md-tab>
+      <md-tab label="reservaties">
+        <md-content class="md-padding no-background">
+          <!-- Reservaties -->
+            <div class="row text-center">
+              <h3 class="section-heading">Reservaties</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 text-center table-responsive-md">
+                  <h4 class="section-heading">Bekijken</h4>
+                  <table class="table table-hover table-settings">
+                    <thead>
+                      <tr>
+                        <th>
+                          Naam gebruiker
+                        </th>
+                        <th>
+                          Email gebruiker
+                        </th>
+                        <th>
+                          Datum
+                        </th>
+                        <th>
+                          Ruimte
+                        </th>
+                        <th>
+                          Deel van de dag
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="reservatie in ctrl.reservaties">
+                        <td>{{reservatie.user.fullName}}</td>
+                        <td>{{reservatie.user.username}}</td>
+                        <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                        <td>{{reservatie.ruimte.name}}</td>
+                        <td>{{reservatie.keuzeDag}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-10 col-md-offset-1 text-center">
+                  <h4 class="section-heading">Zoek reservaties op dag</h4>
+                  <md-input-container flex-gt-xs>
+                    <md-datepicker ng-model="ctrl.day" name="date" ng-change="ctrl.getReservatiesByDay()"></md-datepicker>
+                    <!--<input type="date" ng-model="ctrl.day"></input>-->
+                  </md-input-container>
+                  <table class="table table-hover table-settings">
+                    <thead>
+                      <tr>
+                        <th>
+                          Naam gebruiker
+                        </th>
+                        <th>
+                          Email gebruiker
+                        </th>
+                        <th>
+                          Datum
+                        </th>
+                        <th>
+                          Ruimte
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="reservatie in ctrl.reservatiesday">
+                        <td>{{reservatie.user.fullName}}</td>
+                        <td>{{reservatie.user.username}}</td>
+                        <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                        <td>{{reservatie.ruimte.name}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+          <!-- EINDE Reservaties-->
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+<!--
+<hr class="hr-settings"></hr>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
       </div>
     </div>
   </div>
@@ -150,119 +272,8 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-      <!-- EVENTS -->
-        <div class="row text-center">
-          <h3 class="section-heading">Evenementen</h3>
-        </div>
-        <div class="row text-center">
-          <h4 class="section-heading">Aanmaken</h4>
-        </div>
-        <form ng-submit="ctrl.createEvent()" name="createEventForm">
-          <md-content class="md-no-momentum no-background">
-            <div layout-gt-xs="row">
-              <md-input-container class="md-block" flex-gt-xs>
-                <label>Naam</label>
-                <input ng-model="ctrl.event.name" type="text" name="name" placeholder="Naam *" required>
-                <div ng-messages="createEventForm.name.$error">
-                  <div ng-message="required">Naam is verplicht.</div>
-                </div>
-              </md-input-container>
-              <md-input-container class="md-block" flex-gt-xs>
-                <label>Aantal minuten</label>
-                <input ng-model="ctrl.event.duur" type="number" name="aantalminuten" placeholder="Aantal minuten *" required min="30" max="300"></input>
-                <div ng-messages="createEventForm.aantalminuten.$error" multiple>
-                  <div ng-message="required">Aantal minuten is verplicht.</div>
-                  <div ng-message="min">Het minimum aantal minuten is 30 minuten.</div>
-                  <div ng-message="max">Het maximum aantal minuten is 5 uur (300 minuten).</div>
-                </div>
-              </md-input-container>
-             </div>
-             <div layout-gt-xs="row">
-               <!--<md-input-container class="md-block" flex-gt-xs>-->
-                 <!--<md-datepicker ng-model="ctrl.event.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event"></md-datepicker>-->
-                 <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
-                 <!--<div ng-messages="createEventForm.date.$error" multiple>
-                   <div ng-message="required">Datum is verplicht.</div>
-                   <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
-                 </div>-->
-                 <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
-               <!--</md-input-container>-->
-               <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event">
-                 <div ng-messages="createEventForm.date.$error">
-                  <div ng-message="required">Datum is verplicht</div>
-                  <div ng-message="format">Verkeerd formaat</div>
-                  <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                  <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
-                 </div>
-               </mdp-date-picker>
-               <mdp-time-picker ng-model="ctrl.starttime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
-               <!--<div ng-messages="createEventForm.time.$error" multiple>
-                 <div ng-message="required">Tijd is verplicht.</div>
-               </div>-->
-               <md-input-container class="md-block" flex-gt-xs>
 
-                 <!--<input type="time" ng-model="ctrl.starttime" required name="time" aria-label="Timepicker Event"></input>-->
-                 <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
-
-                 <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
-               </md-input-container>
-             </div>
-             <div layout-gt-xs="row">
-               <md-input-container class="md-block" flex-gt-xs>
-                 <label>Beschrijving</label>
-                 <textarea ng-model="ctrl.event.description" type="text" name="description" placeholder="Beschrijving *" required rows="5"></textarea>
-                 <div ng-messages="createEventForm.description.$error">
-                   <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
-                 </div>
-               </md-input-container>
-             </div>
-             <div layout-gt-xs="row">
-               <md-input-container class="md-block" flex-gt-xs flex="25">
-                 <md-radio-group ng-model="ctrl.event.keuzeDag" md-no-ink="true">
-                   <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
-                   <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
-                   <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
-                 </md-radio-group>
-               </md-input-container>
-               <md-input-container class="md-block" flex-gt-xs flex="25">
-                 <md-checkbox ng-model="ctrl.event.publiek" name="checkboxPubliek" aria-label="Checkbox Publiek" md-no-ink>
-                     Publiek evenement
-                 </md-checkbox>
-                 <br/>
-                 <md-checkbox ng-model="ctrl.event.catering" name="checkboxCatering" aria-label="Checkbox Catering" md-no-ink>
-                     Catering
-                 </md-checkbox>
-               </md-input-container>
-               <md-input-container class="md-block" flex-gt-xs flex="25">
-                 <label>Type event</label>
-                 <md-select ng-model="ctrl.event.eventType" name="eventType" required>
-                   <md-option ng-repeat="eventType in ctrl.eventTypes" ng-value="eventType">
-                     {{eventType.name}}
-                   </md-option>
-                 </md-select>
-                 <div ng-messages="createEventForm.eventType.$error">
-                   <div ng-message="required">Er moet een type evenement gekozen worden.</div>
-                 </div>
-               </md-input-container>
-               <md-input-container class="md-block" flex-gt-xs flex="25">
-                 <label>Ruimtes</label>
-                 <md-select ng-model="ctrl.event.ruimte" name="ruimte" required>
-                   <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
-                     {{ruimte.name}}
-                   </md-option>
-                 </md-select>
-                 <div ng-messages="createEventForm.ruimte.$error">
-                   <div ng-message="required">Er moet een ruimte gekozen worden.</div>
-                 </div>
-               </md-input-container>
-             </div>
-            </md-content>
-            <div layout="row">
-              <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Maak event</md-button>
-            </div>
-          </form>
-          <!-- EINDE EVENTS -->
       </div>
     </div>
   </div>
-</section>
+</section>-->

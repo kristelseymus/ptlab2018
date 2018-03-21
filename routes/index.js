@@ -173,39 +173,32 @@
         });
     });
     //Delete reservatie
-    router.delete('/api/reservaties/:reservatie', auth, function (req, res, next) {
+    router.delete('/api/reservaties/:reservatie/:user', auth, function (req, res, next) {
         Reservatie.remove({
-            _id: req.reservatie._id
+            _id: req.params.reservatie
         }, function (err, reservatie) {
             if (err) {
-              console.log("in remove");
-              console.log(err);
-              console.log(res);
                 res.send(err);
             }
-            res.json({
-                message: 'Reservatie deleted'
-            });
         });
-      /*  User.findById(req.reservatie.user, function (err, user) {
+
+        User.findById(req.params.user, function (err, user) {
             if (err) {
-              console.log("in find")
-                console.log(err);
-                console.log(res);
                 res.send(err);
             }
-            user.reservaties.pull(req.reservatie._id);
+            user.reservaties.pull(req.params.reservatie);
             user.save(function (err) {
                 if (err) {
-                  console.log("in save");
-                    console.log(err);
-                    console.log(res);
                     res.send(err);
                 }
-                res.json(user);
+                res.json({
+                    message: 'Reservatie deleted'
+                });
             })
-        });*/
+        });
     });
+
+    //
     //endregion
 
     //region ruimtes

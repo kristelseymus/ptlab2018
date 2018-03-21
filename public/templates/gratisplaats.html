@@ -1,4 +1,4 @@
-<section id="sectiongratisplaats">
+<!--<section id="sectiongratisplaats">
         <div class="container" id="gratisplaats">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
@@ -30,4 +30,145 @@
             </div>
         </div>
         <div id="cover"></div>
+</section>-->
+
+<section id="sectiongratisplaats">
+        <div class="container" id="gratisplaats">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                  <!-- BOEKEN VAN EEN GRATIS PLAATS -->
+                  <div class="contactwrapper" layout="column" layout-padding ng-cloak ng-show="ctrl.isGratis()">
+                    <div class="row text-center">
+                      <h2 class="section-heading">Boek een gratis plaats</h2>
+                    </div>
+                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
+                    <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
+                    <md-content class="md-no-momentum no-background">
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Voornaam</label>
+                          <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                        <md-input-container md-no-float class="md-block" flex="50">
+                          <label>Naam</label>
+                          <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>Email</label>
+                          <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Gratis">
+                          <div ng-messages="boekGratisPlaatsForm.date.$error">
+                           <div ng-message="required">Datum is verplicht</div>
+                           <div ng-message="format">Verkeerd formaat</div>
+                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                          </div>
+                        </mdp-date-picker>
+                        <!--<md-input-container class="md-block" flex-gt-xs flex="75">
+                          <md-calendar ng-model="ctrl.gratisp.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" ng-change="ctrl.getAvailablePlaces()"></md-calendar>
+                          <div ng-messages="boekGratisPlaatsForm.date.$error" multiple>
+                            <div ng-message="required">Datum is verplicht.</div>
+                            <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
+                          </div>
+                        </md-input-container>-->
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true">
+                            <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
+                            <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
+                            <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
+                          </md-radio-group>
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="33">
+                          <label>Ruimtes</label>
+                          <md-select ng-model="ctrl.reservatie.ruimte" name="ruimte" required>
+                            <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
+                              {{ruimte.name}}
+                            </md-option>
+                          </md-select>
+                          <div ng-messages="boekGratisPlaatsForm.ruimte.$error">
+                            <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+                      </md-content>
+                      <div layout="row">
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Reserveer</md-button>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- EINDE BOEKEN VAN EEN GRATIS PLAATS -->
+
+                  <!-- OFFERTE AANVRAGEN COWORKER -->
+                  <div class="contactwrapper" layout="column" layout-padding ng-cloak ng-hide="ctrl.isGratis()">
+                    <div class="row text-center">
+                      <h2 class="section-heading">Vraag een offerte aan</h2>
+                    </div>
+                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
+                    <form ng-submit="ctrl.vraagOfferteAanCoWorker()" name="vraagOfferteAanCoWorkerForm">
+                    <md-content class="md-no-momentum no-background">
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                          <label>Voornaam</label>
+                          <input ng-model="ctrl.offerte.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                        <md-input-container md-no-float class="md-block" flex="50">
+                          <label>Naam</label>
+                          <input ng-model="ctrl.offerte.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>Email</label>
+                          <input ng-model="ctrl.offerte.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.offerte.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Offerte">
+                          <div ng-messages="vraagOfferteAanCoWorkerForm.date.$error">
+                           <div ng-message="required">Datum is verplicht</div>
+                           <div ng-message="format">Verkeerd formaat</div>
+                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                          </div>
+                        </mdp-date-picker>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <md-radio-group ng-model="ctrl.offerte.keuzeDag" md-no-ink="true">
+                            <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
+                            <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
+                            <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
+                          </md-radio-group>
+                        </md-input-container>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex="33">
+                          <label>Ruimtes</label>
+                          <md-select ng-model="ctrl.offerte.ruimte" name="ruimte" required>
+                            <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
+                              {{ruimte.name}}
+                            </md-option>
+                          </md-select>
+                          <div ng-messages="vraagOfferteAanCoWorkerForm.ruimte.$error">
+                            <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+                          </div>
+                        </md-input-container>
+                      </div>
+                      </md-content>
+                      <div layout="row">
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Vraag aan</md-button>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- EINDE OFFERTE AANVRAGEN COWORKER -->
+
+                </div>
+            </div>
+        </div>
 </section>

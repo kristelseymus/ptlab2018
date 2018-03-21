@@ -409,8 +409,6 @@ small {
 	}
 */
 
-/*
-
  md-tabs .md-tab.md-active{
    color: #15B366;
  }
@@ -424,25 +422,11 @@ md-tab-item:active{
   color: black;
 }
 
-md-content {
-  color: white;
-  background-color: rgba(0,0,0,0);
-}
-
-md-tabs .md-tab{
-  color: white;
-}
-
-md-tabs md-tabs-wrapper{
-  border-color: rgba(0,0,0,0);
-  background-color: none;
-}
-
 md-tab-item.md-tab {
   padding-left: 0px;
   padding-right: 0px;
   width: 0px;
-}*/
+}
 /*
 #btnMenu {
     position:fixed;
@@ -572,63 +556,6 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-me
     width: 100% !important;
 }
 
-/* TEST *//*
-.demo-md-panel {
-  min-height: 500px;
-}
-
-.demo-dialog-example {
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
-      0 13px 19px 2px rgba(0, 0, 0, 0.14),
-      0 5px 24px 4px rgba(0, 0, 0, 0.12);
-  width: 500px;
-}
-
-.demo-dialog-content {
-  padding: 0 15px;
-  width: 100%;
-}
-
-.demo-dialog-content img {
-  height: 300px;
-  margin: auto;
-}
-
-.demo-dialog-button {
-  width: 100%;
-}
-
-.demo-menu-example {
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
-      0 13px 19px 2px rgba(0, 0, 0, 0.14),
-      0 5px 24px 4px rgba(0, 0, 0, 0.12);
-  width: 256px;
-}
-
-.demo-menu-item {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  height: 48px;
-  padding: 0 16px;
-  position: relative;
-  transition: background 0.15s linear;
-  width: auto;
-}
-
-.demo-menu-item:hover,
-.demo-menu-item:focus {
-  background-color: rgb(238, 238, 238);
-}
-
-.demo-menu-item.selected {
-  color: rgb(16, 108, 200);
-}
-*/
 html,
 body {
    margin:0;
@@ -744,8 +671,12 @@ md-checkbox.md-checked .md-icon{
 }
 
 .item-box{
+  width: 10px;
+  height: 10px;
   background-color: #15B366;
   border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
 .md-toolbar-tools h2{
@@ -824,4 +755,12 @@ md-input-container:not(.md-input-has-value) input:not(:focus), md-input-containe
 
 div.mdp-calendar .md-button.md-icon-button{
   padding: 0;
+}
+
+.dialog-date{
+  text-transform: capitalize;
+}
+
+.btn-warning{
+  border-radius: 5px;
 }
