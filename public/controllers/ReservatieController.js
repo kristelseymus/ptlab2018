@@ -33,6 +33,7 @@
       vm.currentUser = {};
       vm.ruimtes = {};
       vm.events = {};
+      vm.toekomstigeReservaties = [];
 
       vm.getReservatiesUser = getReservatiesUser;
       vm.getRuimtes = getRuimtes;
@@ -178,6 +179,18 @@
       function getReservatiesUser(){
         vm.reservaties = reservatieService.getReservatiesUser(vm.currentUser._id).then(function(res){
           vm.reservaties = res;
+          vm.reservaties.forEach(function(r){
+            var today = new Date();
+            var rDate = new Date(r.startdate);
+            today.setHours(0,0,0,0);
+            console.log(today);
+            console.log(rDate);
+            if(rDate >= today){
+              console.log("in if");
+              vm.toekomstigeReservaties.push(r);
+            }
+          });
+          console.log(vm.toekomstigeReservaties);
           return vm.reservaties;
         });
       }
@@ -213,12 +226,35 @@
       }
 
       function boekPlaatsStudent(){
-        $timeout(getAvailablePlaces(), 5000);
+        return  reservatieService.create(vm.reservatie).success(function (data) {
+          console.log(data);
+          $mdToast.show($mdToast.simple()
+            .content('U hebt succesvol een plaats gereserveerd.')
+           .position('bottom left')
+           .parent($("#toast-container"))
+           .hideDelay(3000)
+
+         );
+          $state.go("home")
+        }).error(function(error){
+          $mdToast.show($mdToast.simple()
+            .content(error.message)
+           .position('bottom left')
+           .parent($("#toast-container-alert"))
+           .hideDelay(3000)
+
+         );
+          vm.message = error.message;
+           console.log(error.message);
+        });
+
+        /*getAvailablePlaces();
         console.log(vm.availablePlaces);
         //Checken of een student al een reservatie heeft op deze dag.
         var hasreservation = false;
         var tempvar = false;
         reservatieService.getReservatiesByDay(vm.reservatie.startdate).then(function(res){
+          console.log("getReservatiesByDay");
           for(var i=0; i<res.length; i++){
             if(vm.reservatie.user._id === res[i].user._id){
               console.log('gelijk');
@@ -226,6 +262,7 @@
             }
           }
           if(hasreservation){
+            console.log("hasreservation");
             $mdToast.show($mdToast.simple()
               .content('U hebt al een reservatie op de gekozen dag.')
              .position('bottom left')
@@ -315,7 +352,7 @@
 
           }
         });
-
+*/
         //message toevoegen
       }
 

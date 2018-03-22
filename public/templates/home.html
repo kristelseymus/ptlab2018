@@ -129,39 +129,43 @@
                     <div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="coworkinglabtitle">
+                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Co-working Lab</div>
-                          <div class="block-image">
+                          <div class="block-image image-coworking">
                             <!--<img src="images/vergaderzaal1_test.jpg" alt="Vergaderzaal 1" align="middle" id="vergaderzaal1test"/>-->
                           </div>
                         </div>
-                        <button class="btn-primary btn-block" id="btnCoworking">Reserveer</button>
+                        <!--<button class="btn-primary btn-block" id="btnCoworking">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="meetingroomtitle">
+                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Meeting Room</div>
-                          <div class="block-image">
+                          <div class="block-image image-meeting">
 
                           </div>
                         </div>
-                        <button class="btn-primary btn-block" id="btnMeetingRoom">Reserveer</button>
+                        <!--<button class="btn-primary btn-block" id="btnMeetingRoom">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="trainingroomtitle">
+                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Training Room</div>
-                          <div class="block-image">
+                          <div class="block-image image-training">
 
                           </div>
                         </div>
-                        <button class="btn-primary btn-block" id="btnTrainingRoom">Reserveer</button>
+                        <!--<button class="btn-primary btn-block" id="btnTrainingRoom">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="boardroomtitle">
+                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Board Room</div>
-                          <div class="block-image">
+                          <div class="block-image image-board">
 
                           </div>
                         </div>
-                        <button class="btn-primary btn-block" id="btnBoardRoom">Reserveer</button>
+                        <!--<button class="btn-primary btn-block" id="btnBoardRoom">Reserveer</button>-->
                       </div>
                     </div>
                 </div>
@@ -326,14 +330,14 @@
       </div>
 </section>
 <calendar-md flex layout layout-fill
-calendar-direction="direction"
+calendar-direction="vertical"
 on-prev-month="prevMonth"
 on-next-month="nextMonth"
 on-day-click="dayClick"
 title-format="'MMMM y'"
 ng-model='selectedDate'
 week-starts-on="1"
-tooltips="tooltips"
+tooltips="true"
 day-format="dayFormat"
 day-label-format="'EEE'"
 day-label-tooltip-format="'EEEE'"

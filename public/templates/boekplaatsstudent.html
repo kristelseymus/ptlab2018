@@ -39,6 +39,7 @@
                       </div>
                       <div layout-gt-xs="row">
                         <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Student">
+                          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
                           <div ng-messages="boekPlaatsStudentForm.date.$error">
                            <div ng-message="required">Datum is verplicht</div>
                            <div ng-message="format">Verkeerd formaat</div>
@@ -56,7 +57,7 @@
                           <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         <!--</md-input-container>-->
                         <md-input-container class="md-block" flex-gt-xs flex="25">
-                          <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true" ng-change="ctrl.getAvailablePlaces()">
+                          <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true">
                             <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
                             <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
                             <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
@@ -66,7 +67,7 @@
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="33">
                           <label>Ruimtes</label>
-                          <md-select ng-model="ctrl.reservatie.ruimte" name="ruimte" required ng-change="ctrl.getAvailablePlaces()">
+                          <md-select ng-model="ctrl.reservatie.ruimte" name="ruimte" required>
                             <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
                               {{ruimte.name}}
                             </md-option>

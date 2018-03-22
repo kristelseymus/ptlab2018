@@ -198,31 +198,45 @@
                         <th>
                           Datum
                         </th>
-                        <th>
-                          Ruimte
+                        <th> <!--Deel van de dag-->
                         </th>
                         <th>
-                          Deel van de dag
+                          Ruimte
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="reservatie in ctrl.reservaties">
+                      <tr ng-repeat="reservatie in ctrl.reservaties | orderBy:'startdate'">
                         <td>{{reservatie.user.fullName}}</td>
                         <td>{{reservatie.user.username}}</td>
                         <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                        <td ng-switch="reservatie.keuzeDag">
+                          <div ng-switch-when="voormiddag">Voormiddag</div>
+                          <div ng-switch-when="namiddag">Namiddag</div>
+                          <div ng-switch-when="volledigedag">Volledige dag</div>
+                        </td>
                         <td>{{reservatie.ruimte.name}}</td>
-                        <td>{{reservatie.keuzeDag}}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div class="col-md-10 col-md-offset-1 text-center">
                   <h4 class="section-heading">Zoek reservaties op dag</h4>
-                  <md-input-container flex-gt-xs>
-                    <md-datepicker ng-model="ctrl.day" name="date" ng-change="ctrl.getReservatiesByDay()"></md-datepicker>
+                  <div layout="row" layout-align="center center">
+                  <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.day" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getReservatiesByDay()" aria-label="Datepicker Reservaties by day">
+                    <md-tooltip md-direction="bottom">Klik op het icoon om een datum te kiezen</md-tooltip>
+                    <div ng-messages="boekPlaatsStudentForm.date.$error">
+                     <div ng-message="required">Datum is verplicht</div>
+                     <div ng-message="format">Verkeerd formaat</div>
+                     <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                     <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                    </div>
+                  </mdp-date-picker>
+                  </div>
+                  <!--<md-input-container flex-gt-xs>
+                    <md-datepicker ng-model="ctrl.day" name="date" ng-change="ctrl.getReservatiesByDay()"></md-datepicker>-->
                     <!--<input type="date" ng-model="ctrl.day"></input>-->
-                  </md-input-container>
+                  <!--</md-input-container>-->
                   <table class="table table-hover table-settings">
                     <thead>
                       <tr>

@@ -101,7 +101,9 @@
     //region Reservaties
     router.post('/api/reservaties', auth, function (req, res, next) {
         var reservatie = new Reservatie(req.body);
+        var hasreservation = false;
 
+        /*
         reservatie.save(function (err, reservatie) {
             if (err) {
                 return next(err);
@@ -119,7 +121,236 @@
                 res.json(user);
             });
         });
-    });
+        */
+
+        //controles
+        User.findOne({ '_id' : new ObjectId(reservatie.user) }).populate({path: 'reservaties', populate :{path: 'ruimte'}}).exec(function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            //Heeft de user al een reservatie op de gekozen dag ?
+            console.log(user);
+            for(var i=0; i<user.reservaties.length; i++){
+              console.log(user.reservaties[i].startdate);
+              console.log(reservatie.startdate);
+              if(user.reservaties[i].startdate.valueOf() == reservatie.startdate.valueOf()){
+                console.log("zit in if dates gelijk");
+                hasreservation = true;
+              }
+            }
+            console.log(hasreservation);
+            if(hasreservation){
+              //User heeft een reservatie op de gekozen dag.
+              //var r = new Error('U hebt al een reservatie op de gekozen dag.');
+              res.render('error', { error: new Error('U hebt al een reservatie op de gekozen dag.') });
+              //console.log(r);
+              //console.log(r.message);
+              //return next(r);
+            }
+            else {
+              //User heeft GEEN reservatie op de gekozen dag.
+
+              //Vinden er events plaats op de gekozen datum ?
+              Evenement.find({ 'startdate' : new Date(reservatie.startdate) }).exec(function (err, events) {
+                console.log("in find");
+                console.log(events);
+                if(events.length === 0){
+                  //Er vinden geen events plaats op de gekozen dag.
+
+                  //Is er nog plaats ?
+                  //Alle reservaties van de gekozen dag ophalen
+                  Reservatie.find({ 'startdate' : new Date(reservatie.startdate) }).populate('user').populate('ruimte').exec(function(err, reservaties){
+                    var reservatiesruimte = [];
+                    var temp = 0;
+                    var voor = 0;
+                    var na = 0;
+                    var vol = 0;
+                    var reser;
+
+                    //Bij alle reservaties zal worden gekeken welke ruimte is gereserveerd.
+                    //Alle reservaties met dezelfde ruimte als de gewenste ruimte,
+                    //zullen worden toegevoegd aan de reservaties array.
+                    if(!reservaties.length > 0){
+                      //Geen reservaties, dus er is nog plaats.
+                      //Hier mag gereserveerd worden.
+                      user.reservaties.addToSet(reservatie);
+                      user.save(function (err) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                      reservatie.save(function (err, reservatie) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+
+                    } else {
+                      reservaties.forEach(function(reserv){
+                        if(reserv.ruimte._id === reservatie.ruimte){
+                          reservatiesruimte.push(reserv);
+                        }
+                      });
+                    }
+                    if(!reservatiesruimte.length > 0){
+                      //Als reservatiesruimte leeg is, dan zijn er geen reservaties opgeslagen in deze ruimte op deze dag.
+                      //Er is nog plaats, dus reserveer.
+                      user.reservaties.addToSet(reservatie);
+                      user.save(function (err) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                      reservatie.save(function (err, reservatie) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                    }
+
+                    if(reservatie.keuzeDag === 'volledigedag'){
+                      //Wanneer er voor een volledige dag gekozen wordt, dienen er andere controles uitgevoerd te worden.
+                      reservatiesruimte.forEach(function(reser){
+                        if(reser.keuzeDag === 'voormiddag'){ voor += 1; }
+                        else if(reser.keuzeDag === 'namiddag'){ na += 1; }
+                        else if(reser.keuzeDag === 'volledigedag'){ vol += 1; }
+                      });
+                      if (voor > na){
+                        //Als het aantal reservering in de voormiddag groter zijn dan het aantal in de namiddag,
+                        //zal het aantal van de voormiddag gebruikt worden als vermindering voor het aantal beschikbare plaatsen.
+                        //Dit is ook zo indien namiddag > voormiddag, dan zal namiddag gebruikt worden.
+
+                        //Het aantal beschikbare plaatsen op het gekozen moment zal dan gelijk zijn aan
+                        //het totaal beschikbare in de ruimte - vol (aantal volledige) - voor (of na)
+                        temp = vol + voor;
+                      } else{
+                        //Namiddag is groter of gelijk aan voormiddag.
+                        temp = vol + na;
+                      }
+                    } else {
+                       //Er werd geen volledige dag gekozen.
+                      reservatiesruimte.forEach(function(reser){
+                        if(reservatie.keuzeDag === reser.keuzeDag || reser.keuzeDag === 'volledigedag'){
+                          temp += 1;
+                        }
+                      });
+                    }
+                    Ruimte.findOne({ '_id' : reservatie.ruimte }).exec(function(err, ruimte){
+                      if(ruimte.aantalPlaatsen - temp > 0){
+                        //Er is nog plaats in de ruimte.
+                        //Reserveer.
+                        user.reservaties.addToSet(reservatie);
+                        user.save(function (err) {
+                            if (err) {
+                                return next(err);
+                            }
+                        });
+                        reservatie.save(function (err, reservatie) {
+                            if (err) {
+                                return next(err);
+                            }
+                        });
+                      } else {
+                        return next(new Error('Er is geen plaats meer in deze ruimte.'));
+                      }
+                    });//Einde ruimte.findOne
+                  });//Einde reservatie.find
+                }
+                else {
+                  //Er vinden wel events plaats op de gekozen dag.
+                  for(var i=0; i<events.length; i++){
+                    if(events[i].keuzeDag === 'volledigedag' || events[i].keuzeDag === reservatie.keuzeDag){
+                      //Er vind een event plaats op het gekozen deel van de dag.
+                      return next(new Error('Er vind een evenement plaats op het gekozen moment.'));
+                    }
+                  }
+                  //Uit for dus er vind geen event plaats op het gekozen deel van de dag.
+                  //Is er nog plaats ?
+                  //Alle reservaties van de gekozen dag ophalen
+                  Reservatie.find({ 'startdate' : new Date(reservatie.startdate) }).populate('user').populate('ruimte').exec(function(err, reservaties){
+                    var reservatiesruimte = [];
+                    var temp = 0;
+                    var voor = 0;
+                    var na = 0;
+                    var vol = 0;
+                    var reser;
+
+                    if(!reservaties.length > 0){
+                      user.reservaties.addToSet(reservatie);
+                      user.save(function (err) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                      reservatie.save(function (err, reservatie) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+
+                    } else {
+                      reservaties.forEach(function(reserv){
+                        if(reserv.ruimte._id === reservatie.ruimte){
+                          reservatiesruimte.push(reserv);
+                        }
+                      });
+                    }
+                    if(!reservatiesruimte.length > 0){
+                      user.reservaties.addToSet(reservatie);
+                      user.save(function (err) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                      reservatie.save(function (err, reservatie) {
+                          if (err) {
+                              return next(err);
+                          }
+                      });
+                    }
+
+                    if(reservatie.keuzeDag === 'volledigedag'){
+                      reservatiesruimte.forEach(function(reser){
+                        if(reser.keuzeDag === 'voormiddag'){ voor += 1; }
+                        else if(reser.keuzeDag === 'namiddag'){ na += 1; }
+                        else if(reser.keuzeDag === 'volledigedag'){ vol += 1; }
+                      });
+                      if (voor > na){
+                        temp = vol + voor;
+                      } else{
+                        temp = vol + na;
+                      }
+                    } else {
+                      reservatiesruimte.forEach(function(reser){
+                        if(reservatie.keuzeDag === reser.keuzeDag || reser.keuzeDag === 'volledigedag'){
+                          temp += 1;
+                        }
+                      });
+                    }
+                    Ruimte.findOne({ '_id' : reservatie.ruimte }).exec(function(err, ruimte){
+                      if(ruimte.aantalPlaatsen - temp > 0){
+                        user.reservaties.addToSet(reservatie);
+                        user.save(function (err) {
+                            if (err) {
+                                return next(err);
+                            }
+                        });
+                        reservatie.save(function (err, reservatie) {
+                            if (err) {
+                                return next(err);
+                            }
+                        });
+                      } else {
+                        return next(new Error('Er is geen plaats meer in deze ruimte.'));
+                      }
+                    });//Einde ruimte.findOne
+                  });//Einde reservatie.find
+                }//Einde else events op gekozen deel dag
+              }); //Einde evenement.find
+
+            }//Einde if(hasreservation)
+        }); //Einde User.findOne
+    });// EINDE POST
 
     router.get('/api/reservaties', function(req, res, next) {
       Reservatie.find(function(err, reservaties) {

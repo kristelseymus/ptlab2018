@@ -221,9 +221,25 @@ body {
 }
 
 .block-image {
-  height: 150px;
+  height: 200px;
+  background: url("/images/vergaderzaal2_test.jpg") no-repeat center;
+}
+/*
+.image-coworking {
+  background: url("/images/vergaderzaal1_test.jpg") no-repeat bottom;
+}
+
+.image-meeting {
   background: url("/images/vergaderzaal2_test.jpg") no-repeat bottom;
 }
+
+.image-training {
+  background: url("/images/vergaderzaal3_test.jpg") no-repeat bottom;
+}
+
+.image-board {
+  background: url("/images/vergaderzaal4_test.jpg") no-repeat bottom;
+}*/
 
 #scroll {
     position:fixed;

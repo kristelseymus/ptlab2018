@@ -10,7 +10,7 @@
       vm.ruimtes = {};
       vm.events = {};
       vm.eventTypes = {};
-      vm.reservaties = {};
+      vm.reservaties = [];
 
       vm.ruimte = {};
       vm.event = {};

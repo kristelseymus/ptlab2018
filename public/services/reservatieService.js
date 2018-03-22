@@ -34,6 +34,7 @@
           }).success(function (data) {
               return data;
           }).error(function(err){
+            console.log(err.message);
             return err;
           });
           /*var noSpace = false;
