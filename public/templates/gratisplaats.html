@@ -77,12 +77,16 @@
                             <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
                           </div>
                         </md-input-container>-->
-                        <md-input-container class="md-block" flex-gt-xs flex="25">
-                          <md-radio-group ng-model="ctrl.reservatie.keuzeDag" md-no-ink="true">
-                            <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
-                            <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
-                            <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
-                          </md-radio-group>
+                        <md-input-container class="md-block" flex-gt-xs flex>
+                          <label>Deel van de dag</label>
+                          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required>
+                            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
+                              {{keuzeDag.name}}
+                            </md-option>
+                          </md-select>
+                          <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
+                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+                          </div>
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
@@ -139,12 +143,16 @@
                            <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
-                        <md-input-container class="md-block" flex-gt-xs flex="25">
-                          <md-radio-group ng-model="ctrl.offerte.keuzeDag" md-no-ink="true">
-                            <md-radio-button value="volledigedag" class="md-primary">Volledige dag</md-radio-button>
-                            <md-radio-button value="voormiddag" class="md-primary"> Voormiddag </md-radio-button>
-                            <md-radio-button value="namiddag" class="md-primary">Namiddag</md-radio-button>
-                          </md-radio-group>
+                        <md-input-container class="md-block" flex-gt-xs flex>
+                          <label>Deel van de dag</label>
+                          <md-select ng-model="ctrl.offerte.keuzeDag" name="keuzeDag" required>
+                            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
+                              {{keuzeDag.name}}
+                            </md-option>
+                          </md-select>
+                          <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
+                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+                          </div>
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">

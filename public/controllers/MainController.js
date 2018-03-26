@@ -22,6 +22,7 @@
         vm.userCoworker = true;
         vm.userManager = true;
         vm.dayContent = "";
+        vm.testEvents = [];
 
         activate();
 
@@ -33,6 +34,42 @@
             getUsers();
             getOpeningsuren();
             getEvents();
+            vm.testEvents = [
+  {
+    "title": "Today Event",
+    "startDate": "2016-01-19T22:45:15.739Z",
+    "endDate": null,
+    "time": "21:00"
+  },
+  {
+    "title": "Tomorrow",
+    "startDate": "2016-01-20T22:45:15.739Z",
+    "endDate": null,
+    "time": "17:15"
+  },
+  {
+    "title": "All-day event",
+    "startDate": "2016-01-22T22:45:15.739Z",
+    "endDate": null
+  },
+  {
+    "title": "Two in one day!",
+    "startDate": "2016-01-22T22:45:15.739Z",
+    "endDate": null,
+    "time": "09:00"
+  },
+  {
+    "title": "Three in one day!",
+    "startDate": "2016-01-22T22:45:15.739Z",
+    "endDate": null,
+    "time": "15:00"
+  },
+  {
+    "title": "Multi-day event",
+    "startDate": "2016-01-26T22:45:15.739Z",
+    "endDate": "2016-01-27T22:45:15.739Z"
+  }
+];
             /*switch (auth.getCurrentUser().typeuser) {
               case "STUDENT": vm.userStudent = false
                 break;

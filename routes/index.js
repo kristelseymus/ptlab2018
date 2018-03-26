@@ -103,7 +103,100 @@
         var reservatie = new Reservatie(req.body);
         var hasreservation = false;
 
-        /*
+        var u = {}; //De user die wil reserveren
+        var r = {}; //Alle reservaties op de gekozen dag
+        var ru = {}; //De gewenste ruimte
+        var e = {}; //Events die die dag plaatsvinden
+        
+        User.findOne({ '_id' : new ObjectId(reservatie.user) }).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
+          u = user;
+          if (err) {
+              return next(err);
+          }
+          Evenement.find({ 'startdate' : new Date(reservatie.startdate) }).exec(function (err, events) {
+            e = events;
+            if (err) {
+                return next(err);
+            }
+            Reservatie.find({ 'startdate' : new Date(reservatie.startdate) }).populate('user').populate('ruimte').exec(function (err, reservaties) {
+              r = reservaties;
+              if (err) {
+                  return next(err);
+              }
+              Ruimte.findOne({ '_id' : reservatie.ruimte }).exec(function (err, ruimte) {
+                ru = ruimte;
+                if (err) {
+                    return next(err);
+                }
+                //CONTROLES
+                  // ** CONTROLE 1: HEEFT USER AL RESERVATIES ?
+                for(var i=0; i<u.reservaties.length; i++){
+                  if(u.reservaties[i].startdate.valueOf() == reservatie.startdate.valueOf()){
+                    hasreservation = true;
+                  }
+                }
+
+                if(hasreservation){
+                  //Ja ?
+                    // !! Kan niet reserveren
+                  return next(new Error("U hebt al een reservatie op de gekozen dag."));
+                } else {
+                  //Nee ?
+                    // ** CONTROLE 2: ZIJN ER EVENTS OP DE GEKOZEN DAG ?
+                    if(e.length > 0){
+                      //Ja ?
+                        // ** CONTROLE 3: CHECK KEUZEDAG
+                          //Gelijk of event keuzedag is 'volledigedag' ?
+                            // !! Kan niet reserveren
+                          for(var i=0; i<e.length; i++){
+                            if(e[i].keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
+                              return next(new Error("Er vindt een evenement plaats op het gekozen moment."));
+                            }
+                          }
+                          //Niet gelijk & geen event met keuzedag 'volledigedag' ?
+                            // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
+                              //Ja ?
+                                // ++ Reserveer
+                              //Nee ?
+                                // !! Kan niet reserveren
+                    } else {
+                      //Nee ?
+                        // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
+                          //Ja ?
+                            // ++ Reserveer
+                          //Nee ?
+                            // !! Kan niet reserveren
+                    }// Einde if(e.length > 0)
+                }// Einde hasreservation
+              }); // Einde Ruimte.findOne
+            }); // Einde Reservatie.find
+          }); // Einde Evenement.find
+        }); // Einde User.findOne
+
+        //CONTROLES
+          // ** CONTROLE 1: HEEFT USER AL RESERVATIES ?
+            //Ja ?
+              // !! Kan niet reserveren
+            //Nee ?
+              // ** CONTROLE 2: ZIJN ER EVENTS OP DE GEKOZEN DAG ?
+                //Ja ?
+                  // ** CONTROLE 3: CHECK KEUZEDAG
+                    //Gelijk of event keuzedag is 'volledigedag' ?
+                      // !! Kan niet reserveren
+                    //Niet gelijk & geen event met keuzedag 'volledigedag' ?
+                      // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
+                        //Ja ?
+                          // ++ Reserveer
+                        //Nee ?
+                          // !! Kan niet reserveren
+                //Nee ?
+                  // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
+                    //Ja ?
+                      // ++ Reserveer
+                    //Nee ?
+                      // !! Kan niet reserveren
+
+/*
         reservatie.save(function (err, reservatie) {
             if (err) {
                 return next(err);
@@ -121,10 +214,13 @@
                 res.json(user);
             });
         });
-        */
+*/
 
         //controles
-        User.findOne({ '_id' : new ObjectId(reservatie.user) }).populate({path: 'reservaties', populate :{path: 'ruimte'}}).exec(function (err, user) {
+        //Controles zulle hier worden uitgevoerd in plaats van de ReservatieController
+        //Dit is beter dan controles op client side.
+
+      /*  User.findOne({ '_id' : new ObjectId(reservatie.user) }).populate({path: 'reservaties', populate :{path: 'ruimte'}}).exec(function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -349,7 +445,7 @@
               }); //Einde evenement.find
 
             }//Einde if(hasreservation)
-        }); //Einde User.findOne
+        }); //Einde User.findOne */
     });// EINDE POST
 
     router.get('/api/reservaties', function(req, res, next) {
