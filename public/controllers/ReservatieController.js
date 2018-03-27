@@ -185,14 +185,10 @@
             var today = new Date();
             var rDate = new Date(r.startdate);
             today.setHours(0,0,0,0);
-            console.log(today);
-            console.log(rDate);
             if(rDate >= today){
-              console.log("in if");
               vm.toekomstigeReservaties.push(r);
             }
           });
-          console.log(vm.toekomstigeReservaties);
           return vm.reservaties;
         });
       }
@@ -228,8 +224,13 @@
       }
 
       function boekPlaatsStudent(){
-        /*return  reservatieService.create(vm.reservatie).success(function (data) {
-          console.log(data);
+        for(var i=0; i<vm.ruimtes.length; i++){
+          if(vm.ruimtes[i].name == "Co-working Lab"){
+            vm.reservatie.ruimte = vm.ruimtes[i];
+            break;
+          }
+        }
+        return  reservatieService.create(vm.reservatie).success(function (data) {
           $mdToast.show($mdToast.simple()
             .content('U hebt succesvol een plaats gereserveerd.')
            .position('bottom left')
@@ -240,22 +241,16 @@
           $state.go("home")
         }).error(function(error){
           $mdToast.show($mdToast.simple()
-            .content(error.message)
+            .content(error.error)
            .position('bottom left')
            .parent($("#toast-container-alert"))
            .hideDelay(3000)
 
          );
-          vm.message = error.message;
-           console.log(error.message);
-        });*/
-
-        getAvailablePlaces();//.then(function(data){
-        //  console.log("Then na availablePlaces");
-        //  console.log(data);
-        //}, function(error){
-          //Something went wrong.
-        //});
+          vm.message = error.error;
+        });
+        /*
+        getAvailablePlaces();
         console.log(vm.availablePlaces);
         //Checken of een student al een reservatie heeft op deze dag.
         var hasreservation = false;
@@ -360,7 +355,7 @@
             });
 
           }
-        });
+        });*/
 
         //message toevoegen
       }
@@ -411,6 +406,12 @@
       }
 
       function probeerGratis(){
+        for(var i=0; i<vm.ruimtes.length; i++){
+          if(vm.ruimtes[i].name == "Co-working Lab"){
+            vm.reservatie.ruimte = vm.ruimtes[i];
+            break;
+          }
+        }
         vm.getAvailablePlaces();
         console.log("probeergratis");
         console.log(vm.reservatie);

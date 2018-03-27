@@ -526,7 +526,7 @@ calendar-md md-content{
 }*/
 
 div.md-toolbar-tools.layout-row {
-  background-color: #FFBF3B;
+  /*background-color: #FFBF3B;*/
   padding-left: 50px !important;
   padding-right: 50px !important;
 }
@@ -542,7 +542,7 @@ md-toolbar {
 .calendar-md-title {
   font-family: 'AshleyScriptMT';
   text-transform: uppercase;
-  color: black;
+  /*color: black;*/
 }
 /*
 .md-icon-button {
@@ -693,7 +693,9 @@ md-checkbox.md-checked .md-icon{
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  margin: 5px !important;
+  margin-top: 5px;
+  margin-left: -6px;
+  /*margin: 5px !important;*/
 }
 
 .md-toolbar-tools h2{
@@ -786,83 +788,30 @@ div.mdp-calendar .md-button.md-icon-button{
 calendar-md{
   width: 60% !important;
   margin-bottom: 50px;
+  /*margin-left: auto !important;*/
+  margin-right: auto !important;
 }
 
 calendar-md > md-content{
-  height: 300px !important;
+  height: 350px !important;
 }
-
+/*
 calendar-md > md-content > div.layout-padding.layout-row.flex > div .flex{
   padding: 0 !important;
+}*/
+
+.layout-padding>*, .layout-padding>.flex{
+  padding: 6px !important;
 }
 
-/*Tiny Calendar*/
-.tc-container {
-  width: 100%;
-  max-width: 300px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  .tc-container .tc-header {
-    line-height: 2em;
-    font-size: 1em;
-    height: 2em;
-    position: relative; }
-    .tc-container .tc-header .tc-navigation {
-      position: absolute;
-      top: 0;
-      right: 0; }
-      .tc-container .tc-header .tc-navigation button {
-        cursor: pointer;
-        background-color: transparent;
-        border: 0;
-        outline: 0;
-        font-size: 0.8em;
-        line-height: 0.8em; }
-        .tc-container .tc-header .tc-navigation button:hover {
-          color: #009688; }
-  .tc-container .tc-days-name .tc-day-name {
-    width: 14.2857142857%;
-    display: inline-block;
-    text-align: center;
-    margin: 10px 0 0 0;
-    padding: 5px 0;
-    font-size: small;
-    border-top: 1px solid #ccc; }
-  .tc-container .tc-days {
-    border: 1px solid #ccc;
-    border-width: 1px 0; }
-    .tc-container .tc-days .tc-day {
-      width: 14.2857142857%;
-      display: inline-block;
-      height: 2em;
-      line-height: 2em;
-      text-align: center;
-      cursor: pointer; }
-      .tc-container .tc-days .tc-day:hover {
-        background-color: rgba(0, 150, 136, 0.1); }
-      .tc-container .tc-days .tc-day.differentMonth {
-        color: #aaa; }
-      .tc-container .tc-days .tc-day.today {
-        color: #009688; }
-      .tc-container .tc-days .tc-day.hasEvents {
-        font-weight: bold; }
-      .tc-container .tc-days .tc-day.selected {
-        background-color: #009688;
-        color: #fff;
-        outline: none; }
-  .tc-container .tc-focus ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    width: 100%; }
-    .tc-container .tc-focus ul li {
-      padding: 5px 0;
-      font-size: small;
-      border-bottom: 1px solid #ccc; }
-      .tc-container .tc-focus ul li span {
-        padding: 8px 10px; }
-        .tc-container .tc-focus ul li span.tc-time {
-          display: inline-block;
-          text-align: right;
-          border-right: 2px solid #009688;
-          font-size: smaller;
-          width: 65px; }
+.container-list{
+
+}
+
+.cont-left{
+
+}
+
+.cont-right{
+
+}

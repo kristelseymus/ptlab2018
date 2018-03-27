@@ -27,6 +27,7 @@
         }
 
         function create(reservatie) {
+          //Er wordt vanuit de api ergens een 404 error gegooid. Het is niet duidelijk van waar juist en waarom.
           return $http.post('/api/reservaties', reservatie, {
               headers: {
                   Authorization: 'Bearer ' + auth.getToken()
@@ -34,7 +35,7 @@
           }).success(function (data) {
               return data;
           }).error(function(err){
-            console.log(err.message);
+            console.log(err);
             return err;
           });
           /*var noSpace = false;

@@ -10,9 +10,6 @@
 
         //Deteremine the highest block
         var maxheight = Math.max(heightTrainer, heightCoworker, heightStudent);
-
-        console.log(maxheight);
-
         //Set the height of all textboxes to the same height on page load;
         $('#trainerblock').height(maxheight);
         $('#coworkingblock').height(maxheight);

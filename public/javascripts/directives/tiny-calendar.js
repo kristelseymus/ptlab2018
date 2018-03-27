@@ -67,7 +67,8 @@ angular.module('ptlab').directive('tinyCalendar', [ function() {
         scope: {
             events: '='
         },
-
+        //controller: 'CalendarController',
+        //controllerAs: 'ctrl',
         // replace: true,
         template: function(element, attrs) {
             var defaultsAttrs = {
@@ -106,7 +107,7 @@ angular.module('ptlab').directive('tinyCalendar', [ function() {
                 html+=      "</div>";
                 html+=      "<div class='tc-focus' ng-show='selected.events'>";
                 html+=          "<ul>";
-                html+=              "<li ng-repeat='e in selected.events | orderBy:&quot;date&quot;'><span class='tc-time' ng-show='e.time'>{{e.time}}</span><span class='tc-time' ng-hide='e.time'>"+attrs.allDayLabel+"</span><span class='tc-title' ng-bind-html='e.title'></span></li>";
+                html+=              "<li ng-repeat='e in selected.events | orderBy:&quot;date&quot;' ng-click='ctrl.calendarClick(e)'><span class='tc-time' ng-show='e.time'>{{e.time}}</span><span class='tc-time' ng-hide='e.time'>"+attrs.allDayLabel+"</span><span class='tc-title' ng-bind-html='e.title'></span></li>";
                 html+=          "</ul>";
                 html+=      "</div>";
                 html+=  "</div>";

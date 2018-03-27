@@ -1,23 +1,41 @@
 <md-dialog aria-label="Event Dialog">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2 class="dialog-date">{{ctrl.dateClicked | date: "fullDate"}}</h2>
+        <h2>{{ctrl.eventday.name}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="ctrl.cancel()">
           <md-icon aria-label="Close dialog" class="close-icon">close</md-icon>
         </md-button>
       </div>
     </md-toolbar>
-    <md-dialog-content style="max-width:800px;max-height:810px; ">
-      <md-list ng-hide="ctrl.isEmpty()">
-        <md-list-item ng-repeat="event in ctrl.eventsday">
-          <div class="md-list-item-text">
-            <h4>{{event.name}}</h4>
-            <h5>{{event.ruimte.name}} - {{event.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(event) | date: "HH:mm"}}</h5>
-            <p>{{event.description}}</p>
-          </div>
+    <md-dialog-content style="max-width:800px;max-height:810px;min-width:300px;">
+      <!--<md-list ng-hide="ctrl.isEmpty()">
+        <md-list-item layout-gt-xs="row">
+
         </md-list-item>
-      </md-list>
+      </md-list>-->
+      <div layout-row class="container">
+        <div layout-gt-xs="row">
+          <p>{{ctrl.eventday.description}}</p>
+        </div>
+        <div layout-gt-xs="row">
+          <div flex="40"><b>Ruimte</b></div>
+          <div flex="60">{{ctrl.eventday.ruimte.name}}</div>
+        </div>
+        <div layout-gt-xs="row">
+          <div flex="40"><b>Wanneer</b></div>
+          <div flex="60">{{ctrl.eventday.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(ctrl.eventday) | date: "HH:mm"}}</div>
+        </div>
+        <div layout-gt-xs="row">
+          <div flex="40"><b>Publiek</b></div>
+          <div flex="60">{{ctrl.eventday.publiek ? 'Ja' : 'Nee'}}</div>
+        </div>
+        <div layout-gt-xs="row">
+          <div flex="40"><b>Catering</b></div>
+          <div flex="60">{{ctrl.eventday.catering ? 'Ja' : 'Nee'}}</div>
+        </div>
+        <br/>
+      </div>
       <div ng-show="ctrl.isEmpty()" class="div-empty">
         <h5>Er zijn geen evenementen gepland op deze dag.<h5>
       </div>
