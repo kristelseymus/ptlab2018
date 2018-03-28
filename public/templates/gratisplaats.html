@@ -40,7 +40,7 @@
                   <!-- BOEKEN VAN EEN GRATIS PLAATS -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak ng-show="ctrl.isGratis()">
                     <div class="row text-center">
-                      <h2 class="section-heading">Boek een gratis plaats</h2>
+                      <h2 class="section-heading">Reserveer een gratis plaats</h2>
                     </div>
                     <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
                     <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
@@ -64,10 +64,10 @@
                       <div layout-gt-xs="row">
                         <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Gratis">
                           <div ng-messages="boekGratisPlaatsForm.date.$error">
-                           <div ng-message="required">Datum is verplicht</div>
-                           <div ng-message="format">Verkeerd formaat</div>
-                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
+                           <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
+                           <div ng-message="minDate"><md-icon class="error">error_outline</md-icon>&nbsp;Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate"><md-icon class="error">error_outline</md-icon>&nbsp;Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
                         <!--<md-input-container class="md-block" flex-gt-xs flex="75">
@@ -85,7 +85,7 @@
                             </md-option>
                           </md-select>
                           <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
-                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
                       </div>
@@ -113,10 +113,10 @@
                   <!-- OFFERTE AANVRAGEN COWORKER -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak ng-hide="ctrl.isGratis()">
                     <div class="row text-center">
-                      <h2 class="section-heading">Vraag een offerte aan</h2>
+                      <h2 class="section-heading">Reserveer een plaats</h2>
                     </div>
                     <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
-                    <form ng-submit="ctrl.vraagOfferteAanCoWorker()" name="vraagOfferteAanCoWorkerForm">
+                    <form ng-submit="ctrl.factureer()" name="vraagOfferteAanCoWorkerForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="50">
@@ -137,40 +137,57 @@
                       <div layout-gt-xs="row">
                         <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.offerte.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Offerte">
                           <div ng-messages="vraagOfferteAanCoWorkerForm.date.$error">
-                           <div ng-message="required">Datum is verplicht</div>
-                           <div ng-message="format">Verkeerd formaat</div>
-                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
+                           <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
+                           <div ng-message="minDate"><md-icon class="error">error_outline</md-icon>&nbsp;Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate"><md-icon class="error">error_outline</md-icon>&nbsp;Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
                         <md-input-container class="md-block" flex-gt-xs flex>
                           <label>Deel van de dag</label>
-                          <md-select ng-model="ctrl.offerte.keuzeDag" name="keuzeDag" required>
+                          <md-select ng-model="ctrl.offerte.keuzeDag" name="keuzeDag" required ng-change="ctrl.adjustPrice()">
                             <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
                               {{keuzeDag.name}}
                             </md-option>
                           </md-select>
                           <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
-                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
                       </div>
-                      <!--<div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="33">
-                          <label>Ruimtes</label>
-                          <md-select ng-model="ctrl.offerte.ruimte" name="ruimte" required>
-                            <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
-                              {{ruimte.name}}
-                            </md-option>
-                          </md-select>
-                          <div ng-messages="vraagOfferteAanCoWorkerForm.ruimte.$error">
-                            <div ng-message="required">Er moet een ruimte gekozen worden.</div>
-                          </div>
+                      <!--<div layout-row-xs="row">
+                        <md-input-container class="md-block" flex-gt-xs flex>
+                          <input ng-model="ctrl.offerte.bankrekeningnummer">
                         </md-input-container>
                       </div>-->
+                      <div layout-row-xs="row" ng-show="ctrl.offerte.startdate != undefined">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Datum</th>
+                              <th>Ruimte</th>
+                              <th>Prijs</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td ng-switch="ctrl.offerte.keuzeDag">
+                                <div ng-switch-when="voormiddag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>
+                                <div ng-switch-when="namiddag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
+                                <div ng-switch-when="volledigedag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
+                              </td>
+                              <td>{{ctrl.offerte.ruimte.name}}</td>
+                              <td class="price">{{ctrl.offerte.price}}</td>
+                              <td class="euro"><md-icon>euro_symbol</md-icon></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                       </md-content>
+
                       <div layout="row">
-                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Vraag aan</md-button>
+                        <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Reserveer</md-button>
                       </div>
                     </form>
                   </div>

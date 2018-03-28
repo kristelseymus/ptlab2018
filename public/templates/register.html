@@ -16,13 +16,13 @@
                     <md-icon>person</md-icon>
                     <input ng-model="ctrl.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
                     <div ng-messages="registerForm.voornaam.$error">
-                      <div ng-message="required">Voornaam is verplicht.</div>
+                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Voornaam is verplicht.</div>
                     </div>
                   </md-input-container>
                   <md-input-container md-no-float class="md-block" flex="50">
                     <input ng-model="ctrl.user.naam" type="text" name="naam" placeholder="Naam *" required>
                     <div ng-messages="registerForm.naam.$error">
-                      <div ng-message="required">Naam is verplicht.</div>
+                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Naam is verplicht.</div>
                     </div>
                   </md-input-container>
                 </div>
@@ -31,13 +31,13 @@
                   <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="registerForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      Email is Verplicht.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Email is Verplicht.
                     </div>
                     <div ng-message="pattern">
-                      Geen geldig email adres.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig email adres.
                     </div>
                     <div ng-message="exists">
-                      Er bestaat al een gebruiker met dit email adres.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit email adres.
                     </div>
                   </div>
                 </md-input-container>
@@ -46,7 +46,7 @@
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord *" required>
                   <div ng-messages="registerForm.wachtwoord.$error" md-auto-hide="false">
                     <div ng-message="required">
-                      Waschtwoord is verplicht.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Waschtwoord is verplicht.
                     </div>
                   </div>
                 </md-input-container>
@@ -57,7 +57,7 @@
                     </md-option>
                   </md-select>
                   <div ng-messages="registerForm.typeUser.$error">
-                    <div ng-message="required">Er moet een type gekozen worden.</div>
+                    <md-icon class="error">error_outline</md-icon>&nbsp;<div ng-message="required">Er moet een type gekozen worden.</div>
                   </div>
                 </md-input-container>
                 <div layout="row">

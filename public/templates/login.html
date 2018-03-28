@@ -16,13 +16,13 @@
                   <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="signInForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      Email is leeg.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Email is leeg.
                     </div>
                     <div ng-message="pattern">
-                      Geen geldig email adres.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig email adres.
                     </div>
                     <div ng-message="incorrectusername">
-                      Gebruiker bestaat niet.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Gebruiker bestaat niet.
                     </div>
                   </div>
                 </md-input-container>
@@ -31,10 +31,10 @@
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord" required>
                   <div ng-messages="signInForm.wachtwoord.$error" md-auto-hide="false">
                     <div ng-message="required">
-                      Waschtwoord is leeg.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Wachtwoord is leeg.
                     </div>
                     <div ng-message="incorrectpassword">
-                      Wachtwoord is niet geldig.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Wachtwoord is niet geldig.
                     </div>
                   </div>
                 </md-input-container>

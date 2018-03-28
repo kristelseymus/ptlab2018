@@ -46,7 +46,9 @@
       vm.boekPlaatsStudent = boekPlaatsStudent;
       vm.vraagOfferteAan = vraagOfferteAan;
       vm.probeerGratis = probeerGratis;
-      vm.vraagOfferteAanCoWorker = vraagOfferteAanCoWorker;
+      vm.factureer = factureer;
+      vm.adjustPrice = adjustPrice;
+      vm.offerte.price = 10;
 
       activate();
 
@@ -153,6 +155,12 @@
       function getRuimtes(){
         vm.ruimtes = ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
+          for(var i=0; i<vm.ruimtes.length; i++){
+            if(vm.ruimtes[i].name == "Co-working Lab"){
+              vm.offerte.ruimte = vm.ruimtes[i];
+              break;
+            }
+          }
           return vm.ruimtes;
         });
       }
@@ -240,6 +248,8 @@
          );
           $state.go("home")
         }).error(function(error){
+          var jsonerror = JSON.stringify(error);
+          console.log(jsonerror)
           $mdToast.show($mdToast.simple()
             .content(error.error)
            .position('bottom left')
@@ -492,9 +502,21 @@
             });
       } // EINDE probeerGratis
 
-      function vraagOfferteAanCoWorker() {
+      function factureer() {
+        //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
+        //Daarna zal ook een reservatie moeten worden aangemaakt.
         console.log("vraagofferteaancoworker");
         console.log(vm.offerte);
+        reservatieService.sendMail(vm.offerte);
+      }
+
+      function adjustPrice() {
+        console.log("123");
+        if(vm.offerte.keuzeDag == "volledigedag"){
+          vm.offerte.price = 30;
+        } else {
+          vm.offerte.price = 15;
+        }
       }
 
     }

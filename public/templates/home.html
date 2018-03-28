@@ -352,7 +352,7 @@
         <span class="calendar-md-title">{{ctrl.dateClicked | date: 'EEEE d MMMM'}}</span>
       </div>
     </md-toolbar>
-    <md-content>
+    <md-content ng-show="ctrl.eventsday.length > 0">
       <md-list>
         <md-list-item ng-repeat="event in ctrl.eventsday" ng-click="ctrl.openDialog(event)">
           <div class="md-list-item-text" layout="column">
@@ -362,5 +362,8 @@
         </md-list-item>
       </md-list>
     </md-content>
+    <div ng-show="ctrl.eventsday.length === 0">
+      <p class="geenEvents">Er vinden geen events plaats op deze dag.<p>
+    </div>
   </div>
 </div>

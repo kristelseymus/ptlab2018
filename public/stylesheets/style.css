@@ -804,14 +804,20 @@ calendar-md > md-content > div.layout-padding.layout-row.flex > div .flex{
   padding: 6px !important;
 }
 
-.container-list{
-
+.geenEvents{
+  padding: 8px;
+  font-weight: bold;
 }
 
-.cont-left{
-
+.error{
+  fill: rgb(221,44,0);
+  color: rgb(221,44,0);
 }
 
-.cont-right{
+.price{
+  width: 5%;
+}
 
+.euro{
+  width: 5%;
 }

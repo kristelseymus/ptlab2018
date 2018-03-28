@@ -16,7 +16,8 @@
             deleteReservatie: deleteReservatie,
             getReservatiesUser: getReservatiesUser,
             getReservatieTypes: getReservatieTypes,
-            getReservatiesByDay: getReservatiesByDay
+            getReservatiesByDay: getReservatiesByDay,
+            sendMail: sendMail
         };
         return service;
 
@@ -28,6 +29,9 @@
 
         function create(reservatie) {
           //Er wordt vanuit de api ergens een 404 error gegooid. Het is niet duidelijk van waar juist en waarom.
+          //Controles slagen. Wanneer er niet kan gereserveerd worden, zal de reservatie niet in de dartabank worden opgeslagen.
+          //Wanneer er wel gereserveerd wordt, zal er een reservatie worden toegevoegd aan de databank.
+          //Maar dan zal er een error 404: Not Found worden gegooid. Er wordt dan ook niet geredirect.
           return $http.post('/api/reservaties', reservatie, {
               headers: {
                   Authorization: 'Bearer ' + auth.getToken()
@@ -108,9 +112,21 @@
         }
 
         function getReservatiesByDay(date) {
-          return $http.get('api/reservaties/' + date).then(function (res) {
+          return $http.get('/api/reservaties/' + date).then(function (res) {
             return res.data;
           })
+        }
+
+        function sendMail(offerte){
+          return $http.post('/api/sendmail', offerte, {
+            headers: {
+              Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function (date){
+            return data;
+          }).error(function (err){
+            console.log(err);
+          });
         }
     }
 })();
