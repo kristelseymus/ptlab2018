@@ -80,7 +80,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
  $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
  $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
  $mdDateLocaleProvider.days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
- $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Woe', 'Don', 'Vrij', 'Zat'];
+ $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Wo', 'Don', 'Vr', 'Za'];
  $mdDateLocaleProvider.firstDayOfWeek = 1;
  $locationProvider.hashPrefix('');
  $locationProvider.html5Mode({

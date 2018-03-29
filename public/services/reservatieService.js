@@ -28,10 +28,6 @@
         }
 
         function create(reservatie) {
-          //Er wordt vanuit de api ergens een 404 error gegooid. Het is niet duidelijk van waar juist en waarom.
-          //Controles slagen. Wanneer er niet kan gereserveerd worden, zal de reservatie niet in de dartabank worden opgeslagen.
-          //Wanneer er wel gereserveerd wordt, zal er een reservatie worden toegevoegd aan de databank.
-          //Maar dan zal er een error 404: Not Found worden gegooid. Er wordt dan ook niet geredirect.
           return $http.post('/api/reservaties', reservatie, {
               headers: {
                   Authorization: 'Bearer ' + auth.getToken()
@@ -39,31 +35,8 @@
           }).success(function (data) {
               return data;
           }).error(function(err){
-            console.log(err);
             return err;
           });
-          /*var noSpace = false;
-          var reser = null;
-          getReservatiesByDay(reservatie.startdate).then(function(res){
-            for(var item of res){
-              console.log(item);
-              if(item.keuzeDag === reservatie.keuzeDag){
-                noSpace = true;
-                break;
-              }
-            }
-            console.log("service: ");
-            console.log(reservatie);
-            console.log(reservatie.user);
-            console.log("noSpace: " + noSpace);
-            if(noSpace === false){
-
-            } else {
-              return next(new Error("No space left in room"));
-            }
-          });*/
-
-
         }
 
         function get(id) {
@@ -91,9 +64,6 @@
         }
 
         function deleteReservatie(reservatie) {
-          console.log("in deleteService");
-          console.log(reservatie._id);
-          console.log(reservatie.user);
             return $http.delete('/api/reservaties/' + reservatie._id + '/' + reservatie.user, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
@@ -101,7 +71,7 @@
             }).success(function (res) {
               return res.data;
             }).error(function (error){
-              console.log(error);
+              return error;
             });
         }
 
@@ -122,10 +92,10 @@
             headers: {
               Authorization: 'Bearer ' + auth.getToken()
             }
-          }).success(function (date){
-            return data;
+          }).success(function (res){
+            return res;
           }).error(function (err){
-            console.log(err);
+            return err;
           });
         }
     }

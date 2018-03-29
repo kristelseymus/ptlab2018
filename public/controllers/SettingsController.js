@@ -37,6 +37,8 @@
         return day === 0 || day === 6;
       };
 
+      vm.keuzeDagen = [{name: "Voormiddag", value: "voormiddag"}, {name: "Namiddag", value:"namiddag"}, {name: "Volledige dag", value:"volledigedag"}];
+
       activate();
 
       function activate(){

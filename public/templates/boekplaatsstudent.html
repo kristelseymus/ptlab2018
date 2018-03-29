@@ -1,24 +1,14 @@
-<!--<section id="sectionboekplaatsstudent">
-  <div class="container" id="boekplaatsstudent">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-
-      </div>
-    </div>
-  </div>
-</section>-->
-
 <section id="sectionboekplaatsstudent">
         <div class="container" id="boekplaatsstudent">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                  <!-- CONTENT TEST -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak>
-
                     <div class="row text-center">
                       <h2 class="section-heading">Boek een studieplek</h2>
                     </div>
-                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
+                    <div class="row text-center">
+                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+                    </div>
                     <form ng-submit="ctrl.boekPlaatsStudent()" name="boekPlaatsStudentForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
@@ -87,40 +77,6 @@
                       </div>
                     </form>
                   </div>
-                  <!-- CONTENT TEST -->
-                  <!--
-                  <h2 class="section-heading">Boek een studieplek</h2>
-                  <form ng-submit="ctrl.boekPlaatsStudent()">
-                    <div class="form-group">
-                      <label>Naam</label>
-                      <input type="text" class="form-control" placeholder="Jansen" ng-model="ctrl.student.naam"
-                      required/>
-                    </div>
-                    <div class="form-group">
-                      <label>Voornaam</label>
-                      <input type="text" class="form-control" placeholder="Jan" ng-model="ctrl.student.voornaam"
-                      required/>
-                    </div>
-                    <div class="form-group">
-                      <md-content layout-padding ng-cloak>
-                        <div layout-gt-xs="row">
-                          <div flex-gt-xs>
-                            <label>Kies een datum</label>
-                            <md-datepicker ng-model="ctrl.datum" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
-                          </div>
-                        </div>
-                      </md-content>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Reserveer</button>
-                  </form>
-
-                  <div>{{ctrl.student}}</div>
-                  <div>{{ctrl.student.naam}}</div>
-                  <div>{{ctrl.student.voornaam}}</div>
-                  <div>{{ctrl.datum}}</div>
-                  <div>{{ctrl.getTodayDate}}</div>
-                  <div>{{ctrl.aantalPlaatsen}}</div>
--->
                 </div>
             </div>
         </div>

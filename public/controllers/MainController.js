@@ -4,14 +4,14 @@
 
     angular.module('ptlab').controller('MainController', MainController);
 
-    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'MaterialCalendarData', '$scope', '$mdDialog', '$timeout'];
+    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'ruimteService', 'MaterialCalendarData', '$scope', '$mdDialog', '$timeout'];
 
-    function MainController($http, $log, auth, $state, $stateParams, eventService, MaterialCalendarData, $scope, $mdDialog, $timeout) {
+    function MainController($http, $log, auth, $state, $stateParams, eventService, ruimteService, MaterialCalendarData, $scope, $mdDialog, $timeout) {
         var vm = this;
         vm.users = [];
-        vm.getUsers = getUsers;
         vm.openingsuren = [];
         vm.events = [];
+        vm.ruimtes = [];
         vm.setDayContent = setDayContent;
         vm.dateClicked = new Date();
         $scope.dayClick = dayClick;
@@ -19,13 +19,16 @@
         vm.showDialog = showDialog;
         vm.eventsday = {};
         vm.getEventsByDay = getEventsByDay;
+        vm.getUsers = getUsers;
         vm.getEndTime = getEndTime;
+        vm.getRuimtes = getRuimtes;
         vm.userStudent = true;
         vm.userCoworker = true;
         vm.userManager = true;
         vm.dayContent = "";
-        vm.testEvents = [];
         vm.event = {};
+
+        vm.fotos = [];
 
         activate();
 
@@ -34,9 +37,16 @@
           return load();
         }
         function load(){
+          vm.fotos = [
+            { url: "https://drive.google.com/thumbnail?id=1VxB7aHa9_dkOp8mPFgQ7WDUAR_unRlVB" },
+            { url: "https://drive.google.com/thumbnail?id=1w1gKg95YPHSaReintAVyf7cj1q8g8jtQ" },
+            { url: "https://drive.google.com/thumbnail?id=1_78hYcr3c2Zy-GKIaUKDTi547rgbzTQh" },
+            { url: "https://drive.google.com/thumbnail?id=1S24B_CurBFZLp9_Ihha_BNkbCU0ARZIV" }
+          ];
             getUsers();
             getOpeningsuren();
             getEvents();
+            getRuimtes();
             vm.eventsday = getEventsByDay(new Date());
             /*switch (auth.getCurrentUser().typeuser) {
               case "STUDENT": vm.userStudent = false
@@ -52,7 +62,6 @@
               vm.userCoworker = false;
               vm.userManager = false;
             }*/
-            //eventsByDay(new Date());
         }
 
         function getUsers() {
@@ -82,6 +91,17 @@
           });
         }
 
+        function getRuimtes(){
+          vm.ruimtes = ruimteService.getAll().then(function(res){
+            vm.ruimtes = res.data;
+            console.log(vm.ruimtes);
+            for(var i=0; i<vm.ruimtes.length; i++){
+              vm.ruimtes[i].img = vm.fotos[i].url;
+            }
+            return vm.ruimtes;
+          });
+        }
+
         function setDayContent(date, content){
           MaterialCalendarData.setDayContent(new Date(date), content);
         }
@@ -89,7 +109,6 @@
         function dayClick(date){
           vm.dateClicked = date;
           getEventsByDay(date);
-
         }
 
         function createContentCalendar(evenement){
@@ -103,9 +122,7 @@
         }
 
         function openDialog(e){
-          console.log("openDialog");
           vm.event = e;
-          console.log(vm.event);
           showDialog();
         }
 

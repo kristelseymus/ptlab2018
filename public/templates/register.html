@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-            <!-- CONTENT TEST -->
             <div class="contactwrapper" layout="column" layout-padding ng-cloak>
-
               <div class="row">
                 <h2 class="section-heading">Registreer</h2>
               </div>
-              <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
+              <div class="row text-center">
+                <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+              </div>
               <form ng-submit="ctrl.register(registerForm)" name="registerForm">
               <md-content class="md-no-momentum no-background">
                 <div layout="row">
@@ -66,28 +66,7 @@
               </md-content>
               </form>
             </div>
-            <!-- CONTENT TEST -->
       </div>
     </div>
   </div>
 </section>
-<!--
-<div class="wrapper">
-    <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-    <form ng-submit="ctrl.register()" class="form-signin">
-        <h2 class="form-signin-heading text-center">Register</h2>
-        <input type="text" class="form-control form-login" name="voornaam" placeholder="Voornaam" required=""
-               ng-model="ctrl.user.voornaam"
-        />
-        <input type="text" class="form-control form-login" name="naam" placeholder="Naam" required=""
-               ng-model="ctrl.user.naam"
-        />
-        <input type="email" class="form-control form-login" name="username" placeholder="Email" required=""
-               ng-model="ctrl.user.username"
-        />
-        <input type="password" class="form-control form-login" name="wachtwoord" placeholder="Wachtwoord" required=""
-               ng-model="ctrl.user.password"
-        />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-    </form>
-</div>-->

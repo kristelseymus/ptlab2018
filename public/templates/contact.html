@@ -3,23 +3,6 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1 text-center">
         <h2 class="section-heading">Contact</h2>
-        <!--
-          <form method="POST" class="form-horizontal">
-                <label for="naam" class="col-md-2 col-sm-2 col-xs-12">Naam: </label>
-                <input type="text" name="naam" id="naam" placeholder="Naam" class="col-md-10 col-sm-10 col-xs-12" required>
-                <label for="email" class="col-md-2 col-sm-2 col-xs-12">Email: </label>
-                <input type="email" name="email" id="email" placeholder="talent@planet-talent.be" class="col-md-10 col-sm-10 col-xs-12" required>
-                <label for="telefoon" class="col-md-2 col-sm-2 col-xs-12">Telefoon:</label>
-                <input type="tel" id="telefoon" name="telefoon" class="col-md-10 col-sm-10 col-xs-12" required/>
-                <label for="vraag" class="col-md-2 col-sm-2 col-xs-12">Vraag:</label>
-                <textarea id="vraag" name="vraag" rows="5" class="col-md-10 col-sm-10 col-xs-12"></textarea>
-                <p class="text-center">
-                  <button type="submit" class="btn-lg btn btn-success btn-verzenden">Verzenden</button>
-                </p>
-                <input type="hidden" name="_next" value="/home.html" />
-            </form>-->
-
-            <!-- CONTENT TEST -->
             <div class="contactwrapper" layout="column" layout-padding ng-cloak>
               <br/>
               <form ng-submit="ctrl.submitForm()" name="contactForm">
@@ -53,7 +36,7 @@
                     <div ng-message="pattern">
                       Geen geldig email adres.
                     </div>
-        </div>
+                  </div>
                 </md-input-container>
                 <md-input-container md-no-float class="md-block">
                   <md-icon>message</md-icon>
@@ -68,7 +51,6 @@
               </md-content>
               </form>
             </div>
-            <!-- CONTENT TEST -->
       </div>
     </div>
   </div>

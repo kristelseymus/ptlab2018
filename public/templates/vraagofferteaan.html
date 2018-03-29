@@ -8,7 +8,9 @@
                     <div class="row text-center">
                       <h2 class="section-heading">Vraag een offerte aan</h2>
                     </div>
-                    <div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>
+                    <div class="row text-center">
+                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+                    </div>
                     <form ng-submit="ctrl.vraagOfferteAan()" name="vraagOfferteAanForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
@@ -30,6 +32,15 @@
                           <!--<md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         <mdp-time-picker ng-model="ctrl.startTime" mdp-auto-switch="true" required name="time" aria-label="Timepicker Event"></mdp-time-picker>
                           <!--<input type="time" ng-model="ctrl.startTime"></input>-->
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>Aantal minuten</label>
+                          <input ng-model="ctrl.offerte.duur" type="number" name="aantalminuten" placeholder="Aantal minuten *" required min="30" max="480"></input>
+                          <div ng-messages="vraagOfferteAanForm.aantalminuten.$error" multiple>
+                            <div ng-message="required">Aantal minuten is verplicht.</div>
+                            <div ng-message="min">Het minimum aantal minuten is 30 minuten.</div>
+                            <div ng-message="max">Het maximum aantal minuten is 8 uur (480 minuten).</div>
+                          </div>
+                        </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="33">
@@ -71,24 +82,32 @@
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="33">
                           <label>Aantal Personen</label>
-                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="5" max="{{ctrl.selectedRoom.aantalPersonen}}">
+                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.offerte.ruimte.aantalPlaatsen}}">
                           <div ng-messages="vraagOfferteAanForm.aantalpersonen.$error" multiple>
                             <div ng-message="required">Aantal personen is verplicht.</div>
                             <div ng-message="min">Minimum aantal personen is 5.</div>
-                            <div ng-message="max">Maximum aantal personen is {{ctrl.selectedRoom.aantalPersonen}}.</div>
+                            <div ng-message="max">Maximum aantal personen is {{ctrl.offerte.ruimte.aantalPlaatsen}}.</div>
                           </div>
-
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-xs flex="33">
                           <label>Ruimtes</label>
                           <md-select ng-model="ctrl.offerte.ruimte" name="ruimte" required>
                             <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
-                              {{ruimte.name}}
+                              {{ruimte.name}} ({{ruimte.aantalPlaatsen}} plaatsen)
                             </md-option>
                           </md-select>
                           <div ng-messages="vraagOfferteAanForm.ruimte.$error">
                             <div ng-message="required">Er moet een ruimte gekozen worden.</div>
                           </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <md-checkbox ng-model="ctrl.offerte.publiek" name="checkboxPubliek" aria-label="Checkbox Publiek" md-no-ink>
+                              Publiek evenement
+                          </md-checkbox>
+                          <br/>
+                          <md-checkbox ng-model="ctrl.offerte.catering" name="checkboxCatering" aria-label="Checkbox Catering" md-no-ink>
+                              Catering
+                          </md-checkbox>
                         </md-input-container>
                         <!--<md-input-container class="md-block" flex-gt-xs flex="33">
                           <label>Type</label>

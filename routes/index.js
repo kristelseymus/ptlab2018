@@ -103,13 +103,13 @@
     router.post('/api/reservaties', auth, function (req, res, next) {
         var reservatie = new Reservatie(req.body);
         var hasreservation = false;
+        var reserve = false;
 
         var u = {}; //De user die wil reserveren
         var r = {}; //Alle reservaties op de gekozen dag
         var ru = {}; //De gewenste ruimte
         var e = {}; //Events die die dag plaatsvinden
         var plaatsen = 0;
-        //var reservatiesRuimte = [];
         var temp = 0; //Voor de plaatsberekening
         var voor = 0; //Voor de plaatsberekening
         var na = 0; //Voor de plaatsberekening
@@ -118,15 +118,13 @@
         day.setHours(0,0,0,0)
         var nextDay = new Date(reservatie.startdate);
         nextDay.setDate(day.getDate()+1);
-        console.log(reservatie);
-
 
         User.findById(reservatie.user).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
           u = user;
           if (err) {
               return next(err);
           }
-          Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).exec(function (err, events) {
+          Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': reservatie.ruimte}).exec(function (err, events) {
             e = events;
             if (err) {
                 return next(err);
@@ -152,12 +150,9 @@
                 if(hasreservation){
                   //Ja ?
                     // !! Kan niet reserveren
-                  //res.status(400).send({ error: 'U hebt al een reservatie op de gekozen dag.' });
-                  //var error = new Error();
-                  //error.message = "U hebt al een reservatie op de gekozen dag.";
-                  //next(error);
-                  return next(new Error('U hebt al een reservatie op de gekozen dag.'));
-                  //return next(new Error("U hebt al een reservatie op de gekozen dag."));
+                  return res.status(400).json({
+                    message: 'U hebt al een reservatie op de gekozen dag. Gelieve een ander moment te kiezen.'
+                  });
                 } else {
                   //Nee ?
                     // ** CONTROLE 2: ZIJN ER EVENTS OP DE GEKOZEN DAG ?
@@ -168,13 +163,13 @@
                             // !! Kan niet reserveren
                           for(var i=0; i<e.length; i++){
                             if(e[i].keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
-                              //res.status(400).send({ error: 'Er vindt een evenement plaats op het gekozen moment.' });
-                              return next(new Error('Er vindt een evenement plaats op het gekozen moment.'));
+                              return res.status(400).json({
+                                message: 'Er vindt een evenement plaats op het gekozen moment. Gelieve een ander moment te kiezen.'
+                              });
                             }
                           }
                           //Niet gelijk & geen event met keuzedag 'volledigedag' ?
                             // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
-
 
                           //Plaatsberekening
                           //Bij alle reservaties zal worden gekeken welke ruimte is gereserveerd.
@@ -185,16 +180,7 @@
                             //Geen reservaties op de gekozen datum en in de gekozen ruimte
                             plaatsen = ru.aantalPlaatsen;
                           } else {
-                            //r.forEach(function(res){
-                            //  if(res.ruimte._id === reservatie.ruimte){
-                            //    reservatiesRuimte.push(res);
-                            //  }
-                            //});
-                            //if(!reservatiesRuimte.length > 0){
-                              //Vandaag zijn er geen reservaties in de gekozen ruimte
-                              //Als reservaties leeg is, dan zijn er geen reservaties opgeslagen in deze ruimte op deze dag.
-                              //plaatsen = ru.aantalPlaatsen;
-                            //} else {
+                            //Er zijn 1 of meerdere reservaties gevonden op de gekozen dag en in de gekozen ruimte
                               if(reservatie.keuzeDag === 'volledigedag'){
                                 //Wanneer er voor een volledige dag gekozen wordt, dienen er andere controles uitgevoerd te worden.
                                 r.forEach(function(res){
@@ -223,34 +209,19 @@
                                 });
                               }
                               plaatsen = ru.aantalPlaatsen - temp;
-                              console.log("Plaatsen: " + plaatsen);
-                            //}
                           }
                           //Einde Plaatsberekening
 
                           if(plaatsen > 0){
                             //Ja ?
                               // ++ Reserveer
-                              reservatie.save(function (err, reservatie) {
-                                  if (err) {
-                                    console.log(err);
-                                      return next(err);
-                                  }
-                              });
-                              u.reservaties.addToSet(reservatie);
-                              u.save(function (err) {
-                                  if (err) {
-                                    console.log(err);
-                                      return next(err);
-                                  }
-                                  return next();
-                              });
+                              reserve = true;
                           } else {
                             //Nee ?
                               // !! Kan niet reserveren
-                            //res.status(400).send({ error: 'Er is helaas geen plaats meer.' });
-                            //return;
-                            return next(new Error("Er is helaas geen plaats meer"));
+                            return res.status(400).json({
+                              message: 'Er is helaas geen plaats meer. Gelieve een ander moment te kiezen.'
+                            });
                           }
                     } else {
                       //Nee ?
@@ -279,35 +250,34 @@
                               });
                             }
                             plaatsen = ru.aantalPlaatsen - temp;
-                            console.log(plaatsen);
                         }
                         //Einde Plaatsberekening
                         if(plaatsen > 0){
-                          //Ja ?
-                            // ++ Reserveer
-                            reservatie.save(function (err, reservatie) {
-                                if (err) {
-                                  console.log(err);
-                                    return next(err);
-                                }
-                            });
-                            u.reservaties.addToSet(reservatie);
-                            u.save(function (err) {
-                                if (err) {
-                                  console.log(err);
-                                    return next(err);
-                                }
-                                return next();
-                            });
+                          reserve = true;
                         } else {
-                          //Nee ?
-                            // !! Kan niet reserveren
-                          //res.status(400).send({ error: 'Er is helaas geen plaats meer.' });
-                          return next(new Error('Er is helaas geen plaats meer.'));
-                          //return next(new Error("Er is helaas geen plaats meer."));
+                          return res.status(400).json({
+                            message: 'Er is helaas geen plaats meer. Gelieve een ander moment te kiezen.'
+                          });
                         }
                     }// Einde if(e.length > 0)
                 }// Einde hasreservation
+
+                if(reserve){
+                  //Als er kan gereserveerd worden dan zal de reserbatie opgeslagen worden
+                  //in de databank. Wanneer dit niet zo is, zal er niets gebeuren.
+                  reservatie.save(function (err, reservatie) {
+                      if (err) {
+                          return next(err);
+                      }
+                  });
+                  u.reservaties.addToSet(reservatie);
+                  u.save(function (err) {
+                      if (err) {
+                          res.send(err);
+                      }
+                      res.json(u);
+                  });
+                }
               }); // Einde Ruimte.findOne
             }); // Einde Reservatie.find
           }); // Einde Evenement.find
@@ -335,26 +305,6 @@
                       // ++ Reserveer
                     //Nee ?
                       // !! Kan niet reserveren
-
-/*
-        reservatie.save(function (err, reservatie) {
-            if (err) {
-                return next(err);
-            }
-        });
-        User.findOne({ '_id' : new ObjectId(reservatie.user) }).exec(function (err, user) {
-            if (err) {
-                res.send(err);
-            }
-            user.reservaties.addToSet(reservatie);
-            user.save(function (err) {
-                if (err) {
-                    res.send(err);
-                }
-                res.json(user);
-            });
-        });
-*/
     });// EINDE POST
 
     router.get('/api/reservaties', function(req, res, next) {
@@ -543,11 +493,15 @@
     //Region sendMail
     router.post('/api/sendmail', auth, function (req, res, next) {
         var offerte = req.body;
-        var transporter = nodemailer.createTransport({
+        var transporter = nodemailer.createTransport("SMTP", {
           service: 'Gmail',
           auth: {
-            user: 'planettalenttestemail@gmail.com',
-            pass: 'planettalent'
+            XOAuth2: {
+              user: "planettalenttestemail@gmail.com",
+              clientId: "963910660213-17md2s3n1h2p2l9ipb4ari9f0789a40f.apps.googleusercontent.com",
+              clientSecret: "UYXWsnm7xyFx2R5ClADk11oS",
+              refreshToken: "1/TGEoelyI__RfXy71kIwIzQpDyWmYtXIV33lM2kp8oB4"
+            }
           }
         });
 
@@ -582,11 +536,17 @@
         };
 
         transporter.sendMail(mailOptions, function(error, info){
+          var mes;
           if (error) {
-            console.log(error);
+            mes = error.message;
+            //console.log(error);
           } else {
-            console.log('Email sent: ' + info.response);
+            mes = "Mail sent: " + info.response;
+            //console.log('Email sent: ' + info.response);
           }
+          return res.json({
+            message: mes
+          })
         });
     });
     //End region sendMail

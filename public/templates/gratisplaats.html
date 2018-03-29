@@ -1,37 +1,3 @@
-<!--<section id="sectiongratisplaats">
-        <div class="container" id="gratisplaats">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 text-center">
-                  <h2 class="section-heading">Boek een gratis plaats</h2>
-                  <form ng-submit="ctrl.gratisPlaats()">
-                    <div class="form-group">
-                      <label>Voornaam</label>
-                      <input type="text" class="form-control" placeholder="Jan" ng-model="ctrl.student.voornaam"
-                      required/>
-                    </div>
-                    <div class="form-group">
-                      <label>Naam</label>
-                      <input type="text" class="form-control" placeholder="Jansen" ng-model="ctrl.student.naam"
-                      required/>
-                    </div>
-                    <div class="form-group">
-                      <md-content layout-padding ng-cloak>
-                        <div layout-gt-xs="row">
-                          <div flex-gt-xs>
-                            <label>Kies een datum</label>
-                            <md-datepicker ng-model="ctrl.datum" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>
-                          </div>
-                        </div>
-                      </md-content>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Reserveer</button>
-                  </form>
-                </div>
-            </div>
-        </div>
-        <div id="cover"></div>
-</section>-->
-
 <section id="sectiongratisplaats">
         <div class="container" id="gratisplaats">
             <div class="row">
@@ -42,7 +8,9 @@
                     <div class="row text-center">
                       <h2 class="section-heading">Reserveer een gratis plaats</h2>
                     </div>
-                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
+                    <div class="row text-center">
+                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+                    </div>
                     <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
@@ -84,7 +52,7 @@
                               {{keuzeDag.name}}
                             </md-option>
                           </md-select>
-                          <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
+                          <div ng-messages="boekGratisPlaatsForm.keuzeDag.$error">
                             <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
@@ -115,7 +83,9 @@
                     <div class="row text-center">
                       <h2 class="section-heading">Reserveer een plaats</h2>
                     </div>
-                    <div ng-show="ctrl.message" class="alert alert-danger text-center" role="alert">{{ctrl.message}}</div>
+                    <div class="row text-center">
+                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+                    </div>
                     <form ng-submit="ctrl.factureer()" name="vraagOfferteAanCoWorkerForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
@@ -150,7 +120,7 @@
                               {{keuzeDag.name}}
                             </md-option>
                           </md-select>
-                          <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
+                          <div ng-messages="boekGratisPlaatsForm.keuzeDag.$error">
                             <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>

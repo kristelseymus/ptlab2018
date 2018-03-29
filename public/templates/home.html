@@ -118,59 +118,71 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
                     <h2 class="section-heading">Ruimtes</h2>
-                    <p>
+                  <!--  <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
 
                     Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
 
                     Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
                     </p>
-
                     <div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="coworkinglabtitle">
                           <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Co-working Lab</div>
                           <div class="block-image image-coworking">
-                            <!--<img src="images/vergaderzaal1_test.jpg" alt="Vergaderzaal 1" align="middle" id="vergaderzaal1test"/>-->
                           </div>
                         </div>
-                        <!--<button class="btn-primary btn-block" id="btnCoworking">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="meetingroomtitle">
                           <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Meeting Room</div>
                           <div class="block-image image-meeting">
-
                           </div>
                         </div>
-                        <!--<button class="btn-primary btn-block" id="btnMeetingRoom">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="trainingroomtitle">
                           <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Training Room</div>
                           <div class="block-image image-training">
-
                           </div>
                         </div>
-                        <!--<button class="btn-primary btn-block" id="btnTrainingRoom">Reserveer</button>-->
                       </div>
                       <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
                         <div class="clickable-block" open-sections id="boardroomtitle">
                           <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
                           <div class="block-title">Board Room</div>
                           <div class="block-image image-board">
-
                           </div>
                         </div>
-                        <!--<button class="btn-primary btn-block" id="btnBoardRoom">Reserveer</button>-->
                       </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
+        <md-content class="md-padding no-background" layout-xs="column" layout="row">
+            <div flex-gt-sm="70" layout="column" ng-repeat="ruimte in ctrl.ruimtes" class="ruimte-card">
+              <md-card>
+                <img ng-src="{{ruimte.img}}" class="md-card-image" alt="Vergaderzaal">
+                <md-card-title>
+                  <md-card-title-text>
+                    <span class="md-headline">{{ruimte.name}}</span>
+                  </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                  <ul class="card-list">
+                    <li>Aantal plaatsen: {{ruimte.aantalPlaatsen}}</li>
+                  </ul>
+                  <p>
+                    Hier komt meer informatie over de ruimtes of een korte beschrijving ...
+                  </p>
+                </md-card-content>
+              </md-card>
+
+            </div>
+          </md-content>
 </section>
 
 <section class="bg-red openSections" id="sectionCoworking">
@@ -339,7 +351,7 @@
   title-format="'MMMM y'"
   ng-model='selectedDate'
   week-starts-on="1"
-  tooltips="true"
+  tooltips="false"
   day-format="dayFormat"
   day-label-format="'EEE'"
   day-label-tooltip-format="'EEEE'"
