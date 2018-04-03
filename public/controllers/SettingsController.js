@@ -27,6 +27,7 @@
       vm.getReservaties = getReservaties;
       vm.getEvents = getEvents;
       vm.getEventTypes = getEventTypes;
+      vm.getEndTime = getEndTime;
 
       vm.createRuimte = createRuimte;
       vm.createEvent = createEvent;
@@ -101,17 +102,52 @@
       function createEvent(){
         vm.event.startdate.setHours(vm.starttime.getHours());
         vm.event.startdate.setMinutes(vm.starttime.getMinutes());
+        var enddate = new Date(vm.event.startdate);
+        enddate.setHours(vm.endtime.getHours());
+        enddate.setMinutes(vm.endtime.getMinutes());
+        var tempdate;
+
+        //Bepalen of het event in de voormiddag of namiddag is, of het een volledige dag duurt.
+        if(vm.event.startdate.getHours() >= 12){
+          //Event begint na de middag.
+          vm.event.keuzeDag = "namiddag";
+        } else {
+          //Bepaal voormiddag of volledige dag.
+          tempdate = new Date(vm.event.startdate)
+          tempdate.setMinutes(tempdate.getMinutes() + vm.event.duur);
+          if(tempdate.getHours() > 12){
+            //Het event zal ten vroegste om 13 uur eindigen.
+            vm.event.keuzeDag = "volledigedag";
+          } else {
+            if (tempdate.getHours() === 12){
+              if(tempdate.getMinutes() === 0){
+                vm.event.keuzeDag = "voormiddag";
+              } else {
+                vm.event.keuzeDag = "volledigedag";
+              }
+            } else {
+              //tempdate.getHours() < 12
+              vm.event.keuzeDag = "voormiddag";
+            }
+          }
+        }
+
+        //Difference calculator
+        var diff = enddate - vm.event.startdate;
+        var minutesdiff = diff/(1000*60);
+
+        vm.event.duur = minutesdiff;
         vm.event.user = auth.getCurrentUser();
-        eventService.create(vm.event);
+        //eventService.create(vm.event);
         console.log(vm.event);
         $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een evenement aangemaakt.')
-         .position('bottom left')
+         .position('top left')
          .parent($("#toast-container"))
          .hideDelay(3000)
 
        );
-        return vm.events.push(vm.event);
+        //return vm.events.push(vm.event);
       }
 
       function getReservatiesByDay() {
@@ -122,6 +158,13 @@
           console.log(vm.reservatiesday);
           return vm.reservatiesday
         });
+      }
+
+      function getEndTime(ev){
+        var enddate = new Date(ev.startdate);
+        var startdate = new Date(ev.startdate);
+        enddate.setMinutes(startdate.getMinutes() + ev.duur);
+        return enddate;
       }
     }
 })();

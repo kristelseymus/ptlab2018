@@ -733,6 +733,24 @@ calendar-md > md-content{
   width: 50%;
 }
 
+.cards {
+  display: flex;
+  align-items: stretch;
+}
+
 .card-list {
   padding-left: 20px;
+}
+
+.tab-settings {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+
+.time {
+  padding: 8px 0px 8px 8px;
+}
+
+md-tabs[md-border-bottom] md-tabs-wrapper{
+  border-style: none !important;
 }

@@ -1,17 +1,24 @@
-<div class="row text-center">
+<div class="text-center">
   <h2 class="section-heading">Settings</h2>
 </div>
   <md-content class="no-background">
     <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
       <md-tab label="ruimtes">
-        <md-content class="md-padding no-background">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h3>
+              <span class="section-heading">Alle ruimtes</span>
+            </h3>
+          </div>
+        </md-toolbar>
+        <md-content class="md-padding no-background tab-settings">
           <!--Ruimtes -->
-            <div class="row text-center">
+            <!--<div class="row text-center">
               <h3 class="section-heading">Ruimtes</h3>
-            </div>
+            </div>-->
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 text-center">
-                  <h4 class="section-heading">Bekijken</h4>
+                <div class="text-center">
+                  <!--<h4 class="section-heading">Bekijken</h4>-->
                   <table class="table table-hover table-settings">
                     <thead>
                       <tr>
@@ -32,9 +39,18 @@
                   </table>
                 </div>
             </div>
-            <div class="row text-center">
-              <h4 class="section-heading">Aanmaken</h4>
+          </md-content>
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h3>
+                <span class="section-heading">Ruimte aanmaken</span>
+              </h3>
             </div>
+          </md-toolbar>
+          <md-content class="md-padding no-background tab-settings">
+            <!--<div class="row text-center">
+              <h4 class="section-heading">Aanmaken</h4>
+            </div>-->
             <form ng-submit="ctrl.createRuimte()" name="createRuimteForm">
             <md-content class="md-no-momentum no-background">
               <div layout-gt-xs="row">
@@ -62,14 +78,69 @@
         </md-content>
       </md-tab>
       <md-tab label="evenementen">
-        <md-content class="md-padding no-background">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h3>
+              <span class="section-heading">Evenementen bekijken</span>
+            </h3>
+          </div>
+        </md-toolbar>
+        <md-content class="md-padding no-background tab-settings">
           <!-- EVENTS -->
-            <div class="row text-center">
+            <!--<div class="row text-center">
               <h3 class="section-heading">Evenementen</h3>
+            </div>-->
+            <div class="row">
+                <div class="text-center table-responsive-md">
+                  <!--<h4 class="section-heading">Bekijken</h4>-->
+                  <table class="table table-hover table-settings">
+                    <thead>
+                      <tr>
+                        <th>
+                          Naam
+                        </th>
+                        <th>
+                          Datum
+                        </th>
+                        <th>
+                          Tijd
+                        </th>
+                        <th>
+                          Type
+                        </th>
+                        <th>
+                          Catering
+                        </th>
+                        <th>
+                          Publiek
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="event in ctrl.events | orderBy:'startdate'">
+                        <td>{{event.name}}</td>
+                        <td>{{event.startdate | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{event.startdate | date: 'HH:mm'}} tot {{ctrl.getEndTime(event) | date: 'HH:mm'}}</td>
+                        <td>{{event.eventType.name}}</td>
+                        <td>{{event.catering ? 'Ja' : 'Nee'}}</td>
+                        <td>{{event.publiek ? 'Ja' : 'Nee'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
             </div>
-            <div class="row text-center">
+          </md-content>
+          <md-toolbar>
+            <div class="md-toolbar-tools text-center">
+              <h3>
+                <span class="section-heading">Evenement aanmaken</span>
+              </h3>
+            </div>
+          </md-toolbar>
+          <md-content class="md-padding no-background tab-settings">
+            <!--<div class="row text-center">
               <h4 class="section-heading">Aanmaken</h4>
-            </div>
+            </div>-->
             <form ng-submit="ctrl.createEvent()" name="createEventForm">
               <md-content class="md-no-momentum no-background">
                 <div layout-gt-xs="row">
@@ -102,6 +173,11 @@
                      </div>
                    </mdp-date-picker>
                    <mdp-time-picker ng-model="ctrl.starttime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
+                   <md-input-container class="time">
+                     tot
+                   </md-input-container>
+                   <mdp-time-picker ng-model="ctrl.endtime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
+                   <!--
                    <md-input-container class="md-block" flex-gt-xs>
                      <label>Aantal minuten</label>
                      <input ng-model="ctrl.event.duur" type="number" name="aantalminuten" placeholder="Aantal minuten *" required min="30" max="300"></input>
@@ -111,6 +187,7 @@
                        <div ng-message="max">Het maximum aantal minuten is 5 uur (300 minuten).</div>
                      </div>
                    </md-input-container>
+
                    <md-input-container class="md-block" flex-gt-xs flex="25">
                      <label>Deel van de dag</label>
                      <md-select ng-model="ctrl.event.keuzeDag" name="keuzeDag" required>
@@ -122,6 +199,7 @@
                        <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                      </div>
                    </md-input-container>
+                   -->
                  </div>
                  <div layout-gt-xs="row">
                    <md-input-container class="md-block" flex-gt-xs>
@@ -157,7 +235,8 @@
                      <md-checkbox ng-model="ctrl.event.publiek" name="checkboxPubliek" aria-label="Checkbox Publiek" md-no-ink>
                          Publiek evenement
                      </md-checkbox>
-                     <br/>
+                   </md-input-container>
+                   <md-input-container class="md-block" flex-gt-xs flex="15">
                      <md-checkbox ng-model="ctrl.event.catering" name="checkboxCatering" aria-label="Checkbox Catering" md-no-ink>
                          Catering
                      </md-checkbox>
@@ -172,14 +251,21 @@
         </md-content>
       </md-tab>
       <md-tab label="reservaties">
-        <md-content class="md-padding no-background">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h3>
+              <span class="section-heading">Reservaties bekijken</span>
+            </h3>
+          </div>
+        </md-toolbar>
+        <md-content class="md-padding no-background tab-settings">
           <!-- Reservaties -->
-            <div class="row text-center">
+            <!--<div class="row text-center">
               <h3 class="section-heading">Reservaties</h3>
-            </div>
+            </div>-->
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 text-center table-responsive-md">
-                  <h4 class="section-heading">Bekijken</h4>
+                <div class="text-center table-responsive-md">
+                  <!--<h4 class="section-heading">Bekijken</h4>-->
                   <table class="table table-hover table-settings">
                     <thead>
                       <tr>
@@ -214,7 +300,18 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-10 col-md-offset-1 text-center">
+              </div>
+            </md-content>
+            <md-toolbar>
+              <div class="md-toolbar-tools">
+                <h3>
+                  <span class="section-heading">Reservaties zoeken op dag</span>
+                </h3>
+              </div>
+            </md-toolbar>
+            <md-content class="no-background md-padding tab-settings">
+              <div class="row">
+                <div class="text-center">
                   <h4 class="section-heading">Zoek reservaties op dag</h4>
                   <div layout="row" layout-align="center center">
                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.day" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getReservatiesByDay()" aria-label="Datepicker Reservaties by day">

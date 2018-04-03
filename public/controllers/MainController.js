@@ -127,8 +127,6 @@
         }
 
         function showDialog(ev) {
-          console.log("showDialog");
-          console.log(vm.event);
           $mdDialog.show({
             parent: angular.element(document.body),
             //controller: MainController,

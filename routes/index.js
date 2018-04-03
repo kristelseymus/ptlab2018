@@ -493,7 +493,16 @@
     //Region sendMail
     router.post('/api/sendmail', auth, function (req, res, next) {
         var offerte = req.body;
-        var transporter = nodemailer.createTransport("SMTP", {
+        let transporter = nodemailer.createTransport({
+          host: 'smtp.ethereal.email',
+          port: 587,
+          secureConnection: false,
+          auth: {
+            user: 'akmyw3k5peyqymel@ethereal.email',
+            pass: '3BWDbFYkQNjYfVy1WT'
+          }
+        });
+        /*var transporter = nodemailer.createTransport("SMTP", {
           service: 'Gmail',
           auth: {
             XOAuth2: {
@@ -503,14 +512,13 @@
               refreshToken: "1/TGEoelyI__RfXy71kIwIzQpDyWmYtXIV33lM2kp8oB4"
             }
           }
-        });
+        });*/
 
         var mailOptions = {
-          from: 'planettalenttestemail@gmail.com',
+          from: 'akmyw3k5peyqymel@ethereal.email',
           to: offerte.user.username,
           subject: 'Factuur Reservering op ' + offerte.startdate,
-          html: "<div ng-show='ctrl.offerte.startdate != undefined'>" +
-          "<table class='table table-hover'>"+
+          html: "<table class='table table-hover'>"+
             "<thead>"+
               "<tr>"+
                 "<th>Datum</th>"+
@@ -531,8 +539,7 @@
                 "<td class='euro'><md-icon>euro_symbol</md-icon></td>"+
               "</tr>"+
             "</tbody>"+
-          "</table>"+
-        "</div>"
+          "</table>"
         };
 
         transporter.sendMail(mailOptions, function(error, info){

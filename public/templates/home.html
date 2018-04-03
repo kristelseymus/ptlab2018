@@ -162,8 +162,9 @@
                 </div>
             </div>
         </div>
-        <md-content class="md-padding no-background" layout-xs="column" layout="row">
-            <div flex-gt-sm="70" layout="column" ng-repeat="ruimte in ctrl.ruimtes" class="ruimte-card">
+        <md-content class="md-padding no-background" layout-fill layout="column">
+          <div flex="50" layout="row" layout-wrap class="cards">
+            <div ng-repeat="ruimte in ctrl.ruimtes" class="ruimte-card">
               <md-card>
                 <img ng-src="{{ruimte.img}}" class="md-card-image" alt="Vergaderzaal">
                 <md-card-title>
@@ -180,9 +181,9 @@
                   </p>
                 </md-card-content>
               </md-card>
-
             </div>
-          </md-content>
+          </div>
+        </md-content>
 </section>
 
 <section class="bg-red openSections" id="sectionCoworking">
