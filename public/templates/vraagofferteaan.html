@@ -28,19 +28,6 @@
                           <label>Email</label>
                           <input ng-model="ctrl.offerte.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
                         </md-input-container>
-                        <mdp-date-picker mdp-placeholder="Kies een datum" mdp-format="DD/MM/YYYY" ng-model="ctrl.offerte.startdate" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event"></mdp-date-picker>
-                          <!--<md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
-                        <mdp-time-picker ng-model="ctrl.startTime" mdp-auto-switch="true" required name="time" aria-label="Timepicker Event"></mdp-time-picker>
-                          <!--<input type="time" ng-model="ctrl.startTime"></input>-->
-                        <md-input-container class="md-block" flex-gt-xs>
-                          <label>Aantal minuten</label>
-                          <input ng-model="ctrl.offerte.duur" type="number" name="aantalminuten" placeholder="Aantal minuten *" required min="30" max="480"></input>
-                          <div ng-messages="vraagOfferteAanForm.aantalminuten.$error" multiple>
-                            <div ng-message="required">Aantal minuten is verplicht.</div>
-                            <div ng-message="min">Het minimum aantal minuten is 30 minuten.</div>
-                            <div ng-message="max">Het maximum aantal minuten is 8 uur (480 minuten).</div>
-                          </div>
-                        </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="33">
@@ -58,17 +45,16 @@
                             <div ng-message="required">Er moet een type gekozen worden.</div>
                           </div>
                         </md-input-container>
-                        <md-input-container class="md-block" flex-gt-xs flex="33">
-                          <label>Deel van de dag</label>
-                          <md-select ng-model="ctrl.offerte.keuzeDag" name="keuzeDag" required>
-                            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
-                              {{keuzeDag.name}}
-                            </md-option>
-                          </md-select>
-                          <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
-                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
-                          </div>
+                      </div>
+                      <div layout-gt-xs="row">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" mdp-format="DD/MM/YYYY" ng-model="ctrl.offerte.startdate" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event"></mdp-date-picker>
+                          <!--<md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
+                        <mdp-time-picker ng-model="ctrl.startTime" mdp-auto-switch="true" required name="time" aria-label="Timepicker Event"></mdp-time-picker>
+                          <!--<input type="time" ng-model="ctrl.startTime"></input>-->
+                        <md-input-container class="time">
+                          tot
                         </md-input-container>
+                        <mdp-time-picker ng-model="ctrl.endtime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
                       </div>
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs>
@@ -80,16 +66,7 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="33">
-                          <label>Aantal Personen</label>
-                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.offerte.ruimte.aantalPlaatsen}}">
-                          <div ng-messages="vraagOfferteAanForm.aantalpersonen.$error" multiple>
-                            <div ng-message="required">Aantal personen is verplicht.</div>
-                            <div ng-message="min">Minimum aantal personen is 5.</div>
-                            <div ng-message="max">Maximum aantal personen is {{ctrl.offerte.ruimte.aantalPlaatsen}}.</div>
-                          </div>
-                        </md-input-container>
-                        <md-input-container class="md-block" flex-gt-xs flex="33">
+                        <md-input-container class="md-block" flex-gt-xs flex>
                           <label>Ruimtes</label>
                           <md-select ng-model="ctrl.offerte.ruimte" name="ruimte" required>
                             <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
@@ -101,10 +78,20 @@
                           </div>
                         </md-input-container>
                         <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <label>Aantal Personen</label>
+                          <input ng-model="ctrl.offerte.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.offerte.ruimte.aantalPlaatsen}}">
+                          <div ng-messages="vraagOfferteAanForm.aantalpersonen.$error" multiple>
+                            <div ng-message="required">Aantal personen is verplicht.</div>
+                            <div ng-message="min">Minimum aantal personen is 5.</div>
+                            <div ng-message="max">Maximum aantal personen is {{ctrl.offerte.ruimte.aantalPlaatsen}}.</div>
+                          </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
                           <md-checkbox ng-model="ctrl.offerte.publiek" name="checkboxPubliek" aria-label="Checkbox Publiek" md-no-ink>
                               Publiek evenement
                           </md-checkbox>
-                          <br/>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
                           <md-checkbox ng-model="ctrl.offerte.catering" name="checkboxCatering" aria-label="Checkbox Catering" md-no-ink>
                               Catering
                           </md-checkbox>
@@ -121,15 +108,13 @@
                           </div>
                         </md-input-container>-->
                       </div>
-                      <div layout-gt-xs="row">
-
-                      </div>
                       </md-content>
                       <div layout="row">
                         <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Vraag Offerte Aan</md-button>
                       </div>
                     </form>
                   </div>
+                  <md-button class="md-raised md-primary btnSubmitContact" ng-click="ctrl.testmail()">Test email</md-button>
                 </div>
             </div>
         </div>

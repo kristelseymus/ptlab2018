@@ -754,3 +754,21 @@ calendar-md > md-content{
 md-tabs[md-border-bottom] md-tabs-wrapper{
   border-style: none !important;
 }
+
+img.md-card-image {
+  max-height: 250px;
+}
+
+md-progress-linear .md-bar{
+  background-color: #15B366;
+}
+
+table.md-table th.md-column md-icon{
+  min-height: 0;
+  min-width: 0;
+}
+
+.label {
+  color: rgba(0,0,0,.54) !important;
+  font-size: 100% !important;
+}

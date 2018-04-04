@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers']);
+var app = angular.module('ptlab', ['ui.router', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table']);
 
 app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {

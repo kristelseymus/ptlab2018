@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout'];
 
-    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast){
+    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout){
       var vm = this;
       vm.ruimtes = {};
       vm.events = {};
@@ -31,6 +31,7 @@
 
       vm.createRuimte = createRuimte;
       vm.createEvent = createEvent;
+      vm.reload = reload;
 
       vm.weekendDisable = function(date) {
         var temp = new Date(date);
@@ -56,6 +57,36 @@
         getEvents();
         getEventTypes();
         return getRuimtes();
+      }
+
+      vm.selected = [];
+      vm.limitOptions = [5, 10, 15];
+
+      vm.options = {
+        rowSelection: true,
+        multiSelect: true,
+        autoSelect: true,
+        decapitate: false,
+        boundaryLinks: true,
+        limitSelect: true,
+        pageSelect: true,
+        label: "Pagina: "
+      };
+
+      vm.query = {
+        order: 'user.fullName',
+        limit: 5,
+        page: 1
+      };
+
+      vm.toggleLimitOptions = function () {
+        vm.limitOptions = vm.limitOptions ? undefined : [5, 10, 15];
+      };
+
+      function reload(){
+        vm.promise = $timeout(function () {
+          getReservaties();
+        }, 2000);
       }
 
       function getRuimtes(){

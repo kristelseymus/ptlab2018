@@ -2,7 +2,7 @@
   <h2 class="section-heading">Settings</h2>
 </div>
   <md-content class="no-background">
-    <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always">
+    <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always" md-no-ink>
       <md-tab label="ruimtes">
         <md-toolbar>
           <div class="md-toolbar-tools">
@@ -256,6 +256,9 @@
             <h3>
               <span class="section-heading">Reservaties bekijken</span>
             </h3>
+            <md-button class="md-icon-button" ng-click="ctrl.reload()">
+              <md-icon>refresh</md-icon>
+            </md-button>
           </div>
         </md-toolbar>
         <md-content class="md-padding no-background tab-settings">
@@ -266,7 +269,51 @@
             <div class="row">
                 <div class="text-center table-responsive-md">
                   <!--<h4 class="section-heading">Bekijken</h4>-->
-                  <table class="table table-hover table-settings">
+                  <md-content layout="column" flex class="no-background">
+
+                  <md-toolbar class="md-table-toolbar alternate" ng-show="ctrl.options.rowSelection && ctrl.selected.length">
+                    <div class="md-toolbar-tools">
+                      <span>{{ctrl.selected.length}} {{ctrl.selected.length > 1 ? 'items' : 'item'}} aangevinkt</span>
+                    </div>
+                  </md-toolbar>
+                  <md-table-container>
+
+                    <table md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
+                      <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.order">
+                        <tr md-row>
+                          <th md-column md-order-by="user.fullName"><span>Naam gebruiker</span></th>
+                          <th md-column md-order-by="user.username"><span>Email gebruiker</span></th>
+                          <th md-column md-order-by="startdate" md-desc><span>Datum</span></th>
+                          <th md-column><span></span></th>
+                          <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
+                        </tr>
+                      </thead>
+                      <tbody md-body>
+                        <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservaties | filter: ctrl.filter.search | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                          <td md-cell>{{reservatie.user.fullName}}</td>
+                          <td md-cell>{{reservatie.user.username}}</td>
+                          <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                          <td md-cell ng-switch="reservatie.keuzeDag">
+                            <div ng-switch-when="voormiddag">Voormiddag</div>
+                            <div ng-switch-when="namiddag">Namiddag</div>
+                            <div ng-switch-when="volledigedag">Volledige dag</div>
+                          </td>
+                          <td md-cell>{{reservatie.ruimte.name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </md-table-container>
+                  <md-table-pagination
+                    md-limit="ctrl.query.limit"
+                    md-limit-options="ctrl.limitOptions"
+                    md-page="ctrl.query.page"
+                    md-total="{{ctrl.reservaties.length}}"
+                    md-page-select="true"
+                    md-label="{page: 'Pagina:', rowsPerPage: 'Rijen per pagina:', of: 'van'}"
+                    md-boundary-links="ctrl.options.boundaryLinks">
+                  </md-table-pagination>
+                </md-content>
+                  <!--<table class="table table-hover table-settings">
                     <thead>
                       <tr>
                         <th>
@@ -278,7 +325,7 @@
                         <th>
                           Datum
                         </th>
-                        <th> <!--Deel van de dag-->
+                        <th> Deel van de dag
                         </th>
                         <th>
                           Ruimte
@@ -298,7 +345,7 @@
                         <td>{{reservatie.ruimte.name}}</td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table>-->
                 </div>
               </div>
             </md-content>

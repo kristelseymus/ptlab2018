@@ -87,8 +87,8 @@
           })
         }
 
-        function sendMail(offerte){
-          return $http.post('/api/sendmail', offerte, {
+        function sendMail(mail){
+          return $http.post('/api/sendmail', mail, {
             headers: {
               Authorization: 'Bearer ' + auth.getToken()
             }

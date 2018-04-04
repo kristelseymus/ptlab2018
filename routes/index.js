@@ -14,11 +14,25 @@
     var Evenement = mongoose.model('Event');
     var passport = require('passport');
     var jwt = require('express-jwt');
-    var nodemailer = require('nodemailer')
+    var nodemailer = require('nodemailer');
+    //var smtpconnection = require('nodemailer/lib/smtp-connection');
+    //var email = require("emailjs");
     var auth = jwt({
         secret: 'SECRET',
         userProperty: 'payload'
     });
+
+    var transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'akmyw3k5peyqymel@ethereal.email',
+        pass: '3BWDbFYkQNjYfVy1WT'
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000
+    })
 
     /* GET home page. */
     router.get('/', function (req, res, next) {
@@ -492,16 +506,101 @@
 
     //Region sendMail
     router.post('/api/sendmail', auth, function (req, res, next) {
-        var offerte = req.body;
-        let transporter = nodemailer.createTransport({
+        var mail = req.body;
+
+        var mailOptions = {
+            from: '"Maarten Van Meersche" <m.vanmeersche@telenet.be>',
+            to: mail.to,
+            subject: mail.subject,
+            text: "test", // plain text body
+            html: "<h1>Testmail</h1>" // html body
+          };
+
+          transporter.sendMail(mailOptions, function(error, response){
+            if(error){
+              console.log(error);
+              res.end("error");
+            }else{
+              console.log("Message sent: " + response.message);
+              res.end("sent");
+           }
+         });
+
+
+        /*var server 	= email.server.connect({
+          user:    "akmyw3k5peyqymel@ethereal.email",
+          password:"3BWDbFYkQNjYfVy1WT",
+          host:    "smtp.ethereal.email",
+          port:    465,
+          ssl:     true
+        });
+
+        // send the message and get a callback with an error or details of the message that was sent
+        server.send({
+          text:    "i hope this works",
+          from:    "Maarten Van Meersche <m.vanmeersche@telenet.be>",
+          to:      "Test <" + mail.to + ">",
+          cc:      "",
+          subject: "testing emailjs"
+        }, function(err, message) { console.log(err || message); });
+*/
+
+
+
+        /*var connection = new smtpconnection({
           host: 'smtp.ethereal.email',
           port: 587,
-          secureConnection: false,
-          auth: {
-            user: 'akmyw3k5peyqymel@ethereal.email',
-            pass: '3BWDbFYkQNjYfVy1WT'
-          }
+          secure: false,
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
         });
+
+        connection.connect();
+        connection.login({
+          credentials: {
+            user: "akmyw3k5peyqymel@ethereal.email",
+            pass: "3BWDbFYkQNjYfVy1WT"
+          }
+        },function(err){
+          console.log(err);
+        });
+        connection.send(
+          {
+            from: '"Maarten Van Meersche" <akmyw3k5peyqymel@ethereal.email>',
+            to: offerte.user.username
+          },
+          "<h1>Test mail</h1>"
+        );
+        connection.close();*/
+        /*var transporter = nodemailer.createTransport({
+          host: 'smtp.telenet.be',
+          port: 587,
+          secure: true,
+          auth: {
+            user: 'm.vanmeersche@telenet.be',
+            pass: ''
+          },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000
+        });*/
+        /*var transporter = nodemailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true, // use SSL
+          auth: {
+            user: 'planettalenttestemail@gmail.com',
+            pass: 'planettalent'
+          }
+        });*/
+
+
+      /*  transporter.verify(function(error, success) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Server is ready to take our messages');
+          }
+        });*/
         /*var transporter = nodemailer.createTransport("SMTP", {
           service: 'Gmail',
           auth: {
@@ -514,11 +613,13 @@
           }
         });*/
 
-        var mailOptions = {
-          from: 'akmyw3k5peyqymel@ethereal.email',
-          to: offerte.user.username,
-          subject: 'Factuur Reservering op ' + offerte.startdate,
-          html: "<table class='table table-hover'>"+
+      /*var mailOptions = {
+          from: '"Maarten Van Meersche" <m.vanmeersche@telenet.be>',
+          to: mail.to,
+          subject: mail.subject,
+          text: "test", // plain text body
+          html: "<h1>Testmail</h1>" // html body
+          /*html: "<table class='table table-hover'>"+
             "<thead>"+
               "<tr>"+
                 "<th>Datum</th>"+
@@ -539,22 +640,22 @@
                 "<td class='euro'><md-icon>euro_symbol</md-icon></td>"+
               "</tr>"+
             "</tbody>"+
-          "</table>"
-        };
+          "</table>"*/
+        /*};
 
-        transporter.sendMail(mailOptions, function(error, info){
+        /*transporter.sendMail(mailOptions, function(error, info){
           var mes;
           if (error) {
             mes = error.message;
-            //console.log(error);
+            console.log(error);
           } else {
             mes = "Mail sent: " + info.response;
-            //console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response);
           }
           return res.json({
             message: mes
           })
-        });
+        });*/
     });
     //End region sendMail
 

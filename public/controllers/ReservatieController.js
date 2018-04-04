@@ -41,13 +41,14 @@
       vm.deleteReservatie = deleteReservatie;
       vm.getEventTypes = getEventTypes;
       vm.isGratis = isGratis;
+      vm.adjustPrice = adjustPrice;
 
       vm.boekPlaatsStudent = boekPlaatsStudent;
       vm.vraagOfferteAan = vraagOfferteAan;
       vm.probeerGratis = probeerGratis;
       vm.factureer = factureer;
-      vm.adjustPrice = adjustPrice;
-      vm.offerte.price = 10;
+
+      vm.testmail = testmail;
 
       activate();
 
@@ -63,8 +64,7 @@
           vm.todayDate.getMonth() + 3,
           vm.todayDate.getDate()
         );
-        
-        vm.reservatie.datum = getTodayDate();
+
         vm.ruimtes = getRuimtes();
         vm.eventTypes = getEventTypes();
         if(vm.reservatie.user != null){
@@ -82,12 +82,6 @@
       function getRuimtes(){
         vm.ruimtes = ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
-          for(var i=0; i<vm.ruimtes.length; i++){
-            if(vm.ruimtes[i].name == "Co-working Lab"){
-              vm.offerte.ruimte = vm.ruimtes[i];
-              break;
-            }
-          }
           return vm.ruimtes;
         });
       }
@@ -104,8 +98,6 @@
 
       function getEventTypes(){
         vm.eventTypes = eventService.getEventTypes().then(function(res){
-          console.log(res.data);
-          console.log("in getEventTypes");
           vm.eventTypes = res.data;
           return vm.eventTypes;
         });
@@ -180,46 +172,52 @@
       function vraagOfferteAan(){
         vm.offerte.startdate.setHours(vm.startTime.getHours());
         vm.offerte.startdate.setMinutes(vm.startTime.getMinutes());
-        //if(vm.startTime.getHours() >= 12){
-        //  vm.offerte.keuzeDag = "namiddag";
-        //} else if(vm.duration)
-        console.log('vraagOfferteAan called');
-        console.log(vm.offerte);
-        if(vm.offerte.aantalpersonen > vm.offerte.ruimte.aantalPlaatsen){
-          $mdToast.show($mdToast.simple()
-            .content('Het maximum aantal personen in de '+ vm.offerte.ruimte.name +' is '+ vm.offerte.ruimte.aantalPlaatsen +' personen')
-           .position('bottom left')
-           .parent($("#toast-container-alert"))
-           .hideDelay(3000)
-          );
-       } else {
-         reservatieService.getReservatiesByDay(vm.offerte.startdate).then(function(res){
-           console.log(res);
-           if(res.length === 0) { //Geen reservaties
-             $mdToast.show($mdToast.simple()
-               .content('De offerte is aangevraagd.')
-              .position('bottom left')
+
+        var enddate = new Date(vm.offerte.startdate);
+        enddate.setHours(vm.endtime.getHours());
+        enddate.setMinutes(vm.endtime.getMinutes());
+        var tempdate;
+
+        if(vm.offerte.startdate.getHours() >= 12){
+          vm.offerte.keuzeDag = "namiddag";
+        } else {
+          tempdate = new Date(vm.offerte.startdate)
+          tempdate.setMinutes(tempdate.getMinutes() + vm.offerte.duur);
+          if(tempdate.getHours() > 12){
+            vm.offerte.keuzeDag = "volledigedag";
+          } else {
+            if (tempdate.getHours() === 12){
+              if(tempdate.getMinutes() === 0){
+                vm.offerte.keuzeDag = "voormiddag";
+              } else {
+                vm.offerte.keuzeDag = "volledigedag";
+              }
+            } else {
+              vm.offerte.keuzeDag = "voormiddag";
+            }
+          }
+        }
+        vm.offerte.duur = (enddate - vm.offerte.startdate)/(1000*60);
+        vm.offerte.user = auth.getCurrentUser();
+
+        reservatieService.getReservatiesByDay(vm.offerte.startdate).then(function(res){
+          if(res.length === 0) { //Geen reservaties
+            vm.message = "";
+            $mdToast.show($mdToast.simple()
+              .content('De offerte is aangevraagd.')
+              .position('top left')
               .parent($("#toast-container"))
               .hideDelay(3000)
              );
-
              //Wat te doen met offertes ? Doorsturen via email of
              //opslaan in db en weergeven in settings en laten omzetten in een event door een admin.
 
-
-             //$state.go('home');
+             $state.go('home');
            } else {
-             $mdToast.show($mdToast.simple()
-               .content('U kan geen evenement organiseren op deze dag.')
-              .position('bottom left')
-              .parent($("#toast-container-alert"))
-              .hideDelay(3000)
-             );
+             vm.message = "U kan geen evenement organiseren op de gekozen dag."
            }
 
          });
-
-       }
       }
 
       function probeerGratis(){
@@ -229,7 +227,7 @@
             break;
           }
         }
-        return reservatieService.create(vm.offerte)
+        return reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
         })
@@ -248,7 +246,7 @@
       function factureer() {
         //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
         //Daarna zal ook een reservatie moeten worden aangemaakt.
-        console.log("vraagofferteaancoworker");
+        console.log("factureer");
         console.log(vm.offerte);
         return reservatieService.create(vm.offerte)
         .error(function (err){
@@ -265,15 +263,40 @@
             console.log(res);
           });
         });
-      }
+      }// EINDE factureer
 
       function adjustPrice() {
-        console.log("123");
         if(vm.offerte.keuzeDag == "volledigedag"){
           vm.offerte.price = 30;
         } else {
           vm.offerte.price = 15;
         }
+      }
+
+      function testmail(){
+        vm.offerte.ruimte = vm.ruimtes[0];
+        vm.offerte.user = vm.currentUser;
+        vm.offerte.aantalpersonen = 5;
+        vm.offerte.catering = true;
+        vm.offerte.publiek = true;
+        vm.offerte.description = "Test";
+        vm.offerte.duur = "120";
+        vm.offerte.eventType = vm.eventTypes[1];
+        vm.offerte.keuzeDag = "namiddag";
+        vm.offerte.name = "Test offerte naam";
+        vm.offerte.startdate = new Date();
+        console.log("Testing mail");
+        console.log(vm.offerte);
+
+        var mail = {};
+        mail.to = vm.offerte.user.username;
+        mail.subject = "Test subject";
+        mail.message = "Test message";
+        mail.item = vm.offerte;
+
+        reservatieService.sendMail(mail).then(function(res){
+          console.log(res);
+        });
       }
 
     }
