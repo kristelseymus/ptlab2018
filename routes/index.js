@@ -15,6 +15,8 @@
     var passport = require('passport');
     var jwt = require('express-jwt');
     var nodemailer = require('nodemailer');
+    var ejs = require('ejs');
+    var fs = require('fs');
     //var smtpconnection = require('nodemailer/lib/smtp-connection');
     //var email = require("emailjs");
     var auth = jwt({
@@ -464,19 +466,22 @@
                 return next(err);
             }
             if (!user) {
-                return next(new Error('can\'t find user'));
-            }
-            console.log(evenement);
-            if(user.isAdmin){
-              evenement.save(function (err, evenement) {
-                  if (err) {
-                      return next(err);
-                  }
+              return res.status(400).json({
+                message: 'De gevraagde gebruiker kan helaas niet gevonden worden. Probeer opnieuw.'
               });
-            } else {
-              return next(new Error('U moet een admin zijn om een event aan te maken'));
             }
-            return next();
+            evenement.save(function (err, evenement) {
+              if(err) {
+                return next(err);
+              }
+            });
+            user.events.addToSet(evenement);
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(user);
+            });
         });
     });
     //Get by day
@@ -502,29 +507,73 @@
     router.get('/api/events/:day', function (req, res, next) {
         res.json(req.events);
     });
+
+    router.delete('/api/events/:evenement', auth, function (req, res, next) {
+        Evenement.remove({
+            _id: req.params.evenement
+        }, function (err, evenement) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Event deleted'
+            });
+        });
+    });
+    router.delete('/api/events/:evenement/:user', auth, function (req, res, next) {
+        Evenement.remove({
+            _id: req.params.evenement
+        }, function (err, evenement) {
+            if (err) {
+                res.send(err);
+            }
+        });
+        User.findById(req.params.user, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            user.events.pull(req.params.evenement);
+            user.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({
+                    message: 'Event deleted'
+                });
+            })
+        });
+    });
     //endregion Events
 
     //Region sendMail
     router.post('/api/sendmail', auth, function (req, res, next) {
         var mail = req.body;
+        var item = mail.item;
 
-        var mailOptions = {
-            from: '"Maarten Van Meersche" <m.vanmeersche@telenet.be>',
-            to: mail.to,
-            subject: mail.subject,
-            text: "test", // plain text body
-            html: "<h1>Testmail</h1>" // html body
-          };
+        var templateString = fs.readFileSync('confirmationreservationemail.ejs', 'utf-8');
+        console.log(templateString);
 
-          transporter.sendMail(mailOptions, function(error, response){
-            if(error){
-              console.log(error);
-              res.end("error");
-            }else{
-              console.log("Message sent: " + response.message);
-              res.end("sent");
-           }
-         });
+        ejs.render(templateString, { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag });
+            var mailOptions = {
+                from: mail.from,
+                to: mail.to,
+                subject: mail.subject,
+                text: "text", // plain text body
+                html: data // html body
+              };
+
+              transporter.sendMail(mailOptions, function(error, response){
+                if(error){
+                  console.log(error);
+                  res.end("error");
+                }else{
+                  console.log("Message sent: " + response.message);
+                  res.end("sent");
+               }
+             });
+        /*ejs.renderFile(__dirname + "/confirmationreservationemail.ejs", { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag }, function (err, data) {
+
+        });*/
 
 
         /*var server 	= email.server.connect({

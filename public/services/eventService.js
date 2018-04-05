@@ -15,7 +15,8 @@
             update: update,
             //deleteEvent: deleteEvent,
             getEventTypes: getEventTypes,
-            getEventsByDay: getEventsByDay
+            getEventsByDay: getEventsByDay,
+            deleteEvent: deleteEvent
         };
         return service;
 
@@ -75,6 +76,24 @@
           return $http.get('api/events/' + date).then(function (res) {
             return res.data;
           })
+        }
+
+        function deleteEvent(evenement) {
+          console.log("in service");
+          console.log(evenement);
+            return $http.delete('/api/events/' + evenement._id + '/' + evenement.user, {
+                headers: {
+                    Authorization: 'Bearer ' + auth.getToken()
+                }
+            }).success(function (res) {
+              console.log("success");
+              console.log(res);
+              return res.data;
+            }).error(function (error){
+              console.log("error");
+              console.log(error);
+              return error;
+            });
         }
     }
 })();

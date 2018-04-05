@@ -4,9 +4,9 @@
 
     angular.module('ptlab').controller('ReservatieController', ReservatieController);
 
-    ReservatieController.$inject = ['$log', 'reservatieService', 'ruimteService', 'eventService', 'auth', '$state', '$stateParams', '$mdToast', '$timeout', '$mdDialog'];
+    ReservatieController.$inject = ['$log', 'reservatieService', 'ruimteService', 'eventService', 'mailService', 'auth', '$state', '$stateParams', '$mdToast', '$timeout', '$mdDialog'];
 
-    function ReservatieController($log, reservatieService, ruimteService, eventService, auth, $state, $stateParams, $mdToast, $timeout, $mdDialog) {
+    function ReservatieController($log, reservatieService, ruimteService, eventService, mailService, auth, $state, $stateParams, $mdToast, $timeout, $mdDialog) {
       var vm = this;
 
       vm.startTime = 0;
@@ -27,6 +27,9 @@
 
       vm.offerte = {};
       vm.offerte.user = {};
+
+      vm.factuur = {};
+      vm.factuur.user = {};
 
       vm.reservaties = {};
       vm.eventTypes = {};
@@ -56,6 +59,7 @@
         vm.currentUser = auth.getCurrentUser();
         vm.reservatie.user = vm.currentUser;
         vm.offerte.user = vm.currentUser;
+        vm.factuur.user = vm.currentUser;
 
         vm.minDate = new Date(vm.todayDate);
         vm.minDate.setDate(vm.todayDate.getDate()+5);
@@ -132,6 +136,9 @@
             function() {//OK
               return reservatieService.deleteReservatie(reservatie).then(function () {
                 getReservatiesUser();
+
+                //Mail verzenden
+
                 $mdToast.show($mdToast.simple()
                 .content('Reservatie geannuleerd')
                 .position('top left')
@@ -246,9 +253,18 @@
       function factureer() {
         //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
         //Daarna zal ook een reservatie moeten worden aangemaakt.
-        console.log("factureer");
-        console.log(vm.offerte);
-        return reservatieService.create(vm.offerte)
+        for(var i=0; i<vm.ruimtes.length; i++){
+          if(vm.ruimtes[i].name == "Co-working Lab"){
+            vm.factuur.ruimte = vm.ruimtes[i];
+            break;
+          }
+        }
+
+        mailService.sendConfirmationReservation(vm.factuur);
+        mailService.sendInvoiceCoworker(vm.factuur);
+
+
+        /*return reservatieService.create(vm.factuur)
         .error(function (err){
           vm.message = err.message;
         })
@@ -259,17 +275,19 @@
           .parent($("#toast-container"))
           .hideDelay(3000));
           $state.go("home");
-          reservatieService.sendMail(vm.offerte).then(function(res){
-            console.log(res);
-          });
-        });
+
+          //reservatieService.sendMail(vm.factuur).then(function(res){
+          //  console.log(res);
+          //});
+
+        });*/
       }// EINDE factureer
 
       function adjustPrice() {
-        if(vm.offerte.keuzeDag == "volledigedag"){
-          vm.offerte.price = 30;
+        if(vm.factuur.keuzeDag == "volledigedag"){
+          vm.factuur.price = 30;
         } else {
-          vm.offerte.price = 15;
+          vm.factuur.price = 15;
         }
       }
 

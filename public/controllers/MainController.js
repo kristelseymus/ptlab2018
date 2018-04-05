@@ -94,7 +94,6 @@
         function getRuimtes(){
           vm.ruimtes = ruimteService.getAll().then(function(res){
             vm.ruimtes = res.data;
-            console.log(vm.ruimtes);
             for(var i=0; i<vm.ruimtes.length; i++){
               vm.ruimtes[i].img = vm.fotos[i].url;
             }

@@ -772,3 +772,21 @@ table.md-table th.md-column md-icon{
   color: rgba(0,0,0,.54) !important;
   font-size: 100% !important;
 }
+
+div.md-toolbar-tools.toolbar-search {
+  background-color: rgb(255,255,255) !important;
+}
+
+.icon-grey{
+  opacity: 0.5 !important;
+  color: #404041 !important;
+}
+
+.input-margin {
+  margin-bottom: 0px;
+}
+
+.refresh {
+  float: right !important;
+  text-align: right !important;
+}

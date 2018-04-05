@@ -78,7 +78,7 @@
                   </div>
                   <!-- EINDE BOEKEN VAN EEN GRATIS PLAATS -->
 
-                  <!-- OFFERTE AANVRAGEN COWORKER -->
+                  <!-- FACTUREREN COWORKER -->
                   <div class="contactwrapper" layout="column" layout-padding ng-cloak ng-hide="ctrl.isGratis()">
                     <div class="row text-center">
                       <h2 class="section-heading">Reserveer een plaats</h2>
@@ -86,27 +86,27 @@
                     <div class="row text-center">
                       <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
                     </div>
-                    <form ng-submit="ctrl.factureer()" name="vraagOfferteAanCoWorkerForm">
+                    <form ng-submit="ctrl.factureer()" name="factureerCoWorkerForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="50">
                           <label>Voornaam</label>
-                          <input ng-model="ctrl.offerte.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
+                          <input ng-model="ctrl.factuur.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
                         <md-input-container md-no-float class="md-block" flex="50">
                           <label>Naam</label>
-                          <input ng-model="ctrl.offerte.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
+                          <input ng-model="ctrl.factuur.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs>
                           <label>Email</label>
-                          <input ng-model="ctrl.offerte.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
+                          <input ng-model="ctrl.factuur.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" ng-disabled="ctrl.disabled">
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.offerte.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Offerte">
-                          <div ng-messages="vraagOfferteAanCoWorkerForm.date.$error">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.factuur.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Factuur">
+                          <div ng-messages="factureerCoWorkerForm.date.$error">
                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
                            <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
                            <div ng-message="minDate"><md-icon class="error">error_outline</md-icon>&nbsp;Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
@@ -115,12 +115,12 @@
                         </mdp-date-picker>
                         <md-input-container class="md-block" flex-gt-xs flex>
                           <label>Deel van de dag</label>
-                          <md-select ng-model="ctrl.offerte.keuzeDag" name="keuzeDag" required ng-change="ctrl.adjustPrice()">
+                          <md-select ng-model="ctrl.factuur.keuzeDag" name="keuzeDag" required ng-change="ctrl.adjustPrice()">
                             <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
                               {{keuzeDag.name}}
                             </md-option>
                           </md-select>
-                          <div ng-messages="vraagOfferteAanCoWorkerForm.keuzeDag.$error">
+                          <div ng-messages="factureerCoWorkerForm.keuzeDag.$error">
                             <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
@@ -130,25 +130,23 @@
                           <input ng-model="ctrl.offerte.bankrekeningnummer">
                         </md-input-container>
                       </div>-->
-                      <div layout-row-xs="row" ng-show="ctrl.offerte.startdate != undefined">
+                      <div layout-row-xs="row" ng-show="ctrl.factuur.startdate != undefined">
                         <table class="table table-hover">
                           <thead>
                             <tr>
                               <th>Datum</th>
-                              <th>Ruimte</th>
                               <th>Prijs</th>
                               <th></th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td ng-switch="ctrl.offerte.keuzeDag">
-                                <div ng-switch-when="voormiddag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>
-                                <div ng-switch-when="namiddag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
-                                <div ng-switch-when="volledigedag">{{ctrl.offerte.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
+                              <td ng-switch="ctrl.factuur.keuzeDag">
+                                <div ng-switch-when="voormiddag">{{ctrl.factuur.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>
+                                <div ng-switch-when="namiddag">{{ctrl.factuur.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
+                                <div ng-switch-when="volledigedag">{{ctrl.factuur.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
                               </td>
-                              <td>{{ctrl.offerte.ruimte.name}}</td>
-                              <td class="price">{{ctrl.offerte.price}}</td>
+                              <td class="price">{{ctrl.factuur.price}}</td>
                               <td class="euro"><md-icon>euro_symbol</md-icon></td>
                             </tr>
                           </tbody>

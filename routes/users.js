@@ -132,7 +132,6 @@
     });
     router.get('/:user', function(req, res, next) {
         res.json(req.user);
-        console.log("hello2");
     });
 
     router.put('/:user', function (req, res) {

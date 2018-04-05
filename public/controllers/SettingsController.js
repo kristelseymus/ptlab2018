@@ -3,18 +3,19 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog'];
 
-    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout){
+    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog){
       var vm = this;
-      vm.ruimtes = {};
-      vm.events = {};
-      vm.eventTypes = {};
+      vm.ruimtes = [];
+      vm.events = [];
+      vm.eventTypes = [];
       vm.reservaties = [];
+      vm.users = [];
 
       vm.ruimte = {};
       vm.event = {};
-      vm.reservatiesday = {};
+      vm.reservatiesday = [];
       vm.day = new Date();
       vm.time;
 
@@ -28,10 +29,13 @@
       vm.getEvents = getEvents;
       vm.getEventTypes = getEventTypes;
       vm.getEndTime = getEndTime;
+      vm.getUsers = getUsers;
 
       vm.createRuimte = createRuimte;
       vm.createEvent = createEvent;
       vm.reload = reload;
+      vm.deleteReservatie = deleteReservatie;
+      vm.deleteEvent = deleteEvent;
 
       vm.weekendDisable = function(date) {
         var temp = new Date(date);
@@ -56,6 +60,7 @@
         getReservaties();
         getEvents();
         getEventTypes();
+        getUsers();
         return getRuimtes();
       }
 
@@ -63,7 +68,7 @@
       vm.limitOptions = [5, 10, 15];
 
       vm.options = {
-        rowSelection: true,
+        rowSelection: false,
         multiSelect: true,
         autoSelect: true,
         decapitate: false,
@@ -74,7 +79,7 @@
       };
 
       vm.query = {
-        order: 'user.fullName',
+        order: 'startdate',
         limit: 5,
         page: 1
       };
@@ -89,35 +94,40 @@
         }, 2000);
       }
 
+      function getUsers(){
+        auth.getAll().then(function(data) {
+          data.data.forEach(function(u){
+            if(u.typeUser === "MANAGER"){
+              vm.users.push(u);
+            }
+          });
+          return vm.users;
+        });
+      }
+
       function getRuimtes(){
-        vm.ruimtes = ruimteService.getAll().then(function(res){
+        ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
-          console.log(vm.ruimtes);
           return vm.ruimtes;
         });
       }
 
       function getReservaties(){
-        vm.reservaties = reservatieService.getAll().then(function(res){
-          console.log(res.data);
+        reservatieService.getAll().then(function(res){
           vm.reservaties = res.data;
           return vm.reservaties;
         });
       }
 
       function getEvents(){
-        vm.events = eventService.getAll().then(function(res){
-          console.log(res.data);
-          console.log("in getEvents");
+        eventService.getAll().then(function(res){
           vm.events = res.data;
           return vm.events;
         });
       }
 
       function getEventTypes(){
-        vm.eventTypes = eventService.getEventTypes().then(function(res){
-          console.log(res.data);
-          console.log("in getEventTypes");
+        eventService.getEventTypes().then(function(res){
           vm.eventTypes = res.data;
           return vm.eventTypes;
         });
@@ -125,7 +135,6 @@
       }
 
       function createRuimte(){
-        console.log(vm.ruimte);
         ruimteService.create(vm.ruimte);
         return vm.ruimtes.push(vm.ruimte);
       }
@@ -168,8 +177,9 @@
         var minutesdiff = diff/(1000*60);
 
         vm.event.duur = minutesdiff;
-        vm.event.user = auth.getCurrentUser();
-        //eventService.create(vm.event);
+        eventService.create(vm.event).success(function(){
+          vm.events.push(vm.event);
+        });
         console.log(vm.event);
         $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een evenement aangemaakt.')
@@ -178,24 +188,85 @@
          .hideDelay(3000)
 
        );
-        //return vm.events.push(vm.event);
+        return;
       }
 
       function getReservatiesByDay() {
-        console.log(vm.day);
-        vm.reservatiesday = reservatieService.getReservatiesByDay(vm.day).then(function (res) {
+        reservatieService.getReservatiesByDay(vm.day).then(function (res) {
           vm.reservatiesday = res;
-          console.log(res);
-          console.log(vm.reservatiesday);
           return vm.reservatiesday
         });
       }
 
-      function getEndTime(ev){
+      function getEndTime(ev) {
         var enddate = new Date(ev.startdate);
         var startdate = new Date(ev.startdate);
         enddate.setMinutes(startdate.getMinutes() + ev.duur);
         return enddate;
+      }
+
+      function deleteReservatie(selectedreservatie) {
+        selectedreservatie.user = selectedreservatie.user._id;
+        var confirm = $mdDialog.confirm()
+          .title('Annuleer reservatie')
+          .textContent('Bent u zeker dat u de reservatie wilt annuleren ?')
+          .ariaLabel('Confirm deleteReservatie')
+          .ok('Annuleer reservatie')
+          .cancel('Cancel');
+
+          $mdDialog.show(confirm).then(
+            function() {//OK
+              return reservatieService.deleteReservatie(selectedreservatie).then(function () {
+                getReservaties();
+                getReservatiesByDay(vm.day);
+
+                //Mail sturen
+
+                $mdToast.show($mdToast.simple()
+                .content('Reservatie geannuleerd')
+                .position('top left')
+                .parent($("#toast-container"))
+                .hideDelay(3000));
+              });
+            },
+            function() {//Cancel
+              $mdToast.show($mdToast.simple()
+              .content('Reservatie is niet geannuleerd')
+              .position('top left')
+              .parent($("#toast-container-alert"))
+              .hideDelay(3000));
+            });
+      }
+      function deleteEvent(selectedevent) {
+        selectedevent.user = selectedevent.user._id;
+        var confirm = $mdDialog.confirm()
+          .title('Annuleer evenement')
+          .textContent('Bent u zeker dat u het evenement wilt annuleren ?')
+          .ariaLabel('Confirm deleteEvent')
+          .ok('Annuleer evenement')
+          .cancel('Cancel');
+
+          $mdDialog.show(confirm).then(
+            function() {//OK
+              return eventService.deleteEvent(selectedevent).then(function () {
+                getEvents();
+
+                //Mail sturen
+
+                $mdToast.show($mdToast.simple()
+                .content('Het evenement is geannuleerd')
+                .position('top left')
+                .parent($("#toast-container"))
+                .hideDelay(3000));
+              });
+            },
+            function() {//Cancel
+              $mdToast.show($mdToast.simple()
+              .content('Het evenement is niet geannuleerd')
+              .position('top left')
+              .parent($("#toast-container-alert"))
+              .hideDelay(3000));
+            });
       }
     }
 })();
