@@ -8,7 +8,6 @@
     function ruimteService($log, $http, auth) {
         var service = {
             getAll: getAll,
-            getAvailableRooms: getAvailableRooms,
             create: create,
             get: get,
             update: update,
@@ -20,10 +19,6 @@
             return $http.get('/api/ruimtes').success(function (data) {
                 return data;
             });
-        }
-
-        function getAvailableRooms(date) {
-
         }
 
         function create(ruimte) {
@@ -43,7 +38,9 @@
         }
 
         function update(id, ruimte) {
-            return $http.put('/api/ruimtes/' + id, ruimtes, {
+          console.log(id);
+          console.log(ruimte);
+            return $http.put('/api/ruimtes/' + id, ruimte, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }

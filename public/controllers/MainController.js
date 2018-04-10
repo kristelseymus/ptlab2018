@@ -4,12 +4,11 @@
 
     angular.module('ptlab').controller('MainController', MainController);
 
-    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'ruimteService', 'MaterialCalendarData', '$scope', '$mdDialog', '$timeout'];
+    MainController.$inject = ['$http', '$log', 'auth', '$state', '$stateParams', 'eventService', 'ruimteService', 'websiteService', 'MaterialCalendarData', '$scope', '$mdDialog', '$timeout'];
 
-    function MainController($http, $log, auth, $state, $stateParams, eventService, ruimteService, MaterialCalendarData, $scope, $mdDialog, $timeout) {
+    function MainController($http, $log, auth, $state, $stateParams, eventService, ruimteService, websiteService, MaterialCalendarData, $scope, $mdDialog, $timeout) {
         var vm = this;
         vm.users = [];
-        vm.openingsuren = [];
         vm.events = [];
         vm.ruimtes = [];
         vm.setDayContent = setDayContent;
@@ -22,6 +21,9 @@
         vm.getUsers = getUsers;
         vm.getEndTime = getEndTime;
         vm.getRuimtes = getRuimtes;
+
+        vm.toggleShow = toggleShow;
+
         vm.userStudent = true;
         vm.userCoworker = true;
         vm.userManager = true;
@@ -29,6 +31,14 @@
         vm.event = {};
 
         vm.fotos = [];
+        vm.roomDetails = {};
+
+        vm.home = "";
+        vm.prijzen = "";
+        vm.voorwie = {};
+        vm.practicals = {};
+        vm.practicals.openingsuren = [];
+
 
         activate();
 
@@ -44,7 +54,7 @@
             { url: "https://drive.google.com/thumbnail?id=1S24B_CurBFZLp9_Ihha_BNkbCU0ARZIV" }
           ];
             getUsers();
-            getOpeningsuren();
+            getContents();
             getEvents();
             getRuimtes();
             vm.eventsday = getEventsByDay(new Date());
@@ -72,10 +82,15 @@
                 });
         }
 
-        function getOpeningsuren(){
+        function getContents(){
           //Moet naar websiteService
-            return $http.get('/javascripts/content.json').success(function(data){
-              vm.openingsuren = data.openingsuren.dag;
+            websiteService.getWebsiteContent().then(function(data){
+              console.log(data.data);
+              vm.home = data.data.home.content;
+              vm.voorwie = data.data.voorwie;
+              vm.prijzen = data.data.prijzen;
+              vm.practicals = data.data.practicals;
+              vm.practicals.openingsuren = data.data.practicals.openingsuren.dag;
             });
         }
 
@@ -152,6 +167,14 @@
             //$timeout(showDialog, 0);
             return vm.eventsday;
           });
+        }
+
+        function toggleShow(ruimte){
+          if(!ruimte.show || ruimte.show === 'undefined'){
+            ruimte.show = true
+          } else {
+            ruimte.show = false
+          }
         }
     }
 

@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog', '$mdPanel'];
 
-    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog){
+    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog, $mdPanel){
       var vm = this;
       vm.ruimtes = [];
       vm.events = [];
@@ -18,6 +18,7 @@
       vm.reservatiesday = [];
       vm.day = new Date();
       vm.time;
+      vm._mdPanel = $mdPanel;
 
       vm.todayDate = new Date();
       vm.minDate = null;
@@ -36,6 +37,7 @@
       vm.reload = reload;
       vm.deleteReservatie = deleteReservatie;
       vm.deleteEvent = deleteEvent;
+      vm.updateRuimte = updateRuimte;
 
       vm.weekendDisable = function(date) {
         var temp = new Date(date);
@@ -206,7 +208,6 @@
       }
 
       function deleteReservatie(selectedreservatie) {
-        selectedreservatie.user = selectedreservatie.user._id;
         var confirm = $mdDialog.confirm()
           .title('Annuleer reservatie')
           .textContent('Bent u zeker dat u de reservatie wilt annuleren ?')
@@ -216,6 +217,7 @@
 
           $mdDialog.show(confirm).then(
             function() {//OK
+              selectedreservatie.user = selectedreservatie.user._id;
               return reservatieService.deleteReservatie(selectedreservatie).then(function () {
                 getReservaties();
                 getReservatiesByDay(vm.day);
@@ -238,7 +240,6 @@
             });
       }
       function deleteEvent(selectedevent) {
-        selectedevent.user = selectedevent.user._id;
         var confirm = $mdDialog.confirm()
           .title('Annuleer evenement')
           .textContent('Bent u zeker dat u het evenement wilt annuleren ?')
@@ -248,6 +249,7 @@
 
           $mdDialog.show(confirm).then(
             function() {//OK
+              selectedevent.user = selectedevent.user._id;
               return eventService.deleteEvent(selectedevent).then(function () {
                 getEvents();
 
@@ -267,6 +269,33 @@
               .parent($("#toast-container-alert"))
               .hideDelay(3000));
             });
+      }
+
+      function updateRuimte(ruimte) {
+        var position = vm._mdPanel.newPanelPosition()
+          .absolute()
+          .center();
+
+        var config = {
+          attachTo: angular.element(document.body),
+          controller: 'UpdateRuimteController',
+          controllerAs: 'ctrl',
+          disableParentScroll: true,
+          templateUrl: '/templates/updateruimte.html',
+          hasBackdrop: true,
+          panelClass: 'update-dialog-border',
+          position: position,
+          trapFocus: true,
+          zIndex: 150,
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          focusOnOpen: true,
+          locals: {
+            ruimte: ruimte
+          },
+        };
+
+        vm._mdPanel.open(config);
       }
     }
 })();

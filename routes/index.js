@@ -338,7 +338,7 @@
         console.log(date);
         var nextDay = new Date(date);
         nextDay.setDate(day.getDate()+1);
-        var query = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte');
+        var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
             if (err) {
                 return next(err);
@@ -406,8 +406,6 @@
     //region ruimtes
     router.post('/api/ruimtes', auth, function (req, res, next) {
         var ruimte = new Ruimte(req.body);
-        console.log(ruimte);
-        console.log(ruimte.name);
         ruimte.save(function (err, ruimte) {
             if (err) {
                 return next(err);
@@ -421,6 +419,26 @@
                 return next(err);
             }
             res.json(ruimtes);
+        });
+    });
+
+    router.put('/api/ruimtes/:ruimte', auth, function (req, res) {
+      console.log(req.body);
+        Ruimte.findById(req.body._id, function (err, ruimte) {
+            if (err) {
+                res.send(err);
+            }
+            ruimte.name = req.body.name;
+            ruimte.aantalPlaatsen = req.body.aantalPlaatsen;
+            ruimte.beschrijving = req.body.beschrijving;
+            ruimte.save(function (err, ruimte) {
+                if (err) {
+                    res.send(err);
+                }
+                console.log("Saved ruimte");
+                console.log(ruimte);
+                res.json(ruimte);
+            })
         });
     });
 

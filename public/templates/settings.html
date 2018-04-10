@@ -26,12 +26,14 @@
                         <tr md-row>
                           <th md-column md-order-by="name"><span>Naam</span></th>
                           <th md-column md-order-by="aantalPlaatsen"><span>Aantal beschikbare plaatsen</span></th>
+                          <th md-column></th>
                         </tr>
                       </thead>
                       <tbody md-body>
                         <tr md-row md-select="ruimte" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="ruimte in ctrl.ruimtes | orderBy: ctrl.query.orderruimte | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
                           <td md-cell>{{ruimte.name}}</td>
                           <td md-cell>{{ruimte.aantalPlaatsen}}</td>
+                          <td md-cell><div class="custom-button" ng-click="ctrl.updateRuimte(ruimte)"><md-icon>build</md-icon></div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -86,6 +88,15 @@
                     <div ng-message="required">Maximum aantal beschikbare plaatsen is verplicht.</div>
                   </div>
                 </md-input-container>
+               </div>
+               <div layout-gt-xs="row">
+                 <md-input-container class="md-block" flex-gt-xs>
+                   <label>Beschrijving</label>
+                   <textarea ng-model="ctrl.ruimte.beschrijving" type="text" name="description" required rows="5" placeholder="Beschrijving *"></textarea>
+                   <div ng-messages="createRuimteForm.description.$error">
+                     <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
+                   </div>
+                 </md-input-container>
                </div>
               </md-content>
               <div layout="row">
@@ -160,7 +171,7 @@
                           <td md-cell>{{event.catering ? 'Ja' : 'Nee'}}</td>
                           <td md-cell>{{event.publiek ? 'Ja' : 'Nee'}}</td>
                           <td md-cell>{{event.ruimte.name}}</td>
-                          <td md-cell><button type="button" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></button></td>
+                          <td md-cell><div type="button" class="custom-button" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -374,7 +385,7 @@
                   <md-table-container>
                     <md-input-container md-no-float class="md-block input-margin">
                       <md-icon class="icon-grey">search</md-icon>
-                      <input type="text" ng-model="ctrl.filter.search" placeholder="Zoek"/>
+                      <input type="text" ng-model="ctrl.filter.searchallreservations" placeholder="Zoek"/>
                     </md-input-container>
                     <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
                       <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.order">
@@ -388,7 +399,7 @@
                         </tr>
                       </thead>
                       <tbody md-body>
-                        <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservaties | filter: ctrl.filter.search | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                        <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservaties | filter: ctrl.filter.searchallreservations | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
                           <td md-cell>{{reservatie.user.fullName}}</td>
                           <td md-cell>{{reservatie.user.username}}</td>
                           <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
@@ -398,7 +409,7 @@
                             <div ng-switch-when="volledigedag">Volledige dag</div>
                           </td>
                           <td md-cell>{{reservatie.ruimte.name}}</td>
-                          <td md-cell><button type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></button></td>
+                          <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -494,7 +505,7 @@
                                 <div ng-switch-when="volledigedag">Volledige dag</div>
                               </td>
                               <td md-cell>{{reservatie.ruimte.name}}</td>
-                              <td md-cell><button type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></button></td>
+                              <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                             </tr>
                           </tbody>
                         </table>
