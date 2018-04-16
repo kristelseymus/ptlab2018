@@ -134,7 +134,8 @@
 
           $mdDialog.show(confirm).then(
             function() {//OK
-              return reservatieService.deleteReservatie(reservatie).then(function () {
+              mailService.sendCancellationReservation(reservatie);
+              /*return reservatieService.deleteReservatie(reservatie).then(function () {
                 getReservatiesUser();
 
                 //Mail verzenden
@@ -144,7 +145,7 @@
                 .position('top left')
                 .parent($("#toast-container"))
                 .hideDelay(3000));
-              });
+              });*/
             },
             function() {//Cancel
               $mdToast.show($mdToast.simple()
@@ -162,7 +163,11 @@
             break;
           }
         }
-        return  reservatieService.create(vm.reservatie)
+        vm.reservatie.metfactuur = false;
+
+        mailService.sendConfirmationReservation(vm.reservatie);
+
+        /*return  reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
         })
@@ -173,7 +178,7 @@
           .parent($("#toast-container"))
           .hideDelay(3000));
           $state.go("home")
-        });
+        });*/
       }
 
       function vraagOfferteAan(){
@@ -259,6 +264,7 @@
             break;
           }
         }
+        vm.factuur.metfactuur = true;
 
         mailService.sendConfirmationReservation(vm.factuur);
         mailService.sendInvoiceCoworker(vm.factuur);

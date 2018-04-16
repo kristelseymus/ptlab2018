@@ -16,7 +16,9 @@
     var jwt = require('express-jwt');
     var nodemailer = require('nodemailer');
     var ejs = require('ejs');
-    var fs = require('fs');
+    //var fs = require('fs');
+    var path = require('path');
+    var moment = require('moment');
     //var smtpconnection = require('nodemailer/lib/smtp-connection');
     //var email = require("emailjs");
     var auth = jwt({
@@ -337,7 +339,10 @@
         day.setHours(0,0,0,0)
         console.log(date);
         var nextDay = new Date(date);
-        nextDay.setDate(day.getDate()+1);
+        //nextDay.setDate(date.getDate()+1);
+        nextDay.setHours(day.getHours() + 24)
+        console.log(new Date(day));
+        console.log(new Date(nextDay));
         var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
             if (err) {
@@ -567,12 +572,187 @@
     router.post('/api/sendmail', auth, function (req, res, next) {
         var mail = req.body;
         var item = mail.item;
+        console.log("In sendmail API");
 
-        var templateString = fs.readFileSync('confirmationreservationemail.ejs', 'utf-8');
-        console.log(templateString);
+        /*ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, moment: moment }, function(err, data){
+          if(err){
+            console.log(err);
+          } else {
+            console.log(data);
+            res.json(data);
+          }
+        });*/
 
-        ejs.render(templateString, { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag });
-            var mailOptions = {
+        /* SWITCH voor emails */
+        switch(mail.type) {
+          case "confirmationreservation":
+            //Code
+            console.log("confirmationreservation");
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, metfactuur: item.metfactuur, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text", // plain text body
+                  html: data, // html body
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage' //same cid value as in the html<img<src
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  }else{
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            break;
+          case "confirmationoffer":
+            //Code
+            console.log("confirmationoffer");
+            break;
+          case "confirmationevent":
+            //Code
+            console.log("confirmationevent");
+            break;
+          case "cancellationreservation":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text", // plain text body
+                  html: data, // html body
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-02.jpg'),
+                    cid: 'logoimage' //same cid value as in the html<img<src
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  }else{
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("cancellationreservation");
+            break;
+          case "cancellationevent":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationeventemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, moment: moment}, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-02.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent")
+                  }
+                });
+              }
+            });
+            console.log("cancellationevent");
+            break;
+          case "invoicecoworker":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, factuurnummer: mail.factuurnummer, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text", // plain text body
+                  html: data, // html body
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage' //same cid value as in the html<img<src
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  }else{
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("invoicecoworker");
+            break;
+          case "invoicemanager":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, factuurnummer: mail.factuurnummer, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("invoicemanager")
+            break;
+        }
+
+
+          /*  var mailOptions = {
                 from: mail.from,
                 to: mail.to,
                 subject: mail.subject,
@@ -588,7 +768,7 @@
                   console.log("Message sent: " + response.message);
                   res.end("sent");
                }
-             });
+             });*/
         /*ejs.renderFile(__dirname + "/confirmationreservationemail.ejs", { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag }, function (err, data) {
 
         });*/

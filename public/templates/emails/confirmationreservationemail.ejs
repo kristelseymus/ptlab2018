@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>Bevestiging reservatie</title>
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -211,6 +211,9 @@
         border-bottom: 1px solid #f6f6f6;
         Margin: 20px 0; }
 
+      .capitalize {
+        text-transform: capitalize; }
+
       /* -------------------------------------
           RESPONSIVE AND MOBILE FRIENDLY STYLES
       ------------------------------------- */
@@ -289,19 +292,31 @@
                 <td class="wrapper">
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
+                      <td style="text-align: center;">
+                          <img src="cid:logoimage" style="width:100%; max-width:300px;">
+                      </td>
+                    </tr>
+                    <tr>
                       <td>
-                        <p>Hallo {{voornaam}},</p>
-                        <p>Hierbij bevestigen we jouw reservatie bij Planet Talent op {{startdate | date:"dd MMMM yyyy"}} {{keuzeDag != "volledigedag" ? "in de {{keuzeDag}}" : "voor een volledige dag"}}.
+                        <p>Hallo <%= voornaam %>,</p>
+                        <p>Hierbij bevestigen we jouw reservatie bij Planet Talent op <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %>.
+                          <!--{{keuzeDag != "volledigedag" ? "in de {{keuzeDag}}" : "voor een volledige dag"}}-->
                           Je hebt een plaatsje gekregen in het Co working Lab</p>
                         <p>Praktische informatie:</p>
                         <ul>
-                          <li><b>Wanneer?</b> {{startdate | date:"dd MMMM yyyy"}} {{keuzeDag != "volledigedag" ? "in de {{keuzeDag}}" : "voor een volledige dag"}}.</li>
+                          <li><b>Wanneer?</b> <%= moment(startdate).format( 'dddd' ) %> <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %></li>
                           <li><b>Waar?</b> Co-working Lab</li>
                           <li><b>Adres?</b> Planet Talent, Frank van Dyckelaan 7b, 9140 Temse</li>
                         </ul>
                         <p>Je mag bij aankomst aanbellen en jouw naam vernoemen.</p>
+                        <% if(metfactuur) { %>
+                        <p>
+                          Binnen enkele ogenblikken zal u dan ook een factuur ontvangen.
+                        </p>
+                        <% } %>
                         <p>Wij kijken er naar uit om jou te mogen ontvangen.</p>
                         <p>Bedankt voor de reservatie! Tot dan.</p>
+                        <p>Het Planet Talent-team.</p>
                       </td>
                     </tr>
                   </table>

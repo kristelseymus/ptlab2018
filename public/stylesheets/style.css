@@ -823,7 +823,7 @@ div.md-toolbar-tools.toolbar-search {
 }
 
 .animate-content {
-  overflow-y: hidden;
+  overflow: hidden;
   max-height: 300px;
   transition-property: 'max-height';
   transition-duration: 1.5s;
