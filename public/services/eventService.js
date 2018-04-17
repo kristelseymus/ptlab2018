@@ -3,9 +3,9 @@
 
     angular.module('ptlab').factory('eventService', eventService);
 
-    eventService.$inject = ['$log', '$http', 'auth'];
+    eventService.$inject = ['$http', 'auth'];
 
-    function eventService($log, $http, auth) {
+    function eventService($http, auth) {
 
 
         var service = {
@@ -13,7 +13,6 @@
             create: create,
             get: get,
             update: update,
-            //deleteEvent: deleteEvent,
             getEventTypes: getEventTypes,
             getEventsByDay: getEventsByDay,
             deleteEvent: deleteEvent
@@ -45,7 +44,6 @@
         }
 
         function update(id, evenement) {
-            $log.log("update in eventService was called");
             return $http.put('/api/events/' + id, evenement, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
@@ -55,17 +53,7 @@
             });
 
         }
-        /*
-        function deleteEvent(event) {
-            return $http.delete('/api/reservatie/' + event._id, {
-                headers: {
-                    Authorization: 'Bearer ' + auth.getToken()
-                }
-            }).then(function (res) {
-                return res.data;
-            })
-        }
-*/
+
         function getEventTypes() {
           return $http.get('/api/eventtypes').success(function (data) {
               return data;
@@ -79,19 +67,13 @@
         }
 
         function deleteEvent(evenement) {
-          console.log("in service");
-          console.log(evenement);
             return $http.delete('/api/events/' + evenement._id + '/' + evenement.user, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }
             }).success(function (res) {
-              console.log("success");
-              console.log(res);
               return res.data;
             }).error(function (error){
-              console.log("error");
-              console.log(error);
               return error;
             });
         }

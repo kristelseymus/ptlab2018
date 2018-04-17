@@ -51,8 +51,6 @@
       vm.probeerGratis = probeerGratis;
       vm.factureer = factureer;
 
-      vm.testmail = testmail;
-
       activate();
 
       function activate(){
@@ -77,18 +75,18 @@
         getReservatiesUser();
 
         return vm.reservatie;
-      }
+      }// EINDE activate
 
       function getTodayDate(){
         return new Date();
-      }
+      }// EINDE getTodayDate
 
       function getRuimtes(){
         vm.ruimtes = ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
           return vm.ruimtes;
         });
-      }
+      }// EINDE getRuimtes
 
       function isGratis() {
           if(vm.reservaties.length === 0){
@@ -98,15 +96,14 @@
             //Coworker heeft wel al minimum 1 reservatie, dus hij/zij zal een offerte moeten aanmaken
             return false;
           }
-      }
+      }// EINDE isGratis
 
       function getEventTypes(){
         vm.eventTypes = eventService.getEventTypes().then(function(res){
           vm.eventTypes = res.data;
           return vm.eventTypes;
         });
-
-      }
+      }// EINDE getEventTypes
 
       function getReservatiesUser(){
         vm.reservaties = reservatieService.getReservatiesUser(vm.currentUser._id).then(function(res){
@@ -122,7 +119,7 @@
           });
           return vm.reservaties;
         });
-      }
+      }// EINDE getReservatiesUser
 
       function deleteReservatie(reservatie){
         var confirm = $mdDialog.confirm()
@@ -134,27 +131,26 @@
 
           $mdDialog.show(confirm).then(
             function() {//OK
-              mailService.sendCancellationReservation(reservatie);
-              /*return reservatieService.deleteReservatie(reservatie).then(function () {
+              return reservatieService.deleteReservatie(reservatie).then(function () {
                 getReservatiesUser();
 
-                //Mail verzenden
+                mailService.sendCancellationReservation(reservatie);
 
                 $mdToast.show($mdToast.simple()
                 .content('Reservatie geannuleerd')
-                .position('top left')
+                .position('bottom left')
                 .parent($("#toast-container"))
                 .hideDelay(3000));
-              });*/
+              });
             },
             function() {//Cancel
               $mdToast.show($mdToast.simple()
               .content('Reservatie is niet geannuleerd')
-              .position('top left')
+              .position('bottom left')
               .parent($("#toast-container-alert"))
               .hideDelay(3000));
             });
-      }
+      }// EINDE deleteReservatie
 
       function boekPlaatsStudent(){
         for(var i=0; i<vm.ruimtes.length; i++){
@@ -163,23 +159,22 @@
             break;
           }
         }
-        vm.reservatie.metfactuur = false;
-
-        mailService.sendConfirmationReservation(vm.reservatie);
-
-        /*return  reservatieService.create(vm.reservatie)
+        return  reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
         })
         .success(function(res){
+          vm.reservatie.metfactuur = false;
+          mailService.sendConfirmationReservation(vm.reservatie);
+
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')
-          .position('top left')
+          .position('bottom left')
           .parent($("#toast-container"))
           .hideDelay(3000));
           $state.go("home")
-        });*/
-      }
+        });
+      }// EINDE boekPlaatsStudent
 
       function vraagOfferteAan(){
         vm.offerte.startdate.setHours(vm.startTime.getHours());
@@ -215,22 +210,22 @@
         reservatieService.getReservatiesByDay(vm.offerte.startdate).then(function(res){
           if(res.length === 0) { //Geen reservaties
             vm.message = "";
+
+            mailService.sendConfirmationOffer(vm.offerte);
+            mailService.sendOfferMail(vm.offerte);
+
             $mdToast.show($mdToast.simple()
               .content('De offerte is aangevraagd.')
-              .position('top left')
+              .position('bottom left')
               .parent($("#toast-container"))
               .hideDelay(3000)
              );
-             //Wat te doen met offertes ? Doorsturen via email of
-             //opslaan in db en weergeven in settings en laten omzetten in een event door een admin.
-
              $state.go('home');
            } else {
              vm.message = "U kan geen evenement organiseren op de gekozen dag."
            }
-
          });
-      }
+      }// EINDE vraagOfferteAan
 
       function probeerGratis(){
         for(var i=0; i<vm.ruimtes.length; i++){
@@ -244,13 +239,14 @@
           vm.message = err.message;
         })
         .success(function(res){
+          mailService.sendConfirmationReservation(vm.reservatie);
+
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')
-          .position('top left')
+          .position('bottom left')
           .parent($("#toast-container"))
           .hideDelay(3000));
           $state.go("home");
-          //Er zal hier ook een mail gestuurd moeten worden voor bevestiging.
         });
 
       } // EINDE probeerGratis
@@ -264,29 +260,23 @@
             break;
           }
         }
-        vm.factuur.metfactuur = true;
 
-        mailService.sendConfirmationReservation(vm.factuur);
-        mailService.sendInvoiceCoworker(vm.factuur);
-
-
-        /*return reservatieService.create(vm.factuur)
+        return reservatieService.create(vm.factuur)
         .error(function (err){
           vm.message = err.message;
         })
         .success(function(res){
+          vm.factuur.metfactuur = true;
+          mailService.sendConfirmationReservation(vm.factuur);
+          mailService.sendInvoiceCoworker(vm.factuur);
+
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')
-          .position('top left')
+          .position('bottom left')
           .parent($("#toast-container"))
           .hideDelay(3000));
           $state.go("home");
-
-          //reservatieService.sendMail(vm.factuur).then(function(res){
-          //  console.log(res);
-          //});
-
-        });*/
+        });
       }// EINDE factureer
 
       function adjustPrice() {
@@ -295,33 +285,7 @@
         } else {
           vm.factuur.price = 15;
         }
-      }
-
-      function testmail(){
-        vm.offerte.ruimte = vm.ruimtes[0];
-        vm.offerte.user = vm.currentUser;
-        vm.offerte.aantalpersonen = 5;
-        vm.offerte.catering = true;
-        vm.offerte.publiek = true;
-        vm.offerte.description = "Test";
-        vm.offerte.duur = "120";
-        vm.offerte.eventType = vm.eventTypes[1];
-        vm.offerte.keuzeDag = "namiddag";
-        vm.offerte.name = "Test offerte naam";
-        vm.offerte.startdate = new Date();
-        console.log("Testing mail");
-        console.log(vm.offerte);
-
-        var mail = {};
-        mail.to = vm.offerte.user.username;
-        mail.subject = "Test subject";
-        mail.message = "Test message";
-        mail.item = vm.offerte;
-
-        reservatieService.sendMail(mail).then(function(res){
-          console.log(res);
-        });
-      }
+      }// EINDE adjustPrice
 
     }
 

@@ -16,7 +16,8 @@
 
 
 
-    //region AUTHENTICATION ROUTING
+    //REGION AUTHENTICATION ROUTING
+    /* POST register */
     router.post('/register', function(req, res, next) {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
@@ -50,7 +51,7 @@
             });
         });
     });
-
+    /* POST login */
     router.post('/login', function(req, res, next) {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
@@ -71,30 +72,49 @@
             }
         })(req, res, next);
     });
-    router.post('/app/login', function(req, res, next) {
-        if (!req.body.username || !req.body.password) {
-            return res.status(400).json({
-                message: 'Vul alle velden in'
-            });
-        }
-        passport.authenticate('local', function(err, user, info) {
+
+    //END REGION AUTHENTICATION ROUTING
+
+    //REGION USERS ROUTING
+
+    /* GET users */
+    router.get('/', function(req, res, next) {
+        User.find(function(err, users) {
             if (err) {
                 return next(err);
             }
-            if (user) {
-                return res.json({
-                    token: user.generateJWT(),
-                    userid : user._id,
-                    isAdmin: user.isAdmin
-                });
-            } else {
-                return res.status(401).json(info);
-            }
-        })(req, res, next);
+            res.json(users);
+        });
     });
-    //endregion
+    /* GET nonadmins */
+    router.get('/nonadmins', function(req, res, next) {
+        User.find({'isAdmin': 'false'},function(err, users) {
+            if (err) {
+                return next(err);
+            }
+            res.json(users);
+        });
+    });
+    /* GET user by id */
+    router.get('/:user', function(req, res, next) {
+        res.json(req.user);
+    });
+    router.param('user', function(req, res, next, id) {
+        var query = User.findById(id);
 
-    //region USERS ROUTING
+        query.exec(function(err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return next(new Error('can\'t find user'));
+            }
+
+            req.user = user;
+            return next();
+        });
+    });
+    /* PUT changepassword */
     router.put('/changepassword', auth, function(req, res) {
         User.findById(req.payload._id, function(err, user) {
             if (err) {
@@ -109,31 +129,7 @@
             })
         });
     });
-
-    router.get('/', function(req, res, next) {
-        User.find(function(err, users) {
-            if (err) {
-                return next(err);
-            }
-
-            res.json(users);
-            console.log(users);
-        });
-        console.log("hello");
-    });
-    router.get('/nonadmins', function(req, res, next) {
-        User.find({'isAdmin': 'false'},function(err, users) {
-            if (err) {
-                return next(err);
-            }
-
-            res.json(users);
-        });
-    });
-    router.get('/:user', function(req, res, next) {
-        res.json(req.user);
-    });
-
+    /* PUT update user */
     router.put('/:user', function (req, res) {
         User.findById(req.user._id, function (err, user) {
             if (err) {
@@ -159,23 +155,7 @@
             });
         });
     });
-
-    router.param('user', function(req, res, next, id) {
-        var query = User.findById(id);
-
-        query.exec(function(err, user) {
-            if (err) {
-                return next(err);
-            }
-            if (!user) {
-                return next(new Error('can\'t find user'));
-            }
-
-            req.user = user;
-            return next();
-        });
-    });
-
+    /* DELETE user */
     router.delete('/:user', auth, function(req, res, next) {
         User.remove({
             _id: req.user._id
@@ -189,7 +169,7 @@
         });
     });
 
-    //endregion
+    //END REGION USERS ROUTING
 
     module.exports = router;
 

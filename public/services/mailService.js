@@ -14,8 +14,10 @@
             sendCancellationReservation: sendCancellationReservation, //Annulatie Reservatie
             sendInvoiceCoworker: sendInvoiceCoworker, //Factuur Co worker
             sendInvoiceManager: sendInvoiceManager, //Factuur Manager
-            sendMail: sendMail, //Helper method
-            getRecipient: getRecipient //Helpr method
+            sendContactMail: sendContactMail, //Contact formulier doorsturen naar Planet Talent.
+            sendOfferMail: sendOfferMail, //Doorsturen van een offerte naar Planet Talent.
+            sendMail: sendMail //Helper method
+            //getRecipient: getRecipient //Helpr method
         };
         return service;
 
@@ -34,11 +36,11 @@
           console.log(item);
         }
 
-        function sendConfirmationOffer(item){//Offer
+        function sendConfirmationOffer(item){
           var mail = {};
           mail.to = item.user.username;
           mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Aanvraag offerte voor datum " + moment(item.startdate).format('LL');
+          mail.subject = "Aanvraag offerte voor " + moment(item.startdate).format('LL');
           mail.attachements = "";
           mail.item = item;
           mail.type = "confirmationoffer";
@@ -81,9 +83,6 @@
 
         function sendCancellationReservation(item){
           var mail = {};
-          var user = getRecipient(item.user);
-          console.log(user);
-          item.user = user;
           mail.to = item.user.username;
           mail.from = "Planet Talent <test@test.be>"
           mail.subject = "Annulatie reservatie " + moment(item.startdate).format('LL');
@@ -128,7 +127,37 @@
           console.log(item);
         }
 
-        function getRecipient(id){
+        function sendContactMail(contact){
+          var mail = {};
+          mail.to = "Planet Talent <contact@planet-talent.be>";
+          mail.from = contact.email;
+          mail.subject = "Vraag voor Planet Talent";
+          mail.attachments = "";
+          mail.item = contact;
+          mail.type = "contactmail";
+
+          sendMail(mail);
+
+          console.log("sendContactMail");
+          console.log(contact);
+        }
+
+        function sendOfferMail(offerte){
+          var mail = {};
+          mail.to = "Planet Talent <contact@planet-talent.be>";
+          mail.from = offerte.user.username;
+          mail.subject = "Offerte " + offerte.ruimte.name + " " + moment(offerte.startdate).format('LL');
+          mail.attachments = "";
+          mail.item = offerte;
+          mail.type = "offermail";
+
+          sendMail(mail);
+
+          console.log("sendOfferMail");
+          console.log(offerte);
+        }
+
+        /*function getRecipient(id){
           $http.get('/api/users/' + id, {
             headers: {
               Authorization: 'Bearer ' + auth.getToken()
@@ -140,7 +169,7 @@
             console.log("Error: " + err);
             return err;
           });
-        }
+        }*/
 
         function sendMail(mail){
           return $http.post('/api/sendmail', mail, {

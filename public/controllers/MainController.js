@@ -39,9 +39,7 @@
         vm.practicals = {};
         vm.practicals.openingsuren = [];
 
-
         activate();
-
 
         function activate() {
           return load();
@@ -83,9 +81,7 @@
         }
 
         function getContents(){
-          //Moet naar websiteService
             websiteService.getWebsiteContent().then(function(data){
-              console.log(data.data);
               vm.home = data.data.home.content;
               vm.voorwie = data.data.voorwie;
               vm.prijzen = data.data.prijzen;
@@ -143,8 +139,6 @@
         function showDialog(ev) {
           $mdDialog.show({
             parent: angular.element(document.body),
-            //controller: MainController,
-            //controllerAs: 'ctrl',
             locals: {
               eventday: vm.event,
               day: vm.dateClicked

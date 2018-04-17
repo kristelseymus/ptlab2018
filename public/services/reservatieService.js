@@ -16,8 +16,7 @@
             deleteReservatie: deleteReservatie,
             getReservatiesUser: getReservatiesUser,
             getReservatieTypes: getReservatieTypes,
-            getReservatiesByDay: getReservatiesByDay,
-            sendMail: sendMail
+            getReservatiesByDay: getReservatiesByDay
         };
         return service;
 
@@ -85,18 +84,6 @@
           return $http.get('/api/reservaties/' + date).then(function (res) {
             return res.data;
           })
-        }
-
-        function sendMail(mail){
-          return $http.post('/api/sendmail', mail, {
-            headers: {
-              Authorization: 'Bearer ' + auth.getToken()
-            }
-          }).success(function (res){
-            return res;
-          }).error(function (err){
-            return err;
-          });
         }
     }
 })();

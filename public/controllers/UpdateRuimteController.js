@@ -21,7 +21,7 @@
             .success(function(data){
               $mdToast.show($mdToast.simple()
               .content('De ruimte is succesvol aangepast.')
-              .position('top left')
+              .position('bottom left')
               .parent($("#toast-container"))
               .hideDelay(3000));
               close();

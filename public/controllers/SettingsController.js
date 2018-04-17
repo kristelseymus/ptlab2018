@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog', '$mdPanel'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'mailService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog', '$mdPanel'];
 
-    function SettingsController(auth, $state, ruimteService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog, $mdPanel){
+    function SettingsController(auth, $state, ruimteService, mailService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog, $mdPanel){
       var vm = this;
       vm.ruimtes = [];
       vm.events = [];
@@ -133,7 +133,6 @@
           vm.eventTypes = res.data;
           return vm.eventTypes;
         });
-
       }
 
       function createRuimte(){
@@ -181,11 +180,16 @@
         vm.event.duur = minutesdiff;
         eventService.create(vm.event).success(function(){
           vm.events.push(vm.event);
+
+          mailService.sendConfirmationEvent(vm.event);
+
+          //Factuur opstellen voor een manager: automatisch of niet ?
+          //mailService.sendInvoiceManager(vm.event);
         });
         console.log(vm.event);
         $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een evenement aangemaakt.')
-         .position('top left')
+         .position('bottom left')
          .parent($("#toast-container"))
          .hideDelay(3000)
 
@@ -208,7 +212,9 @@
       }
 
       function deleteReservatie(selectedreservatie) {
-        var confirm = $mdDialog.confirm()
+        console.log(selectedreservatie);
+        mailService.sendCancellationReservation(selectedreservatie);
+        /*var confirm = $mdDialog.confirm()
           .title('Annuleer reservatie')
           .textContent('Bent u zeker dat u de reservatie wilt annuleren ?')
           .ariaLabel('Confirm deleteReservatie')
@@ -222,11 +228,11 @@
                 getReservaties();
                 getReservatiesByDay(vm.day);
 
-                //Mail sturen
+                mailService.sendCancellationReservation(selectedreservatie);
 
                 $mdToast.show($mdToast.simple()
                 .content('Reservatie geannuleerd')
-                .position('top left')
+                .position('bottom left')
                 .parent($("#toast-container"))
                 .hideDelay(3000));
               });
@@ -234,10 +240,10 @@
             function() {//Cancel
               $mdToast.show($mdToast.simple()
               .content('Reservatie is niet geannuleerd')
-              .position('top left')
+              .position('bottom left')
               .parent($("#toast-container-alert"))
               .hideDelay(3000));
-            });
+            });*/
       }
       function deleteEvent(selectedevent) {
         var confirm = $mdDialog.confirm()
@@ -253,11 +259,11 @@
               return eventService.deleteEvent(selectedevent).then(function () {
                 getEvents();
 
-                //Mail sturen
+                mailService.sendCancellationEvent(selectedevent);
 
                 $mdToast.show($mdToast.simple()
                 .content('Het evenement is geannuleerd')
-                .position('top left')
+                .position('bottom left')
                 .parent($("#toast-container"))
                 .hideDelay(3000));
               });
@@ -265,7 +271,7 @@
             function() {//Cancel
               $mdToast.show($mdToast.simple()
               .content('Het evenement is niet geannuleerd')
-              .position('top left')
+              .position('bottom left')
               .parent($("#toast-container-alert"))
               .hideDelay(3000));
             });

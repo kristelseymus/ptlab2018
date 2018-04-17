@@ -16,11 +16,8 @@
     var jwt = require('express-jwt');
     var nodemailer = require('nodemailer');
     var ejs = require('ejs');
-    //var fs = require('fs');
     var path = require('path');
     var moment = require('moment');
-    //var smtpconnection = require('nodemailer/lib/smtp-connection');
-    //var email = require("emailjs");
     var auth = jwt({
         secret: 'SECRET',
         userProperty: 'payload'
@@ -36,88 +33,155 @@
       },
       connectionTimeout: 10000,
       greetingTimeout: 10000
-    })
+    });
 
-    /* GET home page. */
+    /* GET index page. */
     router.get('/', function (req, res, next) {
         res.render('index', {
             title: 'Express'
         });
     });
-
+    /* GET home page. */
     router.get('/home', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
-
+    /* GET voorwie section on home page. */
     router.get('/home#voorwie', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET ruimtes section on home page. */
     router.get('/home#ruimtes', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET prijzen section on home page. */
     router.get('/home#prijzen', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET practicals section on home page. */
     router.get('/home#practicals', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET agenda section on home page. */
     router.get('/home#agenda', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET contact page. */
     router.get('/contact', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET login page. */
     router.get('/login', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET register page. */
     router.get('/register', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET settings page. */
     router.get('/settings', function(req, res, next) {
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET boekplaatsstudent page. */
     router.get('/boekplaatsstudent', function(req, res, next){
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET vraagofferteaan page. */
     router.get('/vraagofferteaan', function(req, res, next){
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET gratisplaats page. */
     router.get('/gratisplaats', function(req, res, next){
       res.render('index', {
         title: 'Express'
       });
     });
+    /* GET mijnreservaties page. */
     router.get('/mijnreservaties', function(req, res, next){
       res.render('index', {
         title: 'Express'
       });
     });
 
-    //region Reservaties
+    //REGION RESERVATIES
+
+    /* GET reservaties */
+    router.get('/api/reservaties', function(req, res, next) {
+      Reservatie.find(function(err, reservaties) {
+        if(err){
+          return next(err);
+        }
+        res.json(reservaties);
+      }).populate('user').populate('ruimte');
+    });
+    /* GET reservaties on specific date. */
+    router.get('/api/reservaties/:date', function (req, res, next) {
+        res.json(req.reservaties);
+    });
+    router.param('date', function (req, res, next, date) {
+        var day = new Date(date);
+        day.setHours(0,0,0,0)
+        console.log(date);
+        var nextDay = new Date(date);
+        //nextDay.setDate(date.getDate()+1);
+        nextDay.setHours(day.getHours() + 24)
+        console.log(new Date(day));
+        console.log(new Date(nextDay));
+        var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
+        query.exec(function (err, reservaties) {
+            if (err) {
+                return next(err);
+            }
+            if (!reservaties) {
+                return next(new Error('can\'t find reservations'));
+            }
+            req.reservaties = reservaties;
+            return next();
+        })
+    });
+    /* GET reservaties from specific user */
+    router.get('/api/reservaties/user/:user', function (req, res) {
+        res.json(req.reservaties);
+    });
+    router.param('user', function (req, res, next, id) {
+        var query = User.findById(id).populate({path: 'reservaties', populate :{path: 'ruimte'}});
+
+        query.exec(function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return next(new Error('can\'t find reservaties'));
+            }
+
+            req.reservaties = user.reservaties;
+            return next();
+        });
+    });
+    /* POST add reservatie */
     router.post('/api/reservaties', auth, function (req, res, next) {
         var reservatie = new Reservatie(req.body);
         var hasreservation = false;
@@ -323,63 +387,8 @@
                       // ++ Reserveer
                     //Nee ?
                       // !! Kan niet reserveren
-    });// EINDE POST
-
-    router.get('/api/reservaties', function(req, res, next) {
-      Reservatie.find(function(err, reservaties) {
-        if(err){
-          return next(err);
-        }
-        res.json(reservaties);
-      }).populate('user').populate('ruimte');
     });
-
-    router.param('date', function (req, res, next, date) {
-        var day = new Date(date);
-        day.setHours(0,0,0,0)
-        console.log(date);
-        var nextDay = new Date(date);
-        //nextDay.setDate(date.getDate()+1);
-        nextDay.setHours(day.getHours() + 24)
-        console.log(new Date(day));
-        console.log(new Date(nextDay));
-        var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
-        query.exec(function (err, reservaties) {
-            if (err) {
-                return next(err);
-            }
-            if (!reservaties) {
-                return next(new Error('can\'t find reservations'));
-            }
-            req.reservaties = reservaties;
-            return next();
-        })
-    });
-
-    router.get('/api/reservaties/:date', function (req, res, next) {
-        res.json(req.reservaties);
-    });
-
-    router.get('/api/reservaties/user/:user', function (req, res) {
-        res.json(req.reservaties);
-    });
-
-    router.param('user', function (req, res, next, id) {
-        var query = User.findById(id).populate({path: 'reservaties', populate :{path: 'ruimte'}});
-
-        query.exec(function (err, user) {
-            if (err) {
-                return next(err);
-            }
-            if (!user) {
-                return next(new Error('can\'t find reservaties'));
-            }
-
-            req.reservaties = user.reservaties;
-            return next();
-        });
-    });
-    //Delete reservatie
+    /* DELETE reservatie */
     router.delete('/api/reservaties/:reservatie/:user', auth, function (req, res, next) {
         Reservatie.remove({
             _id: req.params.reservatie
@@ -388,7 +397,6 @@
                 res.send(err);
             }
         });
-
         User.findById(req.params.user, function (err, user) {
             if (err) {
                 res.send(err);
@@ -405,19 +413,10 @@
         });
     });
 
-    //
-    //endregion
+    //END REGION RESERVATIES
 
-    //region ruimtes
-    router.post('/api/ruimtes', auth, function (req, res, next) {
-        var ruimte = new Ruimte(req.body);
-        ruimte.save(function (err, ruimte) {
-            if (err) {
-                return next(err);
-            }
-        });
-    });
-
+    //REGION RUIMTES
+    /* GET ruimtes */
     router.get('/api/ruimtes', function (req, res, next) {
         Ruimte.find(function (err, ruimtes) {
             if (err) {
@@ -426,9 +425,17 @@
             res.json(ruimtes);
         });
     });
-
+    /* POST add ruimte */
+    router.post('/api/ruimtes', auth, function (req, res, next) {
+        var ruimte = new Ruimte(req.body);
+        ruimte.save(function (err, ruimte) {
+            if (err) {
+                return next(err);
+            }
+        });
+    });
+    /* PUT update ruimte */
     router.put('/api/ruimtes/:ruimte', auth, function (req, res) {
-      console.log(req.body);
         Ruimte.findById(req.body._id, function (err, ruimte) {
             if (err) {
                 res.send(err);
@@ -440,16 +447,25 @@
                 if (err) {
                     res.send(err);
                 }
-                console.log("Saved ruimte");
-                console.log(ruimte);
                 res.json(ruimte);
             })
         });
     });
 
-    //endregion
+    //END REGION RUIMTES
 
-    //region EventTypes
+    //REGION EVENTTYPES
+
+    /* GET eventtypes */
+    router.get('/api/eventtypes', function(req, res, next){
+      EventType.find(function (err, eventtypes){
+        if(err) {
+          return next(err);
+        }
+        res.json(eventtypes);
+      });
+    });
+    /* POST add eventtype */
     router.post('/api/eventtypes', auth, function(req, res, next){
       var eventType = new EventType(req.body);
       eventType.save(function(err, eventType) {
@@ -459,19 +475,11 @@
       });
     });
 
-    router.get('/api/eventtypes', function(req, res, next){
-      EventType.find(function (err, eventtypes){
-        if(err) {
-          return next(err);
-        }
-        res.json(eventtypes);
-      });
-    });
-    //endregion
+    //END REGION EVENTTYPES
 
-    //region Events
+    //REGION EVENTS
 
-    //GetAll
+    /* GET events */
     router.get('/api/events', function(req, res, next) {
       Evenement.find(function(err, events) {
         if(err){
@@ -480,7 +488,29 @@
         res.json(events);
       }).populate('user').populate('ruimte').populate('eventType');
     });
-    //Create
+    /* GET specific event by day */
+    router.get('/api/events/:day', function (req, res, next) {
+        res.json(req.events);
+    });
+    router.param('day', function (req, res, next, date) {
+        var day = new Date(date);
+        day.setHours(0,0,0,0)
+        console.log(date);
+        var nextDay = new Date(date);
+        nextDay.setDate(day.getDate()+1);
+        var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
+        query.exec(function (err, events) {
+            if (err) {
+                return next(err);
+            }
+            if (!events) {
+                return next(new Error('can\'t find events'));
+            }
+            req.events = events;
+            return next();
+        });
+    });
+    /* POST add event */
     router.post('/api/events', auth, function (req, res, next) {
         var evenement = new Evenement(req.body);
         var query = User.findById(evenement.user);
@@ -507,30 +537,7 @@
             });
         });
     });
-    //Get by day
-    router.param('day', function (req, res, next, date) {
-        var day = new Date(date);
-        day.setHours(0,0,0,0)
-        console.log(date);
-        var nextDay = new Date(date);
-        nextDay.setDate(day.getDate()+1);
-        var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
-        query.exec(function (err, events) {
-            if (err) {
-                return next(err);
-            }
-            if (!events) {
-                return next(new Error('can\'t find events'));
-            }
-            req.events = events;
-            return next();
-        });
-    });
-
-    router.get('/api/events/:day', function (req, res, next) {
-        res.json(req.events);
-    });
-
+    /* DELETE event */
     router.delete('/api/events/:evenement', auth, function (req, res, next) {
         Evenement.remove({
             _id: req.params.evenement
@@ -543,6 +550,7 @@
             });
         });
     });
+    /* DELETE event in user */
     router.delete('/api/events/:evenement/:user', auth, function (req, res, next) {
         Evenement.remove({
             _id: req.params.evenement
@@ -566,27 +574,18 @@
             })
         });
     });
-    //endregion Events
 
-    //Region sendMail
+    //END REGION EVENTS
+
+    //REGION SENDMAIL
+
+    /* POST sendmail */
     router.post('/api/sendmail', auth, function (req, res, next) {
         var mail = req.body;
         var item = mail.item;
-        console.log("In sendmail API");
-
-        /*ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, moment: moment }, function(err, data){
-          if(err){
-            console.log(err);
-          } else {
-            console.log(data);
-            res.json(data);
-          }
-        });*/
-
-        /* SWITCH voor emails */
+        /* SWITCH voor het verzenden van verschillende soorten emails */
         switch(mail.type) {
           case "confirmationreservation":
-            //Code
             console.log("confirmationreservation");
             ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, metfactuur: item.metfactuur, moment: moment }, function(err, data){
               if(err){
@@ -618,11 +617,67 @@
             });
             break;
           case "confirmationoffer":
-            //Code
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationofferemail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, moment: moment}, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                console.log(data);
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
             console.log("confirmationoffer");
             break;
           case "confirmationevent":
-            //Code
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationeventemail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, item: item, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                console.log(data);
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent")
+                  }
+                });
+              }
+            });
             console.log("confirmationevent");
             break;
           case "cancellationreservation":
@@ -657,7 +712,7 @@
             console.log("cancellationreservation");
             break;
           case "cancellationevent":
-            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationeventemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, moment: moment}, function(err, data){
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationeventemail.ejs'), { voornaam: item.user.voornaam, item: item, moment: moment}, function(err, data){
               if(err){
                 console.log(err);
               } else {
@@ -719,7 +774,7 @@
             console.log("invoicecoworker");
             break;
           case "invoicemanager":
-            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, factuurnummer: mail.factuurnummer, moment: moment }, function(err, data){
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, factuurnummer: mail.factuurnummer, moment: moment }, function(err, data){
               if(err){
                 console.log(err);
               } else {
@@ -749,190 +804,77 @@
             });
             console.log("invoicemanager")
             break;
+          case "contactmail":
+          console.log("contactmail");
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/contactemail.ejs'), { voornaam: item.voornaam, naam: item.naam, telefoon: item.telefoon, email: item.email, bericht: item.bericht, moment: moment }, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("contact");
+            break;
+          case "offermail":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/offeremail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, moment: moment}, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                console.log(data);
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("offer");
+            break;
+          default: //Geen mail versturen.
+            console.log("default");
+            break;
         }
-
-
-          /*  var mailOptions = {
-                from: mail.from,
-                to: mail.to,
-                subject: mail.subject,
-                text: "text", // plain text body
-                html: data // html body
-              };
-
-              transporter.sendMail(mailOptions, function(error, response){
-                if(error){
-                  console.log(error);
-                  res.end("error");
-                }else{
-                  console.log("Message sent: " + response.message);
-                  res.end("sent");
-               }
-             });*/
-        /*ejs.renderFile(__dirname + "/confirmationreservationemail.ejs", { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag }, function (err, data) {
-
-        });*/
-
-
-        /*var server 	= email.server.connect({
-          user:    "akmyw3k5peyqymel@ethereal.email",
-          password:"3BWDbFYkQNjYfVy1WT",
-          host:    "smtp.ethereal.email",
-          port:    465,
-          ssl:     true
-        });
-
-        // send the message and get a callback with an error or details of the message that was sent
-        server.send({
-          text:    "i hope this works",
-          from:    "Maarten Van Meersche <m.vanmeersche@telenet.be>",
-          to:      "Test <" + mail.to + ">",
-          cc:      "",
-          subject: "testing emailjs"
-        }, function(err, message) { console.log(err || message); });
-*/
-
-
-
-        /*var connection = new smtpconnection({
-          host: 'smtp.ethereal.email',
-          port: 587,
-          secure: false,
-          connectionTimeout: 10000,
-          greetingTimeout: 10000,
-        });
-
-        connection.connect();
-        connection.login({
-          credentials: {
-            user: "akmyw3k5peyqymel@ethereal.email",
-            pass: "3BWDbFYkQNjYfVy1WT"
-          }
-        },function(err){
-          console.log(err);
-        });
-        connection.send(
-          {
-            from: '"Maarten Van Meersche" <akmyw3k5peyqymel@ethereal.email>',
-            to: offerte.user.username
-          },
-          "<h1>Test mail</h1>"
-        );
-        connection.close();*/
-        /*var transporter = nodemailer.createTransport({
-          host: 'smtp.telenet.be',
-          port: 587,
-          secure: true,
-          auth: {
-            user: 'm.vanmeersche@telenet.be',
-            pass: ''
-          },
-          connectionTimeout: 10000,
-          greetingTimeout: 10000
-        });*/
-        /*var transporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 465,
-          secure: true, // use SSL
-          auth: {
-            user: 'planettalenttestemail@gmail.com',
-            pass: 'planettalent'
-          }
-        });*/
-
-
-      /*  transporter.verify(function(error, success) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Server is ready to take our messages');
-          }
-        });*/
-        /*var transporter = nodemailer.createTransport("SMTP", {
-          service: 'Gmail',
-          auth: {
-            XOAuth2: {
-              user: "planettalenttestemail@gmail.com",
-              clientId: "963910660213-17md2s3n1h2p2l9ipb4ari9f0789a40f.apps.googleusercontent.com",
-              clientSecret: "UYXWsnm7xyFx2R5ClADk11oS",
-              refreshToken: "1/TGEoelyI__RfXy71kIwIzQpDyWmYtXIV33lM2kp8oB4"
-            }
-          }
-        });*/
-
-      /*var mailOptions = {
-          from: '"Maarten Van Meersche" <m.vanmeersche@telenet.be>',
-          to: mail.to,
-          subject: mail.subject,
-          text: "test", // plain text body
-          html: "<h1>Testmail</h1>" // html body
-          /*html: "<table class='table table-hover'>"+
-            "<thead>"+
-              "<tr>"+
-                "<th>Datum</th>"+
-                "<th>Ruimte</th>"+
-                "<th>Prijs</th>"+
-                "<th></th>"+
-              "</tr>"+
-            "</thead>"+
-            "<tbody>"+
-              "<tr>"+
-                "<td ng-switch='offerte.keuzeDag'>"+
-                  "<div ng-switch-when='voormiddag'>{{offerte.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>"+
-                  "<div ng-switch-when='namiddag'>{{offerte.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>"+
-                  "<div ng-switch-when='volledigedag'>{{offerte.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>"+
-                "</td>"+
-                "<td>{{offerte.ruimte.name}}</td>"+
-                "<td class='price'>{{offerte.price}}</td>"+
-                "<td class='euro'><md-icon>euro_symbol</md-icon></td>"+
-              "</tr>"+
-            "</tbody>"+
-          "</table>"*/
-        /*};
-
-        /*transporter.sendMail(mailOptions, function(error, info){
-          var mes;
-          if (error) {
-            mes = error.message;
-            console.log(error);
-          } else {
-            mes = "Mail sent: " + info.response;
-            console.log('Email sent: ' + info.response);
-          }
-          return res.json({
-            message: mes
-          })
-        });*/
     });
-    //End region sendMail
 
-
-    //region Contact
-    /*app.post('/sendcontact', function (req, res) {
-    var data=req.body;
-
-    var smtpTransport = nodemailer.createTransport("SMTP",{
-       service: "Gmail",
-       auth: {
-       user: "email@gmail.com",
-       pass: "gmailPassword"
-       }});
-
-   smtpTransport.sendMail({  //email options
-   from: "Sender Name <email@gmail.com>",
-   to: "Receiver Name <receiver@email.com>", // receiver
-   subject: "Emailing with nodemailer", // subject
-   html: "here your data goes" // body (var data which we've declared)
-    }, function(error, response){  //callback
-         if(error){
-           console.log(error);
-        }else{
-           console.log("Message sent: " + res.message);
-       }
-
-   smtpTransport.close();
- }); });*/
-    //endregion
+    //END REGION SENDMAIL
 
     module.exports = router;
 
