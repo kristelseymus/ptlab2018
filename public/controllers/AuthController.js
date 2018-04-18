@@ -3,9 +3,9 @@
 
   angular.module('ptlab').controller('AuthController',AuthController);
 
-  AuthController.$inject = ['$state','auth', '$log'];
+  AuthController.$inject = ['$state','auth', '$log', '$mdToast'];
 
-  function AuthController($state,auth,$log){
+  function AuthController($state,auth,$log,$mdToast){
       var vm = this;
       vm.user = {};
       vm.users = [];
@@ -30,11 +30,16 @@
       function register(form){
         auth.register(vm.user).error(function(error){
           vm.error = error;
-          vm.message = error.message;
+          vm.message = error;
           if(vm.message === "User already exists") {
             form.username.$error.exists = true;
           }
         }).then(function(){
+          $mdToast.show($mdToast.simple()
+          .content('Succesvol geregistreerd.')
+          .position('bottom left')
+          .parent($("#toast-container"))
+          .hideDelay(3000));
           $state.go('login');
         });
       }
@@ -65,6 +70,11 @@
             form.wachtwoord.$error.incorrectpassword = true;
           }
         }).then(function(){
+            $mdToast.show($mdToast.simple()
+            .content("Welkom " + auth.currentUser() + " !")
+            .position('bottom left')
+            .parent($("#toast-container"))
+            .hideDelay(3000));
             $state.go('home');
         });
       }
@@ -76,7 +86,7 @@
       }
       function currentUser(){
         vm.user = auth.currentUser();
-         return vm.user.username;
+         return vm.user.fullName;
       }
       function getAll() {
           return auth.getAll()

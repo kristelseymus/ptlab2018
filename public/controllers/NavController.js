@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('NavController', NavController);
 
-    NavController.$inject = ['auth', '$state'];
+    NavController.$inject = ['auth', '$state', '$mdToast'];
 
-    function NavController(auth, $state){
+    function NavController(auth, $state, $mdToast){
       var vm = this;
 
       vm.isLoggedIn = auth.isLoggedIn;
@@ -17,8 +17,13 @@
 
       function logOut() {
         auth.logOut();
+        $mdToast.show($mdToast.simple()
+        .content("U bent succesvol uitgelogd")
+        .position('bottom left')
+        .parent($("#toast-container"))
+        .hideDelay(3000));
         $state.go('login');
-        }
+      }
 
     }
 })();

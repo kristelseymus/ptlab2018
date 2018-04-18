@@ -1,8 +1,8 @@
 <section id="register">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-            <div class="contactwrapper" layout="column" layout-padding ng-cloak>
+      <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 text-center">
+            <div class="wrapper-box" layout="column" layout-padding ng-cloak>
               <div class="row">
                 <h2 class="section-heading">Registreer</h2>
               </div>
@@ -11,7 +11,7 @@
               </div>
               <form ng-submit="ctrl.register(registerForm)" name="registerForm">
               <md-content class="md-no-momentum no-background">
-                <div layout="row">
+                <div layout-gt-xs="row">
                   <md-input-container md-no-float class="md-block" flex="50">
                     <md-icon>person</md-icon>
                     <input ng-model="ctrl.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
@@ -31,13 +31,13 @@
                   <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="registerForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Email is Verplicht.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;E-mail is verplicht.
                     </div>
                     <div ng-message="pattern">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig email adres.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig e-mailadres.
                     </div>
                     <div ng-message="exists">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit email adres.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit e-mailadres.
                     </div>
                   </div>
                 </md-input-container>
@@ -46,22 +46,24 @@
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord *" required>
                   <div ng-messages="registerForm.wachtwoord.$error" md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Waschtwoord is verplicht.
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Wachtwoord is verplicht.
                     </div>
                   </div>
                 </md-input-container>
-                <md-input-container md-no-float class="md-block">
-                  <md-select ng-model="ctrl.user.typeUser" name="typeUser" required aria-label="selectTypeUser">
+                <md-input-container md-no-float class="md-block" layout="row">
+                  <md-select ng-model="ctrl.user.typeUser" placeholder="Selecteer een type gebruiker" name="typeUser" required aria-label="selectTypeUser">
                     <md-option ng-repeat="type in ctrl.typesUser" ng-value="type">
                       {{type}}
                     </md-option>
                   </md-select>
                   <div ng-messages="registerForm.typeUser.$error">
-                    <md-icon class="error">error_outline</md-icon>&nbsp;<div ng-message="required">Er moet een type gekozen worden.</div>
+                    <div ng-message="required">
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Er moet een type gekozen worden.
+                    </div>
                   </div>
                 </md-input-container>
                 <div layout="row">
-                  <md-button type="submit" class="md-raised md-primary btnSubmitContact" flex="66">Registreer</md-button>
+                  <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Registreer</md-button>
                 </div>
               </md-content>
               </form>

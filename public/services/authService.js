@@ -26,41 +26,43 @@
         };
         return service;
 
+        /* Get all users */
         function getAll() {
             return $http.get('/api/users').success(function(data) {
                 return data;
 
             });
         }
+
+        /* Get user by id */
         function getUser(id) {
             return $http.get('/api/users/' + id).success(function(data) {
                 return data;
-
             }).error(function(err){
-              console.log("Error: " + err);
-              return err;
+                return err;
             });
         }
-        /*function getUserByEmail(email) {
-            return $http.get('/api/users/{email}').success(function(data) {
-              return data;
-            });
-        }*/
+
+        /* Get nonadmins */
         function getAllUsers(){
             return $http.get('/api/users/nonadmins').success(function(data) {
                 return data;
             }).console.error();;
         }
 
+        /* Save JWT token */
         function saveToken(token) {
             $window.sessionStorage['ptlab-app-token'] = token;
         }
+
+        /* Get JWT token */
         function getToken() {
             return $window.sessionStorage['ptlab-app-token'];
         }
+
+        /* Check if user is logged in */
         function isLoggedIn() {
             var token = getToken();
-
             if (token) {
                 var payload = angular.fromJson($window.atob(token.split('.')[1]));
                 return payload.exp > Date.now() / 1000;
@@ -68,6 +70,8 @@
                 return false;
             }
         }
+
+        /* Check if user is an admin */
         function isAdmin() {
           if (isLoggedIn()) {
               var token = getToken();
@@ -75,6 +79,9 @@
               return payload.isAdmin;
           }
         }
+
+        /* Get the full name of the current user.
+        There is information stored about the user inside the JWT token */
         function currentUser() {
             if (isLoggedIn()) {
                 var token = getToken();
@@ -82,6 +89,8 @@
                 return payload.fullName;
             }
         }
+
+        /* Create a new account */
         function register(user) {
             return $http.post('/api/users/register', user, {
                 headers: {
@@ -89,6 +98,8 @@
                 }
             });
         }
+
+        /* Login */
         function logIn(user) {
             return $http.post('/api/users/login', user, {
                 headers: {
@@ -100,9 +111,13 @@
               return err;
             });
         }
+
+        /* Logout */
         function logOut(){
             $window.sessionStorage.removeItem('ptlab-app-token');
         }
+
+        /* Change the user's password */
         function changePassword(user){
           return $http.put("/changepassword",user, {
               headers: {
@@ -110,6 +125,8 @@
               }
           });
         }
+
+        /* Delete a user */
         function deleteUser(user){
             return $http.delete('/api/users/' + user._id, {
                 headers: {
@@ -119,6 +136,9 @@
                 return res.data;
             })
         }
+
+        /* Get the current user in an object.
+        This method returns a complete user object. */
         function getCurrentUser(){
           var token = getToken();
           var payload = angular.fromJson($window.atob(token.split('.')[1]));

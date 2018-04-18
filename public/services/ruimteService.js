@@ -38,8 +38,6 @@
         }
 
         function update(id, ruimte) {
-          console.log(id);
-          console.log(ruimte);
             return $http.put('/api/ruimtes/' + id, ruimte, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()

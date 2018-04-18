@@ -19,12 +19,14 @@
         };
         return service;
 
+        /* Get all events */
         function getAll() {
             return $http.get('/api/events').success(function (data) {
                 return data;
             });
         }
 
+        /* Create a new event */
         function create(evenement) {
           return $http.post('/api/events', evenement, {
               headers: {
@@ -37,12 +39,14 @@
           });
         }
 
+        /* Get an event with a specific id */
         function get(id) {
             return $http.get('/api/events/' + id).then(function (res) {
                 return res.data;
             });
         }
 
+        /* Update an event */
         function update(id, evenement) {
             return $http.put('/api/events/' + id, evenement, {
                 headers: {
@@ -51,21 +55,27 @@
             }).success(function (data) {
                 return data;
             });
-
         }
 
+        /* Get all eventtypes.
+        There are currently 2 types of events:
+          - A normal event
+          - A training
+        */
         function getEventTypes() {
           return $http.get('/api/eventtypes').success(function (data) {
               return data;
           });
         }
 
+        /* Get all events taking place on a specific date */
         function getEventsByDay(date) {
           return $http.get('api/events/' + date).then(function (res) {
             return res.data;
           })
         }
 
+        /* Delete an event */
         function deleteEvent(evenement) {
             return $http.delete('/api/events/' + evenement._id + '/' + evenement.user, {
                 headers: {

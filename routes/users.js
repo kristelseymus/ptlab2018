@@ -14,9 +14,8 @@
         userProperty: 'payload'
     });
 
-
-
     //REGION AUTHENTICATION ROUTING
+    
     /* POST register */
     router.post('/register', function(req, res, next) {
         if (!req.body.username || !req.body.password) {

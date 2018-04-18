@@ -7,7 +7,6 @@
 
     function reservatieService($log, $http, auth) {
 
-
         var service = {
             getAll: getAll,
             create: create,
@@ -59,7 +58,6 @@
             }).success(function (data) {
                 return data;
             });
-
         }
 
         function deleteReservatie(reservatie) {

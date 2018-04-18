@@ -218,6 +218,32 @@ html.md-default-theme, html, body.md-default-theme, body {
 	 padding: 10px;
 }
 
+.wrapper-box{
+  border: 1px solid rgba(0,0,0,.03);
+  margin: 4px;
+  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+  -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+}
+
+md-toolbar {
+  z-index: 0 !important;
+}
+
+.md-input-messages-animation {
+  font-size: 0.8em;
+  text-align: left;
+  width: 100%;
+}
+
+.layout-padding>*, .layout-padding>.flex{
+  padding: 6px !important;
+}
+
+.error{
+  fill: rgb(221,44,0);
+  color: rgb(221,44,0);
+}
+
 /* -------------------------------------
     CUSTOM BACKGROUNDS
 ------------------------------------- */
@@ -239,13 +265,22 @@ html.md-default-theme, html, body.md-default-theme, body {
   color: white;
 }
 
+.no-background {
+  background-color: rgb(255, 255, 255);
+}
+
 /* -------------------------------------
     BUTTONS
 ------------------------------------- */
+a:hover,a:focus,a:active{
+  outline: none !important;
+}
+
 .btn-block{
   background-color: #15B366;
   border: none;
   padding: 12px;
+  border-radius: 0px 0px 5px 5px !important;
 }
 
 .btn-block:hover{
@@ -288,10 +323,11 @@ html.md-default-theme, html, body.md-default-theme, body {
   border-radius: 5px;
 }
 
-.btnSubmitContact {
+.btn-submit {
   margin-left: auto !important;
   margin-right: auto !important;
   background-color: #15B366 !important;
+  color: white !important;
 }
 
 .btn-primary[disabled]{
@@ -310,6 +346,26 @@ html.md-default-theme, html, body.md-default-theme, body {
   outline: 0 !important;
 }
 
+.animate-button {
+  transform: rotate(180deg);
+  -webkit-transition: 0.2s ease-in-out all;
+  transition:  0.2s ease-in-out all;
+}
+
+.animate-button:hover {
+  transform: rotate(360deg);
+  -webkit-transition: 0.2s ease-in-out all;
+  transition:  0.2s ease-in-out all;
+}
+
+/* -------------------------------------
+    CHECKBOX
+------------------------------------- */
+
+md-checkbox.md-checked .md-icon{
+  background-color: #15B366;
+}
+
 /* -------------------------------------
     BLOCKS VOORWIE
 ------------------------------------- */
@@ -325,11 +381,55 @@ html.md-default-theme, html, body.md-default-theme, body {
   color: white;
   padding: 10px;
   margin-top: 20px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .block-text {
   padding: 10px;
   background-color: white;
+}
+
+@media (min-width: 768px) {
+  .block-voorwie {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .block-voorwie-row {
+    display: table-row;
+  }
+
+  .block-voorwie-column {
+    display: table-cell;
+    width: 33.33%;
+  }
+
+  .block-voorwie-column-spacing {
+    display: table-cell;
+    width: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .block-voorwie {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .block-voorwie-row {
+    display: table-row;
+  }
+
+  .block-voorwie-column {
+    display: table-cell;
+  }
+
+  .block-voorwie-column-spacing {
+    display: table-cell;
+    width: 10px;
+  }
 }
 
 /* -------------------------------------
@@ -439,31 +539,29 @@ h2 {
 }
 
 /* -------------------------------------
-    TABS SETTINGS
+    TABLES
 ------------------------------------- */
 
-md-tabs .md-tab.md-active{
-  color: #15B366;
+.total-width-table {
+  margin-left: 0 ;
+  margin-right: 0 ;
+  width: 100%;
+  text-align: center;
 }
 
-md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
-  background-color: #15B366;
-  color: #15B366;
-}
-
-md-tab-item:active{
-  color: black;
-}
-
-md-tab-item.md-tab {
-  padding-left: 0px;
-  padding-right: 0px;
-  width: 0px;
+table {
+  border-collapse: inherit;
 }
 
 /* -------------------------------------
     TOAST & ALERTS
 ------------------------------------- */
+
+@media(max-width: 960px){
+  md-toast {
+    padding: 8px;
+  }
+}
 
 #toast-container
 {
@@ -525,6 +623,10 @@ md-toast._md.md-default-theme.md-top.md-left {
   border: 0px;
 }
 
+div.alert {
+  margin-bottom: 0;
+}
+
 /* -------------------------------------
     CALENDAR AGENDA
 ------------------------------------- */
@@ -539,224 +641,18 @@ calendar-md > md-content{
   height: 350px !important;
 }
 
-.geenEvents{
-  padding: 8px;
-  font-weight: bold;
-}
-
-/* -------------------------------------
-    RUIMTES
-------------------------------------- */
-
-.animate-content {
-  overflow: hidden;
-  max-height: 300px;
-  transition-property: 'max-height';
-  transition-duration: 1.5s;
-  transition-timing-function: ease-in-out;
-}
-
-.animate-content.ng-hide-remove,
-.animate-content.ng-hide-add,.animate-content.ng-hide {
-  display:block!important;
-}
-
-.animate-content.ng-hide{
-  max-height: 0px;
-}
-
-/* Panel in Settings */
-div.md-panel-outer-wrapper.md-panel-is-showing {
-  position: fixed;
-  margin: 0;
-  padding: 0;
-}
-
-.update-md-panel {
-  min-height: 500px;
-}
-
-.update-dialog-border {
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
-      0 13px 19px 2px rgba(0, 0, 0, 0.14),
-      0 5px 24px 4px rgba(0, 0, 0, 0.12);
-  width: 500px;
-}
-
-.update-dialog {
-  padding: 0px 15px 10px 15px;
-  width: 100%;
-}
-
-.update-dialog-content {
-  padding-top: 10px;
-}
-
-.update-dialog-button {
-  width: 100%;
-}
-/* Einde Panel in Settings */
-
-/* -------------------------------------
-    SETTINGS
-------------------------------------- */
-
-.refresh {
-  float: right !important;
-  text-align: right !important;
-}
-
-
-/*
-.clickable-block {
-  cursor: pointer;
-}*/
-/*
-.block-image {
-  height: 200px;
-  background: url("/images/vergaderzaal2_test.jpg") no-repeat center;
-}*/
-/*
-.image-coworking {
-  background: url("/images/vergaderzaal1_test.jpg") no-repeat bottom;
-}
-
-.image-meeting {
-  background: url("/images/vergaderzaal2_test.jpg") no-repeat bottom;
-}
-
-.image-training {
-  background: url("/images/vergaderzaal3_test.jpg") no-repeat bottom;
-}
-
-.image-board {
-  background: url("/images/vergaderzaal4_test.jpg") no-repeat bottom;
-}*/
-
-.right-align {
-  text-align: right;
-}
-
-.left-align {
-  text-align: left;
-}
-
-.roomblock {
-  margin-top: 2em;
-}
-
-.table {
-  margin: 0px auto;
-  float: none;
-}
-
-.img-vergaderzaal1{
-  width: 50%;
-  height: 50%;
-  float: left;
-}
-
-a:hover,a:focus,a:active{
-  outline: none !important;
-}
-
-
-div.md-toolbar-tools.layout-row {
-  padding-left: 50px !important;
-  padding-right: 50px !important;
+.calendar-md-title {
+  font-family: 'AshleyScriptMT';
+  text-transform: uppercase;
 }
 
 h2.calendar-md-title {
   padding-top: 10px;
 }
 
-md-toolbar {
-  z-index: 0 !important;
-}
-
-.calendar-md-title {
-  font-family: 'AshleyScriptMT';
-  text-transform: uppercase;
-}
-
-.dropdown-menu ul li {
-    width: 100% !important;
-}
-
-.contactwrapper{
-  border: 1px solid rgba(0,0,0,.03);
-  margin: 4px;
-  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
-  -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
-}
-
-.no-background {
-  background-color: rgb(255, 255, 255);
-}
-
-.md-input-messages-animation {
-  font-size: 0.8em;
-  text-align: left;
-  width: 100%;
-}
-
-div.alert {
-  margin-bottom: 0;
-}
-
-.iconperson{
-  margin-top: 25px !important;
-  margin-bottom: 0px !important;
-  color: rgba(0,0,0,1);
-}
-
-.table-settings {
-  margin-left: 0 ;
-  margin-right: 0 ;
-  width: 100%;
-  text-align: center;
-}
-.table-settings th {
-  text-align: center;
-}
-
-
-
-md-checkbox.md-checked .md-icon{
-  background-color: #15B366;
-}
-
-.hr-settings{
-   border: none;
-   height: 2px;
-   background-color: #A40D4E; /* Modern Browsers */
-}
-
-.item-box{
-  width: 10px;
-  height: 10px;
-  background-color: #15B366;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  margin-top: 5px;
-  margin-left: -6px;
-  /*margin: 5px !important;*/
-}
-
-.md-toolbar-tools h2{
-  padding-bottom: 20px !important;
-  padding-top: 20px !important;
-}
-
-div.md-toolbar-tools {
-  background-color: #404041;
-}
-
-.close-dialog{
-  color: white !important;
+.geenEvents{
+  padding: 8px;
+  font-weight: bold;
 }
 
 .div-empty {
@@ -764,17 +660,14 @@ div.md-toolbar-tools {
   padding-right: 16px;
 }
 
-md-input-container:not(.md-input-has-value) input:not(:focus), md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-ampm-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-day-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-hour-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-millisecond-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-minute-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-month-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-second-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-text, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-week-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-year-field
-{
-  color: black !important;
+.dialogcontent {
+  padding-top: 10px;
+  padding-left: 16px;
 }
 
-.md-button.md-default-theme.md-accent.md-raised, .md-button.md-accent.md-raised, .md-button.md-default-theme.md-accent.md-fab, .md-button.md-accent.md-fab {
-  background-color: rgb(121,134,203) !important;
-}
-.md-button.md-accent.md-raised:not([disabled]):hover {
-  background-color: rgb(121,134,203) !important;
-}
+/* -------------------------------------
+    DATEPICKER & TIMEPICKER
+------------------------------------- */
 
 .mdp-calendar-monthyear {
   font-size: 13px !important;
@@ -807,38 +700,44 @@ div.mdp-calendar .md-button.md-icon-button{
   padding: 0;
 }
 
-.dialog-date{
-  text-transform: capitalize;
+md-toolbar.md-hue-1:not(.md-menu-toolbar){
+  background-color: rgb(122, 206, 213);
 }
 
-
-
-
-.layout-padding>*, .layout-padding>.flex{
-  padding: 6px !important;
+.md-button.md-default-theme.md-accent.md-raised, .md-button.md-accent.md-raised, .md-button.md-default-theme.md-accent.md-fab, .md-button.md-accent.md-fab {
+  background-color: rgb(122, 206, 213);
+}
+.md-button.md-accent.md-raised:not([disabled]):hover {
+  background-color: rgb(122, 206, 213);
 }
 
-
-.error{
-  fill: rgb(221,44,0);
-  color: rgb(221,44,0);
+.md-button.md-primary {
+  color: rgb(0, 0, 0);
 }
 
-.price{
-  width: 5%;
+.time {
+  padding: 8px 0px 8px 8px;
 }
 
-.euro{
-  width: 5%;
+.md-button.md-primary.md-raised {
+  background-color: rgb(122, 206, 213);
 }
 
-.description {
-  /*margin-top: 10px;*/
+.md-button.md-primary.md-raised:not([disabled]):hover {
+  background-color: rgb(122, 206, 213);
 }
 
-.dialogcontent {
-  padding-top: 10px;
-  padding-left: 16px;
+md-toolbar:not(.md-menu-toolbar) {
+  background-color: rgb(122, 206, 213);
+}
+
+/* -------------------------------------
+    RUIMTES
+------------------------------------- */
+
+img.md-card-image {
+  max-height: 250px;
+  min-height: 250px;
 }
 
 .ruimte-card {
@@ -854,22 +753,65 @@ div.mdp-calendar .md-button.md-icon-button{
   padding-left: 20px;
 }
 
-.tab-settings {
-  padding-left: 50px !important;
-  padding-right: 50px !important;
+.animate-content {
+  overflow: hidden;
+  max-height: 300px;
+  transition-property: 'max-height';
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
 }
 
-.time {
-  padding: 8px 0px 8px 8px;
+.animate-content.ng-hide-remove,
+.animate-content.ng-hide-add,.animate-content.ng-hide {
+  display:block!important;
 }
 
-md-tabs[md-border-bottom] md-tabs-wrapper{
-  border-style: none !important;
+.animate-content.ng-hide{
+  max-height: 0px;
+  padding-bottom: 0px;
 }
 
-img.md-card-image {
-  max-height: 250px;
-  min-height: 250px;
+/* Panel update ruimte in Settings */
+div.md-panel-outer-wrapper.md-panel-is-showing {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+.update-md-panel {
+  min-height: 500px;
+}
+
+.update-dialog-border {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2),
+      0 13px 19px 2px rgba(0, 0, 0, 0.14),
+      0 5px 24px 4px rgba(0, 0, 0, 0.12);
+  width: 500px;
+}
+
+.update-dialog {
+  padding: 0px 15px 10px 15px;
+  width: 100%;
+}
+
+.update-dialog-content {
+  padding-top: 10px;
+}
+
+.update-dialog-button {
+  width: 100%;
+}
+/* Einde Panel update ruimte in Settings */
+
+/* -------------------------------------
+    SETTINGS
+------------------------------------- */
+
+.refresh {
+  float: right !important;
+  text-align: right !important;
 }
 
 md-progress-linear .md-bar{
@@ -879,11 +821,6 @@ md-progress-linear .md-bar{
 table.md-table th.md-column md-icon{
   min-height: 0;
   min-width: 0;
-}
-
-.label {
-  color: rgba(0,0,0,.54) !important;
-  font-size: 100% !important;
 }
 
 div.md-toolbar-tools.toolbar-search {
@@ -898,3 +835,172 @@ div.md-toolbar-tools.toolbar-search {
 .input-margin {
   margin-bottom: 0px;
 }
+
+/* -------------------------------------
+    TABS SETTINGS
+------------------------------------- */
+
+md-tabs .md-tab.md-active{
+  color: #15B366;
+}
+
+md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+  background-color: #15B366;
+  color: #15B366;
+}
+
+md-tab-item:active{
+  color: black;
+}
+
+md-tab-item.md-tab {
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 0px;
+}
+
+md-tabs[md-border-bottom] md-tabs-wrapper{
+  border-style: none !important;
+}
+
+.tab-settings {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+
+/* -------------------------------------
+    OPENINGSUREN
+------------------------------------- */
+
+.right-align {
+  text-align: right;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.table {
+  margin: 0px auto;
+  float: none;
+}
+
+/* -------------------------------------
+    RESERVEREN CO-WORKER
+------------------------------------- */
+
+.price{
+  width: 5%;
+}
+
+.euro{
+  width: 5%;
+}
+
+/* -------------------------------------
+    TOOLBARS
+------------------------------------- */
+
+div.md-toolbar-tools {
+  background-color: #404041;
+}
+
+div.md-toolbar-tools.layout-row {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+
+.md-toolbar-tools h2{
+  padding-bottom: 20px !important;
+  padding-top: 20px !important;
+}
+
+
+/*
+.clickable-block {
+  cursor: pointer;
+}*/
+/*
+.block-image {
+  height: 200px;
+  background: url("/images/vergaderzaal2_test.jpg") no-repeat center;
+}*/
+/*
+.image-coworking {
+  background: url("/images/vergaderzaal1_test.jpg") no-repeat bottom;
+}
+
+.image-meeting {
+  background: url("/images/vergaderzaal2_test.jpg") no-repeat bottom;
+}
+
+.image-training {
+  background: url("/images/vergaderzaal3_test.jpg") no-repeat bottom;
+}
+
+.image-board {
+  background: url("/images/vergaderzaal4_test.jpg") no-repeat bottom;
+}*/
+/*
+.roomblock {
+  margin-top: 2em;
+}*/
+
+/*
+.img-vergaderzaal1{
+  width: 50%;
+  height: 50%;
+  float: left;
+}*/
+
+/*
+.dropdown-menu ul li {
+    width: 100% !important;
+}*/
+/*
+.iconperson{
+  margin-top: 25px !important;
+  margin-bottom: 0px !important;
+  color: rgba(0,0,0,1);
+}
+*/
+/*
+.item-box{
+  width: 10px;
+  height: 10px;
+  background-color: #15B366;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  margin-top: 5px;
+  margin-left: -6px;
+  /*margin: 5px !important;*//*
+}*/
+
+/*
+.table-settings th {
+  text-align: center;
+}
+*/
+/*
+.close-dialog{
+  color: white !important;
+}*/
+/*
+md-input-container:not(.md-input-has-value) input:not(:focus), md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-ampm-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-day-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-hour-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-millisecond-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-minute-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-month-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-second-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-text, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-week-field, md-input-container:not(.md-input-has-value) input:not(:focus)::-webkit-datetime-edit-year-field
+{
+color: black !important;
+}*/
+/*
+.dialog-date{
+  text-transform: capitalize;
+}*/
+/*
+.description {
+  margin-top: 10px;
+}*/
+/*
+.label {
+  color: rgba(0,0,0,.54) !important;
+  font-size: 100% !important;
+}*/

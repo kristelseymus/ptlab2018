@@ -81,28 +81,73 @@
             <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
                 <h2 class="section-heading section-heading-voorwie">Voor wie ?</h2>
-                <div class="col-md-4 text-center">
-                  <div class="block-title">Trainers/Managers</div>
-                  <div equalize-height id="trainerblock" class="block-text">
+              </div>
+            </div>
+            <div class="col-sm-12 row">
+              <div class="text-center block-voorwie">
+                <div class="text-center block-voorwie-row">
+                  <div class="block-voorwie-column block-title">Trainers/Managers</div>
+                  <div class="block-voorwie-column-spacing"></div>
+                  <div class="block-voorwie-column block-title">Co-workers</div>
+                  <div class="block-voorwie-column-spacing"></div>
+                  <div class="block-voorwie-column block-title">Studenten</div>
+                </div>
+                <div class="text-center block-voorwie-row">
+                  <div id="trainerblock" class="block-voorwie-column block-text">
                     {{ctrl.voorwie.manager}}
                   </div>
-                  <a href="/vraagofferteaan" class="btn btn-primary btn-block">Vraag een offerte aan</a>
-                </div>
-                <div class="col-md-4 text-center">
-                  <div class="block-title">Co-workers</div>
-                  <div equalize-height id="coworkingblock" class="block-text">
+                  <div class="block-voorwie-column-spacing"></div>
+                  <div id="coworkingblock" class="block-voorwie-column block-text">
                     {{ctrl.voorwie.coworker}}
                   </div>
-                  <a href="/gratisplaats" class="btn btn-primary btn-block">Probeer gratis/Vraag offerte aan</a>
-                </div>
-                <div class="col-md-4 text-center">
-                  <div class="block-title">Studenten</div>
-                  <div equalize-height id="studentenblock" class="block-text">
+                  <div class="block-voorwie-column-spacing"></div>
+                  <div id="studentenblock" class="block-voorwie-column block-text">
                     {{ctrl.voorwie.student}}
                   </div>
-                  <a href="/boekplaatsstudent" class="btn btn-primary btn-block">Boek je gratis plaats</a>
+                </div>
+                <div class="text-center block-voorwie-row">
+                  <a href="/vraagofferteaan" class="block-voorwie-column btn btn-primary btn-block">Vraag een offerte aan</a>
+                  <div class="block-voorwie-column-spacing"></div>
+                  <a href="/gratisplaats" class="block-voorwie-column btn btn-primary btn-block">Probeer gratis/Reserveer</a>
+                  <div class="block-voorwie-column-spacing"></div>
+                  <a href="/boekplaatsstudent" class="block-voorwie-column btn btn-primary btn-block">Boek je gratis plaats</a>
                 </div>
               </div>
+              <!--<table>
+                <tr>
+                  <th><div class="block-title">Trainers/Managers</div></th>
+                  <th><div class="block-title">Co-workers</div></th>
+                  <th><div class="block-title">Studenten</div></th>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="trainerblock" class="block-text">
+                      {{ctrl.voorwie.manager}}
+                    </div>
+                  </td>
+                  <td>
+                    <div id="coworkingblock" class="block-text">
+                      {{ctrl.voorwie.coworker}}
+                    </div>
+                  </td>
+                  <td>
+                    <div id="studentenblock" class="block-text">
+                      {{ctrl.voorwie.student}}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="/vraagofferteaan" class="btn btn-primary btn-block">Vraag een offerte aan</a>
+                  </td>
+                  <td>
+                    <a href="/gratisplaats" class="btn btn-primary btn-block">Probeer gratis/Reserveer</a>
+                  </td>
+                  <td>
+                    <a href="/boekplaatsstudent" class="btn btn-primary btn-block">Boek je gratis plaats</a>
+                  </td>
+                </tr>
+              </table>-->
             </div>
         </div>
 </section>
@@ -180,7 +225,7 @@
           </div>
         </md-content>
 </section>
-
+<!--
 <section class="bg-red openSections" id="sectionCoworking">
   <div class="container">
     <div class="row">
@@ -240,7 +285,7 @@
     </div>
   </div>
 </section>
-
+-->
 
 <!--Prijzen-->
 <section class="bg-yellow" id="prijzen">
@@ -249,7 +294,7 @@
               <div class="col-md-10 col-md-offset-1 text-center">
                   <h2 class="section-heading">Prijzen</h2>
                   <p>
-                    {{ctrl.prijzen}}
+                    {{ctrl.prijzen.content}}
                   </p>
               </div>
           </div>

@@ -37,15 +37,15 @@
                <div class="collapse navbar-collapse" id="navbar-pt">
                    <ul class="nav navbar-nav nav-small nav-small-combined pull-right no-margin nobullets">
                        <li class="dropdown">
-                         <a class="dropdown-toggle navigatieitem" data-toggle="dropdown">Home
+                         <a class="dropdown-toggle navigatieitem custom-button" data-toggle="dropdown">Home
                          <span class="dropdown-toggle caret"></span></a>
                          <ul class="dropdown-menu">
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home" class="navigatieitem">Home</a></li>
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem">Voor wie</a></li>
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem">Ruimtes</a></li>
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
-                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home" class="navigatieitem custom-button">Home</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#voorwie" class="navigatieitem custom-button">Voor wie</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#ruimtes" class="navigatieitem custom-button">Ruimtes</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem custom-button">Prijzen</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem custom-button">Practicals</a></li>
+                           <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem custom-button">Agenda</a></li>
                          </ul>
                        </li>
                        <!--<li><a href="/home" class="navigatieitem">Home</a></li>
@@ -54,16 +54,16 @@
                        <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#prijzen" class="navigatieitem">Prijzen</a></li>
                        <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#practicals" class="navigatieitem">Practicals</a></li>
                        <li><a du-smooth-scroll du-scrollspy duration="2000" href="/home#agenda" class="navigatieitem">Agenda</a></li>-->
-                       <li><a href="/contact" id="closeNav">Contact</a></li>
-                       <li><a ng-hide="ctrl.isLoggedIn()" href="/login">Log In</a></li>
-                       <li><a ng-hide="ctrl.isLoggedIn()" href="/register">Register</a></li>
+                       <li><a href="/contact" id="closeNav" class="custom-button">Contact</a></li>
+                       <li><a ng-hide="ctrl.isLoggedIn()" href="/login" class="custom-button">Log In</a></li>
+                       <li><a ng-hide="ctrl.isLoggedIn()" href="/register" class="custom-button">Registreer</a></li>
                        <li class="dropdown">
-                         <a class="dropdown-toggle navigatieitem" data-toggle="dropdown" ng-show="ctrl.isLoggedIn()"> Welkom {{ctrl.currentUser()}}
+                         <a class="dropdown-toggle navigatieitem custom-button" data-toggle="dropdown" ng-show="ctrl.isLoggedIn()"> Welkom {{ctrl.currentUser()}}
                          <span class="dropdown-toggle caret"></span></a>
                          <ul class="dropdown-menu">
-                           <li><a ng-show="ctrl.isLoggedIn()" href="/mijnreservaties">Mijn Reservaties</a></li>
-                           <li><a ng-show="ctrl.isAdmin()" href="/settings">Settings</a></li>
-                           <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()">Log Out</a></li>
+                           <li><a ng-show="ctrl.isLoggedIn()" href="/mijnreservaties" class="custom-button">Mijn Reservaties</a></li>
+                           <li><a ng-show="ctrl.isAdmin()" href="/settings" class="custom-button">Settings</a></li>
+                           <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()" class="custom-button">Log Out</a></li>
                          </ul>
                        </li>
                    </ul>
@@ -123,7 +123,6 @@
   <script src="/javascripts/directives/logo-cycling.js"></script>
   <script src="/javascripts/directives/scroll-to-top.js"></script>
   <script src="/javascripts/directives/tiny-calendar.js"></script>
-  <script src="/javascripts/directives/equalize-height.js"></script>
   <!-- Services -->
   <script src="/services/authService.js"></script>
   <script src="/services/reservatieService.js"></script>
