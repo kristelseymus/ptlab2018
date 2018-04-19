@@ -15,7 +15,7 @@
     });
 
     //REGION AUTHENTICATION ROUTING
-    
+
     /* POST register */
     router.post('/register', function(req, res, next) {
         if (!req.body.username || !req.body.password) {
@@ -52,6 +52,7 @@
     });
     /* POST login */
     router.post('/login', function(req, res, next) {
+      console.log("inside login api");
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
                 message: 'Vul alle velden in'
@@ -114,10 +115,17 @@
         });
     });
     /* PUT changepassword */
-    router.put('/changepassword', auth, function(req, res) {
+    router.put('/changepassword', auth, function(req, res, next) {
+      console.log("inside changepassword api");
         User.findById(req.payload._id, function(err, user) {
             if (err) {
                 res.send(err);
+            }
+            if (req.body.password != req.body.passwordcheck) {
+              return res.status(500).send({
+                  success: false,
+                  message: "Passwords don't match"
+              });
             }
             user.setPassword(req.body.password);
             user.save(function(err) {

@@ -12,7 +12,6 @@
         vm.close = close;
 
         function close() {
-          console.log("close called");
           mdPanelRef.close();
         };
 
@@ -30,6 +29,6 @@
               vm.message = "Er is een fout opgetreden. Probeer opnieuw."
             });
         }
-    }
+    } // EINDE UpdateRuimteController
 
 })();

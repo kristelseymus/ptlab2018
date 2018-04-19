@@ -17,10 +17,10 @@
             sendContactMail: sendContactMail, //Contact formulier doorsturen naar Planet Talent.
             sendOfferMail: sendOfferMail, //Doorsturen van een offerte naar Planet Talent.
             sendMail: sendMail //Helper method
-            //getRecipient: getRecipient //Helpr method
         };
         return service;
 
+        /* Send a confirmation e-mail for a reservation */
         function sendConfirmationReservation(item){
           var mail = {};
           mail.to = item.user.username;
@@ -36,6 +36,7 @@
           console.log(item);
         }
 
+        /* Send a confirmation e-mail for an offer */
         function sendConfirmationOffer(item){
           var mail = {};
           mail.to = item.user.username;
@@ -51,6 +52,7 @@
           console.log(item);
         }
 
+        /* Send a confirmation e-mail for an event */
         function sendConfirmationEvent(item){
           var mail = {};
           mail.to = item.user.username;
@@ -66,6 +68,7 @@
           console.log(item);
         }
 
+        /* Send an e-mail to notify the manager that the event is canceled */
         function sendCancellationEvent(item){
           var mail = {};
           mail.to = item.user.username;
@@ -81,6 +84,7 @@
           console.log(item);
         }
 
+        /* Send an e-mail to a user to notify him/her that his/her reservation is cancelled */
         function sendCancellationReservation(item){
           var mail = {};
           mail.to = item.user.username;
@@ -90,12 +94,13 @@
           mail.item = item;
           mail.type = "cancellationreservation";
 
-          //sendMail(mail);
+          sendMail(mail);
 
           console.log("sendCancellationReservation");
           console.log(item);
         }
 
+        /* Send an invoice to a coworker */
         function sendInvoiceCoworker(item){
           var mail = {};
           mail.to = item.user.username;
@@ -112,6 +117,7 @@
           console.log(item);
         }
 
+        /* Send an invoice to a manager */
         function sendInvoiceManager(item){
           var mail = {};
           mail.to = item.user.username;
@@ -127,6 +133,7 @@
           console.log(item);
         }
 
+        /* Send the contact form to Planet Talent */
         function sendContactMail(contact){
           var mail = {};
           mail.to = "Planet Talent <contact@planet-talent.be>";
@@ -142,6 +149,7 @@
           console.log(contact);
         }
 
+        /* Send an e-mail to Planet Talent to notify them that an offer has been made */
         function sendOfferMail(offerte){
           var mail = {};
           mail.to = "Planet Talent <contact@planet-talent.be>";
@@ -157,20 +165,7 @@
           console.log(offerte);
         }
 
-        /*function getRecipient(id){
-          $http.get('/api/users/' + id, {
-            headers: {
-              Authorization: 'Bearer ' + auth.getToken()
-            }
-          }).success(function(data) {
-            console.log(data);
-            return data.data;
-          }).error(function(err){
-            console.log("Error: " + err);
-            return err;
-          });
-        }*/
-
+        /* API request to send the given e-mail */
         function sendMail(mail){
           return $http.post('/api/sendmail', mail, {
             headers: {

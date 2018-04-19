@@ -15,12 +15,14 @@
         };
         return service;
 
+        /* Get all rooms */
         function getAll() {
             return $http.get('/api/ruimtes').success(function (data) {
                 return data;
             });
         }
 
+        /* Create a new room */
         function create(ruimte) {
             return $http.post('/api/ruimtes', ruimte, {
                 headers: {
@@ -31,12 +33,14 @@
             });
         }
 
+        /* Get a specific room by id */
         function get(id) {
             return $http.get('/api/ruimtes/' + id).then(function (res) {
                 return res.data;
             });
         }
 
+        /* Update an existing room */
         function update(id, ruimte) {
             return $http.put('/api/ruimtes/' + id, ruimte, {
                 headers: {
@@ -48,6 +52,7 @@
 
         }
 
+        /* Delete a room */
         function deleteRuimte(ruimte) {
             return $http.delete('/api/ruimtes/' + ruimte._id, {
                 headers: {

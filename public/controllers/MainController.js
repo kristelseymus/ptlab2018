@@ -170,6 +170,6 @@
             ruimte.show = false
           }
         }
-    }
+    } // EINDE MainController
 
 })();

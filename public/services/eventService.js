@@ -77,7 +77,7 @@
 
         /* Delete an event */
         function deleteEvent(evenement) {
-            return $http.delete('/api/events/' + evenement._id + '/' + evenement.user, {
+            return $http.delete('/api/events/' + evenement._id + '/' + evenement.user._id, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }

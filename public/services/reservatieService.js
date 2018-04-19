@@ -14,17 +14,18 @@
             update: update,
             deleteReservatie: deleteReservatie,
             getReservatiesUser: getReservatiesUser,
-            getReservatieTypes: getReservatieTypes,
             getReservatiesByDay: getReservatiesByDay
         };
         return service;
 
+        /* Get all reservations */
         function getAll() {
             return $http.get('/api/reservaties').success(function (data) {
                 return data;
             });
         }
 
+        /* Create a new reservation */
         function create(reservatie) {
           return $http.post('/api/reservaties', reservatie, {
               headers: {
@@ -37,20 +38,22 @@
           });
         }
 
+        /* Get a specific reservation by id */
         function get(id) {
             return $http.get('/api/reservaties/' + id).then(function (res) {
                 return res.data;
             });
         }
 
+        /* Get all reservations from a user */
         function getReservatiesUser(id){
           return $http.get('/api/reservaties/user/' + id).then(function(res){
             return res.data;
           })
         }
 
+        /* Update an existing reservation */
         function update(id, reservatie) {
-            $log.log("update in reservatieService was called");
             return $http.put('/api/reservaties/' + id, reservatie, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
@@ -60,8 +63,9 @@
             });
         }
 
+        /* Delete a specific reservation */
         function deleteReservatie(reservatie) {
-            return $http.delete('/api/reservaties/' + reservatie._id + '/' + reservatie.user, {
+            return $http.delete('/api/reservaties/' + reservatie._id + '/' + reservatie.user._id, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
                 }
@@ -72,13 +76,9 @@
             });
         }
 
-        function getReservatieTypes() {
-          return $http.get('/api/reservatietypes').success(function (data) {
-              return data;
-          });
-        }
-
+        /* Get all reservations from a specific date */
         function getReservatiesByDay(date) {
+          console.log(date);
           return $http.get('/api/reservaties/' + date).then(function (res) {
             return res.data;
           })

@@ -114,7 +114,6 @@
             </h3>
           </div>
         </md-toolbar>
-
         <md-content class="md-padding no-background tab-settings">
           <!-- EVENTS -->
             <!--<div class="row text-center">
@@ -136,7 +135,7 @@
                       <input type="text" ng-model="ctrl.filter.searchevent" placeholder="Zoek"/>
                     </md-input-container>
                     <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
-                      <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.order">
+                      <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.orderevents">
                         <tr md-row>
                           <th md-column md-order-by="name">
                             <span>Naam</span>
@@ -163,10 +162,10 @@
                         </tr>
                       </thead>
                       <tbody md-body>
-                        <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.events | filter: ctrl.filter.searchevent | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                        <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.events | filter: ctrl.filter.searchevent | orderBy: ctrl.query.orderevents | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
                           <td md-cell>{{event.name}}</td>
                           <td md-cell>{{event.startdate | date:'dd MMMM yyyy'}}</td>
-                          <td md-cell>{{event.startdate | date:'HH:mm'}}</td>
+                          <td md-cell>{{event.startdate | date:'HH:mm'}} - {{ctrl.getEndTime(event) | date:'HH:mm'}}</td>
                           <td md-cell>{{event.eventType.name}}</td>
                           <td md-cell>{{event.catering ? 'Ja' : 'Nee'}}</td>
                           <td md-cell>{{event.publiek ? 'Ja' : 'Nee'}}</td>
@@ -223,6 +222,80 @@
                 </div>
             </div>
           </md-content>
+
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h3>
+                <span class="section-heading">Evenementen zoeken op dag</span>
+              </h3>
+            </div>
+          </md-toolbar>
+          <md-content class="md-padding no-background tab-settings">
+              <div class="row">
+                  <div class="text-center table-responsive-md">
+                    <md-content layout="column" flex class="no-background">
+
+                    <md-input-container md-no-float class="md-block input-margin">
+                      <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.day" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getEventsByDay()" aria-label="Datepicker Events by day">
+                        <md-tooltip md-direction="bottom">Klik op het icoon om een datum te kiezen</md-tooltip>
+                      </mdp-date-picker>
+                    </md-input-container>
+                    <md-toolbar class="md-table-toolbar alternate" ng-show="ctrl.options.rowSelection && ctrl.selected.length">
+                      <div class="md-toolbar-tools">
+                        <span>{{ctrl.selected.length}} {{ctrl.selected.length > 1 ? 'items' : 'item'}} aangevinkt</span>
+                      </div>
+                    </md-toolbar>
+                    <md-table-container ng-show="ctrl.eventsday.length > 0">
+                      <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
+                        <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.ordereventsday">
+                          <tr md-row>
+                            <th md-column md-order-by="name">
+                              <span>Naam</span>
+                            </th>
+                            <th md-column md-order-by="startdate" md-desc>
+                              <span>Datum</span>
+                            </th>
+                            <th md-column>
+                              <span>Tijd</span>
+                            </th>
+                            <th md-column md-order-by="eventType.name">
+                              <span>Type</span>
+                            </th>
+                            <th md-column>
+                              <span>Catering</span>
+                            </th>
+                            <th md-column>
+                              <span>Publiek</span>
+                            </th>
+                            <th md-column md-order-by="ruimte.name">
+                              <span>Ruimte</span>
+                            </th>
+                            <th md-column></th>
+                          </tr>
+                        </thead>
+                        <tbody md-body>
+                          <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.eventsday | filter: ctrl.filter.searcheventday | orderBy: ctrl.query.ordereventsday | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                            <td md-cell>{{event.name}}</td>
+                            <td md-cell>{{event.startdate | date:'dd MMMM yyyy'}}</td>
+                            <td md-cell>{{event.startdate | date:'HH:mm'}} - {{ctrl.getEndTime(event) | date:"HH:mm"}}</td>
+                            <td md-cell>{{event.eventType.name}}</td>
+                            <td md-cell>{{event.catering ? 'Ja' : 'Nee'}}</td>
+                            <td md-cell>{{event.publiek ? 'Ja' : 'Nee'}}</td>
+                            <td md-cell>{{event.ruimte.name}}</td>
+                            <td md-cell><div type="button" class="custom-button" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </md-table-container>
+                    <!-- Show this when there are no reservations on the chosen date -->
+                    <div ng-show="ctrl.eventsday.length <= 0" class="noreservations">
+                      Er zijn geen evenementen op de gekozen dag.
+                    </div>
+                  </md-content>
+                  </div>
+              </div>
+          </md-content>
+
           <md-toolbar>
             <div class="md-toolbar-tools text-center">
               <h3>
@@ -387,8 +460,8 @@
                       <md-icon class="icon-grey">search</md-icon>
                       <input type="text" ng-model="ctrl.filter.searchallreservations" placeholder="Zoek"/>
                     </md-input-container>
-                    <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
-                      <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.order">
+                    <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.reloadreservations">
+                      <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.orderreservaties">
                         <tr md-row>
                           <th md-column md-order-by="user.fullName"><span>Naam</span></th>
                           <th md-column md-order-by="user.username"><span>Email</span></th>
@@ -399,7 +472,7 @@
                         </tr>
                       </thead>
                       <tbody md-body>
-                        <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservaties | filter: ctrl.filter.searchallreservations | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                        <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservaties | filter: ctrl.filter.searchallreservations | orderBy: ctrl.query.orderreservaties | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
                           <td md-cell>{{reservatie.user.fullName}}</td>
                           <td md-cell>{{reservatie.user.username}}</td>
                           <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
@@ -482,9 +555,9 @@
                           <span>{{ctrl.selected.length}} {{ctrl.selected.length > 1 ? 'items' : 'item'}} aangevinkt</span>
                         </div>
                       </md-toolbar>
-                      <md-table-container>
+                      <md-table-container ng-show="ctrl.reservatiesday.length > 0">
                         <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected" md-progress="ctrl.promise">
-                          <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.order">
+                          <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.orderreservatiesday">
                             <tr md-row>
                               <th md-column md-order-by="user.fullName"><span>Naam</span></th>
                               <th md-column md-order-by="user.username"><span>Email</span></th>
@@ -495,7 +568,7 @@
                             </tr>
                           </thead>
                           <tbody md-body>
-                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.search | orderBy: ctrl.query.order | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.search | orderBy: ctrl.query.orderreservatiesday | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
                               <td md-cell>{{reservatie.user.fullName}}</td>
                               <td md-cell>{{reservatie.user.username}}</td>
                               <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
@@ -510,6 +583,10 @@
                           </tbody>
                         </table>
                       </md-table-container>
+                      <!-- Show this when there are no reservations on the chosen date -->
+                      <div ng-show="ctrl.reservatiesday.length <= 0" class="noreservations">
+                        Er zijn geen reservaties op de gekozen dag.
+                      </div>
                     </md-content>
                     </div>
                   </div>

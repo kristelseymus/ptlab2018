@@ -25,5 +25,5 @@
         $state.go('login');
       }
 
-    }
+    } // EINDE NavController
 })();

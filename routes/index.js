@@ -95,6 +95,12 @@
         title: 'Express'
       });
     });
+    /* GET changepassword page */
+    router.get('/changepassword', function(req, res, next) {
+      res.render('index', {
+        title: 'Express'
+      })
+    });
     /* GET settings page. */
     router.get('/settings', function(req, res, next) {
       res.render('index', {
@@ -145,11 +151,12 @@
         var day = new Date(date);
         day.setHours(0,0,0,0)
         console.log(date);
-        var nextDay = new Date(date);
-        //nextDay.setDate(date.getDate()+1);
-        nextDay.setHours(day.getHours() + 24)
-        console.log(new Date(day));
-        console.log(new Date(nextDay));
+        var nextDay = new Date(day);
+        nextDay.setDate(nextDay.getDate() + 1);
+        //nextDay.setHours(day.getHours() + 24)
+        console.log("Date: " + date);
+        console.log("Day: " + day);
+        console.log("NextDay: " + nextDay);
         var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
             if (err) {
@@ -167,7 +174,7 @@
         res.json(req.reservaties);
     });
     router.param('user', function (req, res, next, id) {
-        var query = User.findById(id).populate({path: 'reservaties', populate :{path: 'ruimte'}});
+        var query = User.findById(id).populate({path: 'reservaties', populate :{path: 'ruimte user'}});
 
         query.exec(function (err, user) {
             if (err) {

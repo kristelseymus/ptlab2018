@@ -108,7 +108,7 @@
       function getReservatiesUser(){
         vm.reservaties = reservatieService.getReservatiesUser(vm.currentUser._id).then(function(res){
           vm.reservaties = res;
-          vm.toekomstigeReservaties = []; //Clear array, bug reservaties.
+          vm.toekomstigeReservaties = [];
           vm.reservaties.forEach(function(r){
             var today = new Date();
             var rDate = new Date(r.startdate);
@@ -117,6 +117,7 @@
               vm.toekomstigeReservaties.push(r);
             }
           });
+          console.log(vm.toekomstigeReservaties);
           return vm.reservaties;
         });
       }// EINDE getReservatiesUser
@@ -287,6 +288,6 @@
         }
       }// EINDE adjustPrice
 
-    }
+    } // EINDE ReservatieController
 
 })();

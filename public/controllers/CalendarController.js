@@ -28,6 +28,6 @@
           tempDate.setMinutes(tempDate.getMinutes() + ev.duur);
           return tempDate;
         }
-    }
+    } // EINDE CalendarController
 
 })();

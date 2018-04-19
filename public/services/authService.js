@@ -119,10 +119,13 @@
 
         /* Change the user's password */
         function changePassword(user){
-          return $http.put("/changepassword",user, {
+          console.log(user);
+          return $http.put("/api/users/changepassword",user, {
               headers: {
                   Authorization: 'Bearer ' + getToken()
               }
+          }).error(function(err){
+            console.log(err);
           });
         }
 

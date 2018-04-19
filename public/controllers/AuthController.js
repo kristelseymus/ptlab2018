@@ -7,10 +7,17 @@
 
   function AuthController($state,auth,$log,$mdToast){
       var vm = this;
-      vm.user = {};
-      vm.users = [];
+      vm.user = {}; //CurrentUser
+      vm.users = []; //All Users
       vm.password = null;
+      vm.passwordcheck = null;
+      vm.showPassword = false;
       vm.typesUser = ['STUDENT','COWORKER','MANAGER'];
+      /* There are a total of 3 types of users that can make reservations/events:
+          - STUDENT
+          - COWORKER
+          - MANAGER
+       */
 
       vm.register = register;
       vm.logIn = logIn;
@@ -20,6 +27,7 @@
       vm.changePassword = changePassword;
       vm.getAll = getAll;
       vm.deleteUser = deleteUser;
+      vm.toggleShowPassword = toggleShowPassword;
 
       activate();
 
@@ -27,36 +35,16 @@
           return getAll();
       }
 
-      function register(form){
-        auth.register(vm.user).error(function(error){
-          vm.error = error;
-          vm.message = error;
-          if(vm.message === "User already exists") {
-            form.username.$error.exists = true;
-          }
-        }).then(function(){
-          $mdToast.show($mdToast.simple()
-          .content('Succesvol geregistreerd.')
-          .position('bottom left')
-          .parent($("#toast-container"))
-          .hideDelay(3000));
-          $state.go('login');
-        });
+      /* Get all users */
+      function getAll() {
+          return auth.getAll()
+              .then(function(data) {
+                  vm.users = data.data;
+                  return vm.users;
+              });
       }
-      function changePassword(){
-        return auth.changePassword({password: vm.user.password}).error(function(error){
-          vm.error = error;
-        }).then(function(){
-          $state.go('home');
-        });
-      }
-      function setPassword(){
-        return auth.setPassword({password: vm.user.password}).error(function(error){
-          vm.error = error;
-        }).then(function(){
-          $state.go('home');
-        });
-      }
+
+      /* Login */
       function logIn(form){
         auth.logIn(vm.user)
         .error(function(error){
@@ -78,23 +66,77 @@
             $state.go('home');
         });
       }
+
+      /* Logout */
+      function logOut(){
+        auth.logOut();
+        $state.go('login');
+      }
+
+      /* Register a new user */
+      function register(form){
+        auth.register(vm.user).error(function(error){
+          vm.error = error;
+          vm.message = error;
+          if(vm.message === "User already exists") {
+            form.username.$error.exists = true;
+          }
+        }).then(function(){
+          $mdToast.show($mdToast.simple()
+          .content('Succesvol geregistreerd.')
+          .position('bottom left')
+          .parent($("#toast-container"))
+          .hideDelay(3000));
+          $state.go('login');
+        });
+      }
+
+      /* Set a user password */
+      function setPassword(){
+        return auth.setPassword({password: vm.user.password}).error(function(error){
+          vm.error = error;
+        }).then(function(){
+          $state.go('home');
+        });
+      }
+
+      /* Change a user password */
+      function changePassword(form){
+        vm.user = auth.getCurrentUser();
+        vm.user.password = vm.password;
+        vm.user.passwordcheck = vm.passwordcheck;
+        console.log(vm.user);
+        return auth.changePassword(vm.user)
+        .error(function(error){
+          vm.error = error;
+          if(vm.error.message === "Passwords don't match") {
+            vm.message = "Wachtwoorden komen niet overeen. Probeer opnieuw."
+            //form.checkwachtwoord.$error.passwordmatch = true;
+          }
+        }).then(function(){
+            $mdToast.show($mdToast.simple()
+            .content("Uw wachtwoord is succesvol gewijzigd.")
+            .position('bottom left')
+            .parent($("#toast-container"))
+            .hideDelay(3000));
+            vm.logOut();
+        });
+      }
+
+      /* Toggle showPassword */
+      function toggleShowPassword() {
+        vm.showPassword = !vm.showPassword;
+      }
+
       function isLoggedIn(){
         return auth.isLoggedIn();
       }
-      function logOut(){
-        auth.logOut();
-      }
+
       function currentUser(){
         vm.user = auth.currentUser();
          return vm.user.fullName;
       }
-      function getAll() {
-          return auth.getAll()
-              .then(function(data) {
-                  vm.users = data.data;
-                  return vm.users;
-              });
-      }
+
       function deleteUser(user){
           if(user.username === auth.currentUser()){
               vm.message = "You can't delete yourself";
@@ -105,5 +147,5 @@
             getAll();
           });
       }
-  }
+  } // EINDE AuthController
 })();
