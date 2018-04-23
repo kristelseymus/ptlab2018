@@ -209,11 +209,14 @@
         vm.offerte.user = auth.getCurrentUser();
 
         reservatieService.getReservatiesByDay(vm.offerte.startdate).then(function(res){
+          var item = {};
+          item.offerte = vm.offerte;
+          item.subject = "";
           if(res.length === 0) { //Geen reservaties
             vm.message = "";
-
+            item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL');
             mailService.sendConfirmationOffer(vm.offerte);
-            mailService.sendOfferMail(vm.offerte);
+            mailService.sendOfferMail(item);
 
             $mdToast.show($mdToast.simple()
               .content('De offerte is aangevraagd.')
@@ -223,8 +226,34 @@
              );
              $state.go('home');
            } else {
-             vm.message = "U kan geen evenement organiseren op de gekozen dag."
-           }
+
+              var confirm = $mdDialog.confirm()
+               .title('Offerte aanvragen')
+               .textContent('Er zijn reeds plaatsen gereserveerd. Als u de offerte bevestigd, dan zullen we kijken wat wij kunnen doen om u verder te helpen.')
+               .ariaLabel('Confirm awaiting offer')
+               .ok('Bevestig offerte')
+               .cancel('Annuleer');
+
+              $mdDialog.show(confirm).then(
+                function() {//OK
+                  $mdToast.show($mdToast.simple()
+                  .content('De offerte is aangevraagd.')
+                  .position('bottom left')
+                  .parent($("#toast-container"))
+                  .hideDelay(3000));
+                  item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL') + " in afwachting";
+                  mailService.sendAwaitingOfferMail(vm.offerte);
+                  mailService.sendOfferMail(item);
+                  $state.go('home');
+                },
+                function() {//Cancel
+                  $mdToast.show($mdToast.simple()
+                  .content('De offerte is niet aangevraagd.')
+                  .position('bottom left')
+                  .parent($("#toast-container-alert"))
+                  .hideDelay(3000));
+                });
+           } // EINDE else
          });
       }// EINDE vraagOfferteAan
 

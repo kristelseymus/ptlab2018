@@ -3,9 +3,9 @@
 
     angular.module('ptlab').factory('mailService', mailService);
 
-    mailService.$inject = ['$log', '$http', 'auth'];
+    mailService.$inject = ['$log', '$http', 'auth', 'reservatieService', 'eventService'];
 
-    function mailService($log, $http, auth) {
+    function mailService($log, $http, auth, reservatieService, eventService) {
         var service = {
             sendConfirmationReservation: sendConfirmationReservation, //Bevestiging Reservatie
             sendConfirmationOffer: sendConfirmationOffer,//Bevestiging Offerte
@@ -16,19 +16,21 @@
             sendInvoiceManager: sendInvoiceManager, //Factuur Manager
             sendContactMail: sendContactMail, //Contact formulier doorsturen naar Planet Talent.
             sendOfferMail: sendOfferMail, //Doorsturen van een offerte naar Planet Talent.
+            sendAwaitingOfferMail: sendAwaitingOfferMail, //Offerte in afwachting
             sendMail: sendMail //Helper method
         };
         return service;
 
         /* Send a confirmation e-mail for a reservation */
         function sendConfirmationReservation(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Reservatie op " + moment(item.startdate).format('LL');
-          mail.attachements = "";
-          mail.item = item;
-          mail.type = "confirmationreservation";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Reservatie op " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "confirmationreservation"
+          };
 
           sendMail(mail);
 
@@ -38,13 +40,14 @@
 
         /* Send a confirmation e-mail for an offer */
         function sendConfirmationOffer(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Aanvraag offerte voor " + moment(item.startdate).format('LL');
-          mail.attachements = "";
-          mail.item = item;
-          mail.type = "confirmationoffer";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Aanvraag offerte voor " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "confirmationoffer"
+          };
 
           sendMail(mail);
 
@@ -54,13 +57,14 @@
 
         /* Send a confirmation e-mail for an event */
         function sendConfirmationEvent(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Evenement op " + moment(item.startdate).format('LL');
-          mail.attachements = "";
-          mail.item = item;
-          mail.type = "confirmationevent";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Evenement op " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "confirmationevent"
+          };
 
           sendMail(mail);
 
@@ -70,13 +74,14 @@
 
         /* Send an e-mail to notify the manager that the event is canceled */
         function sendCancellationEvent(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Annulering evenement " + moment(item.startdate).format('LL');
-          mail.attachments = "";
-          mail.item = item;
-          mail.type = "cancellationevent";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.be>",
+            subject: "Annulatie evenement " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "cancellationevent"
+          };
 
           sendMail(mail);
 
@@ -86,13 +91,14 @@
 
         /* Send an e-mail to a user to notify him/her that his/her reservation is cancelled */
         function sendCancellationReservation(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>"
-          mail.subject = "Annulatie reservatie " + moment(item.startdate).format('LL');
-          mail.attachments = "";
-          mail.item = item;
-          mail.type = "cancellationreservation";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Annulatie reservatie " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "cancellationreservation"
+          };
 
           sendMail(mail);
 
@@ -102,14 +108,15 @@
 
         /* Send an invoice to a coworker */
         function sendInvoiceCoworker(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Factuur reservatie " + moment(item.startdate).format('LL');
-          mail.attachments = "";
-          mail.item = item;
-          mail.type = "invoicecoworker";
-          mail.factuurnummer = "" + item.startdate.getFullYear() + "-" + item.startdate.getMonth() + "/0002";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Factuur reservatie " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "invoicecoworker",
+            factuurnummer: "" + item.startdate.getFullYear() + "-" + item.startdate.getMonth() + "/R" + reservatieService.getReservatiesByDay(item.startdate).length
+          };
 
           sendMail(mail);
 
@@ -119,13 +126,15 @@
 
         /* Send an invoice to a manager */
         function sendInvoiceManager(item){
-          var mail = {};
-          mail.to = item.user.username;
-          mail.from = "Planet Talent <test@test.be>";
-          mail.subject = "Factuur evenement " + moment(item.startdate).format('LL');
-          mail.attachments = "";
-          mail.item = item;
-          mail.type = "invoicemanager";
+          var mail = {
+            to: item.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Factuur evenement " + moment(item.startdate).format('LL'),
+            attachments: "",
+            item: item,
+            type: "invoicemanager",
+            factuurnummer: "" + item.startdate.getFullYear() + "-" + item.startdate.getMonth() + "/E" + eventService.getEventsByDay(item.startdate).length
+          };
 
           sendMail(mail);
 
@@ -135,13 +144,14 @@
 
         /* Send the contact form to Planet Talent */
         function sendContactMail(contact){
-          var mail = {};
-          mail.to = "Planet Talent <contact@planet-talent.be>";
-          mail.from = contact.email;
-          mail.subject = "Vraag voor Planet Talent";
-          mail.attachments = "";
-          mail.item = contact;
-          mail.type = "contactmail";
+          var mail = {
+            to: "Planet Talent <contact@planet-talent.com>",
+            from: contact.email,
+            subject: "Vraag voor Planet Talent",
+            attachments: "",
+            item: contact,
+            type: "contactmail"
+          };
 
           sendMail(mail);
 
@@ -150,18 +160,37 @@
         }
 
         /* Send an e-mail to Planet Talent to notify them that an offer has been made */
-        function sendOfferMail(offerte){
-          var mail = {};
-          mail.to = "Planet Talent <contact@planet-talent.be>";
-          mail.from = offerte.user.username;
-          mail.subject = "Offerte " + offerte.ruimte.name + " " + moment(offerte.startdate).format('LL');
-          mail.attachments = "";
-          mail.item = offerte;
-          mail.type = "offermail";
+        function sendOfferMail(item){
+          var mail = {
+            to: "Planet Talent <contact@planer-talent.com>",
+            from: item.offerte.user.username,
+            subject: item.subject,
+            attachments: "",
+            item: item.offerte,
+            type: "offermail"
+          };
 
           sendMail(mail);
 
           console.log("sendOfferMail");
+          console.log(item.offerte);
+        }
+
+        /* Send an e-mail that the offer is being handled.
+        This e-mail is sent when there are reservations in the same room at the same time. */
+        function sendAwaitingOfferMail(offerte) {
+          var mail = {
+            to: offerte.user.username,
+            from: "Planet Talent <contact@planet-talent.com>",
+            subject: "Offerte in afwachting",
+            attachments: "",
+            item: offerte,
+            type: "awaitingoffer"
+          };
+
+          sendMail(mail);
+
+          console.log("sendAwaitingOfferMail");
           console.log(offerte);
         }
 

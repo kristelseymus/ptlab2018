@@ -15,6 +15,7 @@
 
       vm.ruimte = {};
       vm.event = {};
+      vm.admin = {};
       vm.reservatiesday = [];
       vm.eventsday = [];
       vm.day = new Date();
@@ -36,6 +37,7 @@
 
       vm.createRuimte = createRuimte;
       vm.createEvent = createEvent;
+      vm.createAdmin = createAdmin;
       vm.reload = reload;
       vm.deleteReservatie = deleteReservatie;
       vm.deleteEvent = deleteEvent;
@@ -322,6 +324,25 @@
         };
 
         vm._mdPanel.open(config);
+      }
+
+      function createAdmin(form) {
+        vm.admin.typeUser = "MANAGER";
+        vm.admin.isAdmin = true;
+        vm.admin.password = vm.admin.username;
+        auth.register(vm.admin).error(function(error){
+          vm.error = error;
+          if(vm.error.message === "User already exists") {
+            form.username.$error.exists = true;
+          }
+        }).then(function(){
+          $mdToast.show($mdToast.simple()
+          .content('Administrator succesvol aangemaakt.')
+          .position('bottom left')
+          .parent($("#toast-container"))
+          .hideDelay(3000));
+          //$state.go('login');
+        });
       }
     } // EINDE SettingsController
 })();

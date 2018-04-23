@@ -77,8 +77,7 @@
       function register(form){
         auth.register(vm.user).error(function(error){
           vm.error = error;
-          vm.message = error;
-          if(vm.message === "User already exists") {
+          if(vm.error.message === "User already exists") {
             form.username.$error.exists = true;
           }
         }).then(function(){

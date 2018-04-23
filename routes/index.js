@@ -875,6 +875,38 @@
             });
             console.log("offer");
             break;
+          case "awaitingoffer":
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/awaitingoffer.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, moment: moment }, function(err, data) {
+              if(err){
+                console.log(err);
+              } else {
+                console.log(data);
+                var mailOptions = {
+                  from: mail.from,
+                  to: mail.to,
+                  subject: mail.subject,
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-03.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response) {
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.end("sent");
+                  }
+                });
+              }
+            });
+            console.log("awaitingoffer");
+            break;
           default: //Geen mail versturen.
             console.log("default");
             break;

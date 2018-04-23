@@ -254,6 +254,7 @@ md-toolbar {
 
 .bg-red {
   background-color: #A40D4E;
+  color: white;
 }
 
 .bg-green {
@@ -367,7 +368,7 @@ md-checkbox.md-checked .md-icon{
 }
 
 /* -------------------------------------
-    BLOCKS VOORWIE
+    BLOCKS
 ------------------------------------- */
 
 .block {
@@ -389,6 +390,53 @@ md-checkbox.md-checked .md-icon{
   background-color: white;
 }
 
+.block-price {
+  padding: 30px 10px 30px 10px;
+}
+
+.block-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prices-price {
+  font-weight: bold;
+  font-size: 2em;
+  /*font-family: 'AshleyScriptMT';*/
+}
+
+.prices-practicals-table {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.prices-practicals-row {
+  display: table-row;
+}
+
+.prices-practicals-icon {
+  display: table-cell;
+  min-width: 39px !important;
+  width: 39px !important;
+  padding: 10px 5px 10px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.prices-practicals-text {
+  display: table-cell;
+  text-align: left;
+  padding-left: 20px;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.1)
+}
+
+.block-prices-practicals {
+  border-radius: 0px 0px 5px 5px;
+  padding: 10px;
+  background-color: white;
+}
+
 @media (min-width: 768px) {
   .block-voorwie {
     display: table;
@@ -403,6 +451,11 @@ md-checkbox.md-checked .md-icon{
   .block-voorwie-column {
     display: table-cell;
     width: 33.33%;
+  }
+
+  .block-price-column {
+    display: table-cell;
+    width: 25%;
   }
 
   .block-voorwie-column-spacing {
@@ -423,6 +476,10 @@ md-checkbox.md-checked .md-icon{
   }
 
   .block-voorwie-column {
+    display: table-cell;
+  }
+
+  .block-price-column {
     display: table-cell;
   }
 
@@ -632,6 +689,10 @@ div.alert {
   margin-bottom: 0;
 }
 
+.md-dialog-content {
+  max-width: 300px;
+}
+
 /* -------------------------------------
     CALENDAR AGENDA
 ------------------------------------- */
@@ -687,7 +748,7 @@ calendar-md md-content>md-content {
 }
 
 .md-whiteframe-12dp {
-  outline: none !important;  
+  outline: none !important;
 }
 
 /* -------------------------------------

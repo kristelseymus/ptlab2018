@@ -1,5 +1,5 @@
 <div class="text-center">
-  <h2 class="section-heading">Settings</h2>
+  <h2 class="section-heading">Instellingen</h2>
 </div>
   <md-content class="no-background">
     <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always" md-no-ink>
@@ -640,7 +640,55 @@
                 </div>
             </div>-->
           <!-- EINDE Reservaties-->
-        <!--</md-content>
+        <!--</md-content>-->
+      </md-tab>
+      <md-tab label="gebruikers">
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h3>
+                <span class="section-heading">Administrator aanmaken</span>
+              </h3>
+            </div>
+          </md-toolbar>
+          <md-content class="md-padding no-background tab-settings">
+            <form ng-submit="ctrl.createAdmin(createAdminForm)" name="createAdminForm">
+              <md-content class="md-no-momentum no-background">
+                <div layout-gt-xs="row">
+                  <md-input-container md-no-float class="md-block" flex="50">
+                    <md-icon>person</md-icon>
+                    <input ng-model="ctrl.admin.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
+                    <div ng-messages="createAdminForm.voornaam.$error">
+                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Voornaam is verplicht.</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container md-no-float class="md-block" flex="50">
+                    <input ng-model="ctrl.admin.naam" type="text" name="naam" placeholder="Naam *" required>
+                    <div ng-messages="createAdminForm.naam.$error">
+                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Naam is verplicht.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+                <md-input-container md-no-float class="md-block" layout="row">
+                  <md-icon>email</md-icon>
+                  <input ng-model="ctrl.admin.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/">
+                  <div ng-messages="createAdminForm.username.$error" multiple md-auto-hide="false">
+                    <div ng-message="required">
+                      <md-icon class="error">error_outline</md-icon>&nbsp;E-mail is verplicht.
+                    </div>
+                    <div ng-message="pattern">
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig e-mailadres.
+                    </div>
+                    <div ng-message="exists">
+                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit e-mailadres.
+                    </div>
+                  </div>
+                </md-input-container>
+                <div layout="row">
+                  <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Aanmaken</md-button>
+                </div>
+              </md-content>
+            </form>
+        </md-content>
       </md-tab>
     </md-tabs>
-  </md-content>-->
+  </md-content>

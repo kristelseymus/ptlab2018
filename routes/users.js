@@ -33,6 +33,11 @@
         user.naam = req.body.naam;
         user.typeUser = req.body.typeUser;
         user.fullName = req.body.voornaam + " " + req.body.naam;
+        if(req.body.isAdmin == true) {
+          user.isAdmin = req.body.isAdmin;
+        } else  {
+          user.isAdmin = false;
+        }
         user.save(options, function(err) {
             if (err) {
                 if (err.name === 'MongoError' && err.code === 11000) {
