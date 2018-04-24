@@ -16,6 +16,8 @@
         };
 
         function update() {
+          console.log(ruimte);
+          console.log("update");
           ruimteService.update(ruimte._id, ruimte)
             .success(function(data){
               $mdToast.show($mdToast.simple()

@@ -1,3 +1,4 @@
+<!-- Home -->
 <section id="home">
         <div class="container">
             <div class="row">
@@ -10,72 +11,7 @@
             </div>
         </div>
 </section>
-
-<!--Voor wie--><!--
-<section id="voorwie">
-<div ng-cloak>
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1 text-center">
-      <h2 class="section-heading section-heading-voorwie">Voor wie ?</h2>
-    </div>
-  </div>
-</div>
-<md-content id="voorwie-tabs">
-  <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always" md-swipe-content md->
-    <md-tab label="Trainers en managers">
-            <md-content>
-              <div class="container">
-                <div class="row">
-                  <div id="trainerblock" class="col-md-10 col-md-offset-1 text-center">
-                    <h2 class="section-heading">Trainers en Managers</h2>
-                    <div>
-                      Er kan een van de 4 ruimtes gereserveerd worden voor uw evenement.
-                      U kan dan ook kiezen of u bij dit evenement catering wil.
-                    </div>
-                    <a href="#vraagofferteaan" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Vraag een offerte aan</a>
-                  </div>
-                </div>
-              </div>
-            </md-content>
-    </md-tab>
-    <md-tab label="Co-workers">
-            <md-content>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-10 col-md-offset-1 text-center">
-                    <h2 class="section-heading">Co-workers</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
-                    <div id="coworkingblock">
-                      U kan één keer gratis onze faciliteiten testen wanneer u aan co-working doet.
-                      Hierdoor kan u wanneer u thuis werkt, prive en werk gescheiden houden.
-                    </div>
-                    <a href="#gratisplaats" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Probeer gratis</a>
-                  </div>
-                </div>
-              </div>
-            </md-content>
-    </md-tab>
-    <md-tab label="Studenten">
-            <md-content>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-10 col-md-offset-1 text-center">
-                    <h2 class="section-heading">Studenten</h2>
-                    <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
-                    <div id="studentenblock">
-                      Tijdens de blok kan jij hier terecht om te studeren in een mooie omgeving.
-                    </div>
-                    <a href="#boekplaatsstudent" class="btn btn-primary btn-reserveer col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">Boek je gratis plaats</a>
-                  </div>
-                </div>
-              </div>
-            </md-content>
-    </md-tab>
-  </md-tabs>
-</md-content>
-</div>
-</section>-->
+<!-- Voor Wie -->
 <section class="bg-yellow" id="voorwie">
         <div class="container">
             <div class="row">
@@ -151,7 +87,7 @@
             </div>
         </div>
 </section>
-<!--Ruimtes-->
+<!-- Ruimtes -->
 <section id="ruimtes">
         <div class="container">
             <div class="row">
@@ -287,43 +223,106 @@
 </section>
 -->
 
-<!--Prijzen-->
-<section class="bg-yellow" id="prijzen">
+<!-- Prijzen -->
+<section class="bg-black" id="prijzen">
       <div class="container">
           <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
                   <h2 class="section-heading">Prijzen</h2>
               </div>
           </div>
-          <div class="col-sm-12 row block-center">
-            <div class="text-center block-voorwie">
+
+          <!-- Visible on mobile -->
+          <ui-carousel slides="ctrl.ruimtes" slides-to-show="2" slides-to-scroll="1" initial-slide="1" autoplay="false" autoplay-speed="2000" dots="false" class="display-carousel">
+            <carousel-item>
+              <div class="row block-center">
+                <div class="text-center block-prices">
+                  <div class="text-center block-voorwie-row">
+                    <div class="block-price-column block-title-prices">{{item.name}}</div>
+                  </div>
+                  <div class="text-center block-voorwie-row">
+                    <div class="block-price-column bg-yellow block-price">
+                      <div class="prices-price">€ {{item.price}}<div ng-show="item.priceperperson > 0" class="prices-small"> + € {{item.priceperperson}} p.p.</div></div> Per halve dag
+                    </div>
+                  </div>
+                  <div class="block-voorwie-row">
+                    <div class="block-price-column block-prices-practicals">
+                      <div class="prices-practicals-table">
+                        <div class="prices-practicals-row">
+                          <div class="prices-practicals-icon"><md-icon style="{{item.services[0].available ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{item.services[0].available ? 'done' : 'clear'}}</md-icon></div>
+                          <div class="prices-practicals-text">{{item.services[0].name}}</div>
+                        </div>
+                        <div class="prices-practicals-row">
+                          <div class="prices-practicals-icon"><md-icon style="{{item.services[1].available ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{item.services[1].available ? 'done' : 'clear'}}</md-icon></div>
+                          <div class="prices-practicals-text">{{item.services[1].name}}</div>
+                        </div>
+                        <div class="prices-practicals-row">
+                          <div class="prices-practicals-icon"><md-icon style="{{item.services[2].available ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{item.services[2].available ? 'done' : 'clear'}}</md-icon></div>
+                          <div class="prices-practicals-text">{{item.services[2].name}}</div>
+                        </div>
+                        <div class="prices-practicals-row">
+                          <div class="prices-practicals-icon"><md-icon style="{{item.services[3].available ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{item.services[3].available ? 'done' : 'clear'}}</md-icon></div>
+                          <div class="prices-practicals-text">{{item.services[3].name}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </carousel-item>
+          </ui-carousel>
+
+          <!-- Visible on desktop and large screens -->
+          <div class="row block-center">
+            <div class="text-center block-prices display-block-prices">
               <div class="text-center block-voorwie-row">
-                <div class="block-price-column block-title">Co-working Lab</div>
+                <div class="block-price-column block-title-prices" ng-repeat="ruimte in ctrl.ruimtes">{{ruimte.name}}</div>
+                <!--<div class="block-voorwie-column-spacing"></div>-->
+                <!--<div class="block-price-column block-title-prices">{{ctrl.prijzen.meetingroom.name}}</div>
                 <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-title">Meeting Room</div>
+                <div class="block-price-column block-title-prices">{{ctrl.prijzen.trainingroom.name}}</div>
                 <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-title">Training Room</div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-title">Board Room</div>
+                <div class="block-price-column block-title-prices">{{ctrl.prijzen.boardroom.name}}</div>-->
               </div>
               <div class="text-center block-voorwie-row">
-                <div class="block-price-column bg-red block-price">
-                  <div class="prices-price">€ 20</div> Per halve dag
+                <div class="block-price-column bg-yellow block-price" ng-repeat="ruimte in ctrl.ruimtes">
+                  <div class="prices-price">€ {{ruimte.price}}<div ng-show="ruimte.priceperperson > 0" class="prices-small"> + € {{ruimte.priceperperson}} p.p.</div></div> Per halve dag
+                </div>
+                <!--<div class="block-voorwie-column-spacing"></div>
+                <div class="block-price-column bg-yellow block-price">
+                  <div class="prices-price">€ {{ctrl.prijzen.meetingroom.price}}<div ng-show="ctrl.prijzen.meetingroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.meetingroom.priceperperson}} p.p.</div></div> Per halve dag
                 </div>
                 <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-red block-price">
-                  <div class="prices-price">€ 20</div> Per halve dag
+                <div class="block-price-column bg-yellow block-price">
+                  <div class="prices-price">€ {{ctrl.prijzen.trainingroom.price}}<div ng-show="ctrl.prijzen.trainingroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.trainingroom.priceperperson}} p.p.</div></div> Per halve dag
                 </div>
                 <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-red block-price">
-                  <div class="prices-price">€ 25 + € 3 p.p.</div> Per halve dag
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-red block-price">
-                  <div class="prices-price">€ 25 + € 3 p.p.</div> Per halve dag
-                </div>
+                <div class="block-price-column bg-yellow block-price">
+                  <div class="prices-price">€ {{ctrl.prijzen.boardroom.price}}<div ng-show="ctrl.prijzen.boardroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.boardroom.priceperperson}} p.p.</div></div> Per halve dag
+                </div>-->
               </div>
               <div class="block-voorwie-row">
+                <div class="block-price-column block-prices-practicals" ng-repeat="ruimte in ctrl.ruimtes">
+                  <div class="prices-practicals-table">
+                    <div class="prices-practicals-row">
+                      <div class="prices-practicals-icon"><md-icon style="{{ruimte.internetavailable ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{ruimte.internetavailable ? 'done' : 'clear'}}</md-icon></div>
+                      <div class="prices-practicals-text">Internet</div>
+                    </div>
+                    <div class="prices-practicals-row">
+                      <div class="prices-practicals-icon"><md-icon style="{{ruimte.coffeewateravailable ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{ruimte.coffeewateravailable ? 'done' : 'clear'}}</md-icon></div>
+                      <div class="prices-practicals-text">Koffie en water</div>
+                    </div>
+                    <div class="prices-practicals-row">
+                      <div class="prices-practicals-icon"><md-icon style="{{ruimte.printeravailable ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{ruimte.printeravailable ? 'done' : 'clear'}}</md-icon></div>
+                      <div class="prices-practicals-text">Printer</div>
+                    </div>
+                    <!--<div class="prices-practicals-row">
+                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
+                      <div class="prices-practicals-text">Catering</div>
+                    </div>-->
+                  </div>
+                </div>
+                <!--<div class="block-voorwie-column-spacing"></div>
                 <div class="block-price-column block-prices-practicals">
                   <div class="prices-practicals-table">
                     <div class="prices-practicals-row">
@@ -356,27 +355,6 @@
                       <div class="prices-practicals-text">Koffie en water</div>
                     </div>
                     <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Printer</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Catering</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-prices-practicals">
-                  <div class="prices-practicals-table">
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Internet</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Koffie en water</div>
-                    </div>
-                    <div class="prices-practicals-row">
                       <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
                       <div class="prices-practicals-text">Printer</div>
                     </div>
@@ -406,7 +384,7 @@
                       <div class="prices-practicals-text">Catering</div>
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -524,7 +502,7 @@
       </md-list>
     </md-content>
     <div ng-show="ctrl.eventsday.length === 0">
-      <p class="geenEvents">Er vinden geen events plaats op deze dag.<p>
+      <p class="geenEvents">Er vinden geen evenementen plaats op deze dag.<p>
     </div>
   </div>
 </div>

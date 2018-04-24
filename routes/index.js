@@ -425,12 +425,14 @@
     //REGION RUIMTES
     /* GET ruimtes */
     router.get('/api/ruimtes', function (req, res, next) {
-        Ruimte.find(function (err, ruimtes) {
-            if (err) {
-                return next(err);
-            }
-            res.json(ruimtes);
-        });
+        Ruimte.find({}).sort('name').exec(
+          function (err, ruimtes) {
+              if (err) {
+                  return next(err);
+              }
+              res.json(ruimtes);
+          }
+        );
     });
     /* POST add ruimte */
     router.post('/api/ruimtes', auth, function (req, res, next) {
@@ -450,6 +452,11 @@
             ruimte.name = req.body.name;
             ruimte.aantalPlaatsen = req.body.aantalPlaatsen;
             ruimte.beschrijving = req.body.beschrijving;
+            ruimte.price = req.body.price;
+            ruimte.priceperperson = req.body.priceperperson;
+            ruimte.internetavailable = req.body.internetavailable;
+            ruimte.coffeewateravailable = req.body.coffeewateravailable;
+            ruimte.printeravailable = req.body.printeravailable;
             ruimte.save(function (err, ruimte) {
                 if (err) {
                     res.send(err);
@@ -503,7 +510,7 @@
         var day = new Date(date);
         day.setHours(0,0,0,0)
         console.log(date);
-        var nextDay = new Date(date);
+        var nextDay = new Date(day);
         nextDay.setDate(day.getDate()+1);
         var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
         query.exec(function (err, events) {

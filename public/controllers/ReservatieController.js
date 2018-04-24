@@ -226,33 +226,55 @@
              );
              $state.go('home');
            } else {
+             var tempres = [];
+             console.log(res);
+             for(var i = 0; i<res.length; i++){
+               console.log(res[i]);
+               if(res[i].ruimte._id === vm.offerte.ruimte._id){
+                 tempres.push(res[i]);
+               }
+             }
+             if(tempres.length > 0) {
+               var confirm = $mdDialog.confirm()
+                .title('Offerte aanvragen')
+                .textContent('Er zijn reeds plaatsen gereserveerd. Als u de offerte bevestigd, dan zullen we kijken wat wij kunnen doen om u verder te helpen.')
+                .ariaLabel('Confirm awaiting offer')
+                .ok('Bevestig offerte')
+                .cancel('Annuleer');
 
-              var confirm = $mdDialog.confirm()
-               .title('Offerte aanvragen')
-               .textContent('Er zijn reeds plaatsen gereserveerd. Als u de offerte bevestigd, dan zullen we kijken wat wij kunnen doen om u verder te helpen.')
-               .ariaLabel('Confirm awaiting offer')
-               .ok('Bevestig offerte')
-               .cancel('Annuleer');
+               $mdDialog.show(confirm).then(
+                 function() {//OK
+                   $mdToast.show($mdToast.simple()
+                   .content('De offerte is aangevraagd.')
+                   .position('bottom left')
+                   .parent($("#toast-container"))
+                   .hideDelay(3000));
+                   item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL') + " in afwachting";
+                   mailService.sendAwaitingOfferMail(vm.offerte);
+                   mailService.sendOfferMail(item);
+                   $state.go('home');
+                 },
+                 function() {//Cancel
+                   $mdToast.show($mdToast.simple()
+                   .content('De offerte is niet aangevraagd.')
+                   .position('bottom left')
+                   .parent($("#toast-container-alert"))
+                   .hideDelay(3000));
+                 });
+             } else {
+               vm.message = "";
+               item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL');
+               mailService.sendConfirmationOffer(vm.offerte);
+               mailService.sendOfferMail(item);
 
-              $mdDialog.show(confirm).then(
-                function() {//OK
-                  $mdToast.show($mdToast.simple()
-                  .content('De offerte is aangevraagd.')
-                  .position('bottom left')
-                  .parent($("#toast-container"))
-                  .hideDelay(3000));
-                  item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL') + " in afwachting";
-                  mailService.sendAwaitingOfferMail(vm.offerte);
-                  mailService.sendOfferMail(item);
-                  $state.go('home');
-                },
-                function() {//Cancel
-                  $mdToast.show($mdToast.simple()
-                  .content('De offerte is niet aangevraagd.')
-                  .position('bottom left')
-                  .parent($("#toast-container-alert"))
-                  .hideDelay(3000));
-                });
+               $mdToast.show($mdToast.simple()
+                 .content('De offerte is aangevraagd.')
+                 .position('bottom left')
+                 .parent($("#toast-container"))
+                 .hideDelay(3000)
+                );
+                $state.go('home');
+             }
            } // EINDE else
          });
       }// EINDE vraagOfferteAan

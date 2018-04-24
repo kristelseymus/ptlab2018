@@ -39,6 +39,45 @@
           </div>
         </md-input-container>
       </div>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-xs flex="50">
+          <label>Prijs</label>
+          <input ng-model="ctrl.ruimte.price" type="number" name="price" min="0" step="any" required>
+          <div ng-messages="updateRuimteForm.price.$error" multiple>
+            <div ng-message="required">Gelieve een prijs in te voeren.</div>
+            <div ng-message="min">Het minimum bedrag is € 0.</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs flex="50">
+          <label>Prijs per persoon</label>
+          <input ng-model="ctrl.ruimte.priceperperson" type="number" name="priceperperson" min="0" step="any" required>
+          <div ng-messages="updateRuimteForm.priceperperson.$error" multiple md-auto-hide="false">
+            <div ng-message="required">
+              <md-icon class="error">error_outline</md-icon>&nbsp;Prijs per persoon is leeg.
+            </div>
+            <div ng-message="min">
+              <md-icon class="error">error_outline</md-icon>&nbsp;Het minimum bedrag is € 0.
+            </div>
+          </div>
+        </md-input-container>
+      </div>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
+          <md-checkbox ng-model="ctrl.ruimte.internetavailable" name="checkboxInternet" aria-label="Checkbox Internet" md-no-ink>
+              Internet
+          </md-checkbox>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
+          <md-checkbox ng-model="ctrl.ruimte.coffeewateravailable" name="checkboxCoffeeWater" aria-label="Checkbox Coffee and Water" md-no-ink>
+              Koffie en water
+          </md-checkbox>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
+          <md-checkbox ng-model="ctrl.ruimte.printeravailable" name="checkboxPrinter" aria-label="Checkbox Printer" md-no-ink>
+              Printer
+          </md-checkbox>
+        </md-input-container>
+      </div>
       </md-content>
       <div layout="row">
         <md-button type="submit" class="md-raised md-primary btn-submit update-dialog-button">Update</md-button>

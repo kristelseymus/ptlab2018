@@ -244,6 +244,14 @@ md-toolbar {
   color: rgb(221,44,0);
 }
 
+.icon-green {
+  color: #15B366;
+}
+
+.icon-red {
+  color: #A40D4E;
+}
+
 /* -------------------------------------
     CUSTOM BACKGROUNDS
 ------------------------------------- */
@@ -385,6 +393,13 @@ md-checkbox.md-checked .md-icon{
   border-radius: 5px 5px 0px 0px;
 }
 
+.block-title-prices {
+  background-color: #CC8C08;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px 5px 0px 0px;
+}
+
 .block-text {
   padding: 10px;
   background-color: white;
@@ -392,6 +407,19 @@ md-checkbox.md-checked .md-icon{
 
 .block-price {
   padding: 30px 10px 30px 10px;
+}
+
+.block-voorwie {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.block-prices {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 5px 0px;
 }
 
 .block-center {
@@ -409,6 +437,7 @@ md-checkbox.md-checked .md-icon{
   display: table;
   width: 100%;
   table-layout: fixed;
+  border-spacing: 0px;
 }
 
 .prices-practicals-row {
@@ -424,6 +453,7 @@ md-checkbox.md-checked .md-icon{
 }
 
 .prices-practicals-text {
+  color: #404041;
   display: table-cell;
   text-align: left;
   padding-left: 20px;
@@ -431,18 +461,19 @@ md-checkbox.md-checked .md-icon{
   border-bottom: 1px solid rgba(0,0,0,0.1)
 }
 
+.prices-small {
+  display: inline;
+  font-size: 0.5em;
+}
+
 .block-prices-practicals {
   border-radius: 0px 0px 5px 5px;
   padding: 10px;
   background-color: white;
+  color: #404041;
 }
 
 @media (min-width: 768px) {
-  .block-voorwie {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
 
   .block-voorwie-row {
     display: table-row;
@@ -465,11 +496,6 @@ md-checkbox.md-checked .md-icon{
 }
 
 @media (max-width: 768px) {
-  .block-voorwie {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-  }
 
   .block-voorwie-row {
     display: table-row;
@@ -486,6 +512,33 @@ md-checkbox.md-checked .md-icon{
   .block-voorwie-column-spacing {
     display: table-cell;
     width: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .display-carousel {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .display-block-prices {
+    display: none;
+  }
+
+  .prices-practicals-table {
+    min-height: 100px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .display-carousel {
+    display: none;
+  }
+  .display-block-prices {
+    display: block;
   }
 }
 
@@ -517,6 +570,13 @@ h2 {
   padding-bottom: 0px;
 }
 
+.section-heading-changepassword {
+  font-family: 'AshleyScriptMT';
+  text-transform: uppercase;
+  margin-top: 30px;
+  padding-bottom: 0px;
+}
+
 #voorwie {
   background: linear-gradient(
       rgba(50, 50, 50, 0.6),
@@ -528,6 +588,10 @@ h2 {
 #sectionCoworking, #sectionMeetingRoom, #sectionTrainingRoom, #sectionBoardRoom {
   display: none;
   color: white;
+}
+
+#prijzen {
+  padding-bottom: 40px;
 }
 
 /* -------------------------------------
@@ -612,7 +676,13 @@ table {
 
 .noreservations {
   padding-bottom: 30px;
+}
 
+.nomijnreservaties {
+  padding-top: 30px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* -------------------------------------

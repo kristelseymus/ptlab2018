@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ptlab', ['ui.router', 'ngAnimate', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table']);
+var app = angular.module('ptlab', ['ui.router', 'ngAnimate', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table', 'ui.carousel']);
 
 app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
@@ -271,9 +271,9 @@ app.controller('VraagOfferteAanController', function($scope, $http){
 
 
 //Hiding the navbar collapsed when there is a click on a link in the nav menu.
-/*
+
 $(document).on('click','.navbar-collapse.in',function(e) {
     if( $(e.target).is('a:not(".dropdown-toggle")') ) {
         $(this).collapse('hide');
     }
-});*/
+});

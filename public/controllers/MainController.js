@@ -34,7 +34,7 @@
         vm.roomDetails = {};
 
         vm.home = "";
-        vm.prijzen = "";
+        vm.prijzen = {};
         vm.voorwie = {};
         vm.practicals = {};
         vm.practicals.openingsuren = [];
