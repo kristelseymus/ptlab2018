@@ -369,7 +369,7 @@
                   </md-input-container>
                  </div>
                  <div layout-gt-xs="row">
-                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event">
+                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event">
                      <div ng-messages="createEventForm.date.$error">
                       <div ng-message="required">Datum is verplicht</div>
                       <div ng-message="format">Verkeerd formaat</div>

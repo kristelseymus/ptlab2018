@@ -959,6 +959,10 @@ div.md-panel-outer-wrapper.md-panel-is-showing {
 .update-dialog-button {
   width: 100%;
 }
+
+.toolbar-updateruimte {
+  border-radius: 5px !important;
+}
 /* Einde Panel update ruimte in Settings */
 
 /* -------------------------------------

@@ -30,7 +30,7 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Gratis">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Coworker Gratis">
                           <div ng-messages="boekGratisPlaatsForm.date.$error">
                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
                            <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
@@ -105,7 +105,7 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.factuur.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Coworker Factuur">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.factuur.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Coworker Factuur">
                           <div ng-messages="factureerCoWorkerForm.date.$error">
                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
                            <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>

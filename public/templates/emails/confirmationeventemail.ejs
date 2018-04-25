@@ -340,6 +340,16 @@
                               <td>Catering gewenst </td>
                               <td><% if(item.catering) { %> Ja <% } else { %> Nee <% } %></td>
                             </tr>
+                            <% if(item.catering) { %>
+                            <tr>
+                              <td>Soort catering </td>
+                              <td><%= item.cateringsoort %></td>
+                            </tr>
+                            <tr>
+                              <td>Extra informatie catering </td>
+                              <td><%= item.cateringbericht %></td>
+                            </tr>
+                            <% } %>
                           </table>
                         </p>
                         <p>Wij kijken er naar uit om u en uw gasten te mogen ontvangen.</p>

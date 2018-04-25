@@ -20,6 +20,8 @@ var UserSchema = new mongoose.Schema({
     hash: String,
     salt: String,
     fullName : String,
+    telefoonnummer: Number,
+    
     reservaties : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Reservatie'

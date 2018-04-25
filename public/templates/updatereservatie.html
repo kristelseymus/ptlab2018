@@ -1,0 +1,37 @@
+<div role="dialog" aria-label="Update ruimte" layout="column" layout-align="center center">
+  <md-toolbar class="toolbar-updateruimte">
+    <div class="md-toolbar-tools ">
+      <h2>Reservatie aanpassen</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="ctrl.close()">
+        <md-icon aria-label="Close dialog" class="close-icon">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <div class="update-dialog">
+    <div class="row text-center">
+      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+    </div>
+    <form ng-submit="ctrl.updateNonAdmin()" name="updateReservatieForm" class="update-dialog-content">
+    <md-content class="md-no-momentum no-background">
+      <div layout-gt-xs="row">
+
+        <md-input-container class="md-block" flex-gt-xs flex>
+          <label>Deel van de dag</label>
+          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required>
+            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value">
+              {{keuzeDag.name}}
+            </md-option>
+          </md-select>
+          <div ng-messages="updateReservatieForm.keuzeDag.$error">
+            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+          </div>
+        </md-input-container>
+      </div>
+    </md-content>
+    <div layout="row">
+      <md-button type="submit" class="md-raised md-primary btn-submit update-dialog-button">Update</md-button>
+    </div>
+    </form>
+  </div>
+</div>

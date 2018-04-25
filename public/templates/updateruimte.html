@@ -1,6 +1,6 @@
 <div role="dialog" aria-label="Update ruimte" layout="column" layout-align="center center">
-  <md-toolbar>
-    <div class="md-toolbar-tools">
+  <md-toolbar class="toolbar-updateruimte">
+    <div class="md-toolbar-tools ">
       <h2>{{ctrl.ruimte.name}} aanpassen</h2>
       <span flex></span>
       <md-button class="md-icon-button" ng-click="ctrl.close()">
@@ -40,7 +40,7 @@
         </md-input-container>
       </div>
       <div layout-gt-xs="row">
-        <md-input-container class="md-block" flex-gt-xs flex="50">
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
           <label>Prijs</label>
           <input ng-model="ctrl.ruimte.price" type="number" name="price" min="0" step="any" required>
           <div ng-messages="updateRuimteForm.price.$error" multiple>
@@ -48,7 +48,7 @@
             <div ng-message="min">Het minimum bedrag is € 0.</div>
           </div>
         </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs flex="50">
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
           <label>Prijs per persoon</label>
           <input ng-model="ctrl.ruimte.priceperperson" type="number" name="priceperperson" min="0" step="any" required>
           <div ng-messages="updateRuimteForm.priceperperson.$error" multiple md-auto-hide="false">
@@ -58,6 +58,13 @@
             <div ng-message="min">
               <md-icon class="error">error_outline</md-icon>&nbsp;Het minimum bedrag is € 0.
             </div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs flex="33.33">
+          <label>Elektriciteitsaansluitingen</label>
+          <input ng-model="ctrl.ruimte.elektriciteitsaansluitingen" type="number" name="elektriciteitsaansluitingen" required>
+          <div ng-messages="updateRuimteForm.elektriciteitsaansluitingen.$error" multiple>
+            <div ng-message="required">Gelieve een aantal in te voeren.</div>
           </div>
         </md-input-container>
       </div>

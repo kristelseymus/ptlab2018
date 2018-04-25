@@ -47,7 +47,7 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" mdp-format="DD/MM/YYYY" ng-model="ctrl.offerte.startdate" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.weekendDisable" aria-label="Datepicker Event"></mdp-date-picker>
+                        <mdp-date-picker mdp-placeholder="Kies een datum" mdp-format="DD/MM/YYYY" ng-model="ctrl.offerte.startdate" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event"></mdp-date-picker>
                           <!--<md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         <mdp-time-picker ng-model="ctrl.startTime" mdp-auto-switch="true" required name="time" aria-label="Timepicker Event"></mdp-time-picker>
                           <!--<input type="time" ng-model="ctrl.startTime"></input>-->
@@ -107,6 +107,23 @@
                             <div ng-message="required">Er moet een type gekozen worden.</div>
                           </div>
                         </md-input-container>-->
+                      </div>
+                      <div layout-gt-xs="row" ng-show="ctrl.offerte.catering">
+                        <md-input-container class="md-block" flex-gt-xs flex="75">
+                          <label>Extra info voor catering</label>
+                          <textarea ng-model="ctrl.offerte.cateringbericht" type="text" name="cateringbericht" placeholder="Laat hier wat meer info achter over de catering." rows="3"></textarea>
+                          <div ng-messages="vraagOfferteAanForm.description.$error">
+                            <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
+                          </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs flex="25">
+                          <label>Soort catering</label>
+                          <md-select ng-model="ctrl.offerte.cateringsoort" name="cateringsoort" required>
+                            <md-option ng-repeat="cateringsoort in ctrl.cateringsoorten" ng-value="cateringsoort">
+                              {{cateringsoort}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
                       </div>
                       </md-content>
                       <div layout="row">
