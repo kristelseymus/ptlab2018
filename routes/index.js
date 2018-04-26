@@ -251,7 +251,7 @@
                           //Gelijk of event keuzedag is 'volledigedag' ?
                             // !! Kan niet reserveren
                           for(var i=0; i<e.length; i++){
-                            if(e[i].keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
+                            if(e[i].keuzeDag == "volledigedag" || reservatie.keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
                               return res.status(400).json({
                                 message: 'Er vindt een evenement plaats op het gekozen moment. Gelieve een ander moment te kiezen.'
                               });
@@ -396,12 +396,99 @@
                       // !! Kan niet reserveren
     });
     /* UPDATE reservatie */
-    router.put('/api/reservaties/:reservatie', auth, function (req, res) {
+    router.put('/api/reservaties/:reservatie', auth, function (req, res, next) {
         Reservatie.findById(req.body._id, function (err, reservatie) {
             if (err) {
                 res.send(err);
             }
-            console.log(checkReservationCanBeMade(req.body));
+            reservatie.ruimte = req.body.ruimte;
+            reservatie.keuzeDag = req.body.keuzeDag;
+            reservatie.startdate = req.body.startdate;
+
+            var reserve = false;
+            var u = {}; //De user die wil reserveren
+            var r = {}; //Alle reservaties op de gekozen dag
+            var ru = {}; //De gewenste ruimte
+            var e = {}; //Events die die dag plaatsvinden
+            var plaatsen = 0;
+            var day = new Date(reservatie.startdate);
+            day.setHours(0,0,0,0)
+            var nextDay = new Date(reservatie.startdate);
+            nextDay.setDate(day.getDate()+1);
+
+            User.findById(reservatie.user).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
+              u = user;
+              if (err) {
+                  return next(err);
+              }
+              Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': reservatie.ruimte}).exec(function (err, events) {
+                e = events;
+                if (err) {
+                    return next(err);
+                }
+                Reservatie.find({'_id': {'$ne': reservatie._id}, 'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': reservatie.ruimte}).populate('user').populate('ruimte').exec(function (err, reservaties) {
+                  r = reservaties;
+                  if (err) {
+                      return next(err);
+                  }
+                  Ruimte.findOne({ '_id' : reservatie.ruimte }).exec(function (err, ruimte) {
+                    ru = ruimte;
+                    if (err) {
+                        return next(err);
+                    }
+                    console.log(e);
+                    console.log(u);
+                    console.log(r);
+                    console.log(ru);
+                    console.log(reservatie);
+                    if(e.length > 0){
+                      console.log("EVENEMENTEN");
+                          for(var i=0; i<e.length; i++){
+                            if(e[i].keuzeDag == "volledigedag" || reservatie.keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
+                              return res.status(400).json({
+                                message: 'Er vindt een evenement plaats op het gekozen moment.'
+                              });
+                            }
+                          }
+                          plaatsen = berekenBeschikbarePlaatsen(ru, r, reservatie);
+
+                          if(plaatsen > 0){
+                            reserve = true;
+                          } else {
+                            reserve = false;
+                          }
+                    } else {
+                      console.log("GEEN EVENEMENTEN");
+                        plaatsen = berekenBeschikbarePlaatsen(ru, r, reservatie);
+                        console.log(plaatsen);
+                        if(plaatsen > 0){
+                          reserve = true;
+                        } else {
+                          reserve = false;
+                        }
+                    }
+                    if(reserve){
+                      reservatie.ruimte = req.body.ruimte;
+                      reservatie.startdate = req.body.startdate;
+                      reservatie.keuzeDag = req.body.keuzeDag;
+                      reservatie.save(function (err, reservatie) {
+                          if (err) {
+                              res.send(err);
+                          }
+                          res.json(reservatie);
+                      })
+                    } else {
+                      return res.status(400).json({
+                        message: 'Er is geen plaats meer.'
+                      });
+                    }
+                  }); // Einde Ruimte.findOne
+                }); // Einde Reservatie.find
+              }); // Einde Evenement.find
+            }); // Einde User.findOne
+
+
+            /*console.log(checkReservationCanBeMade(req.body));
             var temp = checkReservationCanBeMade(req.body)
             console.log(temp);
             if(temp){
@@ -418,7 +505,7 @@
               return res.status(400).json({
                 message: 'Er is geen plaats/Er vindt een evenement plaats op het gekozen moment.'
               });
-            }
+            }*/
         });
     });
 
@@ -556,7 +643,14 @@
     /* POST add event */
     router.post('/api/events', auth, function (req, res, next) {
         var evenement = new Evenement(req.body);
+        var day = new Date(evenement.startdate);
+        day.setHours(0,0,0,0)
+        var nextDay = new Date(evenement.startdate);
+        nextDay.setDate(day.getDate()+1);
         var query = User.findById(evenement.user);
+        var queryEvents = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte});
+        var queryReservations = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte}).populate('user').populate('ruimte');
+
         query.exec(function(err, user) {
             if (err) {
                 return next(err);
@@ -566,22 +660,95 @@
                 message: 'De gevraagde gebruiker kan helaas niet gevonden worden. Probeer opnieuw.'
               });
             }
-            evenement.save(function (err, evenement) {
+            queryEvents.exec(function(err, events){
               if(err) {
                 return next(err);
               }
-            });
-            user.events.addToSet(evenement);
-            user.save(function (err) {
-                if (err) {
-                    res.send(err);
+              queryReservations.exec(function(err, reservaties){
+                if(events.length > 0){
+                  for(var i=0; i<events.length; i++){
+                    if(events[i].keuzeDag == "volledigedag" || evenement.keuzeDag == "volledigedag" || events[i].keuzeDag == evenement.keuzeDag){
+                      return res.status(400).json({
+                        message: 'Er vindt al een evenement plaats op het gekozen moment.'
+                      });
+                    }
+                  }
+                  if(reservaties.length > 0) {
+                    for(var i = 0; i < reservaties.length; i++){
+                      if(reservaties[i].keuzeDag == "volledigedag" || evenement.keuzeDag == "volledigedag" || reservaties[i].keuzeDag == evenement.keuzeDag){
+                        return res.status(400).json({
+                          message: 'Er zijn reeds reservaties geboekt op het gekozen moment.'
+                        });
+                      }
+                    }
+                    evenement.save(function (err, evenement) {
+                      if(err) {
+                        return next(err);
+                      }
+                    });
+                    user.events.addToSet(evenement);
+                    user.save(function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        res.json(user);
+                    });
+                  } else {
+                    evenement.save(function (err, evenement) {
+                      if(err) {
+                        return next(err);
+                      }
+                    });
+                    user.events.addToSet(evenement);
+                    user.save(function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        res.json(user);
+                    });
+                  }
+                } else {
+                  if(reservaties.length > 0) {
+                    for(var i = 0; i < reservaties.length; i++){
+                      if(reservaties[i].keuzeDag == "volledigedag" || evenement.keuzeDag == "volledigedag" || reservaties[i].keuzeDag == evenement.keuzeDag){
+                        return res.status(400).json({
+                          message: 'Er zijn reeds reservaties geboekt op het gekozen moment.'
+                        });
+                      }
+                    }
+                    evenement.save(function (err, evenement) {
+                      if(err) {
+                        return next(err);
+                      }
+                    });
+                    user.events.addToSet(evenement);
+                    user.save(function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        res.json(user);
+                    });
+                  } else {
+                    evenement.save(function (err, evenement) {
+                      if(err) {
+                        return next(err);
+                      }
+                    });
+                    user.events.addToSet(evenement);
+                    user.save(function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        res.json(user);
+                    });
+                  }
                 }
-                res.json(user);
+              });
             });
         });
     });
     /* DELETE event */
-    router.delete('/api/events/:evenement', auth, function (req, res, next) {
+    /*router.delete('/api/events/:evenement', auth, function (req, res, next) {
         Evenement.remove({
             _id: req.params.evenement
         }, function (err, evenement) {
@@ -592,7 +759,7 @@
                 message: 'Event deleted'
             });
         });
-    });
+    });*/
     /* DELETE event in user */
     router.delete('/api/events/:evenement/:user', auth, function (req, res, next) {
         Evenement.remove({
@@ -606,6 +773,7 @@
             if (err) {
                 res.send(err);
             }
+            console.log(user);
             user.events.pull(req.params.evenement);
             user.save(function (err) {
                 if (err) {
@@ -952,7 +1120,7 @@
     //END REGION SENDMAIL
 
     //HELPER METHODS
-    function checkReservationCanBeMade(item) {
+    /*function checkReservationCanBeMade(item) {
       var reserve = false;
       var reservatie = new Reservatie(item);
       var u = {}; //De user die wil reserveren
@@ -1020,7 +1188,7 @@
           }); // Einde Reservatie.find
         }); // Einde Evenement.find
       }); // Einde User.findOne
-    } // EINDE Check reservation
+    } // EINDE Check reservation*/
 
     function berekenBeschikbarePlaatsen(ruimte, reservaties, reservatie){
       var plaatsen = 0;
@@ -1049,6 +1217,9 @@
               }
             });
           }
+          console.log(reservatie);
+          console.log("ruimte: " + ruimte.aantalPlaatsen);
+          console.log("temp: " + temp);
           plaatsen = ruimte.aantalPlaatsen - temp;
       }
       //Einde Plaatsberekening

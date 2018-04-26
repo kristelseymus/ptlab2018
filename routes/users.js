@@ -18,6 +18,7 @@
 
     /* POST register */
     router.post('/register', function(req, res, next) {
+      console.log(req.body);
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
                 message: 'Vul alle velden in'
@@ -33,6 +34,8 @@
         user.naam = req.body.naam;
         user.typeUser = req.body.typeUser;
         user.fullName = req.body.voornaam + " " + req.body.naam;
+        user.telefoonnummer = req.body.telefoonnummer;
+        user.bedrijfsnaam = req.body.bedrijfsnaam;
         if(req.body.isAdmin == true) {
           user.isAdmin = req.body.isAdmin;
         } else  {

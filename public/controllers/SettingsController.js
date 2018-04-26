@@ -18,7 +18,8 @@
       vm.admin = {};
       vm.reservatiesday = [];
       vm.eventsday = [];
-      vm.day = new Date();
+      vm.dayReservaties = new Date();
+      vm.dayEvents = new Date();
       vm.time;
       vm._mdPanel = $mdPanel;
 
@@ -42,6 +43,7 @@
       vm.deleteReservatie = deleteReservatie;
       vm.deleteEvent = deleteEvent;
       vm.updateRuimte = updateRuimte;
+      vm.updateReservatie = updateReservatie;
 
       vm.feestdagen = [];
 
@@ -72,7 +74,9 @@
         orderruimte: 'name',
         ordereventsday: 'name',
         orderreservatiesday: 'user.fullName',
+        limitEvents: 5,
         limit: 5,
+        pageEvents: 1,
         page: 1
       };
 
@@ -259,38 +263,36 @@
 
         vm.event.duur = minutesdiff;
         eventService.create(vm.event).success(function(){
-          vm.events.push(vm.event);
-
+          getEvents();
+          vm.message = "";
           mailService.sendConfirmationEvent(vm.event);
 
           //Factuur opstellen voor een manager: automatisch of niet ?
           //mailService.sendInvoiceManager(vm.event);
+
+          $mdToast.show($mdToast.simple()
+            .content('U hebt succesvol een evenement aangemaakt.')
+           .position('bottom left')
+           .parent($("#toast-container"))
+           .hideDelay(3000));
+        }).error(function(err){
+          vm.message = err.message;
         });
         console.log(vm.event);
-        $mdToast.show($mdToast.simple()
-          .content('U hebt succesvol een evenement aangemaakt.')
-         .position('bottom left')
-         .parent($("#toast-container"))
-         .hideDelay(3000)
 
-       );
         return;
       }
 
       function getReservatiesByDay() {
-        reservatieService.getReservatiesByDay(vm.day).then(function (res) {
+        reservatieService.getReservatiesByDay(vm.dayReservaties).then(function (res) {
           vm.reservatiesday = res;
-          console.log(vm.reservatiesday);
-          console.log(vm.day);
           return vm.reservatiesday
         });
       }
 
       function getEventsByDay() {
-        eventService.getEventsByDay(vm.day).then(function (res) {
+        eventService.getEventsByDay(vm.dayEvents).then(function (res) {
           vm.eventsday = res;
-          console.log(vm.eventsday);
-          console.log(vm.day);
           return vm.eventsday;
         });
       }
@@ -312,10 +314,9 @@
 
         $mdDialog.show(confirm).then(
           function() {//OK
-            selectedreservatie.user = selectedreservatie.user._id;
             return reservatieService.deleteReservatie(selectedreservatie).then(function () {
               getReservaties();
-              getReservatiesByDay(vm.day);
+              getReservatiesByDay(vm.dayReservaties);
 
               mailService.sendCancellationReservation(selectedreservatie);
 
@@ -389,6 +390,33 @@
           focusOnOpen: true,
           locals: {
             ruimte: ruimte
+          },
+        };
+
+        vm._mdPanel.open(config);
+      }
+
+      function updateReservatie(reservatie){
+        var position = vm._mdPanel.newPanelPosition()
+          .absolute()
+          .center();
+
+        var config = {
+          attachTo: angular.element(document.body),
+          controller: 'UpdateReservatieController',
+          controllerAs: 'ctrl',
+          disableParentScroll: true,
+          templateUrl: '/templates/updatereservatiesettings.html',
+          hasBackdrop: true,
+          panelClass: 'update-dialog-border',
+          position: position,
+          trapFocus: true,
+          zIndex: 80,
+          clickOutsideToClose: false,
+          escapeToClose: false,
+          focusOnOpen: true,
+          locals: {
+            reservatie: reservatie
           },
         };
 

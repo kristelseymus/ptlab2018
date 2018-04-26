@@ -1,0 +1,55 @@
+<div role="dialog" aria-label="Update ruimte" layout="column" layout-align="center center">
+  <md-toolbar class="toolbar-updateruimte">
+    <div class="md-toolbar-tools ">
+      <h2>Reservatie aanpassen</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="ctrl.close()">
+        <md-icon aria-label="Close dialog" class="close-icon">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <div class="update-dialog">
+    <div class="row text-center">
+      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+    </div>
+    <form ng-submit="ctrl.updateAdmin()" name="updateReservatieForm" class="update-dialog-content">
+    <md-content class="md-no-momentum no-background">
+      <div layout-gt-xs="row">
+
+        <md-input-container class="md-block" flex-gt-xs flex="30">
+          <label>Deel van de dag</label>
+          <md-select ng-model="ctrl.updatereservatie.keuzeDag" name="keuzeDag" required md-no-asterisk>
+            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value">
+              {{keuzeDag.name}}
+            </md-option>
+          </md-select>
+          <div ng-messages="updateReservatieForm.keuzeDag.$error">
+            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs flex="40">
+          <label>Ruimte</label>
+          <md-select ng-model="ctrl.updatereservatie.ruimte" name="ruimte" required md-no-asterisk>
+            <md-option ng-repeat="ruimte in ctrl.ruimtes track by ruimte._id" ng-value="ruimte" selected="{{ ruimte._id === ctrl.reservatie.ruimte._id ? 'selected' : '' }}">
+              {{ruimte.name}}
+            </md-option>
+          </md-select>
+          <div ng-messages="updateReservatieForm.keuzeDag.$error">
+            <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+          </div>
+        </md-input-container>
+        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.updatereservatie.startdate" mdp-format="DD/MM/YYYY" required name="date" aria-label="Datepicker Update Reservatie" flex="30">
+          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
+          <div ng-messages="updateReservatieForm.date.$error">
+           <div ng-message="required">Datum is verplicht</div>
+           <div ng-message="format">Verkeerd formaat</div>
+          </div>
+        </mdp-date-picker>
+      </div>
+    </md-content>
+    <div layout="row">
+      <md-button type="submit" class="md-raised md-primary btn-submit update-dialog-button">Update</md-button>
+    </div>
+    </form>
+  </div>
+</div>

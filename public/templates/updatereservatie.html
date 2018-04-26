@@ -18,8 +18,8 @@
 
         <md-input-container class="md-block" flex-gt-xs flex>
           <label>Deel van de dag</label>
-          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required>
-            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value">
+          <md-select ng-model="ctrl.nieuweKeuze" name="keuzeDag" required>
+            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
               {{keuzeDag.name}}
             </md-option>
           </md-select>

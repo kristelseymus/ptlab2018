@@ -5,91 +5,54 @@
                   <h2 class="section-heading">Mijn Reservaties</h2>
                 </div>
 
-
                 <md-content class="md-padding no-background tab-settings">
                   <!-- Reservaties -->
-                    <div class="row">
-                        <div class="text-center table-responsive-md">
-                          <md-content layout="column" flex class="no-background">
-                          <md-table-container>
-                            <md-input-container md-no-float class="md-block input-margin">
-                              <md-icon class="icon-grey">search</md-icon>
-                              <input type="text" ng-model="ctrl.filter.searchallreservations" placeholder="Zoek"/>
-                            </md-input-container>
-                            <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected">
-                              <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.ordermyreservaties">
-                                <tr md-row>
-                                  <th md-column md-order-by="startdate" md-desc><span>Datum</span></th>
-                                  <th md-column><span></span></th>
-                                  <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
-                                  <th md-column></th>
-                                  <th md-column></th>
-                                </tr>
-                              </thead>
-                              <tbody md-body>
-                                <tr md-row md-select="reservatie" md-on-select="startdate" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.toekomstigeReservaties | filter: ctrl.filter.searchmyreservations | orderBy: ctrl.query.ordermyreservaties | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
-                                  <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                                  <td md-cell ng-switch="reservatie.keuzeDag">
-                                    <div ng-switch-when="voormiddag">Voormiddag</div>
-                                    <div ng-switch-when="namiddag">Namiddag</div>
-                                    <div ng-switch-when="volledigedag">Volledige dag</div>
-                                  </td>
-                                  <td md-cell>{{reservatie.ruimte.name}}</td>
-                                  <td md-cell><div class="custom-button" type="button" ng-click="ctrl.updateReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)"><md-icon>build</md-icon></div></td>
-                                  <td md-cell><md-button type="button" class="btn btn-warning" ng-click="ctrl.deleteReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)">Annuleer Reservatie</button></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </md-table-container>
-                          <md-table-pagination
-                            md-limit="ctrl.query.limit"
-                            md-limit-options="ctrl.limitOptions"
-                            md-page="ctrl.query.page"
-                            md-total="{{ctrl.reservaties.length}}"
-                            md-page-select="true"
-                            md-label="{page: 'Pagina:', rowsPerPage: 'Rijen per pagina:', of: 'van'}"
-                            md-boundary-links="ctrl.options.boundaryLinks">
-                          </md-table-pagination>
-                        </md-content>
-                        </div>
-                      </div>
-                    </md-content>
-
-
-                <div class="col-md-10 col-md-offset-1">
-                  <table class="table table-hover total-width-table">
-                    <thead>
-                      <tr>
-                        <th>
-                          Datum
-                        </th>
-                        <th> <!-- Voormiddag, namiddag of volledige dag-->
-                        </th>
-                        <th>
-                          Ruimte
-                        </th>
-                        <th></th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="reservatie in ctrl.toekomstigeReservaties | orderBy:'startdate'">
-                        <td>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
-                        <td ng-switch="reservatie.keuzeDag">
-                          <div ng-switch-when="voormiddag">Voormiddag</div>
-                          <div ng-switch-when="namiddag">Namiddag</div>
-                          <div ng-switch-when="volledigedag">Volledige dag</div>
-                        </td>
-                        <td>{{reservatie.ruimte.name}}</td>
-                        <td><div class="custom-button" ng-click="ctrl.updateReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)"><md-icon>build</md-icon></div></td>
-                        </tr>
-                    </tbody>
-                  </table>
-
-                  <div ng-show="ctrl.toekomstigeReservaties.length <= 0" class="nomijnreservaties text-center">
-                    U hebt geen geplande reservaties.
+                  <div class="row">
+                    <div class="text-center table-responsive-md">
+                      <md-content layout="column" flex class="no-background">
+                        <md-table-container>
+                          <!--<md-input-container md-no-float class="md-block input-margin">
+                            <md-icon class="icon-grey">search</md-icon>
+                            <input type="text" ng-model="ctrl.filter.searchmyreservations" placeholder="Zoek"/>
+                          </md-input-container>-->
+                          <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selected">
+                            <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.ordermyreservaties">
+                              <tr md-row>
+                                <th md-column md-order-by="startdate" md-desc><span>Datum</span></th>
+                                <th md-column><span></span></th>
+                                <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
+                                <th md-column></th>
+                                <th md-column></th>
+                              </tr>
+                            </thead>
+                            <tbody md-body>
+                              <tr md-row md-select="reservatie" md-on-select="startdate" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.toekomstigeReservaties | filter: ctrl.filter.searchmyreservations | orderBy: ctrl.query.ordermyreservaties | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                                <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
+                                <td md-cell ng-switch="reservatie.keuzeDag">
+                                  <div ng-switch-when="voormiddag">Voormiddag</div>
+                                  <div ng-switch-when="namiddag">Namiddag</div>
+                                  <div ng-switch-when="volledigedag">Volledige dag</div>
+                                </td>
+                                <td md-cell>{{reservatie.ruimte.name}}</td>
+                                <td md-cell><md-button type="button" class="custom-button" ng-click="ctrl.updateReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)"><md-icon>build</md-icon></md-button></td>
+                                <td md-cell><md-button type="button" class="btn btn-warning" ng-click="ctrl.deleteReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)">Annuleer Reservatie</md-button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </md-table-container>
+                        <md-table-pagination
+                          md-limit="ctrl.query.limit"
+                          md-limit-options="ctrl.limitOptions"
+                          md-page="ctrl.query.page"
+                          md-total="{{ctrl.reservaties.length}}"
+                          md-page-select="true"
+                          md-label="{page: 'Pagina:', rowsPerPage: 'Rijen per pagina:', of: 'van'}"
+                          md-boundary-links="ctrl.options.boundaryLinks">
+                        </md-table-pagination>
+                      </md-content>
+                    </div>
                   </div>
-                </div>
+                </md-content>
             </div>
         </div>
 </section>

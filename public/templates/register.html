@@ -42,6 +42,13 @@
                   </div>
                 </md-input-container>
                 <md-input-container md-no-float class="md-block">
+                  <md-icon>phone</md-icon>
+                  <input ng-model="ctrl.user.telefoonnummer" type="tel" name="telefoonnummer" placeholder="Telefoonnummer *" required>
+                  <div ng-messages="registerForm.telefoonnummer.$error">
+                    <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Telefoonnummer is verplicht.</div>
+                  </div>
+                </md-input-container>
+                <md-input-container md-no-float class="md-block">
                   <md-icon>lock</md-icon>
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord *" required>
                   <div ng-messages="registerForm.wachtwoord.$error" md-auto-hide="false">
@@ -62,6 +69,13 @@
                     </div>
                   </div>
                 </md-input-container>
+                <div layout="row" ng-show="ctrl.user.typeUser == 'MANAGER' || ctrl.user.typeUser == 'COWORKER'">
+                  <md-input-container md-no-float class="md-block" flex>
+                    <md-icon>business</md-icon>
+                    <input ng-model="ctrl.user.bedrijfsnaam" type="text" name="bedrijfsnaam" placeholder="Naam bedrijf *">
+                  </md-input-container>
+                </div>
+
                 <div layout="row">
                   <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Registreer</md-button>
                 </div>

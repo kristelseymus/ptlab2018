@@ -346,13 +346,29 @@ a:hover,a:focus,a:active{
 
 .btn-warning{
   border-radius: 5px;
-  background-color: white;
   color: black;
+  outline: none;
+}
+
+.btn-warning:hover{
+  background-color: #f0ad4e !important;
+}
+
+.btn-warning:focus {
+  outline: 0 !important;
 }
 
 .custom-button {
   cursor: pointer;
   outline: 0 !important;
+}
+
+.custom-button:hover {
+  background-color: transparent !important;
+}
+
+.custom-button:focus {
+  background-color: transparent !important;
 }
 
 .animate-button {

@@ -201,7 +201,7 @@
                         </tr>
                       </thead>
                       <tbody md-body>
-                        <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.events | filter: ctrl.filter.searchevent | orderBy: ctrl.query.orderevents | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                        <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.events | filter: ctrl.filter.searchevent | orderBy: ctrl.query.orderevents | limitTo: ctrl.query.limitEvents : (ctrl.query.pageEvents -1) * ctrl.query.limitEvents">
                           <td md-cell>{{event.name}}</td>
                           <td md-cell>{{event.startdate | date:'dd MMMM yyyy'}}</td>
                           <td md-cell>{{event.startdate | date:'HH:mm'}} - {{ctrl.getEndTime(event) | date:'HH:mm'}}</td>
@@ -215,9 +215,9 @@
                     </table>
                   </md-table-container>
                   <md-table-pagination
-                    md-limit="ctrl.query.limit"
-                    md-limit-options="ctrl.limitOptions"
-                    md-page="ctrl.query.page"
+                    md-limit="ctrl.query.limitEvents"
+                    md-limit-options="ctrl.limitOptionsEvents"
+                    md-page="ctrl.query.pageEvents"
                     md-total="{{ctrl.events.length}}"
                     md-page-select="true"
                     md-label="{page: 'Pagina:', rowsPerPage: 'Rijen per pagina:', of: 'van'}"
@@ -275,7 +275,7 @@
                     <md-content layout="column" flex class="no-background">
 
                     <md-input-container md-no-float class="md-block input-margin">
-                      <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.day" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getEventsByDay()" aria-label="Datepicker Events by day">
+                      <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.dayEvents" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getEventsByDay()" aria-label="Datepicker Events by day">
                         <md-tooltip md-direction="bottom">Klik op het icoon om een datum te kiezen</md-tooltip>
                       </mdp-date-picker>
                     </md-input-container>
@@ -313,7 +313,7 @@
                           </tr>
                         </thead>
                         <tbody md-body>
-                          <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.eventsday | filter: ctrl.filter.searcheventday | orderBy: ctrl.query.ordereventsday | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                          <tr md-row md-select="event" md-on-select="name" md-auto-select="ctrl.options.autoSelect" ng-repeat="event in ctrl.eventsday | filter: ctrl.filter.searcheventday | orderBy: ctrl.query.ordereventsday">
                             <td md-cell>{{event.name}}</td>
                             <td md-cell>{{event.startdate | date:'dd MMMM yyyy'}}</td>
                             <td md-cell>{{event.startdate | date:'HH:mm'}} - {{ctrl.getEndTime(event) | date:"HH:mm"}}</td>
@@ -342,6 +342,9 @@
               </h3>
             </div>
           </md-toolbar>
+          <div class="row text-center">
+            <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+          </div>
           <md-content class="md-padding no-background tab-settings">
             <!--<div class="row text-center">
               <h4 class="section-heading">Aanmaken</h4>
@@ -351,14 +354,14 @@
                 <div layout-gt-xs="row">
                   <md-input-container class="md-block" flex-gt-xs>
                     <label>Naam</label>
-                    <input ng-model="ctrl.event.name" type="text" name="name" placeholder="Naam *" required>
+                    <input ng-model="ctrl.event.name" type="text" name="name" placeholder="Naam *" required md-no-asterisk>
                     <div ng-messages="createEventForm.name.$error">
                       <div ng-message="required">Naam is verplicht.</div>
                     </div>
                   </md-input-container>
                   <md-input-container class="md-block" flex-gt-xs flex="25">
                     <label>Type event</label>
-                    <md-select ng-model="ctrl.event.eventType" name="eventType" required>
+                    <md-select ng-model="ctrl.event.eventType" name="eventType" required md-no-asterisk>
                       <md-option ng-repeat="eventType in ctrl.eventTypes" ng-value="eventType">
                         {{eventType.name}}
                       </md-option>
@@ -385,7 +388,7 @@
 
                    <md-input-container class="md-block" flex-gt-xs flex>
                      <label>Gebruiker</label>
-                     <md-select ng-model="ctrl.event.user" name="user" required>
+                     <md-select ng-model="ctrl.event.user" name="user" required md-no-asterisk>
                        <md-option ng-repeat="user in ctrl.users" ng-value="user">
                          {{user.fullName}} - {{user.username}}
                        </md-option>
@@ -422,7 +425,7 @@
                  <div layout-gt-xs="row">
                    <md-input-container class="md-block" flex-gt-xs>
                      <label>Beschrijving</label>
-                     <textarea ng-model="ctrl.event.description" type="text" name="description" placeholder="Beschrijving *" required rows="5"></textarea>
+                     <textarea ng-model="ctrl.event.description" type="text" name="description" placeholder="Beschrijving *" required rows="5" md-no-asterisk></textarea>
                      <div ng-messages="createEventForm.description.$error">
                        <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
                      </div>
@@ -431,7 +434,7 @@
                  <div layout-gt-xs="row">
                    <md-input-container class="md-block" flex-gt-xs flex>
                      <label>Ruimtes</label>
-                     <md-select ng-model="ctrl.event.ruimte" name="ruimte" required>
+                     <md-select ng-model="ctrl.event.ruimte" name="ruimte" required md-no-asterisk>
                        <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte">
                          {{ruimte.name}} ({{ruimte.aantalPlaatsen}} plaatsen)
                        </md-option>
@@ -442,7 +445,7 @@
                    </md-input-container>
                    <md-input-container class="md-block" flex-gt-xs flex="25">
                      <label>Aantal Personen</label>
-                     <input ng-model="ctrl.event.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.event.ruimte.aantalPlaatsen}}">
+                     <input ng-model="ctrl.event.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.event.ruimte.aantalPlaatsen}}" md-no-asterisk>
                      <div ng-messages="createEventForm.aantalpersonen.$error" multiple>
                        <div ng-message="required">Aantal personen is verplicht.</div>
                        <div ng-message="min">Minimum aantal personen is 5.</div>
@@ -508,6 +511,7 @@
                           <th md-column><span></span></th>
                           <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
                           <th md-column></th>
+                          <th md-column></th>
                         </tr>
                       </thead>
                       <tbody md-body>
@@ -521,6 +525,7 @@
                             <div ng-switch-when="volledigedag">Volledige dag</div>
                           </td>
                           <td md-cell>{{reservatie.ruimte.name}}</td>
+                          <td md-cell><div class="custom-button" type="button" ng-click="ctrl.updateReservatie(reservatie)"><md-icon>build</md-icon></div></td>
                           <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                         </tr>
                       </tbody>
@@ -585,7 +590,7 @@
                       <md-content layout="column" flex class="no-background">
 
                       <md-input-container md-no-float class="md-block input-margin">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.day" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getReservatiesByDay()" aria-label="Datepicker Reservaties by day">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.dayReservaties" mdp-format="DD/MM/YYYY" name="date" ng-change="ctrl.getReservatiesByDay()" aria-label="Datepicker Reservaties by day">
                           <md-tooltip md-direction="bottom">Klik op het icoon om een datum te kiezen</md-tooltip>
                         </mdp-date-picker>
                       </md-input-container>
@@ -604,10 +609,11 @@
                               <th md-column><span></span></th>
                               <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
                               <th md-column></th>
+                              <th md-column></th>
                             </tr>
                           </thead>
                           <tbody md-body>
-                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.search | orderBy: ctrl.query.orderreservatiesday | limitTo: ctrl.query.limit : (ctrl.query.page -1) * ctrl.query.limit">
+                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.search | orderBy: ctrl.query.orderreservatiesday">
                               <td md-cell>{{reservatie.user.fullName}}</td>
                               <td md-cell>{{reservatie.user.username}}</td>
                               <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
@@ -617,6 +623,7 @@
                                 <div ng-switch-when="volledigedag">Volledige dag</div>
                               </td>
                               <td md-cell>{{reservatie.ruimte.name}}</td>
+                              <td md-cell><div class="custom-button" type="button" ng-click="ctrl.updateReservatie(reservatie)"><md-icon>build</md-icon></div></td>
                               <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                             </tr>
                           </tbody>
