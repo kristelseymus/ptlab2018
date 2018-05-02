@@ -372,7 +372,7 @@
                   </md-input-container>
                  </div>
                  <div layout-gt-xs="row">
-                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event">
+                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event" mdp-min-date="ctrl.todayDate">
                      <div ng-messages="createEventForm.date.$error">
                       <div ng-message="required">Datum is verplicht</div>
                       <div ng-message="format">Verkeerd formaat</div>
@@ -735,6 +735,37 @@
               </md-content>
             </form>
         </md-content>
+      </md-tab>
+      <md-tab label="Blokkeer data">
+          <md-toolbar>
+            <div class="md-toolbar-tools">
+              <h3>
+                <span class="section-heading">Blokkeer data</span>
+              </h3>
+            </div>
+          </md-toolbar>
+          <form ng-submit="ctrl.blokkeerdata()" name="blokkeerdataForm">
+            <md-content class="md-no-momentum no-background">
+              <div layout-gt-xs="row">
+
+                <!--<mdp-date-picker class="datepicker-settings-open" mdp-placeholder="Kies een datum" ng-model="ctrl.blockeddate" mdp-format="DD/MM/YYYY" name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Blokkeer data">
+                </mdp-date-picker>-->
+              </div>
+              <div class="eventcalendar">
+                <multiple-date-picker calendar-id="'blockcalendar'" week-days-off="[0, 6]" ng-model="ctrl.datesClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
+              </div>
+
+              <div layout="row">
+                <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Blokkeer datum</md-button>
+              </div>
+            </md-content>
+          </form>
+          <!--<md-content class="md-padding no-background tab-settings">
+
+          </md-content>-->
+        <div>
+          {{ctrl.blockeddatesyear}}
+        </div>
       </md-tab>
     </md-tabs>
   </md-content>

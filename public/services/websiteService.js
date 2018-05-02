@@ -4,11 +4,15 @@
 
     angular.module('ptlab').factory('websiteService', websiteService);
 
-    websiteService.$inject = ['$http', '$window', '$log'];
+    websiteService.$inject = ['$http', '$window', '$log', 'auth'];
 
-    function websiteService($http, $window, $log) {
+    function websiteService($http, $window, $log, auth) {
         var service = {
-            getWebsiteContent: getWebsiteContent
+            getWebsiteContent: getWebsiteContent,
+            getAllBlockedDates: getAllBlockedDates,
+            getBlockedDates: getBlockedDates,
+            updateBlockedDates: updateBlockedDates,
+            createBlockedDates: createBlockedDates
         };
         return service;
 
@@ -37,6 +41,40 @@
               err.message = "Er is een fout opgetreden. Probeer opnieuw."
               return err;
             });
+        }
+
+        function getAllBlockedDates(){
+          return $http.get('/api/blockeddates').success(function(data){
+            return data;
+          });
+        }
+
+        function getBlockedDates(year){
+          return $http.get('/api/blockeddates/' + year).success(function (data) {
+            return data;
+          });
+        }
+
+        function updateBlockedDates(blockeddates){
+          return $http.put('/api/blockeddates/' + blockeddates.year, blockeddates, {
+            headers: {
+                Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function (data) {
+            return data;
+          });
+        }
+
+        function createBlockedDates(blockeddates){
+          return $http.post('/api/blockeddates', blockeddates, {
+            headers: {
+                Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function (data) {
+            return data;
+          }).error(function(err){
+            return err;
+          });
         }
 
     }

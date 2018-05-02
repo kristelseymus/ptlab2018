@@ -4,9 +4,9 @@
 
     angular.module('ptlab').controller('ReservatieController', ReservatieController);
 
-    ReservatieController.$inject = ['$log', 'reservatieService', 'ruimteService', 'eventService', 'mailService', 'auth', '$state', '$stateParams', '$mdToast', '$timeout', '$mdDialog', '$mdPanel'];
+    ReservatieController.$inject = ['$log', 'reservatieService', 'ruimteService', 'eventService', 'mailService', 'websiteService', 'auth', '$state', '$stateParams', '$mdToast', '$timeout', '$mdDialog', '$mdPanel'];
 
-    function ReservatieController($log, reservatieService, ruimteService, eventService, mailService, auth, $state, $stateParams, $mdToast, $timeout, $mdDialog, $mdPanel) {
+    function ReservatieController($log, reservatieService, ruimteService, eventService, mailService, websiteService, auth, $state, $stateParams, $mdToast, $timeout, $mdDialog, $mdPanel) {
       var vm = this;
 
       vm._mdPanel = $mdPanel;
@@ -18,12 +18,14 @@
       vm.maxDate = null;
 
       vm.feestdagen = [];
+      vm.blockeddates = [];
 
       vm.disabledates = function(date) {
         var temp = new Date(date);
         var day = temp.getDay();
         var feestdag = isFeestdag(temp);
-        return day === 0 || day === 6 || feestdag;
+        var isblocked = isBlockedDate(temp);
+        return day === 0 || day === 6 || feestdag || isblocked;
       };
 
       vm.disableReservatieOptions = function(reservatie) {
@@ -89,6 +91,7 @@
       vm.isGratis = isGratis;
       vm.adjustPrice = adjustPrice;
       vm.updateReservatie = updateReservatie;
+      vm.getBlockedDates = getBlockedDates;
 
       vm.boekPlaatsStudent = boekPlaatsStudent;
       vm.vraagOfferteAan = vraagOfferteAan;
@@ -119,6 +122,7 @@
           vm.disabled = true;
         }
         getReservatiesUser();
+        getBlockedDates(vm.todayDate.getFullYear());
 
         return vm.reservatie;
       }// EINDE activate
@@ -184,6 +188,26 @@
             return true;
           }
         }
+      }
+
+      function isBlockedDate(date){
+        date.setHours(0,0,0,0);
+        console.log(date);
+        console.log(vm.blockeddates);
+        for(var i = 0; i < vm.blockeddates.length; i++){
+          var temp = new Date(vm.blockeddates[i]);
+          if(temp.getTime() === date.getTime()){
+            console.log(temp);
+            return true;
+          }
+        }
+      }
+
+      function getBlockedDates(year){
+        websiteService.getBlockedDates(year).then(function(res){
+          console.log(res);
+          return vm.blockeddates = res.data.blockeddates;
+        });
       }
 
       function getTodayDate(){

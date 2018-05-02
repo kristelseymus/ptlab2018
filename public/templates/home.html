@@ -464,13 +464,40 @@
       <div class="container">
           <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
-                  <h2 class="section-heading section-heading-agenda">Agenda</h2>
+                  <h2 class="section-heading section-heading-agenda">Evenementen Kalender</h2>
               </div>
           </div>
       </div>
 </section>
-<!--<div tiny-calendar first-day="1" today="Vandaag" week-days="ZMDWDVZ" events="ctrl.testEvents"></div>-->
 <div layout-gt-xs="row">
+
+  <div flex="50" class="eventcalendar">
+    <multiple-date-picker calendar-id="'eventcalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
+  </div>
+  <div flex="50">
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <span class="calendar-md-title">{{ctrl.selectedDate | date: 'EEEE d MMMM yyyy'}}</span>
+      </div>
+    </md-toolbar>
+    <md-content ng-show="ctrl.eventsday.length > 0">
+      <md-list class="scrollable">
+        <md-list-item ng-repeat="event in ctrl.eventsday" ng-click="ctrl.openDialog(event)">
+          <div class="md-list-item-text" layout="column">
+            <h5>{{event.name}}</h5>
+            <p>{{event.ruimte.name}} - {{event.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(event) | date: "HH:mm"}}</p>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+    <div ng-show="ctrl.eventsday.length === 0">
+      <p class="geenEvents">Er vinden geen evenementen plaats op deze dag.<p>
+    </div>
+  </div>
+
+</div>
+<!--<div tiny-calendar first-day="1" today="Vandaag" week-days="ZMDWDVZ" events="ctrl.testEvents"></div>-->
+<!--<div layout-gt-xs="row">
   <calendar-md flex="60" layout layout-fill
   calendar-direction="vertical"
   on-prev-month="prevMonth"
@@ -489,7 +516,7 @@
   <div flex="40">
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
-        <span class="calendar-md-title">{{ctrl.dateClicked | date: 'EEEE d MMMM'}}</span>
+        <span class="calendar-md-title">{{ctrl.selectedDate | date: 'EEEE d MMMM'}}</span>
       </div>
     </md-toolbar>
     <md-content ng-show="ctrl.eventsday.length > 0">
@@ -506,4 +533,4 @@
       <p class="geenEvents">Er vinden geen evenementen plaats op deze dag.<p>
     </div>
   </div>
-</div>
+</div>-->

@@ -12,7 +12,11 @@
         vm.events = [];
         vm.ruimtes = [];
         vm.setDayContent = setDayContent;
-        vm.dateClicked = new Date();
+        vm.dateClicked = [];
+        vm.selectedDate = new Date();
+
+        vm.highlightDays = [];
+
         $scope.dayClick = dayClick;
         vm.openDialog = openDialog;
         vm.showDialog = showDialog;
@@ -95,6 +99,12 @@
             vm.events = res.data;
             var evenement;
             for(evenement of vm.events){
+              vm.highlightDays.push({
+                date: evenement.startdate,
+                css: 'events',
+                selectable: true,
+                title: evenement.name
+              });
               createContentCalendar(evenement);
               setDayContent(evenement.startdate, vm.dayContent);
             }
@@ -116,9 +126,12 @@
           MaterialCalendarData.setDayContent(new Date(date), content);
         }
 
-        function dayClick(date){
-          vm.dateClicked = date;
-          getEventsByDay(date);
+        function dayClick(event, date){
+          vm.dateClicked.length = 0;
+          vm.selectedDate = date.date._d;
+          console.log(vm.dateClicked);
+          console.log(date.date._d);
+          getEventsByDay(vm.selectedDate);
         }
 
         function createContentCalendar(evenement){

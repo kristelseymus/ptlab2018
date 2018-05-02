@@ -3,9 +3,9 @@
 
     angular.module('ptlab').controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'mailService', 'reservatieService', 'eventService', '$mdToast', '$scope', '$timeout', '$mdDialog', '$mdPanel'];
+    SettingsController.$inject = ['auth', '$state', 'ruimteService', 'mailService', 'reservatieService', 'eventService', 'websiteService', '$mdToast', '$scope', '$timeout', '$mdDialog', '$mdPanel'];
 
-    function SettingsController(auth, $state, ruimteService, mailService, reservatieService, eventService, $mdToast, $scope, $timeout, $mdDialog, $mdPanel){
+    function SettingsController(auth, $state, ruimteService, mailService, reservatieService, eventService, websiteService, $mdToast, $scope, $timeout, $mdDialog, $mdPanel){
       var vm = this;
       vm.ruimtes = [];
       vm.events = [];
@@ -26,6 +26,11 @@
       vm.todayDate = new Date();
       vm.minDate = null;
       vm.maxDate = null;
+      vm.blockeddate;
+      vm.blockeddatesArray = [];
+      vm.blockeddatesyear;
+      vm.highlightDays = [];
+      vm.datesClicked = [];
 
       vm.getReservatiesByDay = getReservatiesByDay;
       vm.getRuimtes = getRuimtes;
@@ -44,6 +49,7 @@
       vm.deleteEvent = deleteEvent;
       vm.updateRuimte = updateRuimte;
       vm.updateReservatie = updateReservatie;
+      vm.blokkeerdata = blokkeerdata;
 
       vm.feestdagen = [];
 
@@ -51,7 +57,8 @@
         var temp = new Date(date);
         var day = temp.getDay();
         var feestdag = isFeestdag(temp);
-        return day === 0 || day === 6 || feestdag;
+        var isblocked = isBlockedDate(temp);
+        return day === 0 || day === 6 || feestdag || isblocked;
       };
 
       vm.selected = [];
@@ -100,6 +107,19 @@
           vm.todayDate.getMonth() + 3,
           vm.todayDate.getDate()
         );
+        websiteService.getBlockedDates(vm.todayDate.getFullYear()).then(function(res){
+          console.log(res);
+          vm.blockeddatesyear = res.data.blockeddates;
+          for(var i = 0; i < vm.blockeddatesyear.length; i++){
+            vm.highlightDays.push({
+              date: vm.blockeddatesyear[i],
+              css: 'blockeddate',
+              selectable: false,
+              title: 'test'
+            });
+          }
+          console.log(vm.highlightDays);
+        });
         getReservaties();
         getReservatiesByDay(Date.now());
         getEventsByDay(Date.now());
@@ -167,6 +187,19 @@
         date.setHours(0,0,0,0);
         for(var i = 0; i < vm.feestdagen.length; i++){
           if(date.getTime() === vm.feestdagen[i].getTime()){
+            return true;
+          }
+        }
+      }
+
+      function isBlockedDate(date){
+        date.setHours(0,0,0,0);
+        for(var i = 0; i < vm.blockeddatesyear.length; i++){
+          var temp = new Date(vm.blockeddatesyear[i]);
+          if(temp.getTime() === date.getTime()){
+            console.log("HELLO its EQUAL");
+            console.log(date);
+            console.log(temp);
             return true;
           }
         }
@@ -441,5 +474,37 @@
           //$state.go('login');
         });
       }
+
+      function blokkeerdata(){
+        for(var i = 0; i < vm.datesClicked.length; i++){
+          console.log(vm.datesClicked[i]._d);
+          var temp = new Date(vm.datesClicked[i]._d);
+          temp.setHours(0,0,0,0);
+          vm.blockeddatesArray.length = 0;
+          vm.blockeddatesArray.push(temp);
+          var blockeddates = {
+            year: temp.getFullYear(),
+            blockeddates: vm.blockeddatesArray
+          }
+
+          websiteService.getBlockedDates(temp.getFullYear()).then(function(res){
+
+            if(res.data){
+              var updateblockeddate = {
+                year: temp.getFullYear(),
+                blockeddate: temp
+              }
+              websiteService.updateBlockedDates(updateblockeddate).then(function(re) {
+                console.log(re);
+              });
+            } else {
+              websiteService.createBlockedDates(blockeddates).then(function(r){
+                console.log(r);
+              });
+            }
+          });
+        }
+
+      }// EINDE blokkeerdata()
     } // EINDE SettingsController
 })();

@@ -12,6 +12,7 @@
     var Ruimte = mongoose.model('Ruimte');
     var EventType = mongoose.model('EventType');
     var Evenement = mongoose.model('Event');
+    var BlockedDates = mongoose.model('BlockedDates');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var nodemailer = require('nodemailer');
@@ -127,6 +128,12 @@
     });
     /* GET mijnreservaties page. */
     router.get('/mijnreservaties', function(req, res, next){
+      res.render('index', {
+        title: 'Express'
+      });
+    });
+    /* GET updatewebsite page. */
+    router.get('/updatewebsite', function (req, res, next){
       res.render('index', {
         title: 'Express'
       });
@@ -787,6 +794,57 @@
     });
 
     //END REGION EVENTS
+
+    //REGION BLOCKEDDATES
+
+    /* GET all blockeddates */
+    router.get('/api/blockeddates', function(req, res, next) {
+      BlockedDates.find(function(err, blockeddates) {
+        if(err){
+          return next(err);
+        }
+        res.json(blockeddates);
+      });
+    });
+
+    /* GET all blockeddates from a specific year */
+    router.get('/api/blockeddates/:year', function(req, res, next) {
+      BlockedDates.findOne({'year': req.params.year}, function(err, blockeddates) {
+        if(err){
+          return next(err);
+        }
+        res.json(blockeddates);
+      });
+    });
+
+    /* POST create new blockeddates object for a year */
+    router.post('/api/blockeddates', auth, function(req, res, next){
+      var blockeddate = new BlockedDates(req.body);
+      blockeddate.save(function(err, blockeddate) {
+        if(err) {
+          return next(err);
+        }
+      });
+    });
+
+    /* PUT add a date to the blockeddates of a year */
+    router.put('/api/blockeddates/:blockeddates', auth, function (req, res) {
+        BlockedDates.findOne({'year': req.body.year}, function (err, blockeddates) {
+            if (err) {
+                res.send(err);
+            }
+            console.log(blockeddates);
+            blockeddates.blockeddates.push(req.body.blockeddate);
+            blockeddates.save(function (err, blockeddates) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(blockeddates);
+            })
+        });
+    });
+
+    //END REGION BLOCKEDDATES
 
     //REGION SENDMAIL
 

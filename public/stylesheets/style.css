@@ -837,6 +837,57 @@ calendar-md md-content>md-content {
   outline: none !important;
 }
 
+.picker-top-row {
+  background-color: #404041;
+  color: rgba(255,255,255, 0.87);
+  max-height: 40px;
+}
+
+.picker-navigate {
+  outline: none !important;
+}
+
+.picker-navigate.disabled{
+  color: #404041 !important;
+}
+
+.picker-month {
+  font-family: 'AshleyScriptMT';
+  text-transform: uppercase;
+}
+
+.picker-days-week-row {
+  background-color: #404041;
+  color: rgba(255,255,255, 0.87);
+  height: 24px;
+}
+
+.picker-day {
+  outline: none !important;
+}
+
+.picker-day.picker-selected {
+  background-color: #FFBF3B !important;
+}
+
+.picker-day.picker-off {
+  pointer-events: none;
+}
+
+.picker-day:not(.picker-off):not(.picker-empty):hover{
+  background-color: #FFBF3B !important;
+}
+
+.picker-day.events {
+  font-weight: bold;
+  color: #15B366;
+}
+
+.scrollable{
+  height: 210px;
+  overflow-y: scroll;
+}
+
 /* -------------------------------------
     DATEPICKER & TIMEPICKER
 ------------------------------------- */
@@ -856,6 +907,7 @@ calendar-md md-content>md-content {
 
 .md-button.md-icon-button {
   margin-left: 0px !important;
+  padding-left: 0px !important;
   margin-right: 0px !important;
 }
 
@@ -1010,6 +1062,15 @@ div.md-toolbar-tools.toolbar-search {
 
 .input-margin {
   margin-bottom: 0px;
+}
+
+.datepicker-settings-open {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blockeddate {
+  background-color: #A40D4E;
 }
 
 /* -------------------------------------
