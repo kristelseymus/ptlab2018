@@ -141,7 +141,7 @@
           <div flex="50" layout="row" layout-wrap class="cards">
             <div ng-repeat="ruimte in ctrl.ruimtes" class="ruimte-card">
               <md-card>
-                <img ng-src="{{ruimte.img}}" class="md-card-image" alt="Vergaderzaal">
+                <img ng-src="{{ruimte.imagelink}}" class="md-card-image" alt="Vergaderzaal">
                 <md-card-title>
                   <md-card-title-text>
                     <span class="md-headline">{{ruimte.name}}</span>
@@ -471,13 +471,13 @@
 </section>
 <div layout-gt-xs="row">
 
-  <div flex="50" class="eventcalendar">
+  <div flex="60" class="eventcalendar">
     <multiple-date-picker calendar-id="'eventcalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
   </div>
-  <div flex="50">
+  <div flex="40">
     <md-toolbar layout="row">
       <div class="md-toolbar-tools">
-        <span class="calendar-md-title">{{ctrl.selectedDate | date: 'EEEE d MMMM yyyy'}}</span>
+        <span class="kalender-date">{{ctrl.selectedDate | date: 'EEEE d MMMM yyyy'}}</span>
       </div>
     </md-toolbar>
     <md-content ng-show="ctrl.eventsday.length > 0">

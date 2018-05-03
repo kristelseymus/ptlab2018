@@ -32,6 +32,10 @@
         text-align: right;
     }
 
+    .invoice-box table tr td:nth-child(3) {
+        text-align: right;
+    }
+
     .invoice-box table tr.top table td {
         padding-bottom: 20px;
     }
@@ -83,19 +87,7 @@
         }
     }
 
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-
-    .rtl table {
-        text-align: right;
-    }
-
-    .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
+    
     </style>
 </head>
 
@@ -103,7 +95,7 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="3">
                     <table>
                         <tr>
                             <td class="title">
@@ -121,7 +113,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="3">
                     <table>
                         <tr>
                             <td>
@@ -151,38 +143,59 @@
                 <td>
                     Prijs
                 </td>
+                <td>
+                    Totale prijs
+                </td>
             </tr>
             <tr class="item">
               <td>
-                   <%= item.aantalplaatsen %> plaatsen in <% if(ruimte == 'Co-working Lab') { %> het <% } else { %> de <% } %> <%= ruimte %>.
+                  Huur <%= ruimte %>
+              </td>
+
+              <td>
+                  € <%= item.price %>
               </td>
 
               <td>
                   € <%= item.price %>
               </td>
             </tr>
-            <% if (item.catering) { %>
-            <tr class="item last">
+            <tr class="item">
               <td>
-                Inclusief catering
+                <%= item.aantalpersonen %> plaatsen in <% if(ruimte == 'Co-working Lab') { %> het <% } else { %> de <% } %> <%= ruimte %>.
               </td>
 
               <td>
+                € <%= item.priceperperson %> per persoon
+              </td>
+
+              <td>
+                € <%= totalperperson %>
+              </td>
+            </tr>
+            <% if (item.catering) { %>
+            <tr class="item last">
+              <td colspan="2">
+                Exclusief catering. Er volgt nog een aparte factuur hiervoor.
+              </td>
+              <td>
+
               </td>
             </tr>
             <% } %>
 
             <tr class="total">
-                <td></td>
+                <td colspan="2">
 
+                </td>
                 <td>
-                   Totaal: € <%= item.price %>
+                   Totaal: € <%= totalprice %>
                 </td>
             </tr>
         </table>
         <br><br>
         <div>
-          Wij verzoeken u vriendelijk het bedrag van € <%= prijs %> voor <%= moment().add(1, 'M').format('L') %> op onze bankrekening over te maken, onder vermelding van het factuurnummer <%= factuurnummer %>.
+          Wij verzoeken u vriendelijk het bedrag van € <%= totalprice %> voor <%= moment().add(1, 'M').format('L') %> op onze bankrekening over te maken, onder vermelding van het factuurnummer <%= factuurnummer %>.
         </div>
     </div>
 </body>

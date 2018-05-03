@@ -26,9 +26,9 @@
       vm.todayDate = new Date();
       vm.minDate = null;
       vm.maxDate = null;
+
       vm.blockeddate;
-      vm.blockeddatesArray = [];
-      vm.blockeddatesyear;
+      vm.blockeddatesyear = [];
       vm.highlightDays = [];
       vm.datesClicked = [];
 
@@ -50,6 +50,9 @@
       vm.updateRuimte = updateRuimte;
       vm.updateReservatie = updateReservatie;
       vm.blokkeerdata = blokkeerdata;
+      vm.deleteBlockedDate = deleteBlockedDate;
+
+      vm.test = {};
 
       vm.feestdagen = [];
 
@@ -107,18 +110,35 @@
           vm.todayDate.getMonth() + 3,
           vm.todayDate.getDate()
         );
-        websiteService.getBlockedDates(vm.todayDate.getFullYear()).then(function(res){
-          console.log(res);
-          vm.blockeddatesyear = res.data.blockeddates;
-          for(var i = 0; i < vm.blockeddatesyear.length; i++){
-            vm.highlightDays.push({
-              date: vm.blockeddatesyear[i],
-              css: 'blockeddate',
-              selectable: false,
-              title: 'test'
-            });
+        websiteService.getAllBlockedDatesPastAndFromThisYear().then(function(res){
+          res.data.forEach(function(yeardates){
+            for(var i = 0; i < yeardates.blockeddates.length; i++){
+              vm.blockeddatesyear.push(yeardates.blockeddates[i]);
+              vm.highlightDays.push({
+                date: yeardates.blockeddates[i],
+                css: 'blockeddate-custom',
+                selectable: false,
+                title: 'test'
+              });
+            }
+          });
+          for(var i = 0; i < vm.feestdagen.length; i++){
+            if(vm.feestdagen[i].getDay() === 0 || vm.feestdagen[i].getDay() === 6){
+              vm.highlightDays.push({
+                date: vm.feestdagen[i],
+                css: 'blockeddate-holiday-weekends',
+                selectable: false,
+                title: 'Feestdag'
+              });
+            } else {
+              vm.highlightDays.push({
+                date: vm.feestdagen[i],
+                css: 'blockeddate-holiday',
+                selectable: false,
+                title: 'Feestdag'
+              });
+            }
           }
-          console.log(vm.highlightDays);
         });
         getReservaties();
         getReservatiesByDay(Date.now());
@@ -197,9 +217,6 @@
         for(var i = 0; i < vm.blockeddatesyear.length; i++){
           var temp = new Date(vm.blockeddatesyear[i]);
           if(temp.getTime() === date.getTime()){
-            console.log("HELLO its EQUAL");
-            console.log(date);
-            console.log(temp);
             return true;
           }
         }
@@ -232,7 +249,6 @@
       function getReservaties(){
         reservatieService.getAll().then(function(res){
           vm.reservaties = res.data;
-          console.log(vm.reservaties);
           return vm.reservaties;
         });
       }
@@ -240,7 +256,6 @@
       function getEvents(){
         eventService.getAll().then(function(res){
           vm.events = res.data;
-          console.log(vm.events);
           return vm.events;
         });
       }
@@ -298,10 +313,16 @@
         eventService.create(vm.event).success(function(){
           getEvents();
           vm.message = "";
-          mailService.sendConfirmationEvent(vm.event);
 
-          //Factuur opstellen voor een manager: automatisch of niet ?
-          //mailService.sendInvoiceManager(vm.event);
+          mailService.sendConfirmationEvent(vm.event);
+          if(vm.event.keuzeDag == "volledigedag"){
+            vm.event.price = vm.event.ruimte.price*2;
+            vm.event.priceperperson = vm.event.ruimte.priceperperson*2;
+          } else {
+            vm.event.price = vm.event.ruimte.price;
+            vm.event.priceperperson = vm.event.ruimte.priceperperson;
+          }
+          mailService.sendInvoiceManager(vm.event);
 
           $mdToast.show($mdToast.simple()
             .content('U hebt succesvol een evenement aangemaakt.')
@@ -476,35 +497,59 @@
       }
 
       function blokkeerdata(){
-        for(var i = 0; i < vm.datesClicked.length; i++){
-          console.log(vm.datesClicked[i]._d);
-          var temp = new Date(vm.datesClicked[i]._d);
-          temp.setHours(0,0,0,0);
-          vm.blockeddatesArray.length = 0;
-          vm.blockeddatesArray.push(temp);
-          var blockeddates = {
-            year: temp.getFullYear(),
-            blockeddates: vm.blockeddatesArray
+        if(vm.datesClicked.length > 0){
+          for(var i = 0; i < vm.datesClicked.length; i++){
+            var temp = new Date(vm.datesClicked[i]._d);
+            checkAndBlockDate(temp);
           }
-
-          websiteService.getBlockedDates(temp.getFullYear()).then(function(res){
-
-            if(res.data){
-              var updateblockeddate = {
-                year: temp.getFullYear(),
-                blockeddate: temp
-              }
-              websiteService.updateBlockedDates(updateblockeddate).then(function(re) {
-                console.log(re);
-              });
-            } else {
-              websiteService.createBlockedDates(blockeddates).then(function(r){
-                console.log(r);
-              });
-            }
-          });
+          vm.datesClicked.length = 0;
         }
-
       }// EINDE blokkeerdata()
+
+      function checkAndBlockDate(date){
+        websiteService.getBlockedDates(date.getFullYear()).then(function(res){
+          if(res.data){
+            websiteService.updateBlockedDates(date).then(function(re) {
+              vm.highlightDays.push({
+                date: date,
+                css: 'blockeddate-custom',
+                selectable: false,
+                title: 'Blocked'
+              });
+              vm.blockeddatesyear.push(date);
+            });
+          } else {
+            websiteService.createBlockedDates(date).then(function(r){
+              vm.highlightDays.push({
+                date: date,
+                css: 'blockeddate-custom',
+                selectable: false,
+                title: 'Blocked'
+              });
+              vm.blockeddatesyear.push(date);
+            });
+          }
+        });
+      }
+
+      function deleteBlockedDate(){
+        websiteService.deleteBlockedDate({
+          year: vm.test.date.getFullYear(),
+          blockeddates: vm.test.date
+        }).then(function(res){
+          for(var i = 0; i < vm.highlightDays.length; i++){
+            var temp = new Date(vm.highlightDays[i].date);
+            var tempyear = new Date(vm.blockeddatesyear[i]);
+            if(temp.getTime() === vm.test.date.getTime()){
+              vm.highlightDays.splice(i, 1);
+            }
+            if(tempyear.getTime() === vm.test.date.getTime()){
+              vm.blockeddatesyear.splice(i, 1);
+            }
+          }
+        });
+      }
+
+
     } // EINDE SettingsController
 })();

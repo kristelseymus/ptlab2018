@@ -9,7 +9,8 @@ var RuimteSchema = new mongoose.Schema({
     elektriciteitsaansluitingen: Number,
     internetavailable: Boolean,
     coffeewateravailable: Boolean,
-    printeravailable: Boolean
+    printeravailable: Boolean,
+    imagelink: String
 });
 
 mongoose.model('Ruimte', RuimteSchema);

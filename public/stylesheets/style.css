@@ -780,26 +780,12 @@ div.alert {
 }
 
 /* -------------------------------------
-    CALENDAR AGENDA
+    KALENDER AGENDA
 ------------------------------------- */
 
-calendar-md{
-  width: 60% !important;
-  margin-bottom: 50px;
-  margin-right: auto !important;
-}
-
-calendar-md > md-content{
-  height: 350px !important;
-}
-
-.calendar-md-title {
+.kalender-date {
   font-family: 'AshleyScriptMT';
   text-transform: uppercase;
-}
-
-h2.calendar-md-title {
-  padding-top: 10px;
 }
 
 .geenEvents{
@@ -807,34 +793,9 @@ h2.calendar-md-title {
   font-weight: bold;
 }
 
-.div-empty {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
 .dialogcontent {
   padding-top: 10px;
   padding-left: 16px;
-}
-
-.item-box{
-  width: 10px;
-  height: 10px;
-  background-color: #15B366;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  margin-top: 5px;
-  margin-left: -6px;
-  /*margin: 5px !important;*/
-}
-
-calendar-md md-content>md-content {
-  border: none !important;
-}
-
-.md-whiteframe-12dp {
-  outline: none !important;
 }
 
 .picker-top-row {
@@ -864,6 +825,10 @@ calendar-md md-content>md-content {
 
 .picker-day {
   outline: none !important;
+}
+
+.picker-day.picker-selected.picker-empty {
+  background-color: #fafafa !important;
 }
 
 .picker-day.picker-selected {
@@ -907,7 +872,6 @@ calendar-md md-content>md-content {
 
 .md-button.md-icon-button {
   margin-left: 0px !important;
-  padding-left: 0px !important;
   margin-right: 0px !important;
 }
 
@@ -1064,13 +1028,52 @@ div.md-toolbar-tools.toolbar-search {
   margin-bottom: 0px;
 }
 
-.datepicker-settings-open {
+.datepicker-settings-unblock {
   margin-left: auto;
   margin-right: auto;
 }
 
-.blockeddate {
+.blockeddate-custom {
+  background-color: #A40D4E !important;
+  color: rgba(255,255,255, 0.87) !important;
+}
+
+.blockeddate-holiday {
+  background-color: rgb(122, 206, 213) !important;
+  color: rgba(255,255,255, 0.87) !important;
+}
+
+.blockeddate-holiday-weekends {
+  /*background-color: rgb(122, 206, 213) !important;
+  color: rgba(255,255,255, 0.87) !important;*/
+}
+
+.legende-custom {
+  height: 24px;
+  width: 24px;
   background-color: #A40D4E;
+}
+
+.legende-holiday {
+  height: 24px;
+  width: 24px;
+  background-color: rgb(122, 206, 213);
+}
+
+.legende-weekend {
+  height: 24px;
+  width: 24px;
+  background-color: #eee;
+}
+
+.legende-text {
+  padding-left: 10px;
+  margin-bottom: 14px;
+}
+
+.settings-block-dates {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 /* -------------------------------------

@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ptlab', ['ui.router', 'ngAnimate', 'ngMaterial', 'materialCalendar', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table', 'ui.carousel', 'multipleDatePicker']);
+var app = angular.module('ptlab', ['ui.router', 'ngAnimate', 'ngMaterial', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table', 'ui.carousel', 'multipleDatePicker']);
 
 app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
@@ -76,14 +76,14 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
   });
   $mdDateLocaleProvider.formatDate = function(date) {
     return moment(date).format('DD/MM/YYYY');
- };
- $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
- $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
- $mdDateLocaleProvider.days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
- $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Wo', 'Don', 'Vr', 'Za'];
- $mdDateLocaleProvider.firstDayOfWeek = 1;
- $locationProvider.hashPrefix('');
- $locationProvider.html5Mode({
+  };
+  $mdDateLocaleProvider.months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+  $mdDateLocaleProvider.shortMonths = ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+  $mdDateLocaleProvider.days = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+  $mdDateLocaleProvider.shortDays = ['Zo', 'Ma', 'Di', 'Wo', 'Don', 'Vr', 'Za'];
+  $mdDateLocaleProvider.firstDayOfWeek = 1;
+  $locationProvider.hashPrefix('');
+  $locationProvider.html5Mode({
        enabled: true,
        requireBase: false
   });
@@ -204,88 +204,7 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
                 }]
         });
   $urlRouterProvider.otherwise('home');
-}]);
-
-// MAINCONTROLLER VOOR HOMEPAGINA
-/*
-app.controller('MainController', function ($scope, $http, $rootScope) {
-  var vm = this;
-  vm.openingsuren = [];
-
-  //var previous = null;
-  //var current = null;
-
-  activate();
-
-  function activate() {
-      console.log("activate controller");
-      getOpeningsuren();
-      return vm.openingsuren;
-
-              /*setInterval(function(){
-                $.getJSON("/javascripts/content.json", function(json){
-                  current = JSON.stringify(json);
-                  if(previous && current && previous !== current){
-                    console.log('refresh');
-                    location.reload();
-                  }
-                  previous = current;
-                });
-              }, 2000);*//*
-  }
-
-  function getOpeningsuren(){
-      return $http.get('/javascripts/content.json').success(function(data){
-        vm.openingsuren = data.openingsuren.dag;
-      });
-        /*  $.getJSON("/javascripts/content.json", function (data) {
-            $.each(data, function (index, value) {
-              vm.openingsuren = data.openingsuren.dag;
-              return vm.openingsuren;
-            });
-          });*//*
-  }
-});*/
-
-// BOEK EEN PLAATS DOOR STUDENT CONTROLLER
-/*app.controller('BoekPlaatsStudentController', ['$scope', '$http', function($scope, $http){
-  var vm = this;
-  vm.datum = getTodayDate();
-  vm.isOpen = false;
-  vm.student = null;
-  vm.aantalPlaatsen = 20;
-
-  function getTodayDate(){
-    return new Date();
-  }
-
-  function boekPlaatsStudent(){
-    if(vm.datum < getTodayDate()){};
-    vm.aantalPlaatsen = 15;
-    return vm.student;
-  }
-}]);*/
-
-// GRATIS PLAATS BOEKEN DOOR EEN CO-WORKER
-/*
-app.controller('GratisPlaatsController', function($scope, $http){
-  var vm = this;
-
-});*/
-
-// RUIMTE HUREN, OFFERTE AANVRAGEN DOOR MANAGER OF TRAINER VOOR TRAINING OF EVENT TE ORGANISEREN
-/*
-app.controller('VraagOfferteAanController', function($scope, $http){
-  var vm = this;
-});*/
-
-// CONTACT CONTROLLER
-/*app.controller('ContactController', function($scope, $http){
-  var vm = this;
-});*/
-
-
-//Hiding the navbar collapsed when there is a click on a link in the nav menu.
+}]);// EINDE config
 
 $(document).on('click','.navbar-collapse.in',function(e) {
     if( $(e.target).is('a:not(".dropdown-toggle")') ) {

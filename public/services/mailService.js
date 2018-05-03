@@ -126,10 +126,11 @@
 
         /* Send an invoice to a manager */
         function sendInvoiceManager(item){
+          console.log(item);
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
-            subject: "Factuur evenement " + moment(item.startdate).format('LL'),
+            subject: "Factuur " + item.name + " " + moment(item.startdate).format('LL'),
             attachments: "",
             item: item,
             type: "invoicemanager",

@@ -108,6 +108,9 @@
         vm.offerte.user = vm.currentUser;
         vm.factuur.user = vm.currentUser;
 
+        vm.ruimtes = getRuimtes();
+        vm.eventTypes = getEventTypes();
+
         vm.minDate = new Date(vm.todayDate);
         vm.minDate.setDate(vm.todayDate.getDate()+5);
         vm.maxDate =  new Date(
@@ -116,8 +119,6 @@
           vm.todayDate.getDate()
         );
 
-        vm.ruimtes = getRuimtes();
-        vm.eventTypes = getEventTypes();
         if(vm.reservatie.user != null){
           vm.disabled = true;
         }
@@ -192,12 +193,9 @@
 
       function isBlockedDate(date){
         date.setHours(0,0,0,0);
-        console.log(date);
-        console.log(vm.blockeddates);
         for(var i = 0; i < vm.blockeddates.length; i++){
           var temp = new Date(vm.blockeddates[i]);
           if(temp.getTime() === date.getTime()){
-            console.log(temp);
             return true;
           }
         }
@@ -205,7 +203,6 @@
 
       function getBlockedDates(year){
         websiteService.getBlockedDates(year).then(function(res){
-          console.log(res);
           return vm.blockeddates = res.data.blockeddates;
         });
       }
@@ -217,6 +214,14 @@
       function getRuimtes(){
         vm.ruimtes = ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
+          for(var i=0; i<vm.ruimtes.length; i++){
+            if(vm.ruimtes[i].name == "Co-working Lab"){
+              vm.reservatie.ruimte = vm.ruimtes[i];
+              vm.factuur.ruimte = vm.ruimtes[i];
+              adjustPrice();
+              break;
+            }
+          }
           return vm.ruimtes;
         });
       }// EINDE getRuimtes
@@ -250,7 +255,6 @@
               vm.toekomstigeReservaties.push(r);
             }
           });
-          console.log(vm.toekomstigeReservaties);
           return vm.reservaties;
         });
       }// EINDE getReservatiesUser
@@ -287,12 +291,6 @@
       }// EINDE deleteReservatie
 
       function boekPlaatsStudent(){
-        for(var i=0; i<vm.ruimtes.length; i++){
-          if(vm.ruimtes[i].name == "Co-working Lab"){
-            vm.reservatie.ruimte = vm.ruimtes[i];
-            break;
-          }
-        }
         return  reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
@@ -413,12 +411,6 @@
       }// EINDE vraagOfferteAan
 
       function probeerGratis(){
-        for(var i=0; i<vm.ruimtes.length; i++){
-          if(vm.ruimtes[i].name == "Co-working Lab"){
-            vm.reservatie.ruimte = vm.ruimtes[i];
-            break;
-          }
-        }
         return reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
@@ -439,12 +431,6 @@
       function factureer() {
         //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
         //Daarna zal ook een reservatie moeten worden aangemaakt.
-        for(var i=0; i<vm.ruimtes.length; i++){
-          if(vm.ruimtes[i].name == "Co-working Lab"){
-            vm.factuur.ruimte = vm.ruimtes[i];
-            break;
-          }
-        }
 
         return reservatieService.create(vm.factuur)
         .error(function (err){
@@ -465,10 +451,12 @@
       }// EINDE factureer
 
       function adjustPrice() {
-        if(vm.factuur.keuzeDag == "volledigedag"){
-          vm.factuur.price = 30;
-        } else {
-          vm.factuur.price = 15;
+        if(vm.factuur.ruimte){
+          if(vm.factuur.keuzeDag == "volledigedag"){
+            vm.factuur.price = vm.factuur.ruimte.price*2;
+          } else {
+            vm.factuur.price = vm.factuur.ruimte.price;
+          }
         }
       }// EINDE adjustPrice
 

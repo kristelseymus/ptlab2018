@@ -580,6 +580,7 @@
             ruimte.internetavailable = req.body.internetavailable;
             ruimte.coffeewateravailable = req.body.coffeewateravailable;
             ruimte.printeravailable = req.body.printeravailable;
+            ruimte.imagelink = req.body.imagelink;
             ruimte.save(function (err, ruimte) {
                 if (err) {
                     res.send(err);
@@ -797,9 +798,10 @@
 
     //REGION BLOCKEDDATES
 
-    /* GET all blockeddates */
+    /* GET all blockeddates past this year (including the current year) */
     router.get('/api/blockeddates', function(req, res, next) {
-      BlockedDates.find(function(err, blockeddates) {
+      var today = new Date();
+      BlockedDates.find({'year' : {'$gte': today.getFullYear()}},function(err, blockeddates) {
         if(err){
           return next(err);
         }
@@ -833,13 +835,31 @@
             if (err) {
                 res.send(err);
             }
-            console.log(blockeddates);
+            console.log(req.body);
             blockeddates.blockeddates.push(req.body.blockeddate);
             blockeddates.save(function (err, blockeddates) {
                 if (err) {
                     res.send(err);
                 }
                 res.json(blockeddates);
+            })
+        });
+    });
+
+    /* DELETE unblock a date */
+    router.delete('/api/blockeddates/:year/:date', auth, function (req, res, next) {
+        BlockedDates.findOne({'year': req.params.year}, function (err, blockeddates) {
+            if (err) {
+                res.send(err);
+            }
+            blockeddates.blockeddates.pull(req.params.date);
+            blockeddates.save(function (err) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json({
+                    message: 'Blockeddate deleted'
+                });
             })
         });
     });
@@ -1043,7 +1063,9 @@
             console.log("invoicecoworker");
             break;
           case "invoicemanager":
-            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, factuurnummer: mail.factuurnummer, moment: moment }, function(err, data){
+            var totalprice = item.price + (item.priceperperson * item.aantalpersonen);
+            var totalperperson = item.priceperperson * item.aantalpersonen;
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, ruimte: item.ruimte.name, factuurnummer: mail.factuurnummer, totalprice: totalprice, totalperperson: totalperperson, moment: moment}, function(err, data){
               if(err){
                 console.log(err);
               } else {

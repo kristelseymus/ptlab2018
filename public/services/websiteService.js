@@ -9,10 +9,11 @@
     function websiteService($http, $window, $log, auth) {
         var service = {
             getWebsiteContent: getWebsiteContent,
-            getAllBlockedDates: getAllBlockedDates,
+            getAllBlockedDatesPastAndFromThisYear: getAllBlockedDatesPastAndFromThisYear,
             getBlockedDates: getBlockedDates,
             updateBlockedDates: updateBlockedDates,
-            createBlockedDates: createBlockedDates
+            createBlockedDates: createBlockedDates,
+            deleteBlockedDate: deleteBlockedDate,
         };
         return service;
 
@@ -43,19 +44,26 @@
             });
         }
 
-        function getAllBlockedDates(){
+        /* Get all the blocked dates from this year and the the following years. */
+        function getAllBlockedDatesPastAndFromThisYear(){
           return $http.get('/api/blockeddates').success(function(data){
             return data;
           });
         }
 
+        /* Get all the blocked dates from a specific year. */
         function getBlockedDates(year){
           return $http.get('/api/blockeddates/' + year).success(function (data) {
             return data;
           });
         }
 
-        function updateBlockedDates(blockeddates){
+        /* Add a date as blocked in an existing array of blocks of a specific year */
+        function updateBlockedDates(date){
+          var blockeddates = {
+            year: date.getFullYear(),
+            blockeddate: date
+          }
           return $http.put('/api/blockeddates/' + blockeddates.year, blockeddates, {
             headers: {
                 Authorization: 'Bearer ' + auth.getToken()
@@ -65,13 +73,31 @@
           });
         }
 
-        function createBlockedDates(blockeddates){
-          return $http.post('/api/blockeddates', blockeddates, {
+        /* Create a new blockeddate model, when there are no custom blocked dates yet for that specific year. */
+        function createBlockedDates(date){
+          var blockedDate = {
+            year: date.getFullYear(),
+            blockeddates: [date]
+          }
+          return $http.post('/api/blockeddates', blockedDate, {
             headers: {
                 Authorization: 'Bearer ' + auth.getToken()
             }
           }).success(function (data) {
             return data;
+          }).error(function(err){
+            return err;
+          });
+        }
+
+        /* Unblock a date that was previously blocked (only custom blocked days, holidays and weekends can't be unblocked) */
+        function deleteBlockedDate(blockeddates){
+          return $http.delete('/api/blockeddates/' + blockeddates.year + '/' + blockeddates.blockeddates, {
+            headers: {
+              Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function(res){
+            return res;
           }).error(function(err){
             return err;
           });

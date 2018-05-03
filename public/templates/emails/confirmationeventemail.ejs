@@ -340,7 +340,7 @@
                               <td>Catering gewenst </td>
                               <td><% if(item.catering) { %> Ja <% } else { %> Nee <% } %></td>
                             </tr>
-                            <% if(item.catering) { %>
+                            <!--<% if(item.catering) { %>
                             <tr>
                               <td>Soort catering </td>
                               <td><%= item.cateringsoort %></td>
@@ -349,8 +349,11 @@
                               <td>Extra informatie catering </td>
                               <td><%= item.cateringbericht %></td>
                             </tr>
-                            <% } %>
+                            <% } %>-->
                           </table>
+                        </p>
+                        <p>
+                          Binnen een paar ogenblikken zal u de factuur van het evenement ontvangen. <% if(item.catering) { %> Voor de catering zal u binnenkort nog een aparte factuur ontvangen.  <% } %>
                         </p>
                         <p>Wij kijken er naar uit om u en uw gasten te mogen ontvangen.</p>
                         <p>Bedankt voor het organiseren van een evenement bij ons! Tot dan.</p>
