@@ -29,16 +29,19 @@
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs flex="40">
           <label>Ruimte</label>
-          <md-select ng-model="ctrl.updatereservatie.ruimte" name="ruimte" required md-no-asterisk>
-            <md-option ng-repeat="ruimte in ctrl.ruimtes track by ruimte._id" ng-value="ruimte" selected="{{ ruimte._id === ctrl.reservatie.ruimte._id ? 'selected' : '' }}">
+          <md-select ng-model="ctrl.updatereservatie.ruimte" ng-model-options="{trackBy: '$value.id'}" name="ruimte" required md-no-asterisk ng-change="ctrl.printReservation()">
+            <md-option ng-repeat="ruimte in ctrl.ruimtes" ng-value="ruimte" md-selected="{{ ruimte._id == ctrl.updatereservatie.ruimte._id ? 'selected' : '' }}">
               {{ruimte.name}}
             </md-option>
           </md-select>
+          <!--<select ng-model="ctrl.updatereservatie.ruimte" ng-options="ruimte.name for ruimte in ctrl.ruimtes" name="ruimte" required md-no-asterisk ng-change="ctrl.printReservation()">
+
+          </select>-->
           <div ng-messages="updateReservatieForm.keuzeDag.$error">
             <div ng-message="required">Er moet een ruimte gekozen worden.</div>
           </div>
         </md-input-container>
-        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.updatereservatie.startdate" mdp-format="DD/MM/YYYY" required name="date" aria-label="Datepicker Update Reservatie" mdp-date-filter="ctrl.disabledates" flex="30">
+        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.updatereservatie.startdate" mdp-format="DD/MM/YYYY" required name="date" aria-label="Datepicker Update Reservatie" mdp-date-filter="ctrl.disabledates" onkeydown="return false" flex="30">
           <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
           <div ng-messages="updateReservatieForm.date.$error">
            <div ng-message="required">Datum is verplicht</div>

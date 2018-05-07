@@ -278,7 +278,6 @@
         var enddate = new Date(vm.event.startdate);
         enddate.setHours(vm.endtime.getHours());
         enddate.setMinutes(vm.endtime.getMinutes());
-        var tempdate;
 
         //Bepalen of het event in de voormiddag of namiddag is, of het een volledige dag duurt.
         if(vm.event.startdate.getHours() >= 12){
@@ -286,14 +285,12 @@
           vm.event.keuzeDag = "namiddag";
         } else {
           //Bepaal voormiddag of volledige dag.
-          tempdate = new Date(vm.event.startdate)
-          tempdate.setMinutes(tempdate.getMinutes() + vm.event.duur);
-          if(tempdate.getHours() > 12){
+          if(enddate.getHours() > 12){
             //Het event zal ten vroegste om 13 uur eindigen.
             vm.event.keuzeDag = "volledigedag";
           } else {
-            if (tempdate.getHours() === 12){
-              if(tempdate.getMinutes() === 0){
+            if (enddate.getHours() === 12){
+              if(enddate.getMinutes() === 0){
                 vm.event.keuzeDag = "voormiddag";
               } else {
                 vm.event.keuzeDag = "volledigedag";

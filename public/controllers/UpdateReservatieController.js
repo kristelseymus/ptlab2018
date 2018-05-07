@@ -25,6 +25,8 @@
         vm.nieuweKeuze;
         vm.updatereservatie = {};
 
+        vm.printReservation = printReservation;
+
         vm.disabledates = function(date) {
           var temp = new Date(date);
           var day = temp.getDay();
@@ -50,7 +52,12 @@
 
           vm.updatereservatie.startdate = new Date(reservatie.startdate);
           vm.updatereservatie.keuzeDag = reservatie.keuzeDag;
-          vm.updatereservatie.ruimte = reservatie.ruimte;
+          for(var i = 0; i < vm.ruimtes; i++){
+            if(vm.ruimtes[i]._id === reservatie.ruimte._id){
+              vm.updatereservatie.ruimte = vm.ruimtes[i];
+            }
+          }
+          //vm.updatereservatie.ruimte = reservatie.ruimte;
         }
 
         function close() {
@@ -179,6 +186,11 @@
             vm.ruimtes = res.data;
             return vm.ruimtes;
           });
+        }
+
+        function printReservation(){
+          console.log(vm.updatereservatie);
+          console.log(reservatie);
         }
     } // EINDE UpdateReservatieController
 

@@ -195,6 +195,24 @@
             return next();
         });
     });
+    /* GET reservaties from a specific date in a specific room */
+    router.get('/api/reservaties/:date/:ruimte', function(req, res, next) {
+      var day = new Date(req.params.date);
+      day.setHours(0,0,0,0)
+      var nextDay = new Date(day);
+      nextDay.setDate(nextDay.getDate() + 1);
+      var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}, 'ruimte': req.params.ruimte});
+      query.exec(function (err, reservaties) {
+          if (err) {
+              return next(err);
+          }
+          if (!reservaties) {
+              return next(new Error('can\'t find reservations'));
+          }
+          req.reservaties = reservaties;
+          res.json(req.reservaties);
+      });
+    });
     /* POST add reservatie */
     router.post('/api/reservaties', auth, function (req, res, next) {
         var reservatie = new Reservatie(req.body);
@@ -768,7 +786,7 @@
             });
         });
     });*/
-    /* DELETE event in user */
+    /* DELETE event */
     router.delete('/api/events/:evenement/:user', auth, function (req, res, next) {
         Evenement.remove({
             _id: req.params.evenement

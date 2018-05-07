@@ -14,7 +14,8 @@
             update: update,
             deleteReservatie: deleteReservatie,
             getReservatiesUser: getReservatiesUser,
-            getReservatiesByDay: getReservatiesByDay
+            getReservatiesByDay: getReservatiesByDay,
+            getReservatiesByDayFromASpecificRoom: getReservatiesByDayFromASpecificRoom
         };
         return service;
 
@@ -78,10 +79,19 @@
 
         /* Get all reservations from a specific date */
         function getReservatiesByDay(date) {
-          console.log(date);
-          return $http.get('/api/reservaties/' + date).then(function (res) {
+          return $http.get('/api/reservaties/' + date).success(function (res) {
+            console.log(res);
             return res.data;
-          })
+          }).error(function(err){
+            console.log(err);
+          });
+        }
+
+        /* Get all reservations from a specific date in a specific room */
+        function getReservatiesByDayFromASpecificRoom(date, ruimteid){
+          return $http.get('/api/reservaties/' + date + '/' + ruimteid).then(function(res){
+            return res.data;
+          });
         }
     }
 })();

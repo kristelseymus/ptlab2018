@@ -14,11 +14,11 @@
                     <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                        <md-input-container class="md-block" flex-gt-xs>
                           <label>Voornaam</label>
                           <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
-                        <md-input-container md-no-float class="md-block" flex="50">
+                        <md-input-container md-no-float class="md-block" flex-gt-xs>
                           <label>Naam</label>
                           <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
@@ -30,12 +30,13 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Coworker Gratis">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" aria-label="Datepicker Coworker Gratis">
+                          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
                           <div ng-messages="boekGratisPlaatsForm.date.$error">
-                           <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
-                           <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
-                           <div ng-message="minDate"><md-icon class="error">error_outline</md-icon>&nbsp;Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate"><md-icon class="error">error_outline</md-icon>&nbsp;Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="required">Datum is verplicht</div>
+                           <div ng-message="format">Verkeerd formaat</div>
+                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
                         <!--<md-input-container class="md-block" flex-gt-xs flex="75">
@@ -45,7 +46,7 @@
                             <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
                           </div>
                         </md-input-container>-->
-                        <md-input-container class="md-block" flex-gt-xs flex>
+                        <md-input-container class="md-block" flex>
                           <label>Deel van de dag</label>
                           <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required>
                             <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
@@ -53,7 +54,7 @@
                             </md-option>
                           </md-select>
                           <div ng-messages="boekGratisPlaatsForm.keuzeDag.$error">
-                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
+                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
                       </div>
@@ -89,11 +90,11 @@
                     <form ng-submit="ctrl.factureer()" name="factureerCoWorkerForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex="50">
+                        <md-input-container class="md-block" flex-gt-xs>
                           <label>Voornaam</label>
                           <input ng-model="ctrl.factuur.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
-                        <md-input-container md-no-float class="md-block" flex="50">
+                        <md-input-container md-no-float class="md-block" flex-gt-xs>
                           <label>Naam</label>
                           <input ng-model="ctrl.factuur.user.naam" type="text" name="naam" placeholder="Naam *" required ng-disabled="ctrl.disabled">
                         </md-input-container>
@@ -105,12 +106,14 @@
                         </md-input-container>
                       </div>
                       <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.factuur.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Coworker Factuur">
+                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.factuur.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" aria-label="Datepicker Coworker Factuur">
+                          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
                           <div ng-messages="factureerCoWorkerForm.date.$error">
-                           <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Datum is verplicht</div>
-                           <div ng-message="format"><md-icon class="error">error_outline</md-icon>&nbsp;Verkeerd formaat</div>
-                           <div ng-message="minDate"><md-icon class="error">error_outline</md-icon>&nbsp;Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate"><md-icon class="error">error_outline</md-icon>&nbsp;Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="required">Datum is verplicht</div>
+                           <div ng-message="format">Verkeerd formaat</div>
+                           <div ng-message="disabled">De datum is niet beschikbaar</div>
+                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
                         <md-input-container class="md-block" flex-gt-xs flex>
@@ -121,7 +124,7 @@
                             </md-option>
                           </md-select>
                           <div ng-messages="factureerCoWorkerForm.keuzeDag.$error">
-                            <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Er moet een deel van de dag gekozen worden.</div>
+                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
                           </div>
                         </md-input-container>
                       </div>

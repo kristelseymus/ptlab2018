@@ -78,14 +78,14 @@
                   <label>Naam</label>
                   <input ng-model="ctrl.ruimte.name" type="text" name="name" placeholder="Naam *" required>
                   <div ng-messages="createRuimteForm.name.$error">
-                    <div ng-message="required">Naam is verplicht.</div>
+                    <div ng-message="required">Gelieve een naam in te vullen.</div>
                   </div>
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-xs flex="50">
                   <label>Maximum aantal beschikbare plaatsen</label>
                   <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum Aantal Beschikbare Plaatsen *" required>
                   <div ng-messages="createRuimteForm.aantalplaatsen.$error">
-                    <div ng-message="required">Maximum aantal beschikbare plaatsen is verplicht.</div>
+                    <div ng-message="required">Gelieve een maximum aantal in te vullen.</div>
                   </div>
                 </md-input-container>
                </div>
@@ -94,7 +94,7 @@
                    <label>Beschrijving</label>
                    <textarea ng-model="ctrl.ruimte.beschrijving" type="text" name="description" required rows="5" placeholder="Beschrijving *"></textarea>
                    <div ng-messages="createRuimteForm.description.$error">
-                     <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
+                     <div ng-message="required">Gelieve een beschrijving in te vullen.</div>
                    </div>
                  </md-input-container>
                </div>
@@ -103,7 +103,7 @@
                    <label>Prijs</label>
                    <input ng-model="ctrl.ruimte.price" type="number" name="price" min="0" step="any" required>
                    <div ng-messages="createRuimteForm.price.$error" multiple>
-                     <div ng-message="required">Gelieve een prijs in te voeren.</div>
+                     <div ng-message="required">Gelieve een prijs in te vullen.</div>
                      <div ng-message="min">Het minimum bedrag is € 0.</div>
                    </div>
                  </md-input-container>
@@ -111,12 +111,8 @@
                    <label>Prijs per persoon</label>
                    <input ng-model="ctrl.ruimte.priceperperson" type="number" name="priceperperson" min="0" step="any" required>
                    <div ng-messages="createRuimteForm.priceperperson.$error" multiple md-auto-hide="false">
-                     <div ng-message="required">
-                       <md-icon class="error">error_outline</md-icon>&nbsp;Prijs per persoon is leeg.
-                     </div>
-                     <div ng-message="min">
-                       <md-icon class="error">error_outline</md-icon>&nbsp;Het minimum bedrag is € 0.
-                     </div>
+                     <div ng-message="required">Gelieve een prijs per persoon in te vullen.</div>
+                     <div ng-message="min">Het minimum bedrag is € 0.</div>
                    </div>
                  </md-input-container>
                </div>
@@ -356,7 +352,7 @@
                     <label>Naam</label>
                     <input ng-model="ctrl.event.name" type="text" name="name" placeholder="Naam *" required md-no-asterisk>
                     <div ng-messages="createEventForm.name.$error">
-                      <div ng-message="required">Naam is verplicht.</div>
+                      <div ng-message="required">Gelieve een naam in te vullen.</div>
                     </div>
                   </md-input-container>
                   <md-input-container class="md-block" flex-gt-xs flex="25">
@@ -367,34 +363,35 @@
                       </md-option>
                     </md-select>
                     <div ng-messages="createEventForm.eventType.$error">
-                      <div ng-message="required">Er moet een type evenement gekozen worden.</div>
+                      <div ng-message="required">Gelieve een type te kiezen.</div>
                     </div>
                   </md-input-container>
                  </div>
                  <div layout-gt-xs="row">
-                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event" mdp-min-date="ctrl.todayDate">
+                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" aria-label="Datepicker Event" mdp-min-date="ctrl.todayDate">
                      <div ng-messages="createEventForm.date.$error">
-                      <div ng-message="required">Datum is verplicht</div>
+                      <div ng-message="required">Gelieve een datum te selecteren.</div>
                       <div ng-message="format">Verkeerd formaat</div>
                       <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
                       <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                      </div>
                    </mdp-date-picker>
-                   <mdp-time-picker ng-model="ctrl.starttime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
-                   <md-input-container class="time">
+                   <mdp-time-picker ng-model="ctrl.starttime" required name="starttime" mdp-auto-switch="true" aria-label="Timepicker Event">
+                   </mdp-time-picker>
+                   <div class="time-tot">
                      tot
-                   </md-input-container>
-                   <mdp-time-picker ng-model="ctrl.endtime" required name="time" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
+                   </div>
+                   <mdp-time-picker ng-model="ctrl.endtime" required name="endtime" mdp-auto-switch="true" aria-label="Timepicker Event"></mdp-time-picker>
 
                    <md-input-container class="md-block" flex-gt-xs flex>
-                     <label>Gebruiker</label>
+                     <label>Manager</label>
                      <md-select ng-model="ctrl.event.user" name="user" required md-no-asterisk>
                        <md-option ng-repeat="user in ctrl.users" ng-value="user">
                          {{user.fullName}} - {{user.username}}
                        </md-option>
                      </md-select>
                      <div ng-messages="createEventForm.user.$error">
-                       <div ng-message="required">Er moet een gebruiker aan het evenement gekoppeld worden.</div>
+                       <div ng-message="required">Gelieve een manager te kiezen.</div>
                      </div>
                    </md-input-container>
 
@@ -427,7 +424,7 @@
                      <label>Beschrijving</label>
                      <textarea ng-model="ctrl.event.description" type="text" name="description" placeholder="Beschrijving *" required rows="5" md-no-asterisk></textarea>
                      <div ng-messages="createEventForm.description.$error">
-                       <div ng-message="required">Er moet een beschrijving ingevuld worden.</div>
+                       <div ng-message="required">Gelieve een beschrijving in te vullen.</div>
                      </div>
                    </md-input-container>
                  </div>
@@ -440,15 +437,15 @@
                        </md-option>
                      </md-select>
                      <div ng-messages="createEventForm.ruimte.$error">
-                       <div ng-message="required">Er moet een ruimte gekozen worden.</div>
+                       <div ng-message="required">Gelieve een ruimte te kiezen.</div>
                      </div>
                    </md-input-container>
                    <md-input-container class="md-block" flex-gt-xs flex="25">
                      <label>Aantal Personen</label>
                      <input ng-model="ctrl.event.aantalpersonen" type="number" name="aantalpersonen" placeholder="Aantal Personen *" required min="2" max="{{ctrl.event.ruimte.aantalPlaatsen}}" md-no-asterisk>
                      <div ng-messages="createEventForm.aantalpersonen.$error" multiple>
-                       <div ng-message="required">Aantal personen is verplicht.</div>
-                       <div ng-message="min">Minimum aantal personen is 5.</div>
+                       <div ng-message="required">Gelieve een aantal in te vullen.</div>
+                       <div ng-message="min">Minimum aantal personen is 2.</div>
                        <div ng-message="max">Maximum aantal personen is {{ctrl.event.ruimte.aantalPlaatsen}}.</div>
                      </div>
                    </md-input-container>
@@ -704,13 +701,13 @@
                     <md-icon>person</md-icon>
                     <input ng-model="ctrl.admin.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
                     <div ng-messages="createAdminForm.voornaam.$error">
-                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Voornaam is verplicht.</div>
+                      <div ng-message="required">Gelieve een voornaam in te vullen.</div>
                     </div>
                   </md-input-container>
                   <md-input-container md-no-float class="md-block" flex="50">
                     <input ng-model="ctrl.admin.naam" type="text" name="naam" placeholder="Naam *" required>
                     <div ng-messages="createAdminForm.naam.$error">
-                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Naam is verplicht.</div>
+                      <div ng-message="required">Gelieve een familienaam in te vullen.</div>
                     </div>
                   </md-input-container>
                 </div>
@@ -719,13 +716,13 @@
                   <input ng-model="ctrl.admin.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="createAdminForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;E-mail is verplicht.
+                      Gelieve een email in te vullen.
                     </div>
                     <div ng-message="pattern">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig e-mailadres.
+                      Geen geldig e-mailadres.
                     </div>
                     <div ng-message="exists">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit e-mailadres.
+                      Er bestaat al een gebruiker met dit e-mailadres.
                     </div>
                   </div>
                 </md-input-container>
