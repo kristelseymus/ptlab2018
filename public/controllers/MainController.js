@@ -26,6 +26,7 @@
         vm.getEndTime = getEndTime;
         vm.getRuimtes = getRuimtes;
         vm.toggleShow = toggleShow;
+        vm.getUurString = getUurString;
 
         vm.userStudent = true;
         vm.userCoworker = true;
@@ -152,12 +153,20 @@
         }
 
         function getContents(){
-            websiteService.getWebsiteContent().then(function(data){
-              vm.home = data.data.home.content;
+            websiteService.getContent().then(function(res){
+              console.log(res.data);
+              vm.home = res.data.home;
+              vm.voorwie.manager = res.data.voorwiemanager;
+              vm.voorwie.coworker = res.data.voorwiecoworker;
+              vm.voorwie.student = res.data.voorwiestudent;
+              vm.practicals.content = res.data.practicals;
+              vm.practicals.adres = res.data.adres;
+              vm.practicals.openingsuren = res.data.openingsuren;
+              /*vm.home = data.data.home.content;
               vm.voorwie = data.data.voorwie;
               vm.prijzen = data.data.prijzen;
               vm.practicals = data.data.practicals;
-              vm.practicals.openingsuren = data.data.practicals.openingsuren.dag;
+              vm.practicals.openingsuren = data.data.practicals.openingsuren.dag;*/
             });
         }
 
@@ -232,6 +241,23 @@
             ruimte.show = true
           } else {
             ruimte.show = false
+          }
+        }
+
+        function getUurString(time){
+          var uur = "";
+          var temp;
+          var min;
+
+          if(time%60 === 0){
+            temp = time/60;
+            uur = temp + "u00";
+            return uur;
+          } else {
+            min = time%60;
+            temp = (time - min)/60;
+            uur = temp + "u" + min;
+            return uur;
           }
         }
     } // EINDE MainController

@@ -306,7 +306,7 @@
                         <ul>
                           <li><b>Wanneer?</b> <%= moment(startdate).format( 'dddd' ) %> <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %></li>
                           <li><b>Waar?</b> Co-working Lab</li>
-                          <li><b>Adres?</b> Planet Talent, Frank van Dyckelaan 7b, 9140 Temse</li>
+                          <li><b>Adres?</b> <%= adres.naam %>, <%= adres.straat %> <%= adres.nummer %>, <%= adres.postcode %> <%= adres.stad %></li>
                         </ul>
                         <p>Je mag bij aankomst aanbellen en jouw naam vernoemen.</p>
                         <% if(metfactuur) { %>
@@ -331,8 +331,8 @@
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <span class="apple-link">Planet Talent <br>Frank van Dyckelaan 7b<br> 9140 Temse</span>
-                    <br><br> Vragen?<br> Geef een seintje op +32 3 226 48 28 of stuur ons een <a href="mailto:test@test.be?Subject=Vraag%20voor%20Planet%20Talent" target="_top">mailtje</a>.
+                    <span class="apple-link"><%= adres.naam %> <br><%= adres.straat %> <%= adres.nummer %><br> <%= adres.postcode%> <%= adres.stad%></span>
+                    <br><br> Vragen?<br> Geef een seintje op <%= adres.telefoon %> of stuur ons een <a href="mailto:test@test.be?Subject=Vraag%20voor%20Planet%20Talent" target="_top">mailtje</a>.
                   </td>
                 </tr>
               </table>

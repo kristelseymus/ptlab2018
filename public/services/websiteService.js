@@ -14,6 +14,9 @@
             updateBlockedDates: updateBlockedDates,
             createBlockedDates: createBlockedDates,
             deleteBlockedDate: deleteBlockedDate,
+            getContent: getContent,
+            updateContent: updateContent,
+            postWebsite: postWebsite
         };
         return service;
 
@@ -99,6 +102,41 @@
           }).success(function(res){
             return res;
           }).error(function(err){
+            return err;
+          });
+        }
+
+        function getContent(){
+          return $http.get('/api/content', {cache: true}).success(function(data){
+            return data;
+          })
+          .error(function(err){
+            err.message = "Er is een fout opgetreden. Probeer opnieuw."
+            return err;
+          });
+        }
+
+        function updateContent(content){
+          return $http.put('/api/content/' + content._id, content, {
+            headers: {
+                Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function (data) {
+            return data;
+          });
+        }
+
+        function postWebsite(content) {
+          console.log(content);
+          return $http.post('/api/content', content, {
+            headers: {
+                Authorization: 'Bearer ' + auth.getToken()
+            }
+          }).success(function (data) {
+            console.log(data);
+            return data;
+          }).error(function(err){
+            console.log(err);
             return err;
           });
         }

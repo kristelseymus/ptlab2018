@@ -1,1 +1,112 @@
-<h1>test</h1>
+<div class="container" id="updatewebsite">
+  <div class="wrapper-box" layout="column" layout-padding>
+    <form ng-submit="ctrl.updateWebsite()" name="postWebsiteForm">
+      <md-content class="md-no-momentum no-background">
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Home</label>
+            <textarea ng-model="ctrl.content.home" name="home" placeholder="Home"></textarea>
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Voorwie: manager</label>
+            <textarea ng-model="ctrl.content.voorwiemanager" name="voorwiemanager" placeholder="Voorwie Manager"></textarea>
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Voorwie: co-worker</label>
+            <textarea ng-model="ctrl.content.voorwiecoworker" name="voorwiecoworker" placeholder="Voorwie coworker"></textarea>
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Voorwie: student</label>
+            <textarea ng-model="ctrl.content.voorwiestudent" name="voorwiestudent" placeholder="Voorwie student"></textarea>
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Practicals</label>
+            <textarea ng-model="ctrl.content.practicals" name="practicals" placeholder="Practicals"></textarea>
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <div class="table-updatewebsite-uren">
+            <div class="table-row-updatewebsite-uren">
+              <div class="table-cell-updatewebsite-uren">Maandag</div>
+              <div class="table-cell-updatewebsite-uren">Dinsdag</div>
+              <div class="table-cell-updatewebsite-uren">Woensdag</div>
+              <div class="table-cell-updatewebsite-uren">Donderdag</div>
+              <div class="table-cell-updatewebsite-uren">Vrijdag</div>
+            </div>
+            <div class="table-row-updatewebsite-uren">
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.maandag.openingsuur" name="maandag.openingsuur" mdp-auto-switch="true" aria-label="Timepicker Maandag Openingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.dinsdag.openingsuur" name="dinsdag.openingsuur" mdp-auto-switch="true" aria-label="Timepicker Dinsdag Openingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.woensdag.openingsuur" name="woensdag.openingsuur" mdp-auto-switch="true" aria-label="Timepicker Woensdag Openingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.donderdag.openingsuur" name="donderdag.openingsuur" mdp-auto-switch="true" aria-label="Timepicker Donderdag Openingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.vrijdag.openingsuur" name="vrijdag.openingsuur" mdp-auto-switch="true" aria-label="Timepicker Vrijdag Openingsuur"></mdp-time-picker>
+              </div>
+            </div>
+            <div class="table-row-updatewebsite-uren">
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.maandag.sluitingsuur" name="maandag.sluitingsuur" mdp-auto-switch="true" aria-label="Timepicker Maandag Sluitingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.dinsdag.sluitingsuur" name="dinsdag.sluitingsuur" mdp-auto-switch="true" aria-label="Timepicker Dinsdag Sluitingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.woensdag.sluitingsuur" name="woensdag.sluitingsuur" mdp-auto-switch="true" aria-label="Timepicker Woensdag Sluitingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.donderdag.sluitingsuur" name="donderdag.sluitingsuur" mdp-auto-switch="true" aria-label="Timepicker Donderdag Sluitingsuur"></mdp-time-picker>
+              </div>
+              <div class="table-cell-updatewebsite-uren">
+                <mdp-time-picker ng-model="ctrl.vrijdag.sluitingsuur" name="vrijdag.sluitingsuur" mdp-auto-switch="true" aria-label="Timepicker Vrijdag Sluitingsuur"></mdp-time-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Naam</label>
+            <input ng-model="ctrl.content.adres.naam" type="text" name="naam" placeholder="Naam">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Straat</label>
+            <input ng-model="ctrl.content.adres.straat" type="text" name="straat" placeholder="Straat">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Nummer</label>
+            <input ng-model="ctrl.content.adres.nummer" type="text" name="nummer" placeholder="Nummer">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Postcode</label>
+            <input ng-model="ctrl.content.adres.postcode" type="text" name="postcode" placeholder="Postcode">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Gemeente</label>
+            <input ng-model="ctrl.content.adres.stad" type="text" name="stad" placeholder="Gemeente">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block" layout="row">
+            <label>Telefoon</label>
+            <input ng-model="ctrl.content.adres.telefoon" type="text" name="telefoon" placeholder="Telefoon">
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Update website</md-button>
+        </div>
+      </md-content>
+    </form>
+  </div>
+</div>

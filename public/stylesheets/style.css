@@ -1189,6 +1189,39 @@ color: black !important;
 .btn-toggle-visible:hover {
   background-color: white !important;
 }
+
+/* -------------------------------------
+    UPDATE WEBSITE
+------------------------------------- */
+
+.input-container-update-website {
+  width: 100% !important;
+}
+
+.table-updatewebsite-uren {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table-row-updatewebsite-uren {
+  display: table-row;
+}
+
+.table-cell-updatewebsite-uren {
+  display: table-cell;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-collapse: inherit;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px !important;
+}
+
+.table-row-updatewebsite-uren:last-of-type {
+  margin-bottom: 10px;
+}
+
 /*
 .clickable-block {
   cursor: pointer;

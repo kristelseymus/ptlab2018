@@ -432,8 +432,8 @@
               <h3 class="section-heading">Openingsuren</h3>
               <table class="table table-hover text-center col-md-12 col-sm-12 col-xs-12">
                 <tr ng-repeat="dag in ctrl.practicals.openingsuren">
-                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{dag.naam}}</td>
-                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">{{dag.openingsuur.uur}}u{{dag.openingsuur.minuut}} tot {{dag.sluitingsuur.uur}}u{{dag.sluitingsuur.minuut}}</td>
+                  <td class="col-md-6 col-sm-6 col-xs-6 right-align">{{dag.day}}</td>
+                  <td class="col-md-6 col-sm-6 col-xs-6 left-align">{{ctrl.getUurString(dag.openingsuur)}} tot {{ctrl.getUurString(dag.sluitingsuur)}}</td>
                 </tr>
               </table>
             </div>
