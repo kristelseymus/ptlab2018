@@ -80,10 +80,9 @@
         /* Get all reservations from a specific date */
         function getReservatiesByDay(date) {
           return $http.get('/api/reservaties/' + date).success(function (res) {
-            console.log(res);
             return res.data;
           }).error(function(err){
-            console.log(err);
+            return err;
           });
         }
 

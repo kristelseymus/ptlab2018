@@ -15,6 +15,7 @@
             update: update,
             getEventTypes: getEventTypes,
             getEventsByDay: getEventsByDay,
+            getEventsByDayInRoom: getEventsByDayInRoom,
             deleteEvent: deleteEvent
         };
         return service;
@@ -73,6 +74,13 @@
           return $http.get('api/events/' + date).then(function (res) {
             return res.data;
           })
+        }
+
+        function getEventsByDayInRoom(date, ruimteid){
+          return $http.get('/api/events/' + date + "/" + ruimteid).then(function (res){
+            console.log(res.data);
+            return res.data;
+          });
         }
 
         /* Delete an event */

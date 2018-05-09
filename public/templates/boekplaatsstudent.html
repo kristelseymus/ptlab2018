@@ -31,62 +31,22 @@
                         <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" aria-label="Datepicker Student" ng-change="ctrl.berekenPlaatsen()">
                           <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
                           <div ng-messages="boekPlaatsStudentForm.date.$error">
-                            <div ng-message="required">Datum is verplicht</div>
+                            <div ng-message="required">Gelieve een datum te kiezen</div>
                             <div ng-message="format">Verkeerd formaat</div>
                             <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
                             <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                           </div>
                         </mdp-date-picker>
                         <md-input-container class="md-block block-right-align" flex-gt-xs flex="90">
-                          <label>Deel van de dag</label>
-                          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.berekenPlaatsen()">
+                          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.berekenPlaatsen()" aria-label="Selecte deel van de dag">
                             <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
                               {{keuzeDag.name}}
                             </md-option>
                           </md-select>
                           <div ng-messages="boekPlaatsStudentForm.keuzeDag.$error">
-                            <div ng-message="required">Er moet een deel van de dag gekozen worden.</div>
+                            <div ng-message="required">Gelieve een optie te selecteren.</div>
                           </div>
                         </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <div flex="50">
-                          <multiple-date-picker calendar-id="'availablecalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
-                        </div>
-                        <div flex="50">
-                          <div class="wrapper-box">
-                            <h3>Legende</h3>
-                            <div class="container">
-                              <div layout-gt-xs="row">
-                                <div class="legende-holiday"></div>
-                                <div class="legende-text">Feestdag of gesloten</div>
-                              </div>
-                              <div layout-gt-xs="row">
-                                <div class="legende-custom"></div>
-                                <div class="legende-text">Evenement</div>
-                              </div>
-                              <div layout-gt-xs="row">
-                                <div class="legende-weekend"></div>
-                                <div class="legende-text">Weekend</div>
-                              </div>
-                            </div>
-                            <h3>Aantal plaatsen beschikbaar</h3>
-                            <div class="container">
-                              <div layout-gt-xs="row">
-                                {{ctrl.aantalBeschikbarePlaatsen}}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!--<md-input-container class="md-block" flex-gt-xs flex="75">
-                          <md-calendar ng-model="ctrl.reservatie.startdate" md-min-date="ctrl.minDate" md-max-date="ctrl.maxDate" required name="date" md-date-filter="ctrl.weekendDisable" ng-change="ctrl.getAvailablePlaces()"></md-calendar>-->
-                          <!--<input type="date" ng-model="ctrl.reservatie.startdate" min="ctrl.getTodayDate()" name="date" required></input>-->
-                          <!--<div ng-messages="boekPlaatsStudentForm.date.$error" multiple>
-                            <div ng-message="required">Datum is verplicht.</div>
-                            <div ng-message="md-min-date">Er kan geen datum in het verleden gekozen worden.</div>
-                          </div>-->
-                          <!--<md-datepicker ng-model="ctrl.reservatie.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
-                        <!--</md-input-container>-->
                       </div>
                       <!--<div layout-gt-xs="row">
                         <md-input-container class="md-block" flex-gt-xs flex="33">
@@ -106,6 +66,38 @@
                         <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Reserveer</md-button>
                       </div>
                     </form>
+                  </div>
+                  <div class="wrapper-box" layout="column" layout-padding>
+                    <div layout-gt-xs="row">
+                      <div flex="50" class="availablecalendar" >
+                        <multiple-date-picker calendar-id="'availablecalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
+                      </div>
+                      <div flex="50" class="text-center">
+                        <div class=" reservation-legenda-box">
+                          <h3>Legende</h3>
+                          <div class="container">
+                            <div layout-gt-xs="row">
+                              <div class="legende-today"></div>
+                              <div class="legende-text">Vandaag</div>
+                            </div>
+                            <div layout-gt-xs="row">
+                              <div class="legende-holiday"></div>
+                              <div class="legende-text">Feestdag of gesloten</div>
+                            </div>
+                            <div layout-gt-xs="row">
+                              <div class="legende-custom"></div>
+                              <div class="legende-text">Evenement(en)</div>
+                            </div>
+                            <div layout-gt-xs="row">
+                              <div class="legende-weekend"></div>
+                              <div class="legende-text">Weekend</div>
+                            </div>
+                          </div>
+                          <br>
+                          <h4>Aantal beschikbare plaatsen: {{ctrl.aantalBeschikbarePlaatsen}}</h4>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>

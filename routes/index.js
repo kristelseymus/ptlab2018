@@ -651,8 +651,7 @@
     });
     router.param('day', function (req, res, next, date) {
         var day = new Date(date);
-        day.setHours(0,0,0,0)
-        console.log(date);
+        day.setHours(0,0,0,0);
         var nextDay = new Date(day);
         nextDay.setDate(day.getDate()+1);
         var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
@@ -667,11 +666,22 @@
             return next();
         });
     });
+    /* GET events after today in a specific room */
+    router.get('/api/events/:date/:ruimte', function(req, res, next) {
+      var date = new Date(req.params.date);
+      date.setHours(0,0,0,0);
+      Evenement.find({'startdate': {'$gte':date}, 'ruimte': req.params.ruimte},function(err, events) {
+        if(err){
+          return next(err);
+        }
+        res.json(events);
+      }).populate('user').populate('ruimte').populate('eventType').sort('startdate');
+    });
     /* POST add event */
     router.post('/api/events', auth, function (req, res, next) {
         var evenement = new Evenement(req.body);
         var day = new Date(evenement.startdate);
-        day.setHours(0,0,0,0)
+        day.setHours(0,0,0,0);
         var nextDay = new Date(evenement.startdate);
         nextDay.setDate(day.getDate()+1);
         var query = User.findById(evenement.user);
@@ -1244,6 +1254,7 @@
             content.voorwiemanager = req.body.voorwiemanager;
             content.voorwiecoworker = req.body.voorwiecoworker;
             content.voorwiestudent = req.body.voorwiestudent;
+            content.imagevoorwie = req.body.imagevoorwie;
             content.practicals = req.body.practicals;
             content.openingsuren = req.body.openingsuren;
             content.adres = req.body.adres;

@@ -75,14 +75,12 @@
       vm.offerte = {};
       vm.offerte.user = {};
 
-      vm.factuur = {};
-      vm.factuur.user = {};
-
       vm.reservaties = {};
       vm.eventTypes = {};
       vm.currentUser = {};
       vm.ruimtes = {};
       vm.events;
+      vm.eventsAfterTodayCW = [];
       vm.toekomstigeReservaties = [];
       vm.keuzeDagen = [{name: "Voormiddag", value: "voormiddag"}, {name: "Namiddag", value:"namiddag"}, {name: "Volledige dag", value:"volledigedag"}];
       vm.cateringsoorten = ["Sandwiches", "Broodjes", "Andere"];
@@ -114,7 +112,6 @@
         vm.currentUser = auth.getCurrentUser();
         vm.reservatie.user = vm.currentUser;
         vm.offerte.user = vm.currentUser;
-        vm.factuur.user = vm.currentUser;
 
         websiteService.getAllBlockedDatesPastAndFromThisYear().then(function(res){
           res.data.forEach(function(yeardates){
@@ -123,7 +120,7 @@
                 date: yeardates.blockeddates[i],
                 css: 'blockeddate-holiday',
                 selectable: false,
-                title: 'test'
+                title: 'Gesloten'
               });
             }
           });
@@ -144,21 +141,6 @@
               });
             }
           }
-          eventService.getAll().then(function(response){
-            vm.events = response.data;
-            console.log(vm.events);
-            vm.events.forEach(function(evenement){
-              if(evenement.keuzeDag === "volledigedag" && evenement.ruimte.name === "Co-working Lab"){
-                vm.highlightDays.push({
-                  date: evenement.startdate,
-                  css: 'blockeddate-custom',
-                  selectable: false,
-                  title: 'Evenement'
-                });
-              }
-            });
-
-          });
         });
 
         vm.ruimtes = getRuimtes();
@@ -171,9 +153,6 @@
           vm.todayDate.getMonth() + 3,
           vm.todayDate.getDate()
         );
-
-        vm.testMin = vm.minDate.getFullYear() + "-" + vm.minDate.getMonth() + "-" + vm.minDate.getDate();
-        console.log(vm.testMin);
 
         if(vm.reservatie.user != null){
           vm.disabled = true;
@@ -273,11 +252,37 @@
           for(var i=0; i<vm.ruimtes.length; i++){
             if(vm.ruimtes[i].name == "Co-working Lab"){
               vm.reservatie.ruimte = vm.ruimtes[i];
-              vm.factuur.ruimte = vm.ruimtes[i];
               adjustPrice();
               break;
             }
           }
+          eventService.getEventsByDayInRoom(vm.todayDate, vm.reservatie.ruimte._id).then(function(response){
+            vm.events = response;
+            console.log(vm.events);
+            var dateBefore = new Date();
+            vm.events.forEach(function(evenement){
+              var temp = new Date(evenement.startdate);
+              temp.setHours(0,0,0,0);
+              if(evenement.keuzeDag === "volledigedag"){
+                vm.highlightDays.push({
+                  date: evenement.startdate,
+                  css: 'blockeddate-custom',
+                  selectable: false,
+                  title: 'Evenement'
+                });
+              } else if(temp.getTime() === dateBefore.getTime()){
+                // 2 events on 1 day in the Co-working lab.
+                vm.highlightDays.push({
+                  date: evenement.startdate,
+                  css: 'blockeddate-custom',
+                  selectable: false,
+                  title: 'Evenement'
+                });
+              }
+              dateBefore = new Date(temp);
+              vm.eventsAfterTodayCW.push(new Date(evenement.startdate));
+            });
+          });
           return vm.ruimtes;
         });
       }// EINDE getRuimtes
@@ -488,14 +493,14 @@
         //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
         //Daarna zal ook een reservatie moeten worden aangemaakt.
 
-        return reservatieService.create(vm.factuur)
+        return reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
         })
         .success(function(res){
-          vm.factuur.metfactuur = true;
-          mailService.sendConfirmationReservation(vm.factuur);
-          mailService.sendInvoiceCoworker(vm.factuur);
+          vm.reservatie.metfactuur = true;
+          mailService.sendConfirmationReservation(vm.reservatie);
+          mailService.sendInvoiceCoworker(vm.reservatie);
 
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')
@@ -507,11 +512,11 @@
       }// EINDE factureer
 
       function adjustPrice() {
-        if(vm.factuur.ruimte){
-          if(vm.factuur.keuzeDag == "volledigedag"){
-            vm.factuur.price = vm.factuur.ruimte.price*2;
+        if(vm.reservatie.ruimte){
+          if(vm.reservatie.keuzeDag == "volledigedag"){
+            vm.reservatie.price = vm.reservatie.ruimte.price*2;
           } else {
-            vm.factuur.price = vm.factuur.ruimte.price;
+            vm.reservatie.price = vm.reservatie.ruimte.price;
           }
         }
       }// EINDE adjustPrice
@@ -544,7 +549,6 @@
       }// EINDE updateReservatie
 
       function checkTimes(form){
-        console.log("checkTimes");
         if(vm.startTime > vm.endtime){
           form.starttime.$error.startgreaterend = true;
         } else {
@@ -553,11 +557,24 @@
       }
 
       function berekenPlaatsen(){
-        reservatieService.getReservatiesByDayFromASpecificRoom(vm.reservatie.startdate, vm.reservatie.ruimte._id).then(function(res){
-          console.log(res);
-          vm.aantalBeschikbarePlaatsen = berekenBeschikbarePlaatsen(vm.reservatie.ruimte, res, vm.reservatie);
-          console.log(vm.aantalBeschikbarePlaatsen);
-        });
+        if(vm.reservatie.ruimte != null){
+          var calc = true;
+          for (var i = 0; i < vm.events.length; i++){
+            var temp = new Date(vm.events[i].startdate);
+            temp.setHours(0,0,0,0);
+            var tempres = new Date(vm.reservatie.startdate);
+            tempres.setHours(0,0,0,0);
+            if(temp.getTime() === tempres.getTime()){
+              if(vm.events[i].keuzeDag === "volledigedag" || vm.reservatie.keuzeDag === "volledigedag"){ vm.aantalBeschikbarePlaatsen = 0; calc = false; break;}
+              else if(vm.events[i].keuzeDag === vm.reservatie.keuzeDag){ vm.aantalBeschikbarePlaatsen = 0; calc = false; break; }
+            }
+          }
+          if(calc === true){
+            reservatieService.getReservatiesByDayFromASpecificRoom(vm.reservatie.startdate, vm.reservatie.ruimte._id).then(function(res){
+              vm.aantalBeschikbarePlaatsen = berekenBeschikbarePlaatsen(vm.reservatie.ruimte, res, vm.reservatie);
+            });
+          }
+        }
       }
 
       /* Bereken het aantal beschikbare plaatsen om te reserveren.
@@ -594,12 +611,8 @@
                 }
               });
             }
-            console.log(reservatie);
-            console.log("ruimte: " + ruimte.aantalPlaatsen);
-            console.log("temp: " + temp);
             plaatsen = ruimte.aantalPlaatsen - temp;
         }
-        //Einde Plaatsberekening
         return plaatsen;
       }
 

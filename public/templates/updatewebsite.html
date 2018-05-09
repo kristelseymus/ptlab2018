@@ -1,3 +1,6 @@
+<div class="text-center">
+  <h2 class="section-heading">Website wijzigen</h2>
+</div>
 <div class="container" id="updatewebsite">
   <div class="wrapper-box" layout="column" layout-padding>
     <form ng-submit="ctrl.updateWebsite()" name="postWebsiteForm">
@@ -28,8 +31,14 @@
         </div>
         <div layout-gt-xs="row">
           <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>Voorwie: achtergrond</label>
+            <input ng-model="ctrl.content.imagevoorwie" type="text" name="imagevoorwie" placeholder="Link afbeelding">
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
             <label>Practicals</label>
-            <textarea ng-model="ctrl.content.practicals" name="practicals" placeholder="Practicals"></textarea>
+            <textarea ng-model="ctrl.content.practicals" name="practicals2" placeholder="Practicals"></textarea>
           </md-input-container>
         </div>
         <div layout-gt-xs="row">
@@ -77,7 +86,7 @@
             </div>
           </div>
         </div>
-        <div layout-gt-xs="row">
+        <div layout-gt-xs="row" class="updatewebsite-bottom-row">
           <md-input-container md-no-float class="md-block" layout="row">
             <label>Naam</label>
             <input ng-model="ctrl.content.adres.naam" type="text" name="naam" placeholder="Naam">

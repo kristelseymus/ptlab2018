@@ -52,7 +52,7 @@
       vm.blokkeerdata = blokkeerdata;
       vm.deleteBlockedDate = deleteBlockedDate;
 
-      vm.test = {};
+      vm.selectedblockeddate;
 
       vm.feestdagen = [];
 
@@ -66,6 +66,7 @@
 
       vm.selected = [];
       vm.limitOptions = [5, 10, 15];
+      vm.limitOptionsEvents = [5, 10, 15];
 
       vm.options = {
         rowSelection: false,
@@ -92,6 +93,7 @@
 
       vm.toggleLimitOptions = function () {
         vm.limitOptions = vm.limitOptions ? undefined : [5, 10, 15];
+        vm.limitOptionsEvents = vm.limitOptionsEvents ? undefined : [5, 10, 15];
       };
 
       vm.keuzeDagen = [{name: "Voormiddag", value: "voormiddag"}, {name: "Namiddag", value:"namiddag"}, {name: "Volledige dag", value:"volledigedag"}];
@@ -118,7 +120,7 @@
                 date: yeardates.blockeddates[i],
                 css: 'blockeddate-custom',
                 selectable: false,
-                title: 'test'
+                title: 'Gesloten'
               });
             }
           });
@@ -336,7 +338,7 @@
 
       function getReservatiesByDay() {
         reservatieService.getReservatiesByDay(vm.dayReservaties).then(function (res) {
-          vm.reservatiesday = res;
+          vm.reservatiesday = res.data;
           return vm.reservatiesday
         });
       }
@@ -531,16 +533,16 @@
 
       function deleteBlockedDate(){
         websiteService.deleteBlockedDate({
-          year: vm.test.date.getFullYear(),
-          blockeddates: vm.test.date
+          year: vm.selectedblockeddate.getFullYear(),
+          blockeddates: vm.selectedblockeddate
         }).then(function(res){
           for(var i = 0; i < vm.highlightDays.length; i++){
             var temp = new Date(vm.highlightDays[i].date);
             var tempyear = new Date(vm.blockeddatesyear[i]);
-            if(temp.getTime() === vm.test.date.getTime()){
+            if(temp.getTime() === vm.selectedblockeddate.getTime()){
               vm.highlightDays.splice(i, 1);
             }
-            if(tempyear.getTime() === vm.test.date.getTime()){
+            if(tempyear.getTime() === vm.selectedblockeddate.getTime()){
               vm.blockeddatesyear.splice(i, 1);
             }
           }

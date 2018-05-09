@@ -69,6 +69,7 @@
                            <li><a ng-show="ctrl.isLoggedIn()" ng-click="ctrl.logOut()" class="custom-button">Log Out</a></li>
                          </ul>
                        </li>
+                       <li><a ng-show="ctrl.isAdmin()" href="/updatewebsite" class="custom-button"><i class="fa fa-1x fa-cogs"></i></a></li>
                        <!--<li><a ng-show="ctrl.isAdmin()" href="/updatewebsite" class="custom-button"><md-icon>settings</md-icon></a></li>-->
                    </ul>
                </div>
@@ -128,7 +129,7 @@
   <script src="/javascripts/directives/mymap.js"></script>
   <script src="/javascripts/directives/logo-cycling.js"></script>
   <script src="/javascripts/directives/scroll-to-top.js"></script>
-  <script src="/javascripts/directives/tiny-calendar.js"></script>
+  <script src="/javascripts/directives/background-image.js"></script>
   <!-- Services -->
   <script src="/services/authService.js"></script>
   <script src="/services/reservatieService.js"></script>
@@ -151,6 +152,7 @@
   <!--<script src="/javascripts/directives/open-sections.js"></script>-->
   <!--<script src="/javascripts/directives/scale-blocks.js"></script>-->
   <!--<script src="/javascripts/directives/smooth-scrolling.js"></script>-->
+  <!--<script src="/javascripts/directives/tiny-calendar.js"></script>-->
 </body>
 
 </html>

@@ -156,6 +156,8 @@
             websiteService.getContent().then(function(res){
               console.log(res.data);
               vm.home = res.data.home;
+              vm.voorwie.imagevoorwie = res.data.imagevoorwie;
+              $scope.imagevoorwie = res.data.imagevoorwie;
               vm.voorwie.manager = res.data.voorwiemanager;
               vm.voorwie.coworker = res.data.voorwiecoworker;
               vm.voorwie.student = res.data.voorwiestudent;

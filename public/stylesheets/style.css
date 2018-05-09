@@ -35,6 +35,11 @@
     background-color: #eee;
 }
 
+.nav>li>a {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .nav-small-combined {
   padding-left: 12px;
   padding-right: 12px;
@@ -78,7 +83,7 @@ small {
   font-weight: 100 !important;
 }
 
-@media (max-width: 1052px) {
+@media (max-width: 770px) {
 
     .navbar-default .nav > li > a,
     .navbar-default .nav > li > a:focus {
@@ -563,6 +568,10 @@ md-checkbox.md-checked .md-icon{
   margin-left: auto !important;
 }
 
+.reservation-legenda-box {
+  margin-top: 0px;
+}
+
 /* -------------------------------------
     SECTIONS
 ------------------------------------- */
@@ -599,11 +608,11 @@ h2 {
 }
 
 #voorwie {
-  background: linear-gradient(
+  /*background: linear-gradient(
       rgba(50, 50, 50, 0.6),
       rgba(50, 50, 50, 0.6)
     ), url("/images/BBQ.jpg") no-repeat bottom;
-  min-height: 500px;
+  min-height: 500px;*/
 }
 
 #sectionCoworking, #sectionMeetingRoom, #sectionTrainingRoom, #sectionBoardRoom {
@@ -830,6 +839,21 @@ div.alert {
 
 .picker-day {
   outline: none !important;
+}
+
+.picker-day.today{
+  border-color: #FFBF3B !important;
+  color: black !important;
+}
+
+.picker-day.picker-selected.today{
+  border-color: #eee !important;
+  color: white !important;
+}
+
+.picker-day.today:hover{
+  border-color: #eee !important;
+  color: white !important;
 }
 
 .picker-day.picker-selected.picker-empty {
@@ -1059,6 +1083,13 @@ div.md-toolbar-tools.toolbar-search {
   color: rgba(255,255,255, 0.87) !important;*/
 }
 
+.legende-today {
+  height: 24px;
+  width: 24px;
+  background-color: white;
+  border: 1px solid #FFBF3B;
+}
+
 .legende-custom {
   height: 24px;
   width: 24px;
@@ -1149,6 +1180,36 @@ md-tabs[md-border-bottom] md-tabs-wrapper{
 }
 
 /* -------------------------------------
+    RESERVEREN STUDENT
+------------------------------------- */
+
+
+.availablecalendar .picker-day.today:hover{
+  background-color: white !important;
+  border-color: #FFBF3B !important;
+  color: black !important;
+  pointer-events: none;
+  cursor: auto;
+}
+
+.availablecalendar .picker-day:not(.picker-off):not(.picker-empty):not(.today):hover{
+  background-color: white !important;
+  color: black !important;
+  pointer-events: none;
+  cursor: auto;
+}
+
+.availablecalendar .picker-day.picker-selected {
+  background-color: white !important;
+  color: black !important;
+}
+
+.availablecalendar .picker-day.today.picker-selected {
+  background-color: white !important;
+  color: black !important;
+}
+
+/* -------------------------------------
     TOOLBARS
 ------------------------------------- */
 
@@ -1222,6 +1283,19 @@ color: black !important;
   margin-bottom: 10px;
 }
 
+.updatewebsite-bottom-row {
+  margin-top: 30px;
+}
+
+/* -------------------------------------
+    PAGINATION
+------------------------------------- */
+
+.label {
+  color: rgba(0,0,0,.54) !important;
+  font-size: 100% !important;
+}
+
 /*
 .clickable-block {
   cursor: pointer;
@@ -1286,9 +1360,4 @@ color: black !important;
 /*
 .description {
   margin-top: 10px;
-}*/
-/*
-.label {
-  color: rgba(0,0,0,.54) !important;
-  font-size: 100% !important;
 }*/

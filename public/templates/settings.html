@@ -368,7 +368,7 @@
                   </md-input-container>
                  </div>
                  <div layout-gt-xs="row">
-                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" aria-label="Datepicker Event" mdp-min-date="ctrl.todayDate">
+                   <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.event.startdate" mdp-format="DD/MM/YYYY" required name="date" mdp-date-filter="ctrl.disabledates" aria-label="Datepicker Event" mdp-min-date="ctrl.todayDate">
                      <div ng-messages="createEventForm.date.$error">
                       <div ng-message="required">Gelieve een datum te selecteren.</div>
                       <div ng-message="format">Verkeerd formaat</div>
@@ -610,7 +610,7 @@
                             </tr>
                           </thead>
                           <tbody md-body>
-                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.search | orderBy: ctrl.query.orderreservatiesday">
+                            <tr md-row md-select="reservatie" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="reservatie in ctrl.reservatiesday | filter: ctrl.filter.searchreservatiesday | orderBy: ctrl.query.orderreservatiesday">
                               <td md-cell>{{reservatie.user.fullName}}</td>
                               <td md-cell>{{reservatie.user.username}}</td>
                               <td md-cell>{{reservatie.startdate | date:'dd MMMM yyyy'}}</td>
@@ -630,6 +630,7 @@
                       <div ng-show="ctrl.reservatiesday.length <= 0" class="noreservations">
                         Er zijn geen reservaties op de gekozen dag.
                       </div>
+                      {{ctr.reservatiesday}}
                     </md-content>
                     </div>
                   </div>
@@ -769,7 +770,7 @@
                   <form ng-submit="ctrl.deleteBlockedDate()" name="deleteblokkeerdataForm">
                     <md-content class="md-no-momentum no-background">
                       <div layout-gt-xs="row">
-                        <mdp-date-picker class="datepicker-settings-unblock" mdp-placeholder="Kies een datum" ng-model="ctrl.test.date" mdp-format="DD/MM/YYYY" name="date"  aria-label="Datepicker Blokkeer data">
+                        <mdp-date-picker class="datepicker-settings-unblock" mdp-placeholder="Kies een datum" ng-model="ctrl.selectedblockeddate" mdp-format="DD/MM/YYYY" name="date"  aria-label="Datepicker Blokkeer data">
                         </mdp-date-picker>
                       </div>
                       <div layout="row">
@@ -779,8 +780,12 @@
                   </form>
                 </div>
                 <div class="wrapper-box">
-                  <h3>Legende</h3>
+                  <h4>Legende</h4>
                   <div class="container">
+                    <div layout-gt-xs="row">
+                      <div class="legende-today"></div>
+                      <div class="legende-text">Vandaag</div>
+                    </div>
                     <div layout-gt-xs="row">
                       <div class="legende-holiday"></div>
                       <div class="legende-text">Feestdag</div>
@@ -791,7 +796,7 @@
                     </div>
                     <div layout-gt-xs="row">
                       <div class="legende-weekend"></div>
-                      <div class="legende-text">Weekend</div>
+                      <div class="legende-text">Weekend/Verleden</div>
                     </div>
                   </div>
                 </div>

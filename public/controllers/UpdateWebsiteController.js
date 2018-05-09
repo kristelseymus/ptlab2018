@@ -3,9 +3,9 @@
 
   angular.module('ptlab').controller('UpdateWebsiteController', UpdateWebsiteController);
 
-  UpdateWebsiteController.$inject = ['auth', '$state', 'websiteService'];
+  UpdateWebsiteController.$inject = ['auth', '$state', 'websiteService', '$mdToast'];
 
-  function UpdateWebsiteController(auth, $state, websiteService){
+  function UpdateWebsiteController(auth, $state, websiteService, $mdToast){
     var vm = this;
     vm.updateWebsite = updateWebsite;
     //vm.postWebsite = postWebsite;
@@ -40,6 +40,11 @@
       console.log(vm.content);
 
       websiteService.updateContent(vm.content);
+      $mdToast.show($mdToast.simple()
+        .content('De website is succesvol geüpdatet.')
+       .position('bottom left')
+       .parent($("#toast-container"))
+       .hideDelay(3000));
     }
 
     function getContent(){
