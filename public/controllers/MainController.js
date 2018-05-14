@@ -38,6 +38,26 @@
         vm.voorwie = {};
         vm.practicals = {};
         vm.practicals.openingsuren = [];
+        vm.imageIndex = 0;
+
+        $scope.images = [{
+            source: "images/Logo_PTLab-01.jpg",
+            title: "Green Logo"
+          },
+          {
+            source: "images/Logo_PTLab-02.jpg",
+            title: "Red Logo"
+          },
+          {
+            source: "images/Logo_PTLab-03.jpg",
+            title: "Yellow Logo"
+          }];
+
+        $scope.image = getRandomLogo();
+
+        $scope.showImage = function(index){
+          $scope.image = $scope.images[index - 1];
+        };
 
         activate();
 
@@ -88,6 +108,25 @@
               vm.userCoworker = false;
               vm.userManager = false;
             }*/
+          startLogoCycle();
+        }
+
+        function getRandomLogo(){
+          var imageCount = $scope.images.length;
+          var index = Math.floor(
+            (Math.random() * imageCount * 2)%imageCount
+          );
+          vm.imageIndex = index;
+          return($scope.images[index]);
+        }
+
+        function startLogoCycle(){
+          var imageCount = $scope.images.length;
+          vm.imageIndex = (vm.imageIndex + 1)%imageCount;
+          $scope.image = $scope.images[vm.imageIndex];
+          $timeout(function () {
+            startLogoCycle();
+          }, 8000);
         }
 
         function berekenFeestdagen(Y){
@@ -154,7 +193,6 @@
 
         function getContents(){
             websiteService.getContent().then(function(res){
-              console.log(res.data);
               vm.home = res.data.home;
               vm.voorwie.imagevoorwie = res.data.imagevoorwie;
               $scope.imagevoorwie = res.data.imagevoorwie;

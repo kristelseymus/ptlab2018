@@ -3,6 +3,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
+                  <img logo-cycling
+                    src="{{ image.source }}"
+                    title="{{ image.title }}"
+                    class="image block-center"
+                    width="304" height="150"
+                    alt="Logo Planet Talent Lab"
+                  />
                   <!--<img logo-cycling src="images/Logo_PTLab-03.jpg" alt="Logo Planet Talent Lab" class="center-block" width="304" height="150" id="logo">-->
                   <p>
                     {{ctrl.home}}
@@ -146,9 +153,9 @@
                   <md-card-title-text>
                     <span class="md-headline">{{ruimte.name}}</span>
                   </md-card-title-text>
-                  <md-icon class="custom-button animate-button" ng-click="ctrl.toggleShow(ruimte)" slideToggle>keyboard_arrow_down</md-icon>
+                  <md-icon class="custom-button" ng-class="ruimte.show ? 'marker-up' : 'marker-down'" ng-click="ctrl.toggleShow(ruimte)" slideToggle>keyboard_arrow_down</md-icon>
                 </md-card-title>
-                <md-card-content ng-show="ruimte.show" class="animate-content">
+                <md-card-content ng-show="ruimte.show" class="animate-content" ng-cloak>
                   <ul class="card-list">
                     <li>Aantal plaatsen: {{ruimte.aantalPlaatsen}}</li>
                     <li>Aantal elektriciteitsaansluitingen: {{ruimte.elektriciteitsaansluitingen}}</li>

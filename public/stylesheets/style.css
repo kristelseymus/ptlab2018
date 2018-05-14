@@ -376,18 +376,6 @@ a:hover,a:focus,a:active{
   background-color: transparent !important;
 }
 
-.animate-button {
-  transform: rotate(180deg);
-  -webkit-transition: 0.2s ease-in-out all;
-  transition:  0.2s ease-in-out all;
-}
-
-.animate-button:hover {
-  transform: rotate(360deg);
-  -webkit-transition: 0.2s ease-in-out all;
-  transition:  0.2s ease-in-out all;
-}
-
 /* -------------------------------------
     CHECKBOX
 ------------------------------------- */
@@ -994,6 +982,18 @@ img.md-card-image {
   padding-bottom: 0px;
 }
 
+.marker-up {
+  transform: rotate(180deg);
+  -webkit-transition: 0.2s ease-in-out all;
+  transition: 0.2s ease-in-out all;
+}
+
+.marker-down {
+  transform: rotate(360deg);
+  -webkit-transition: 0.2s ease-in-out all;
+  transition: 0.2s ease-in-out all;
+}
+
 /* Panel update ruimte in Settings */
 div.md-panel-outer-wrapper.md-panel-is-showing {
   position: fixed;
@@ -1294,6 +1294,29 @@ color: black !important;
 .label {
   color: rgba(0,0,0,.54) !important;
   font-size: 100% !important;
+}
+
+
+img.fader {
+  display: none ;
+  position: absolute ;
+  z-index: 2 ;
+}
+
+img.fader.show {
+  display: block ;
+  -webkit-transition: opacity 250ms ease;
+  -moz-transition: opacity 250ms ease;
+  -o-transition: opacity 250ms ease;
+  transition: opacity 250ms ease ;
+}
+
+img.fader.fadeOut {
+  opacity: 0 ;
+}
+
+img.image {
+  display: block ;
 }
 
 /*
