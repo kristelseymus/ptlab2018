@@ -16,13 +16,13 @@
                     <md-icon>person</md-icon>
                     <input ng-model="ctrl.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
                     <div ng-messages="registerForm.voornaam.$error">
-                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een voornaam op te geven.</div>
+                      <div ng-message="required">Gelieve een voornaam op te geven.</div>
                     </div>
                   </md-input-container>
                   <md-input-container md-no-float class="md-block" flex="50">
                     <input ng-model="ctrl.user.naam" type="text" name="naam" placeholder="Naam *" required>
                     <div ng-messages="registerForm.naam.$error">
-                      <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een familienaam op te geven.</div>
+                      <div ng-message="required">Gelieve een familienaam op te geven.</div>
                     </div>
                   </md-input-container>
                 </div>
@@ -31,13 +31,13 @@
                   <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="registerForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een e-mailadres op te geven.
+                      Gelieve een e-mailadres op te geven.
                     </div>
                     <div ng-message="pattern">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Geen geldig e-mailadres.
+                      Geen geldig e-mailadres.
                     </div>
                     <div ng-message="exists">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Er bestaat al een gebruiker met dit e-mailadres.
+                      Er bestaat al een gebruiker met dit e-mailadres.
                     </div>
                   </div>
                 </md-input-container>
@@ -45,7 +45,7 @@
                   <md-icon>phone</md-icon>
                   <input ng-model="ctrl.user.telefoonnummer" type="tel" name="telefoonnummer" placeholder="Telefoonnummer *" required>
                   <div ng-messages="registerForm.telefoonnummer.$error">
-                    <div ng-message="required"><md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een telefoonnummer op te geven.</div>
+                    <div ng-message="required">Gelieve een telefoonnummer op te geven.</div>
                   </div>
                 </md-input-container>
                 <md-input-container md-no-float class="md-block">
@@ -53,7 +53,7 @@
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord *" required>
                   <div ng-messages="registerForm.wachtwoord.$error" md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een wachtwoord op te geven.
+                      Gelieve een wachtwoord op te geven.
                     </div>
                   </div>
                 </md-input-container>
@@ -65,7 +65,7 @@
                   </md-select>
                   <div ng-messages="registerForm.typeUser.$error">
                     <div ng-message="required">
-                      <md-icon class="error">error_outline</md-icon>&nbsp;Gelieve een type te kiezen.
+                      Gelieve een type te kiezen.
                     </div>
                   </div>
                 </md-input-container>

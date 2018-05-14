@@ -139,6 +139,24 @@
         title: 'Express'
       });
     });
+    /* GET forgot password page. */
+    router.get('/forgot', function(req, res) {
+      res.render('index', {
+        user: req.user
+      });
+    });
+    /* GET forgot password page for user. */
+    router.get('/reset/:token', function(req, res){
+      User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires': { '$gt': Date.now() } }, function(err, user) {
+        if(!user) {
+          res.json({message: 'De reset token is niet geldig of is verlopen.'});
+          //return res.redirect('/forgot');
+        }
+        res.render('index', {
+          user: user
+        });
+      });
+    });
 
     //REGION RESERVATIES
 

@@ -1,3 +1,4 @@
+var session = require('express-session');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var moment = require('moment');
+var async = require('async');
 
 require('./models/Users');
 require('./models/Reservaties');
@@ -48,6 +50,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret: 'session secret key' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/node_modules'));
 app.use('/configuration', express.static(__dirname + '/config'));

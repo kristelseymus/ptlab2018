@@ -29,7 +29,9 @@ var UserSchema = new mongoose.Schema({
     events : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
-    }]
+    }],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 //Method to set the password of a user

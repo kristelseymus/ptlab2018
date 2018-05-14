@@ -223,6 +223,10 @@ html.md-default-theme, html, body.md-default-theme, body {
 	 padding: 10px;
 }
 
+.login-forgot {
+  padding-top: 10px;
+}
+
 .wrapper-box{
   border: 1px solid rgba(0,0,0,.03);
   margin: 4px;

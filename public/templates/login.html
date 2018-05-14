@@ -15,13 +15,13 @@
                   <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email" required ng-pattern="/^.+@.+\..+$/">
                   <div ng-messages="signInForm.username.$error" multiple md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon style="color: rgb(221, 44, 0)">error_outline</md-icon>&nbsp;Gelieve een e-mailadres in te vullen.
+                      Gelieve een e-mailadres in te vullen.
                     </div>
                     <div ng-message="pattern">
-                      <md-icon style="color: rgb(221, 44, 0)">error_outline</md-icon>&nbsp;Geen geldig email adres.
+                      Geen geldig email adres.
                     </div>
                     <div ng-message="incorrectusername">
-                      <md-icon style="color: rgb(221, 44, 0)">error_outline</md-icon>&nbsp;Gebruiker bestaat niet.
+                      Gebruiker bestaat niet.
                     </div>
                   </div>
                 </md-input-container>
@@ -30,11 +30,14 @@
                   <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord" required>
                   <div ng-messages="signInForm.wachtwoord.$error" md-auto-hide="false">
                     <div ng-message="required">
-                      <md-icon style="color: rgb(221, 44, 0)">error_outline</md-icon>&nbsp;Gelieve een wachtoord in te vullen.
+                      Gelieve een wachtoord in te vullen.
                     </div>
                     <div ng-message="incorrectpassword">
-                      <md-icon style="color: rgb(221, 44, 0)">error_outline</md-icon>&nbsp;Wachtwoord is niet geldig.
+                      Wachtwoord is niet geldig.
                     </div>
+                  </div>
+                  <div class="left-align login-forgot">
+                    <a href="/forgot">Wachtwoord vergeten ?</a>
                   </div>
                 </md-input-container>
                 <div layout="row">

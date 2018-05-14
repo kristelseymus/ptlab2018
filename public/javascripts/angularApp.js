@@ -202,6 +202,18 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
                       }
                     }
                 }]
+        })
+        .state('forgot', {
+          url: '/forgot',
+          templateUrl: '/templates/forgot.html',
+          controller: 'AuthController',
+          controllerAs: 'ctrl'
+        })
+        .state('reset', {
+          url: '/reset/:token',
+          templateUrl: '/templates/forgotpassword.html',
+          controller: 'AuthController',
+          controllerAs: 'ctrl'
         });
   $urlRouterProvider.otherwise('home');
 }]);// EINDE config

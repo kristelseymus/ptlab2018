@@ -7,11 +7,30 @@
     var mongoose = require('mongoose');
     var passport = require('passport');
     var User = mongoose.model('User');
+    var Content = mongoose.model('Content');
     var jwt = require('express-jwt');
     var jwttoken = require('jsonwebtoken');
     var auth = jwt({
         secret: 'SECRET',
         userProperty: 'payload'
+    });
+
+    var nodemailer = require('nodemailer');
+    var path = require('path');
+    var ejs = require('ejs');
+    var moment = require('moment');
+    var async = require('async');
+    var crypto = require('crypto');
+    var transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'akmyw3k5peyqymel@ethereal.email',
+        pass: '3BWDbFYkQNjYfVy1WT'
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000
     });
 
     //REGION AUTHENTICATION ROUTING
@@ -121,6 +140,148 @@
             req.user = user;
             return next();
         });
+    });
+    /* POST forgot password mail */
+    router.post('/forgot', function(req, res, next){
+      async.waterfall([
+        function(done){
+          crypto.randomBytes(20, function(err, buf){
+            var token = buf.toString('hex');
+            done(err, token);
+          })
+        },
+        function(token, done){
+          User.findOne({'username': req.body.username}, function(err, user){
+            if(!user){
+              return res.status(500).send({
+                  success: false,
+                  message: 'Er bestaat geen gebruiker met dit e-mailadres.'
+              });
+            }
+
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 3600000; //1 uur
+
+            user.save(function(err){
+              done(err, token, user);
+            });
+          });
+        },
+        function(token, user, done){
+          var link = "http://" + req.headers.host + "/reset/" + token;
+          Content.findOne({}, 'adres', function(err, value){
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, link: link, moment: moment}, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: "Planet Talent <contact@planet-talent.com>",
+                  to: user.username,
+                  subject: "Wachtwoord vergeten",
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    res.json({message: "Er is een e-mail verzonden naar " + user.username + " met verdere instructies."});
+                    done(err, 'done');
+                  }
+                });
+              }
+            });
+          });
+        }
+      ], function(err){
+        if(err){
+          return next(err);
+        }
+        res.redirect('/forgot');
+      });
+    });
+    router.post('/reset/:token', function(req, res, next){
+      async.waterfall([
+        function(done){
+          User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires' : { '$gt' : Date.now() } }, function(err, user){
+            if(!user){
+              return res.json({message: 'De reset token is niet geldig of is verlopen.'});
+              //return res.redirect('back');
+            }
+            if (req.body.password != req.body.passwordcheck) {
+              return res.status(500).send({
+                  success: false,
+                  message: "Passwords don't match"
+              });
+            }
+            user.setPassword(req.body.password);
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+
+            user.save(function(err){
+              if(err){
+                res.send(err);
+              }
+              passport.authenticate('local', function(err, user, info) {
+                  if (err) {
+                      return next(err);
+                  }
+                  if (user) {
+                      res.json({
+                          token: user.generateJWT(),
+                          userid : user._id
+                      });
+                      done(err, user);
+                  } else {
+                      return res.status(401).json(info);
+                  }
+              })(req, res, next);
+            })
+          });
+        },
+        function(user, done){
+          Content.findOne({}, 'adres', function(err, value){
+            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordsuccessemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, moment: moment}, function(err, data){
+              if(err){
+                console.log(err);
+              } else {
+                var mailOptions = {
+                  from: "Planet Talent <contact@planet-talent.com>",
+                  to: user.username,
+                  subject: "Wachtwoord gewijzigd",
+                  text: "text",
+                  html: data,
+                  attachments: [{
+                    filename: 'logo.jpg',
+                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                    cid: 'logoimage'
+                  }]
+                };
+
+                transporter.sendMail(mailOptions, function(error, response){
+                  if(error){
+                    console.log(error);
+                    res.end("error");
+                  } else {
+                    console.log("Message sent: " + response.message);
+                    done(err, 'done');
+                  }
+                });
+              }
+            });
+          });
+        }
+      ], function(err){
+        res.redirect('/');
+      });
     });
     /* PUT changepassword */
     router.put('/changepassword', auth, function(req, res, next) {

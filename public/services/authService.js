@@ -22,7 +22,9 @@
             getAll: getAll,
             getAllUsers: getAllUsers,
             deleteUser: deleteUser,
-            getCurrentUser: getCurrentUser
+            getCurrentUser: getCurrentUser,
+            forgotPassword: forgotPassword,
+            resetPassword: resetPassword
         };
         return service;
 
@@ -155,6 +157,22 @@
             typeuser: payload.typeuser
           };
           return user;
+        }
+
+        function forgotPassword(user){
+          return $http.post('/api/users/forgot', user).success(function(data) {
+          }).error(function(err){
+            return err;
+          });
+        }
+
+        function resetPassword(user){
+          return $http.post('/api/users/reset/' + user.resetPasswordToken, user)
+          .success(function(data) {
+              console.log(data);
+          }).error(function(err){
+            return err;
+          });
         }
     }
 })();

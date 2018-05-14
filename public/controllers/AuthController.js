@@ -3,9 +3,9 @@
 
   angular.module('ptlab').controller('AuthController',AuthController);
 
-  AuthController.$inject = ['$state','auth', '$log', '$mdToast'];
+  AuthController.$inject = ['$state','auth', '$log', '$mdToast', '$http', '$stateParams'];
 
-  function AuthController($state,auth,$log,$mdToast){
+  function AuthController($state,auth,$log,$mdToast,$http,$stateParams){
       var vm = this;
       vm.user = {}; //CurrentUser
       vm.users = []; //All Users
@@ -28,6 +28,8 @@
       vm.getAll = getAll;
       vm.deleteUser = deleteUser;
       vm.toggleShowPassword = toggleShowPassword;
+      vm.forgot = forgot;
+      vm.resetPassword = resetPassword;
 
       activate();
 
@@ -145,6 +147,37 @@
           return auth.deleteUser(user).then(function(){
             getAll();
           });
+      }
+
+      function forgot(){
+        return auth.forgotPassword(vm.user).success(function(res){
+          console.log(res);
+        })
+        .error(function(err){
+          console.log(err);
+          vm.message = err.message;
+        });
+      }
+
+      function resetPassword(){
+        vm.user.resetPasswordToken = $stateParams.token;
+        vm.user.password = vm.password;
+        vm.user.passwordcheck = vm.passwordcheck;
+        console.log(vm.user);
+        return auth.resetPassword(vm.user)
+        .error(function(error){
+          vm.error = error;
+          if(vm.error.message === "Passwords don't match") {
+            vm.message = "Wachtwoorden komen niet overeen. Probeer opnieuw."
+          }
+        }).then(function(){
+            $mdToast.show($mdToast.simple()
+            .content("Uw wachtwoord is succesvol gewijzigd.")
+            .position('bottom left')
+            .parent($("#toast-container"))
+            .hideDelay(3000));
+            auth.logIn(vm.user);
+        });
       }
   } // EINDE AuthController
 })();
