@@ -159,16 +159,25 @@
           return user;
         }
 
+        /* This method will send a "forgot password" email to the given email adres, if the user exists. */
         function forgotPassword(user){
-          return $http.post('/api/users/forgot', user).success(function(data) {
+          return $http.post('/api/users/forgot', user, {
+            headers: {
+                Authorization: 'Bearer ' + getToken()
+            }
+          }).success(function(data) {
           }).error(function(err){
             return err;
           });
         }
 
+        /* Reset the users password with the same token as the token in the link send by email. */
         function resetPassword(user){
-          return $http.post('/api/users/reset/' + user.resetPasswordToken, user)
-          .success(function(data) {
+          return $http.post('/api/users/reset/' + user.resetPasswordToken, user, {
+            headers: {
+                Authorization: 'Bearer ' + getToken()
+            }
+          }).success(function(data) {
               console.log(data);
           }).error(function(err){
             return err;

@@ -12,6 +12,7 @@
       vm.password = null;
       vm.passwordcheck = null;
       vm.showPassword = false;
+      vm.isLoading = false;
       vm.typesUser = ['STUDENT','COWORKER','MANAGER'];
       /* There are a total of 3 types of users that can make reservations/events:
           - STUDENT
@@ -150,12 +151,20 @@
       }
 
       function forgot(){
-        return auth.forgotPassword(vm.user).success(function(res){
-          console.log(res);
-        })
-        .error(function(err){
+        vm.isLoading = true;
+        return auth.forgotPassword(vm.user).error(function(err){
           console.log(err);
           vm.message = err.message;
+          vm.isLoading = false;
+        })
+        .then(function(){
+          vm.isLoading = false;
+          $mdToast.show($mdToast.simple()
+          .content("Er is een e-mail verstuurd naar " + vm.user.username + " met verdere instructies.")
+          .position('bottom left')
+          .parent($("#toast-container-mailsent"))
+          .hideDelay(4000));
+          $state.go('home');
         });
       }
 
@@ -165,10 +174,14 @@
         vm.user.passwordcheck = vm.passwordcheck;
         console.log(vm.user);
         return auth.resetPassword(vm.user)
-        .error(function(error){
-          vm.error = error;
+        .error(function(err){
+          console.log(err);
+          vm.error = err;
+
           if(vm.error.message === "Passwords don't match") {
             vm.message = "Wachtwoorden komen niet overeen. Probeer opnieuw."
+          } else {
+            vm.message = err.message;
           }
         }).then(function(){
             $mdToast.show($mdToast.simple()
@@ -176,7 +189,7 @@
             .position('bottom left')
             .parent($("#toast-container"))
             .hideDelay(3000));
-            auth.logIn(vm.user);
+            $state.go('login');
         });
       }
   } // EINDE AuthController

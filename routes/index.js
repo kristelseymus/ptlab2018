@@ -148,13 +148,20 @@
     /* GET forgot password page for user. */
     router.get('/reset/:token', function(req, res){
       User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires': { '$gt': Date.now() } }, function(err, user) {
-        if(!user) {
-          res.json({message: 'De reset token is niet geldig of is verlopen.'});
-          //return res.redirect('/forgot');
+        if(!user) {// If there is no user found with the same token and an expiration date lower then or equal to Date.now()
+
+          res.redirect('/tokeninvalid');
+          //res.render('index', { message: 'The reset token is not valid or is expired.', error: {status: 400}});
         }
         res.render('index', {
           user: user
         });
+      });
+    });
+    /* GET token invalid page */
+    router.get('/tokeninvalid', function(req, res){
+      res.render('index', {
+        title: 'Express'
       });
     });
 

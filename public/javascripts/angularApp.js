@@ -205,15 +205,19 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
         })
         .state('forgot', {
           url: '/forgot',
-          templateUrl: '/templates/forgot.html',
+          templateUrl: '/templates/forgotpassword.html',
           controller: 'AuthController',
           controllerAs: 'ctrl'
         })
         .state('reset', {
           url: '/reset/:token',
-          templateUrl: '/templates/forgotpassword.html',
+          templateUrl: '/templates/resetpassword.html',
           controller: 'AuthController',
           controllerAs: 'ctrl'
+        })
+        .state('tokeninvalid', {
+          url: '/tokeninvalid',
+          templateUrl: '/templates/tokeninvalid.html'
         });
   $urlRouterProvider.otherwise('home');
 }]);// EINDE config

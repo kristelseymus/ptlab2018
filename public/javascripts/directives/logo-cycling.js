@@ -37,7 +37,6 @@
                     // I prepare the fader to show the previous image
                     // while fading out of view.
                     function initFade( fadeSource ) {
-                      console.log(fadeSource);
                         fader.prop( "src", fadeSource ).addClass( "show" );
                         // Don't actually start the fade until the
                         // primary image has loaded the new source.
@@ -53,14 +52,12 @@
                     }
                     // I start the fade-out process.
                     function startFade() {
-                      console.log("fade started");
                         // The .width() call is here to ensure that
                         // the browser repaints before applying the
                         // fade-out class (so as to make sure the
                         // opacity doesn't kick in immediately).
                         fader.width();
                         fader.addClass( "fadeOut" );
-                        console.log(fader);
                         setTimeout( teardownFade(), 250 );
                     }
                     // I clean up the fader after the fade-out has

@@ -143,14 +143,18 @@
     });
     /* POST forgot password mail */
     router.post('/forgot', function(req, res, next){
-      async.waterfall([
-        function(done){
+      async.waterfall([ //All functions in the waterfall will be executed one after the other.
+        //If there is an error before the end is reached, the waterfall will stop and the error will be thrown.
+        //For example if an error is thrown in the second function, the third function won't be executed and the error will be passed to the callback.
+        function(done){ //Generate a unique token.
           crypto.randomBytes(20, function(err, buf){
             var token = buf.toString('hex');
             done(err, token);
           })
         },
-        function(token, done){
+        function(token, done){ //Check if there is a user in the database with the same username.
+          //When there IS NO user found, return a message. When there IS a user found, save te token inside
+          //the user and generate an expiration date for that token.
           User.findOne({'username': req.body.username}, function(err, user){
             if(!user){
               return res.status(500).send({
@@ -160,14 +164,14 @@
             }
 
             user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 3600000; //1 uur
+            user.resetPasswordExpires = Date.now() + 3600000; //1 hour from now.
 
             user.save(function(err){
               done(err, token, user);
             });
           });
         },
-        function(token, user, done){
+        function(token, user, done){ //Send the user an email with the link inside to reset his/her password.
           var link = "http://" + req.headers.host + "/reset/" + token;
           Content.findOne({}, 'adres', function(err, value){
             ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, link: link, moment: moment}, function(err, data){
@@ -208,13 +212,20 @@
         res.redirect('/forgot');
       });
     });
-    router.post('/reset/:token', function(req, res, next){
+    /* POST reset password */
+    router.post('/reset/:token', function(req, res){
       async.waterfall([
-        function(done){
+        function(done){ //Search for a user in the database with the same reset token and where the expiration date (time) is greater then the current date (time).
+          //This is exactly the same check as when the user clicks on the link inside the mail.
+          //There will be a new search for a user in the database because it is possible a user left, with the same session still open.
           User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires' : { '$gt' : Date.now() } }, function(err, user){
             if(!user){
-              return res.json({message: 'De reset token is niet geldig of is verlopen.'});
-              //return res.redirect('back');
+              //return res.json({message: 'De reset token is niet geldig of is verlopen.'});
+              //return res.redirect(400, 'index');
+              return res.status(500).send({
+                  success: false,
+                  message: "De reset token is niet geldig of is verlopen."
+              });
             }
             if (req.body.password != req.body.passwordcheck) {
               return res.status(500).send({
@@ -230,21 +241,8 @@
               if(err){
                 res.send(err);
               }
-              passport.authenticate('local', function(err, user, info) {
-                  if (err) {
-                      return next(err);
-                  }
-                  if (user) {
-                      res.json({
-                          token: user.generateJWT(),
-                          userid : user._id
-                      });
-                      done(err, user);
-                  } else {
-                      return res.status(401).json(info);
-                  }
-              })(req, res, next);
-            })
+
+            });
           });
         },
         function(user, done){
@@ -285,7 +283,6 @@
     });
     /* PUT changepassword */
     router.put('/changepassword', auth, function(req, res, next) {
-      console.log("inside changepassword api");
         User.findById(req.payload._id, function(err, user) {
             if (err) {
                 res.send(err);

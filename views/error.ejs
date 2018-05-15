@@ -1,3 +1,100 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PT Lab</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Angular Material -->
+    <link href="/scripts/angular-material-picker/dist/mdPickers.min.css" type="text/css" rel="stylesheet"/>
+    <link href="/scripts/angular-material-data-table/dist/md-data-table.min.css" type="text/css" rel="stylesheet"/>
+    <link href="/scripts/angular-ui-carousel/dist/ui-carousel.min.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Custom -->
+    <link href="/stylesheets/style.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/scripts/multiple-date-picker/dist/multipleDatePicker.css"/>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body ng-app="ptlab" smooth-scrolling>
+  <div id="cont" layout="column">
+     <div id="header">
+       <nav class="navbar navbar-default navbar-static-top" id="nav" ng-controller="NavController as ctrl">
+           <div class="container-fluid header-top">
+               <div class="navbar-header">
+                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                           data-target="#navbar-pt">
+                       <span class="sr-only">Toggle navigation</span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                   </button>
+                   <h3><small>Topstarters in ICT, sales & management</small></h3>
+               </div>
+           </div>
+       </nav>
+     </div>
+     <!--Container for Toast Message-->
+     <div id="toast-container"></div>
+     <!--Container for Toast Message Alert-->
+     <div id="toast-container-alert"></div>
+     <!--Container for Toast Message Mail Sent-->
+     <div id="toast-container-mailsent"></div>
+     <!--Body-->
+     <div id="body">
+
+       <a href="#" id="scroll" scroll-to-top style="display: none;">
+         <md-tooltip md-direction="left">Terug naar boven</md-tooltip><span class="glyphicon glyphicon-arrow-up"></span></a>
+     </div>
+    <!--Footer-->
+     <div id="footer">
+          <footer>
+              <!--Copyright-->
+              <div class="footer-copyright py-3 text-center">
+                  <div class="container-fluid">
+                      Copyright &copy; 2018 Planet Talent
+                  </div>
+              </div>
+          </footer>
+     </div>
+  </div>
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- Angular -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.2/angular-scroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.5/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.5/angular-locale_nl-be.js"></script>
+  <!-- Moment -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/2.1.0/moment-range.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Modules -->
+  <script type="text/javascript" src="/scripts/angular-material-calendar/dist/angular-material-calendar.min.js"></script>
+  <script type="text/javascript" src="/scripts/angular-material-picker/dist/mdPickers.min.js"></script>
+  <script type="text/javascript" src="/scripts/angular-material-data-table/dist/md-data-table.min.js"></script>
+  <script type="text/javascript" src="/scripts/angular-ui-carousel/dist/ui-carousel.min.js"></script>
+  <script type="text/javascript" src="/scripts/multiple-date-picker/dist/multipleDatePicker.min.js"></script>
+  <!-- Angular Module -->
+  <script src="/javascripts/angularApp.js"></script>
+  <!-- Directives -->
+  <script src="/javascripts/directives/scroll-to-top.js"></script>
+  <!-- Services -->
+  <script src="/services/authService.js"></script>
+  <!-- Controllers -->
+  <script src="/controllers/AuthController.js"></script>
+  <script src="/controllers/NavController.js"></script>
+</body>
+
+</html>
