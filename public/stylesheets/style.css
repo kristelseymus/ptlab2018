@@ -82,6 +82,11 @@ small {
   text-decoration: underline;
   font-weight: 100 !important;
 }
+@media (min-width: 770px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
 
 @media (max-width: 770px) {
 
@@ -707,6 +712,10 @@ table {
   margin-right: auto;
 }
 
+table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+  padding: 0 !important;
+}
+
 /* -------------------------------------
     TOASTS & ALERTS
 ------------------------------------- */
@@ -1169,6 +1178,11 @@ md-tabs[md-border-bottom] md-tabs-wrapper{
 .tab-settings {
   padding-left: 50px !important;
   padding-right: 50px !important;
+}
+
+/* This will disable the panel animation */
+md-tabs [role="tabpanel"] {
+    transition: none;
 }
 
 /* -------------------------------------

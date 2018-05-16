@@ -1,5 +1,5 @@
 <!-- Home -->
-<section id="home">
+<section id="home" ng-cloak>
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
@@ -19,7 +19,7 @@
         </div>
 </section>
 <!-- Voor Wie -->
-<section id="voorwie" background-image="{{ctrl.voorwie.imagevoorwie}}">
+<section id="voorwie" background-image="{{ctrl.voorwie.imagevoorwie}}" ng-cloak>
         <div class="container">
             <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
@@ -95,7 +95,7 @@
         </div>
 </section>
 <!-- Ruimtes -->
-<section id="ruimtes">
+<section id="ruimtes" ng-cloak>
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
@@ -277,7 +277,7 @@
           </ui-carousel>
 
           <!-- Visible on desktop and large screens -->
-          <div class="row block-center">
+          <div class="row block-center" ng-cloak>
             <div class="text-center block-prices display-block-prices">
               <div class="text-center block-voorwie-row">
                 <div class="block-price-column block-title-prices" ng-repeat="ruimte in ctrl.ruimtes">{{ruimte.name}}</div>
@@ -395,7 +395,7 @@
       </div>
 </section>
 <!--Praktische Zaken-->
-<section id="practicals">
+<section id="practicals" ng-cloak>
       <div class="container">
           <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
@@ -463,7 +463,7 @@
 
 </div>-->
 <!--Agenda-->
-<section id="agenda">
+<section id="agenda" ng-cloak>
       <div class="container">
           <div class="row">
               <div class="col-md-10 col-md-offset-1 text-center">
@@ -472,7 +472,7 @@
           </div>
       </div>
 </section>
-<div layout-gt-xs="row">
+<div layout-gt-xs="row" ng-cloak>
 
   <div flex="60" class="eventcalendar">
     <multiple-date-picker calendar-id="'eventcalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>

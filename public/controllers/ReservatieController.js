@@ -352,6 +352,7 @@
       }// EINDE deleteReservatie
 
       function boekPlaatsStudent(){
+        vm.message = "";
         return  reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
@@ -472,6 +473,7 @@
       }// EINDE vraagOfferteAan
 
       function probeerGratis(){
+        vm.message = "";
         return reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;
@@ -492,7 +494,7 @@
       function factureer() {
         //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
         //Daarna zal ook een reservatie moeten worden aangemaakt.
-
+        vm.message = "";
         return reservatieService.create(vm.reservatie)
         .error(function (err){
           vm.message = err.message;

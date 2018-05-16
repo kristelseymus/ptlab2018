@@ -1,7 +1,7 @@
 <div class="text-center">
   <h2 class="section-heading">Instellingen</h2>
 </div>
-  <md-content class="no-background">
+  <md-content class="no-background" ng-cloak>
     <md-tabs md-dynamic-height md-border-bottom md-stretch-tabs="always" md-no-ink>
       <md-tab label="ruimtes">
         <md-toolbar>
@@ -83,7 +83,7 @@
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-xs flex="50">
                   <label>Maximum aantal beschikbare plaatsen</label>
-                  <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum Aantal Beschikbare Plaatsen *" required>
+                  <input ng-model="ctrl.ruimte.aantalPlaatsen" type="number" name="aantalplaatsen" placeholder="Maximum aantal beschikbare plaatsen *" required>
                   <div ng-messages="createRuimteForm.aantalplaatsen.$error">
                     <div ng-message="required">Gelieve een maximum aantal in te vullen.</div>
                   </div>
@@ -99,7 +99,7 @@
                  </md-input-container>
                </div>
                <div layout-gt-xs="row">
-                 <md-input-container class="md-block" flex-gt-xs flex="50">
+                 <md-input-container class="md-block" flex-gt-xs flex="33.33">
                    <label>Prijs</label>
                    <input ng-model="ctrl.ruimte.price" type="number" name="price" min="0" step="any" required>
                    <div ng-messages="createRuimteForm.price.$error" multiple>
@@ -107,12 +107,19 @@
                      <div ng-message="min">Het minimum bedrag is € 0.</div>
                    </div>
                  </md-input-container>
-                 <md-input-container class="md-block" flex-gt-xs flex="50">
+                 <md-input-container class="md-block" flex-gt-xs flex="33.33">
                    <label>Prijs per persoon</label>
                    <input ng-model="ctrl.ruimte.priceperperson" type="number" name="priceperperson" min="0" step="any" required>
                    <div ng-messages="createRuimteForm.priceperperson.$error" multiple md-auto-hide="false">
                      <div ng-message="required">Gelieve een prijs per persoon in te vullen.</div>
                      <div ng-message="min">Het minimum bedrag is € 0.</div>
+                   </div>
+                 </md-input-container>
+                 <md-input-container class="md-block" flex-gt-xs flex="33.33">
+                   <label>Elektriciteitsaansluitingen</label>
+                   <input ng-model="ctrl.ruimte.elektriciteitsaansluitingen" type="number" name="elektriciteitsaansluitingen" required>
+                   <div ng-messages="updateRuimteForm.elektriciteitsaansluitingen.$error" multiple>
+                     <div ng-message="required">Gelieve een aantal in te voeren.</div>
                    </div>
                  </md-input-container>
                </div>
@@ -131,6 +138,15 @@
                    <md-checkbox ng-model="ctrl.ruimte.printeravailable" name="checkboxPrinter" aria-label="Checkbox Printer" md-no-ink>
                        Printer
                    </md-checkbox>
+                 </md-input-container>
+               </div>
+               <div layout-gt-xs="row">
+                 <md-input-container class="md-block" flex-gt-xs>
+                   <label>Afbeelding</label>
+                   <input ng-model="ctrl.ruimte.imagelink" type="text" name="imagelink" required>
+                   <div ng-messages="updateRuimteForm.imagelink.$error">
+                     <div ng-message="required">Er moet een link naar een afbeelding opgegeven worden.</div>
+                   </div>
                  </md-input-container>
                </div>
               </md-content>

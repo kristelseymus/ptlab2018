@@ -169,12 +169,15 @@
       }
 
       function resetPassword(){
+        vm.message = "";
+        vm.isLoading = true;
         vm.user.resetPasswordToken = $stateParams.token;
         vm.user.password = vm.password;
         vm.user.passwordcheck = vm.passwordcheck;
         console.log(vm.user);
         return auth.resetPassword(vm.user)
         .error(function(err){
+          vm.isLoading = false;
           console.log(err);
           vm.error = err;
 
@@ -184,6 +187,7 @@
             vm.message = err.message;
           }
         }).then(function(){
+          vm.isLoading = false;
             $mdToast.show($mdToast.simple()
             .content("Uw wachtwoord is succesvol gewijzigd.")
             .position('bottom left')

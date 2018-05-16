@@ -271,7 +271,7 @@
 
       function createRuimte(){
         ruimteService.create(vm.ruimte);
-        return vm.ruimtes.push(vm.ruimte);
+        getRuimtes();
       }
 
       function createEvent(){
