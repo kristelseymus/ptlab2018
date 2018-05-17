@@ -36,9 +36,6 @@
       vm.content.openingsuren[4].openingsuur = vm.vrijdag.openingsuur.getHours()*60 + vm.vrijdag.openingsuur.getMinutes();
       vm.content.openingsuren[4].sluitingsuur = vm.vrijdag.sluitingsuur.getHours()*60 + vm.vrijdag.sluitingsuur.getMinutes();
 
-      console.log(vm.content.openingsuren);
-      console.log(vm.content);
-
       websiteService.updateContent(vm.content);
       $mdToast.show($mdToast.simple()
         .content('De website is succesvol geüpdatet.')
@@ -49,7 +46,6 @@
 
     function getContent(){
       websiteService.getContent().then(function(res){
-        console.log(res.data);
         vm.content = res.data;
         vm.maandag.openingsuur = new Date();
         vm.maandag.sluitingsuur = new Date();

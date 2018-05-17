@@ -299,7 +299,7 @@
                     <tr>
                       <td>
                         <p>Beste <%= voornaam %>,</p>
-                        <p>Hierbij bevestigen we de annulatie van uw evenement bij Planet Talent op <%= moment(item.startdate).format( 'LL' ) %>.</p>
+                        <p>Hierbij bevestigen we de annulatie van uw evenement bij Planet Talent op <%= item.datedmy %>.</p>
                         <p>Geannuleerd evenement: <br>
                           <table>
                             <tr>
@@ -312,11 +312,11 @@
                             </tr>
                             <tr>
                               <td>Datum </td>
-                              <td><%= moment(item.startdate).format( 'LL' ) %></td>
+                              <td><%= item.datedmy %></td>
                             </tr>
                             <tr>
                               <td>Van tot</td>
-                              <td><%= moment(item.startdate).format( 'LT' ) %> tot <%= moment(item.startdate).add(item.duur, 'minutes').format( 'LT' ) %></td>
+                              <td><%= item.van %> tot <%= item.tot %></td>
                             </tr>
                             <tr>
                               <td>Ruimte </td>

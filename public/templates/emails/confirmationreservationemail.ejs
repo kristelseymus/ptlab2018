@@ -299,12 +299,12 @@
                     <tr>
                       <td>
                         <p>Hallo <%= voornaam %>,</p>
-                        <p>Hierbij bevestigen we jouw reservatie bij Planet Talent op <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %>.
+                        <p>Hierbij bevestigen we jouw reservatie bij Planet Talent op <%= item.datedmy %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %>.
                           <!--{{keuzeDag != "volledigedag" ? "in de {{keuzeDag}}" : "voor een volledige dag"}}-->
                           Je hebt een plaatsje gekregen in het Co working Lab</p>
                         <p>Praktische informatie:</p>
                         <ul>
-                          <li><b>Wanneer?</b> <%= moment(startdate).format( 'dddd' ) %> <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %></li>
+                          <li><b>Wanneer?</b> <%= item.dated %> <%= item.datedmy %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %></li>
                           <li><b>Waar?</b> Co-working Lab</li>
                           <li><b>Adres?</b> <%= adres.naam %>, <%= adres.straat %> <%= adres.nummer %>, <%= adres.postcode %> <%= adres.stad %></li>
                         </ul>

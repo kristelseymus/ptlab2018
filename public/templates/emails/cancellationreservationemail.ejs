@@ -299,7 +299,7 @@
                     <tr>
                       <td>
                         <p>Hallo <%= voornaam %>,</p>
-                        <p>Hierbij bevestigen we de annulatie van jouw reservatie bij Planet Talent op <%= moment(startdate).format( 'LL' ) %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %>.</p>
+                        <p>Hierbij bevestigen we de annulatie van jouw reservatie bij Planet Talent op <%= datedmy %><% if (keuzeDag != "volledigedag") { %> in de <%= keuzeDag %><% } else { %> voor een volledige dag<% } %>.</p>
 
                         <p>Heeft u vragen over de annulatie van uw reservering ? Laat het ons weten via <a href="mailto:test@test.be?Subject=Vraag%20voor%20Planet%20Talent" target="_top">mail</a> of geef ons een seintje op <%= adres.telefoon %></p>
 

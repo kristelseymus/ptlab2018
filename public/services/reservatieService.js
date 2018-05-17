@@ -28,6 +28,7 @@
 
         /* Create a new reservation */
         function create(reservatie) {
+          reservatie.startdate.setHours(0,0,0,0);
           return $http.post('/api/reservaties', reservatie, {
               headers: {
                   Authorization: 'Bearer ' + auth.getToken()
@@ -55,6 +56,7 @@
 
         /* Update an existing reservation */
         function update(id, reservatie) {
+          reservatie.startdate.setHours(0,0,0,0);
             return $http.put('/api/reservaties/' + id, reservatie, {
                 headers: {
                     Authorization: 'Bearer ' + auth.getToken()
@@ -79,7 +81,9 @@
 
         /* Get all reservations from a specific date */
         function getReservatiesByDay(date) {
-          return $http.get('/api/reservaties/' + date).success(function (res) {
+          var d = new Date(date);
+          d.setHours(0,0,0,0);
+          return $http.get('/api/reservaties/' + d).success(function (res) {
             return res.data;
           }).error(function(err){
             return err;
@@ -88,7 +92,9 @@
 
         /* Get all reservations from a specific date in a specific room */
         function getReservatiesByDayFromASpecificRoom(date, ruimteid){
-          return $http.get('/api/reservaties/' + date + '/' + ruimteid).then(function(res){
+          var d = new Date(date);
+          d.setHours(0,0,0,0);
+          return $http.get('/api/reservaties/' + d + '/' + ruimteid).then(function(res){
             return res.data;
           });
         }

@@ -23,6 +23,8 @@
 
         /* Send a confirmation e-mail for a reservation */
         function sendConfirmationReservation(item){
+          item.datedmy = moment(item.startdate).format('LL');
+          item.dated = moment(item.startdate).format('dddd');
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -40,6 +42,10 @@
 
         /* Send a confirmation e-mail for an offer */
         function sendConfirmationOffer(item){
+          item.datedmy = moment(item.startdate).format( 'LL' );
+          item.van = moment(item.startdate).format( 'LT' );
+          item.tot = moment(item.startdate).add(item.duur, 'minutes').format( 'LT' );
+          console.log(item);
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -57,6 +63,9 @@
 
         /* Send a confirmation e-mail for an event */
         function sendConfirmationEvent(item){
+          item.datedmy = moment(item.startdate).format( 'LL' );
+          item.van = moment(item.startdate).format( 'LT' );
+          item.tot = moment(item.startdate).add(item.duur, 'minutes').format( 'LT' );
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -74,6 +83,9 @@
 
         /* Send an e-mail to notify the manager that the event is canceled */
         function sendCancellationEvent(item){
+          item.datedmy = moment(item.startdate).format( 'LL' );
+          item.van = moment(item.startdate).format( 'LT' );
+          item.tot = moment(item.startdate).add(item.duur, 'minutes').format( 'LT' );
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.be>",
@@ -91,6 +103,7 @@
 
         /* Send an e-mail to a user to notify him/her that his/her reservation is cancelled */
         function sendCancellationReservation(item){
+          item.datedmy = moment(item.startdate).format( 'LL' );
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -108,14 +121,18 @@
 
         /* Send an invoice to a coworker */
         function sendInvoiceCoworker(item){
+          item.factuurdatum = moment().format('LL');
+          item.vervaldatum = moment().add(1, 'M').format('LL');
+          item.datedmy = moment(item.startdate).format( 'LL' );
+
+          item.factuurnummer = "placeholder";
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
             subject: "Factuur reservatie " + moment(item.startdate).format('LL'),
             attachments: "",
             item: item,
-            type: "invoicecoworker",
-            factuurnummer: "" + item.startdate.getFullYear() + "-" + item.startdate.getMonth() + "/R" + reservatieService.getReservatiesByDay(item.startdate).length
+            type: "invoicecoworker"
           };
 
           sendMail(mail);
@@ -126,6 +143,9 @@
 
         /* Send an invoice to a manager */
         function sendInvoiceManager(item){
+          item.factuurdatum = moment().format('LL');
+          item.vervaldatum = moment().add(1, 'M').format('LL');
+          item.datedmy = moment(item.startdate).format( 'LL' );
           console.log(item);
           var mail = {
             to: item.user.username,
@@ -133,8 +153,7 @@
             subject: "Factuur " + item.name + " " + moment(item.startdate).format('LL'),
             attachments: "",
             item: item,
-            type: "invoicemanager",
-            factuurnummer: "" + item.startdate.getFullYear() + "-" + item.startdate.getMonth() + "/E" + eventService.getEventsByDay(item.startdate).length
+            type: "invoicemanager"
           };
 
           sendMail(mail);
@@ -162,12 +181,15 @@
 
         /* Send an e-mail to Planet Talent to notify them that an offer has been made */
         function sendOfferMail(item){
+          item.datedmy = moment(item.offerte.startdate).format( 'LL' );
+          item.van = moment(item.offerte.startdate).format( 'LT' );
+          item.tot = moment(item.offerte.startdate).add(item.offerte.duur, 'minutes').format( 'LT' );
           var mail = {
             to: "Planet Talent <contact@planer-talent.com>",
             from: item.offerte.user.username,
             subject: item.subject,
             attachments: "",
-            item: item.offerte,
+            item: item,
             type: "offermail"
           };
 
@@ -180,6 +202,9 @@
         /* Send an e-mail that the offer is being handled.
         This e-mail is sent when there are reservations in the same room at the same time. */
         function sendAwaitingOfferMail(offerte) {
+          offerte.datedmy = moment(offerte.startdate).format( 'LL' );
+          offerte.van = moment(offerte.startdate).format( 'LT' );
+          offerte.tot = moment(offerte.startdate).add(offerte.duur, 'minutes').format( 'LT' );
           var mail = {
             to: offerte.user.username,
             from: "Planet Talent <contact@planet-talent.com>",

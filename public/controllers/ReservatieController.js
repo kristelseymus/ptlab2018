@@ -11,7 +11,7 @@
 
       vm._mdPanel = $mdPanel;
 
-      vm.startTime = 0;
+      vm.startTime;
       vm.keuzeDag = {};
       vm.todayDate = new Date();
       vm.minDate = null;
@@ -371,6 +371,8 @@
       }// EINDE boekPlaatsStudent
 
       function vraagOfferteAan(){
+        console.log(vm.startTime);
+        console.log(vm.endtime);
         vm.offerte.startdate.setHours(vm.startTime.getHours());
         vm.offerte.startdate.setMinutes(vm.startTime.getMinutes());
 
@@ -405,7 +407,8 @@
           var item = {};
           item.offerte = vm.offerte;
           item.subject = "";
-          if(res.length === 0) { //Geen reservaties
+          console.log(res.data);
+          if(res.data.length === 0) { //Geen reservaties
             vm.message = "";
             item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL');
             mailService.sendConfirmationOffer(vm.offerte);
@@ -417,14 +420,14 @@
               .parent($("#toast-container"))
               .hideDelay(3000)
              );
-             $state.go('home');
+             //$state.go('home');
            } else {
              var tempres = [];
-             console.log(res);
-             for(var i = 0; i<res.length; i++){
-               console.log(res[i]);
-               if(res[i].ruimte._id === vm.offerte.ruimte._id){
-                 tempres.push(res[i]);
+             console.log(res.data);
+             for(var i = 0; i<res.data.length; i++){
+               console.log(res.data[i]);
+               if(res.data[i].ruimte._id === vm.offerte.ruimte._id){
+                 tempres.push(res.data[i]);
                }
              }
              if(tempres.length > 0) {
@@ -445,7 +448,7 @@
                    item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL') + " in afwachting";
                    mailService.sendAwaitingOfferMail(vm.offerte);
                    mailService.sendOfferMail(item);
-                   $state.go('home');
+                  // $state.go('home');
                  },
                  function() {//Cancel
                    $mdToast.show($mdToast.simple()
@@ -466,7 +469,7 @@
                  .parent($("#toast-container"))
                  .hideDelay(3000)
                 );
-                $state.go('home');
+              //  $state.go('home');
              }
            } // EINDE else
          });

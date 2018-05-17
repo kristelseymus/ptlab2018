@@ -34,8 +34,8 @@
                                   <div ng-switch-when="volledigedag">Volledige dag</div>
                                 </td>
                                 <td md-cell>{{reservatie.ruimte.name}}</td>
-                                <td md-cell><md-button type="button" class="custom-button" ng-click="ctrl.updateReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)"><md-icon>build</md-icon></md-button></td>
-                                <td md-cell><md-button type="button" class="btn btn-warning" ng-click="ctrl.deleteReservatie(reservatie)" ng-disabled="ctrl.disableReservatieOptions(reservatie)">Annuleer Reservatie</md-button></td>
+                                <td md-cell><div type="button" class="custom-button" ng-click="ctrl.updateReservatie(reservatie)" ng-hide="ctrl.disableReservatieOptions(reservatie)"><md-icon>build</md-icon></div></td>
+                                <td md-cell><div type="button" class="custom-button btn-delete" ng-click="ctrl.deleteReservatie(reservatie)" ng-hide="ctrl.disableReservatieOptions(reservatie)"><md-icon>close</md-icon></div></td>
                               </tr>
                             </tbody>
                           </table>

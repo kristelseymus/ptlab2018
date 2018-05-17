@@ -8,6 +8,7 @@ var EventSchema = new mongoose.Schema({
     publiek: Boolean,
     catering: Boolean,
     duur: Number,
+    factuurnummer: String,
     ruimte: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ruimte'

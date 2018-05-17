@@ -221,7 +221,7 @@
                           <td md-cell>{{event.catering ? 'Ja' : 'Nee'}}</td>
                           <td md-cell>{{event.publiek ? 'Ja' : 'Nee'}}</td>
                           <td md-cell>{{event.ruimte.name}}</td>
-                          <td md-cell><div type="button" class="custom-button" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
+                          <td md-cell><div type="button" class="custom-button btn-delete" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -333,7 +333,7 @@
                             <td md-cell>{{event.catering ? 'Ja' : 'Nee'}}</td>
                             <td md-cell>{{event.publiek ? 'Ja' : 'Nee'}}</td>
                             <td md-cell>{{event.ruimte.name}}</td>
-                            <td md-cell><div type="button" class="custom-button" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
+                            <td md-cell><div type="button" class="custom-button btn-delete" ng-click="ctrl.deleteEvent(event)"><md-icon>delete</md-icon></div></td>
                           </tr>
                         </tbody>
                       </table>
@@ -380,6 +380,13 @@
                     </md-select>
                     <div ng-messages="createEventForm.eventType.$error">
                       <div ng-message="required">Gelieve een type te kiezen.</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container class="md-block" flex-gt-xs flex="25">
+                    <label>Factuurnummer</label>
+                    <input ng-model="ctrl.event.factuurnummer" type="text" name="factuurnummer" placeholder="Factuurnummer *" required md-no-asterisk>
+                    <div ng-messages="createEventForm.factuurnummer.$error">
+                      <div ng-message="required">Gelieve een factuurnummer in te vullen.</div>
                     </div>
                   </md-input-container>
                  </div>
@@ -539,7 +546,7 @@
                           </td>
                           <td md-cell>{{reservatie.ruimte.name}}</td>
                           <td md-cell><div class="custom-button" type="button" ng-click="ctrl.updateReservatie(reservatie)"><md-icon>build</md-icon></div></td>
-                          <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
+                          <td md-cell><div class="custom-button btn-delete" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                         </tr>
                       </tbody>
                     </table>
@@ -637,7 +644,7 @@
                               </td>
                               <td md-cell>{{reservatie.ruimte.name}}</td>
                               <td md-cell><div class="custom-button" type="button" ng-click="ctrl.updateReservatie(reservatie)"><md-icon>build</md-icon></div></td>
-                              <td md-cell><div class="custom-button" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
+                              <td md-cell><div class="custom-button btn-delete" type="button" ng-click="ctrl.deleteReservatie(reservatie)"><md-icon>delete</md-icon></div></td>
                             </tr>
                           </tbody>
                         </table>

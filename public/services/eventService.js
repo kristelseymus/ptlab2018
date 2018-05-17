@@ -71,13 +71,18 @@
 
         /* Get all events taking place on a specific date */
         function getEventsByDay(date) {
-          return $http.get('api/events/' + date).then(function (res) {
+          var d = new Date(date);
+          d.setHours(0,0,0,0);
+          return $http.get('api/events/' + d).then(function (res) {
             return res.data;
           })
         }
 
+        /* Get all events taking place in a specific room on a specific date */
         function getEventsByDayInRoom(date, ruimteid){
-          return $http.get('/api/events/' + date + "/" + ruimteid).then(function (res){
+          var d = new Date(date);
+          d.setHours(0,0,0,0);
+          return $http.get('/api/events/' + d + "/" + ruimteid).then(function (res){
             console.log(res.data);
             return res.data;
           });

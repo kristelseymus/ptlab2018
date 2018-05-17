@@ -111,9 +111,9 @@
                             </td>
 
                             <td>
-                                Factuurnummer #: <%= factuurnummer %><br>
-                                Factuurdatum: <%= moment().format('LL') %><br>
-                                Vervaldatum: <%= moment().add(1, 'M').format('LL') %>
+                                Factuurnummer #: <%= item.factuurnummer %><br>
+                                Factuurdatum: <%= item.factuurdatum %><br>
+                                Vervaldatum: <%= item.vervaldatum %>
                             </td>
                         </tr>
                     </table>
@@ -145,7 +145,7 @@
 
             <tr class="heading">
                 <td>
-                    Reservatie op <%= moment(startdate).format( 'LL' ) %>
+                    Reservatie op <%= item.datedmy %>
                 </td>
 
                 <td>
@@ -183,7 +183,7 @@
         </table>
         <br><br>
         <div>
-          Wij verzoeken u vriendelijk het bedrag van € <%= prijs %> voor <%= moment().add(1, 'M').format('L') %> op onze bankrekening over te maken, onder vermelding van het factuurnummer <%= factuurnummer %>.
+          Wij verzoeken u vriendelijk het bedrag van € <%= prijs %> voor <%= item.vervaldatum %> op onze bankrekening over te maken, onder vermelding van het factuurnummer <%= item.factuurnummer %>.
         </div>
     </div>
 </body>

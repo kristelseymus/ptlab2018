@@ -181,15 +181,11 @@
         res.json(req.reservaties);
     });
     router.param('date', function (req, res, next, date) {
-        var day = new Date(date);
-        day.setHours(0,0,0,0)
-        console.log(date);
-        var nextDay = new Date(day);
-        nextDay.setDate(nextDay.getDate() + 1);
-        //nextDay.setHours(day.getHours() + 24)
-        console.log("Date: " + date);
-        console.log("Day: " + day);
-        console.log("NextDay: " + nextDay);
+        var day = moment(date).toDate();
+        var nextDay = moment(date).add(1, 'd').toDate();
+        console.log(day);
+        console.log(nextDay);
+
         var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
             if (err) {
@@ -223,10 +219,8 @@
     });
     /* GET reservaties from a specific date in a specific room */
     router.get('/api/reservaties/:date/:ruimte', function(req, res, next) {
-      var day = new Date(req.params.date);
-      day.setHours(0,0,0,0)
-      var nextDay = new Date(day);
-      nextDay.setDate(nextDay.getDate() + 1);
+      var day = moment(req.params.date).toDate();
+      var nextDay = moment(req.params.date).add(1, 'd').toDate();
       var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}, 'ruimte': req.params.ruimte});
       query.exec(function (err, reservaties) {
           if (err) {
@@ -254,10 +248,8 @@
         var voor = 0; //Voor de plaatsberekening
         var na = 0; //Voor de plaatsberekening
         var vol = 0; //Voor de plaatsberekening
-        var day = new Date(reservatie.startdate);
-        day.setHours(0,0,0,0)
-        var nextDay = new Date(reservatie.startdate);
-        nextDay.setDate(day.getDate()+1);
+        var day = moment(reservatie.startdate).toDate();
+        var nextDay = moment(reservatie.startdate).add(1, 'd').toDate();
 
         User.findById(reservatie.user).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
           u = user;
@@ -462,10 +454,8 @@
             var ru = {}; //De gewenste ruimte
             var e = {}; //Events die die dag plaatsvinden
             var plaatsen = 0;
-            var day = new Date(reservatie.startdate);
-            day.setHours(0,0,0,0)
-            var nextDay = new Date(reservatie.startdate);
-            nextDay.setDate(day.getDate()+1);
+            var day = moment(reservatie.startdate).toDate();
+            var nextDay = moment(reservatie.startdate).add(1, 'd').toDate();
 
             User.findById(reservatie.user).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
               u = user;
@@ -675,10 +665,8 @@
         res.json(req.events);
     });
     router.param('day', function (req, res, next, date) {
-        var day = new Date(date);
-        day.setHours(0,0,0,0);
-        var nextDay = new Date(day);
-        nextDay.setDate(day.getDate()+1);
+        var day = moment(date).toDate();
+        var nextDay = moment(date).add(1, 'd').toDate();
         var query = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}}).populate('user').populate('ruimte').populate('eventType');
         query.exec(function (err, events) {
             if (err) {
@@ -691,10 +679,9 @@
             return next();
         });
     });
-    /* GET events after today in a specific room */
+    /* GET events after a given date in a specific room */
     router.get('/api/events/:date/:ruimte', function(req, res, next) {
-      var date = new Date(req.params.date);
-      date.setHours(0,0,0,0);
+      var date = moment(req.params.date).toDate();
       Evenement.find({'startdate': {'$gte':date}, 'ruimte': req.params.ruimte},function(err, events) {
         if(err){
           return next(err);
@@ -705,10 +692,10 @@
     /* POST add event */
     router.post('/api/events', auth, function (req, res, next) {
         var evenement = new Evenement(req.body);
-        var day = new Date(evenement.startdate);
-        day.setHours(0,0,0,0);
-        var nextDay = new Date(evenement.startdate);
-        nextDay.setDate(day.getDate()+1);
+        var day = moment(evenement.startdate).startOf('day').toDate();
+        var nextDay = moment(evenement.startdate).startOf('day').add(1, 'd').toDate();
+        console.log(day);
+        console.log(nextDay);
         var query = User.findById(evenement.user);
         var queryEvents = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte});
         var queryReservations = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte}).populate('user').populate('ruimte');
@@ -854,8 +841,8 @@
 
     /* GET all blockeddates past this year (including the current year) */
     router.get('/api/blockeddates', function(req, res, next) {
-      var today = new Date();
-      BlockedDates.find({'year' : {'$gte': today.getFullYear()}},function(err, blockeddates) {
+      var today = moment();
+      BlockedDates.find({'year' : {'$gte': today.year()}},function(err, blockeddates) {
         if(err){
           return next(err);
         }
@@ -932,7 +919,7 @@
           switch(mail.type) {
             case "confirmationreservation":
               console.log("confirmationreservation");
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, metfactuur: item.metfactuur, adres: value.adres, moment: moment }, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, metfactuur: item.metfactuur, adres: value.adres, item: item, moment: moment }, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
@@ -1026,7 +1013,7 @@
               console.log("confirmationevent");
               break;
             case "cancellationreservation":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, adres: value.adres, moment: moment }, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, datedmy: item.datedmy, keuzeDag: item.keuzeDag, adres: value.adres, moment: moment }, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
@@ -1088,7 +1075,7 @@
               console.log("cancellationevent");
               break;
             case "invoicecoworker":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, factuurnummer: mail.factuurnummer, adres: value.adres, moment: moment }, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, item: item, adres: value.adres, moment: moment }, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
@@ -1184,7 +1171,7 @@
               console.log("contact");
               break;
             case "offermail":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/offeremail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, adres: value.adres, moment: moment}, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/offeremail.ejs'), { voornaam: item.offerte.user.voornaam, naam: item.offerte.user.naam, email: item.offerte.user.username, offerte: item.offerte, item: item, adres: value.adres, moment: moment}, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
