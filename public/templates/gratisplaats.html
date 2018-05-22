@@ -117,7 +117,6 @@
                             <tr>
                               <th>Datum</th>
                               <th>Prijs</th>
-                              <th></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -127,8 +126,7 @@
                                 <div ng-switch-when="namiddag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
                                 <div ng-switch-when="volledigedag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
                               </td>
-                              <td class="price">{{ctrl.reservatie.price}}</td>
-                              <td class="euro"><md-icon>euro_symbol</md-icon></td>
+                              <td class="price">€ {{ctrl.reservatie.price}}</td>
                             </tr>
                           </tbody>
                         </table>

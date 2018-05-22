@@ -13,6 +13,9 @@
             get: get,
             update: update,
             deleteReservatie: deleteReservatie,
+            saveInvoice: saveInvoice,
+            deleteInvoice: deleteInvoice,
+            getAllInvoices: getAllInvoices,
             getReservatiesUser: getReservatiesUser,
             getReservatiesByDay: getReservatiesByDay,
             getReservatiesByDayFromASpecificRoom: getReservatiesByDayFromASpecificRoom
@@ -77,6 +80,40 @@
             }).error(function (error){
               return error;
             });
+        }
+
+        /* Get all invoices */
+        function getAllInvoices() {
+            return $http.get('/api/invoices').success(function (data) {
+                return data;
+            });
+        }
+
+        /* Save the invoice to the db to set an invoice number later */
+        function saveInvoice(invoice) {
+          invoice.startdate.setHours(0,0,0,0);
+          return $http.post('/api/invoices', invoice, {
+              headers: {
+                  Authorization: 'Bearer ' + auth.getToken()
+              }
+          }).success(function (data) {
+              return data;
+          }).error(function(err){
+            return err;
+          });
+        }
+
+        /* Delete an invoice */
+        function deleteInvoice(invoice){
+          return $http.delete('/api/invoices/' + invoice._id, {
+              headers: {
+                  Authorization: 'Bearer ' + auth.getToken()
+              }
+          }).success(function (res) {
+            return res.data;
+          }).error(function (error){
+            return error;
+          });
         }
 
         /* Get all reservations from a specific date */

@@ -16,7 +16,8 @@ require('./models/EventType');
 require('./models/Ruimtes');
 require('./models/Events');
 require('./models/BlockedDates');
-require('./models/Content')
+require('./models/Invoices');
+require('./models/Content');
 require('./config/passport');
 
 moment.locale('nl');

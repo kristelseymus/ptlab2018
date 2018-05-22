@@ -14,6 +14,7 @@
     var Evenement = mongoose.model('Event');
     var BlockedDates = mongoose.model('BlockedDates');
     var Content = mongoose.model('Content');
+    var Invoice = mongoose.model('Invoice');
     var passport = require('passport');
     var jwt = require('express-jwt');
     var nodemailer = require('nodemailer');
@@ -183,8 +184,6 @@
     router.param('date', function (req, res, next, date) {
         var day = moment(date).toDate();
         var nextDay = moment(date).add(1, 'd').toDate();
-        console.log(day);
-        console.log(nextDay);
 
         var query = Reservatie.find({'startdate': {'$gte':day,'$lt': nextDay}}).populate('user').populate('ruimte');
         query.exec(function (err, reservaties) {
@@ -477,13 +476,7 @@
                     if (err) {
                         return next(err);
                     }
-                    console.log(e);
-                    console.log(u);
-                    console.log(r);
-                    console.log(ru);
-                    console.log(reservatie);
                     if(e.length > 0){
-                      console.log("EVENEMENTEN");
                           for(var i=0; i<e.length; i++){
                             if(e[i].keuzeDag == "volledigedag" || reservatie.keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
                               return res.status(400).json({
@@ -907,13 +900,51 @@
 
     //END REGION BLOCKEDDATES
 
+    //REGION INVOICES
+
+    /* GET all invoices */
+    router.get('/api/invoices', function(req, res, next) {
+      Invoice.find(function(err, invoices) {
+        if(err){
+          return next(err);
+        }
+        res.json(invoices);
+      }).populate('user').populate('ruimte');
+    });
+
+    /* POST an invoice */
+    router.post('/api/invoices', auth, function(req, res, next){
+      var invoice = new Invoice(req.body);
+      invoice.save(function(err, invoice) {
+        if(err) {
+          return next(err);
+        }
+      });
+    });
+
+    /* DELETE an invoice */
+    router.delete('/api/invoices/:invoice', auth, function (req, res, next) {
+        Invoice.remove({
+            _id: req.params.invoice
+        }, function (err, invoice) {
+            if (err) {
+                res.send(err);
+            }
+            res.json({
+                message: 'Invoice deleted'
+            });
+        });
+    });
+
+    //END REGION INVOICES
+
     //REGION SENDMAIL
 
     /* POST sendmail */
     router.post('/api/sendmail', auth, function (req, res, next) {
         var mail = req.body;
         var item = mail.item;
-        Content.findOne({}, 'adres', function(err, value){
+        Content.findOne({}, 'adres btw iban bic', function(err, value){
           console.log(value.adres);
           /* SWITCH voor het verzenden van verschillende soorten emails */
           switch(mail.type) {
@@ -1075,7 +1106,7 @@
               console.log("cancellationevent");
               break;
             case "invoicecoworker":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, item: item, adres: value.adres, moment: moment }, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, item: item, adres: value.adres, btw: value.btw, iban: value.iban, bic: value.bic, moment: moment }, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
@@ -1108,7 +1139,7 @@
             case "invoicemanager":
               var totalprice = item.price + (item.priceperperson * item.aantalpersonen);
               var totalperperson = item.priceperperson * item.aantalpersonen;
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, ruimte: item.ruimte.name, factuurnummer: mail.factuurnummer, totalprice: totalprice, totalperperson: totalperperson, adres: value.adres, moment: moment}, function(err, data){
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, ruimte: item.ruimte.name, totalprice: totalprice, totalperperson: totalperperson, adres: value.adres, btw: value.btw, iban: value.iban, bic: value.bic, moment: moment}, function(err, data){
                 if(err){
                   console.log(err);
                 } else {
@@ -1270,6 +1301,9 @@
             content.practicals = req.body.practicals;
             content.openingsuren = req.body.openingsuren;
             content.adres = req.body.adres;
+            content.btw = req.body.btw;
+            content.iban = req.body.iban;
+            content.bic = req.body.bic;
             content.save(function (err, content) {
                 if (err) {
                     res.send(err);
@@ -1280,10 +1314,10 @@
     });
 
     /* POST add a new website content object
-    Only 1 can exist at the same time, so this api call is not available.
+    Disable this call when the website is live and has content. Only 1 can exist at the same time.
     The same website content object is updated everytime. A new object won't be created.
     */
-    /*router.post('/api/content', auth, function (req, res, next) {
+    router.post('/api/content', auth, function (req, res, next) {
         var content = new Content(req.body);
         console.log(content);
         content.save(function (err, content) {
@@ -1291,7 +1325,7 @@
                 return next(err);
             }
         });
-    });*/
+    });
 
     //END REGION WEBSITECONTENT
 

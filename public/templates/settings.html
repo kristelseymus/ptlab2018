@@ -653,11 +653,62 @@
                       <div ng-show="ctrl.reservatiesday.length <= 0" class="noreservations">
                         Er zijn geen reservaties op de gekozen dag.
                       </div>
-                      {{ctr.reservatiesday}}
                     </md-content>
                     </div>
                   </div>
                 </md-content>
+                <md-toolbar>
+                  <div class="md-toolbar-tools">
+                    <h3>
+                      <span class="section-heading">Facturen co-worker</span>
+                    </h3>
+                    <md-button class="md-icon-button refresh" ng-click="ctrl.reloadInvoices()">
+                      <md-icon class="icon-white">refresh</md-icon>
+                    </md-button>
+                  </div>
+                </md-toolbar>
+                <md-content class="md-padding no-background tab-settings">
+                    <div class="row">
+                        <div class="text-center table-responsive-md">
+                          <md-content layout="column" flex class="no-background">
+                          <md-table-container>
+                            <table class="table-hover" md-table md-row-select="ctrl.options.rowSelection" multiple="{{ctrl.options.multiSelect}}" ng-model="ctrl.selectedInvoice" md-progress="ctrl.reloadinvoices">
+                              <thead ng-if="!ctrl.options.decapitate" md-head md-order="ctrl.query.orderinvoices">
+                                <tr md-row>
+                                  <th md-column md-order-by="user.fullName"><span>Naam</span></th>
+                                  <th md-column md-order-by="user.username"><span>Email</span></th>
+                                  <th md-column md-order-by="startdate" md-desc><span>Datum</span></th>
+                                  <th md-column><span></span></th>
+                                  <th md-column md-order-by="ruimte.name"><span>Ruimte</span></th>
+                                  <th md-column></th>
+                                  <th md-column></th>
+                                </tr>
+                              </thead>
+                              <tbody md-body>
+                                <tr md-row md-select="invoice" md-on-select="username" md-auto-select="ctrl.options.autoSelect" ng-repeat="invoice in ctrl.invoices | filter: ctrl.filter.searchinvoice | orderBy: ctrl.query.orderinvoices">
+                                  <td md-cell>{{invoice.user.fullName}}</td>
+                                  <td md-cell>{{invoice.user.username}}</td>
+                                  <td md-cell>{{invoice.startdate | date:'dd MMMM yyyy'}}</td>
+                                  <td md-cell ng-switch="invoice.keuzeDag">
+                                    <div ng-switch-when="voormiddag">Voormiddag</div>
+                                    <div ng-switch-when="namiddag">Namiddag</div>
+                                    <div ng-switch-when="volledigedag">Volledige dag</div>
+                                  </td>
+                                  <td md-cell>{{invoice.ruimte.name}}</td>
+                                  <td md-cell><div class="custom-button btn-send" type="button" ng-click="ctrl.sendInvoice(invoice)"><md-icon>send</md-icon></div></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </md-table-container>
+
+                          <!-- Show this when there are no invoices saved in the database -->
+                          <div ng-show="ctrl.invoices.length <= 0" class="noreservations">
+                            Er zijn geen facturen zonder factuurnummer gevonden in de databank.
+                          </div>
+                        </md-content>
+                        </div>
+                      </div>
+                    </md-content>
 
             <!--<md-content class="no-background md-padding tab-settings">
               <div class="row">

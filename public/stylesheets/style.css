@@ -389,6 +389,10 @@ a:hover,a:focus,a:active{
   color: #A40D4E !important;
 }
 
+.btn-send md-icon {
+  color: #15B366 !important;
+}
+
 /* -------------------------------------
     CHECKBOX
 ------------------------------------- */
@@ -1211,11 +1215,7 @@ md-tabs [role="tabpanel"] {
 ------------------------------------- */
 
 .price{
-  width: 5%;
-}
-
-.euro{
-  width: 5%;
+  width: 15%;
 }
 
 /* -------------------------------------

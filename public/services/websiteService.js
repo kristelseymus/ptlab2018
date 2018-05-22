@@ -127,16 +127,13 @@
         }
 
         function postWebsite(content) {
-          console.log(content);
           return $http.post('/api/content', content, {
             headers: {
                 Authorization: 'Bearer ' + auth.getToken()
             }
           }).success(function (data) {
-            console.log(data);
             return data;
           }).error(function(err){
-            console.log(err);
             return err;
           });
         }

@@ -45,12 +45,15 @@
       vm.createEvent = createEvent;
       vm.createAdmin = createAdmin;
       vm.reload = reload;
+      vm.reloadInvoices = reloadInvoices;
       vm.deleteReservatie = deleteReservatie;
       vm.deleteEvent = deleteEvent;
       vm.updateRuimte = updateRuimte;
       vm.updateReservatie = updateReservatie;
       vm.blokkeerdata = blokkeerdata;
       vm.deleteBlockedDate = deleteBlockedDate;
+      vm.getAllInvoices = getAllInvoices;
+      vm.sendInvoice = sendInvoice;
 
       vm.selectedblockeddate;
 
@@ -148,6 +151,7 @@
         getEvents();
         getEventTypes();
         getUsers();
+        getAllInvoices();
         return getRuimtes();
       }
 
@@ -547,6 +551,47 @@
             }
           }
         });
+      }
+
+      function sendInvoice(invoice){
+        var position = vm._mdPanel.newPanelPosition()
+          .absolute()
+          .center();
+
+        var config = {
+          attachTo: angular.element(document.body),
+          controller: 'SendInvoiceController',
+          controllerAs: 'ctrl',
+          disableParentScroll: true,
+          templateUrl: '/templates/sendinvoice.html',
+          hasBackdrop: true,
+          panelClass: 'update-dialog-border',
+          position: position,
+          trapFocus: true,
+          zIndex: 80,
+          clickOutsideToClose: true,
+          escapeToClose: true,
+          focusOnOpen: true,
+          locals: {
+            invoice: invoice
+          },
+          onClose: getAllInvoices()
+        };
+
+        vm._mdPanel.open(config);
+      }
+
+      function getAllInvoices(){
+        reservatieService.getAllInvoices().then(function (res) {
+          vm.invoices = res.data;
+          return vm.invoices;
+        });
+      }
+
+      function reloadInvoices(){
+        vm.reloadinvoices = $timeout(function () {
+          getAllInvoices();
+        }, 2000);
       }
 
 

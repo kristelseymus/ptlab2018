@@ -35,9 +35,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendConfirmationReservation");
-          console.log(item);
         }
 
         /* Send a confirmation e-mail for an offer */
@@ -45,7 +42,6 @@
           item.datedmy = moment(item.startdate).format( 'LL' );
           item.van = moment(item.startdate).format( 'LT' );
           item.tot = moment(item.startdate).add(item.duur, 'minutes').format( 'LT' );
-          console.log(item);
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -56,9 +52,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendConfirmationOffer");
-          console.log(item);
         }
 
         /* Send a confirmation e-mail for an event */
@@ -76,9 +69,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendConfirmationEvent");
-          console.log(item);
         }
 
         /* Send an e-mail to notify the manager that the event is canceled */
@@ -96,9 +86,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendCancellationEvent");
-          console.log(item);
         }
 
         /* Send an e-mail to a user to notify him/her that his/her reservation is cancelled */
@@ -114,9 +101,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendCancellationReservation");
-          console.log(item);
         }
 
         /* Send an invoice to a coworker */
@@ -124,8 +108,12 @@
           item.factuurdatum = moment().format('LL');
           item.vervaldatum = moment().add(1, 'M').format('LL');
           item.datedmy = moment(item.startdate).format( 'LL' );
+          if(item.keuzeDag == "volledigedag"){
+            item.price = item.ruimte.price*2;
+          } else {
+            item.price = item.ruimte.price;
+          }
 
-          item.factuurnummer = "placeholder";
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -136,9 +124,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendInvoiceCoworker");
-          console.log(item);
         }
 
         /* Send an invoice to a manager */
@@ -146,7 +131,6 @@
           item.factuurdatum = moment().format('LL');
           item.vervaldatum = moment().add(1, 'M').format('LL');
           item.datedmy = moment(item.startdate).format( 'LL' );
-          console.log(item);
           var mail = {
             to: item.user.username,
             from: "Planet Talent <contact@planet-talent.com>",
@@ -157,9 +141,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendInvoiceManager");
-          console.log(item);
         }
 
         /* Send the contact form to Planet Talent */
@@ -174,9 +155,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendContactMail");
-          console.log(contact);
         }
 
         /* Send an e-mail to Planet Talent to notify them that an offer has been made */
@@ -194,9 +172,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendOfferMail");
-          console.log(item.offerte);
         }
 
         /* Send an e-mail that the offer is being handled.
@@ -215,9 +190,6 @@
           };
 
           sendMail(mail);
-
-          console.log("sendAwaitingOfferMail");
-          console.log(offerte);
         }
 
         /* API request to send the given e-mail */
@@ -227,10 +199,8 @@
               Authorization: 'Bearer ' + auth.getToken()
             }
           }).success(function (res){
-            console.log(res);
             return res;
           }).error(function (err){
-            console.log(err);
             return err;
           });
         }

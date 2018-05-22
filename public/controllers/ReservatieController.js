@@ -371,8 +371,6 @@
       }// EINDE boekPlaatsStudent
 
       function vraagOfferteAan(){
-        console.log(vm.startTime);
-        console.log(vm.endtime);
         vm.offerte.startdate.setHours(vm.startTime.getHours());
         vm.offerte.startdate.setMinutes(vm.startTime.getMinutes());
 
@@ -407,7 +405,6 @@
           var item = {};
           item.offerte = vm.offerte;
           item.subject = "";
-          console.log(res.data);
           if(res.data.length === 0) { //Geen reservaties
             vm.message = "";
             item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL');
@@ -423,9 +420,7 @@
              //$state.go('home');
            } else {
              var tempres = [];
-             console.log(res.data);
              for(var i = 0; i<res.data.length; i++){
-               console.log(res.data[i]);
                if(res.data[i].ruimte._id === vm.offerte.ruimte._id){
                  tempres.push(res.data[i]);
                }
@@ -448,7 +443,7 @@
                    item.subject = "Offerte " + vm.offerte.ruimte.name + " " + moment(vm.offerte.startdate).format('LL') + " in afwachting";
                    mailService.sendAwaitingOfferMail(vm.offerte);
                    mailService.sendOfferMail(item);
-                  // $state.go('home');
+                   $state.go('home');
                  },
                  function() {//Cancel
                    $mdToast.show($mdToast.simple()
@@ -469,7 +464,7 @@
                  .parent($("#toast-container"))
                  .hideDelay(3000)
                 );
-              //  $state.go('home');
+                $state.go('home');
              }
            } // EINDE else
          });
@@ -505,7 +500,9 @@
         .success(function(res){
           vm.reservatie.metfactuur = true;
           mailService.sendConfirmationReservation(vm.reservatie);
-          mailService.sendInvoiceCoworker(vm.reservatie);
+
+          reservatieService.saveInvoice(vm.reservatie);
+          //mailService.sendInvoiceCoworker(vm.reservatie);
 
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')

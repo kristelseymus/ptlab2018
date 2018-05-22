@@ -112,6 +112,20 @@
             <input ng-model="ctrl.content.adres.telefoon" type="text" name="telefoon" placeholder="Telefoon">
           </md-input-container>
         </div>
+        <div layout-gt-xs="row">
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>BTW-nummer</label>
+            <input ng-model="ctrl.content.btw" type="text" name="btw" placeholder="BTW-nummer">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>IBAN</label>
+            <input ng-model="ctrl.content.iban" type="text" name="iban" placeholder="IBAN">
+          </md-input-container>
+          <md-input-container md-no-float class="md-block input-container-update-website" layout="row">
+            <label>BIC</label>
+            <input ng-model="ctrl.content.bic" type="text" name="bic" placeholder="BIC">
+          </md-input-container>
+        </div>
         <div layout="row">
           <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Update website</md-button>
         </div>

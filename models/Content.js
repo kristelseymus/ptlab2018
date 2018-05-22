@@ -8,7 +8,10 @@ var ContentSchema = new mongoose.Schema({
     imagevoorwie: String,
     practicals: String,
     openingsuren: [{day: String, openingsuur: Number, sluitingsuur: Number}],
-    adres: {naam: String, straat: String, nummer: String, postcode:String, stad: String, telefoon: String}
+    adres: {naam: String, straat: String, nummer: String, postcode:String, stad: String, telefoon: String},
+    btw: String,
+    iban: String,
+    bic: String
 });
 
 mongoose.model('Content', ContentSchema);
