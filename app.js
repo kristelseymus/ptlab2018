@@ -22,7 +22,6 @@ require('./config/passport');
 
 moment.locale('nl');
 
-//mongoose.connect('mongodb://admin:admin@ds119548.mlab.com:19548/gamingnews');
 //mongodb://localhost/ptlab
 //mongodb://admin:admin@ds251988.mlab.com:51988/ptlab
 /* Connect to mongo database */
