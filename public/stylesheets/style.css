@@ -354,8 +354,8 @@ a:hover,a:focus,a:active{
 }
 
 .btn-primary[disabled]{
-  background-color: #A40D4E!important;
-  opacity: 1;
+  background-color: #708090!important;
+  opacity: 0.9;
 }
 
 .btn-warning{
