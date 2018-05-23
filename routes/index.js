@@ -149,9 +149,8 @@
     /* GET forgot password page for user. */
     router.get('/reset/:token', function(req, res){
       User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires': { '$gt': Date.now() } }, function(err, user) {
-        if(!user) {// If there is no user found with the same token or an expiration date lower then or equal to Date.now()
+        if(!user) {
           res.redirect('/tokeninvalid');
-          //res.render('index', { message: 'The reset token is not valid or is expired.', error: {status: 400}});
         } else {
           res.render('index', {
             user: user
@@ -177,7 +176,7 @@
         res.json(reservaties);
       }).populate('user').populate('ruimte');
     });
-    /* GET reservaties on specific date. */
+    /* GET reservaties on specific date (param) */
     router.get('/api/reservaties/:date', function (req, res, next) {
         res.json(req.reservaties);
     });
@@ -197,7 +196,7 @@
             return next();
         })
     });
-    /* GET reservaties from specific user */
+    /* GET reservaties from specific user (param) */
     router.get('/api/reservaties/user/:user', function (req, res) {
         res.json(req.reservaties);
     });
@@ -216,7 +215,7 @@
             return next();
         });
     });
-    /* GET reservaties from a specific date in a specific room */
+    /* GET reservaties from a specific date (param) in a specific room (param) */
     router.get('/api/reservaties/:date/:ruimte', function(req, res, next) {
       var day = moment(req.params.date).toDate();
       var nextDay = moment(req.params.date).add(1, 'd').toDate();
@@ -238,15 +237,15 @@
         var hasreservation = false;
         var reserve = false;
 
-        var u = {}; //De user die wil reserveren
-        var r = {}; //Alle reservaties op de gekozen dag
-        var ru = {}; //De gewenste ruimte
-        var e = {}; //Events die die dag plaatsvinden
+        var u = {}; //User
+        var r = {}; //All reservations on the chosen day
+        var ru = {}; //The desired room
+        var e = {}; //Events taking place that day
         var plaatsen = 0;
-        var temp = 0; //Voor de plaatsberekening
-        var voor = 0; //Voor de plaatsberekening
-        var na = 0; //Voor de plaatsberekening
-        var vol = 0; //Voor de plaatsberekening
+        var temp = 0; //Calculate free places
+        var voor = 0; //Calculate free places
+        var na = 0; //Calculate free places
+        var vol = 0; //Calculate free places
         var day = moment(reservatie.startdate).toDate();
         var nextDay = moment(reservatie.startdate).add(1, 'd').toDate();
 
@@ -270,69 +269,40 @@
                 if (err) {
                     return next(err);
                 }
-                //CONTROLES
-                  // ** CONTROLE 1: HEEFT USER AL RESERVATIES ?
                 for(var i=0; i<u.reservaties.length; i++){
                   if(u.reservaties[i].startdate.valueOf() == reservatie.startdate.valueOf()){
                     hasreservation = true;
                   }
                 }
-
                 if(hasreservation){
-                  //Ja ?
-                    // !! Kan niet reserveren
                   return res.status(400).json({
                     message: 'U hebt al een reservatie op de gekozen dag. Gelieve een ander moment te kiezen.'
                   });
                 } else {
-                  //Nee ?
-                    // ** CONTROLE 2: ZIJN ER EVENTS OP DE GEKOZEN DAG ?
                     if(e.length > 0){
-                      //Ja ?
-                        // ** CONTROLE 3: CHECK KEUZEDAG
-                          //Gelijk of event keuzedag is 'volledigedag' ?
-                            // !! Kan niet reserveren
-                          for(var i=0; i<e.length; i++){
+                         for(var i=0; i<e.length; i++){
                             if(e[i].keuzeDag == "volledigedag" || reservatie.keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
                               return res.status(400).json({
                                 message: 'Er vindt een evenement plaats op het gekozen moment. Gelieve een ander moment te kiezen.'
                               });
                             }
                           }
-                          //Niet gelijk & geen event met keuzedag 'volledigedag' ?
-                            // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
-
-                          //Plaatsberekening
-                          //Bij alle reservaties zal worden gekeken welke ruimte is gereserveerd.
-                          //Alle reservaties met dezelfde ruimte als de gewenste ruimte,
-                          //zullen worden toegevoegd aan de reservaties array.
                           temp = 0; vol = 0; na = 0; voor = 0;
                           if(!r.length > 0){
-                            //Geen reservaties op de gekozen datum en in de gekozen ruimte
                             plaatsen = ru.aantalPlaatsen;
                           } else {
-                            //Er zijn 1 of meerdere reservaties gevonden op de gekozen dag en in de gekozen ruimte
-                              if(reservatie.keuzeDag === 'volledigedag'){
-                                //Wanneer er voor een volledige dag gekozen wordt, dienen er andere controles uitgevoerd te worden.
+                            if(reservatie.keuzeDag === 'volledigedag'){
                                 r.forEach(function(res){
                                   if(res.keuzeDag === 'voormiddag'){ voor += 1; }
                                   else if(res.keuzeDag === 'namiddag'){ na += 1; }
                                   else if(res.keuzeDag === 'volledigedag'){ vol += 1; }
                                 });
                                 if (voor > na){
-                                  //Als het aantal reservering in de voormiddag groter zijn dan het aantal in de namiddag,
-                                  //zal het aantal van de voormiddag gebruikt worden als vermindering voor het aantal beschikbare plaatsen.
-                                  //Dit is ook zo indien namiddag > voormiddag, dan zal namiddag gebruikt worden.
-
-                                  //Het aantal beschikbare plaatsen op het gekozen moment zal dan gelijk zijn aan
-                                  //het totaal beschikbare in de ruimte - vol (aantal volledige) - voor (of na)
                                   temp = vol + voor;
                                 } else{
-                                  //Namiddag is groter of gelijk aan voormiddag.
                                   temp = vol + na;
                                 }
                               } else {
-                                 //Er werd geen volledige dag gekozen.
                                 r.forEach(function(res){
                                   if(reservatie.keuzeDag === res.keuzeDag || res.keuzeDag === 'volledigedag'){
                                     temp += 1;
@@ -341,23 +311,14 @@
                               }
                               plaatsen = ru.aantalPlaatsen - temp;
                           }
-                          //Einde Plaatsberekening
-
                           if(plaatsen > 0){
-                            //Ja ?
-                              // ++ Reserveer
-                              reserve = true;
+                            reserve = true;
                           } else {
-                            //Nee ?
-                              // !! Kan niet reserveren
                             return res.status(400).json({
                               message: 'Er is helaas geen plaats meer. Gelieve een ander moment te kiezen.'
                             });
                           }
                     } else {
-                      //Nee ?
-                        // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
-                        //Plaatsberekening
                         temp = 0; vol = 0; na = 0; voor = 0;
                         if(!r.length > 0){
                           plaatsen = ru.aantalPlaatsen;
@@ -382,7 +343,6 @@
                             }
                             plaatsen = ru.aantalPlaatsen - temp;
                         }
-                        //Einde Plaatsberekening
                         if(plaatsen > 0){
                           reserve = true;
                         } else {
@@ -390,12 +350,9 @@
                             message: 'Er is helaas geen plaats meer. Gelieve een ander moment te kiezen.'
                           });
                         }
-                    }// Einde if(e.length > 0)
-                }// Einde hasreservation
-
+                    }
+                }
                 if(reserve){
-                  //Als er kan gereserveerd worden dan zal de reserbatie opgeslagen worden
-                  //in de databank. Wanneer dit niet zo is, zal er niets gebeuren.
                   reservatie.save(function (err, reservatie) {
                       if (err) {
                           return next(err);
@@ -409,35 +366,12 @@
                       res.json(u);
                   });
                 }
-              }); // Einde Ruimte.findOne
-            }); // Einde Reservatie.find
-          }); // Einde Evenement.find
-        }); // Einde User.findOne
-
-        //CONTROLES
-          // ** CONTROLE 1: HEEFT USER AL RESERVATIES ?
-            //Ja ?
-              // !! Kan niet reserveren
-            //Nee ?
-              // ** CONTROLE 2: ZIJN ER EVENTS OP DE GEKOZEN DAG ?
-                //Ja ?
-                  // ** CONTROLE 3: CHECK KEUZEDAG
-                    //Gelijk of event keuzedag is 'volledigedag' ?
-                      // !! Kan niet reserveren
-                    //Niet gelijk & geen event met keuzedag 'volledigedag' ?
-                      // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
-                        //Ja ?
-                          // ++ Reserveer
-                        //Nee ?
-                          // !! Kan niet reserveren
-                //Nee ?
-                  // ** CONTROLE 4: IS ER NOG EEN PLAATS ?
-                    //Ja ?
-                      // ++ Reserveer
-                    //Nee ?
-                      // !! Kan niet reserveren
+              }); // END Ruimte.findOne
+            }); // END Reservatie.find
+          }); // END Evenement.find
+        }); // END User.findOne
     });
-    /* UPDATE reservatie */
+    /* UPDATE reservatie (param) */
     router.put('/api/reservaties/:reservatie', auth, function (req, res, next) {
         Reservatie.findById(req.body._id, function (err, reservatie) {
             if (err) {
@@ -448,10 +382,10 @@
             reservatie.startdate = req.body.startdate;
 
             var reserve = false;
-            var u = {}; //De user die wil reserveren
-            var r = {}; //Alle reservaties op de gekozen dag
-            var ru = {}; //De gewenste ruimte
-            var e = {}; //Events die die dag plaatsvinden
+            var u = {}; //User
+            var r = {}; //All reservations on the chosen date
+            var ru = {}; //The desired room
+            var e = {}; //Events taking place on the chosen date
             var plaatsen = 0;
             var day = moment(reservatie.startdate).toDate();
             var nextDay = moment(reservatie.startdate).add(1, 'd').toDate();
@@ -492,9 +426,7 @@
                             reserve = false;
                           }
                     } else {
-                      console.log("GEEN EVENEMENTEN");
                         plaatsen = berekenBeschikbarePlaatsen(ru, r, reservatie);
-                        console.log(plaatsen);
                         if(plaatsen > 0){
                           reserve = true;
                         } else {
@@ -516,34 +448,12 @@
                         message: 'Er is geen plaats meer.'
                       });
                     }
-                  }); // Einde Ruimte.findOne
-                }); // Einde Reservatie.find
-              }); // Einde Evenement.find
-            }); // Einde User.findOne
-
-
-            /*console.log(checkReservationCanBeMade(req.body));
-            var temp = checkReservationCanBeMade(req.body)
-            console.log(temp);
-            if(temp){
-              reservatie.ruimte = req.body.ruimte;
-              reservatie.startdate = req.body.startdate;
-              reservatie.keuzeDag = req.body.keuzeDag;
-              reservatie.save(function (err, reservatie) {
-                  if (err) {
-                      res.send(err);
-                  }
-                  res.json(reservatie);
-              })
-            } else {
-              return res.status(400).json({
-                message: 'Er is geen plaats/Er vindt een evenement plaats op het gekozen moment.'
-              });
-            }*/
+                  }); // END Ruimte.findOne
+                }); // END Reservatie.find
+              }); // END Evenement.find
+            }); // END User.findOne
         });
     });
-
-
     /* DELETE reservatie */
     router.delete('/api/reservaties/:reservatie/:user', auth, function (req, res, next) {
         Reservatie.remove({
@@ -572,6 +482,7 @@
     //END REGION RESERVATIES
 
     //REGION RUIMTES
+
     /* GET ruimtes */
     router.get('/api/ruimtes', function (req, res, next) {
         Ruimte.find({}).sort('name').exec(
@@ -592,7 +503,7 @@
             }
         });
     });
-    /* PUT update ruimte */
+    /* PUT update ruimte (param) */
     router.put('/api/ruimtes/:ruimte', auth, function (req, res) {
         Ruimte.findById(req.body._id, function (err, ruimte) {
             if (err) {
@@ -653,7 +564,7 @@
         res.json(events);
       }).populate('user').populate('ruimte').populate('eventType');
     });
-    /* GET specific event by day */
+    /* GET events by day (param) */
     router.get('/api/events/:day', function (req, res, next) {
         res.json(req.events);
     });
@@ -672,7 +583,7 @@
             return next();
         });
     });
-    /* GET events after a given date in a specific room */
+    /* GET events after a specifc date (param) in a specific room (param) */
     router.get('/api/events/:date/:ruimte', function(req, res, next) {
       var date = moment(req.params.date).toDate();
       Evenement.find({'startdate': {'$gte':date}, 'ruimte': req.params.ruimte},function(err, events) {
@@ -687,8 +598,6 @@
         var evenement = new Evenement(req.body);
         var day = moment(evenement.startdate).startOf('day').toDate();
         var nextDay = moment(evenement.startdate).startOf('day').add(1, 'd').toDate();
-        console.log(day);
-        console.log(nextDay);
         var query = User.findById(evenement.user);
         var queryEvents = Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte});
         var queryReservations = Reservatie.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': evenement.ruimte}).populate('user').populate('ruimte');
@@ -790,19 +699,6 @@
         });
     });
     /* DELETE event */
-    /*router.delete('/api/events/:evenement', auth, function (req, res, next) {
-        Evenement.remove({
-            _id: req.params.evenement
-        }, function (err, evenement) {
-            if (err) {
-                res.send(err);
-            }
-            res.json({
-                message: 'Event deleted'
-            });
-        });
-    });*/
-    /* DELETE event */
     router.delete('/api/events/:evenement/:user', auth, function (req, res, next) {
         Evenement.remove({
             _id: req.params.evenement
@@ -815,7 +711,6 @@
             if (err) {
                 res.send(err);
             }
-            console.log(user);
             user.events.pull(req.params.evenement);
             user.save(function (err) {
                 if (err) {
@@ -843,7 +738,7 @@
       });
     });
 
-    /* GET all blockeddates from a specific year */
+    /* GET all blockeddates from a specific year (param) */
     router.get('/api/blockeddates/:year', function(req, res, next) {
       BlockedDates.findOne({'year': req.params.year}, function(err, blockeddates) {
         if(err){
@@ -869,7 +764,6 @@
             if (err) {
                 res.send(err);
             }
-            console.log(req.body);
             blockeddates.blockeddates.push(req.body.blockeddate);
             blockeddates.save(function (err, blockeddates) {
                 if (err) {
@@ -940,19 +834,15 @@
 
     //REGION SENDMAIL
 
-    /* POST sendmail */
+    /* POST send an email */
     router.post('/api/sendmail', auth, function (req, res, next) {
         var mail = req.body;
         var item = mail.item;
         Content.findOne({}, 'adres btw iban bic', function(err, value){
-          console.log(value.adres);
-          /* SWITCH voor het verzenden van verschillende soorten emails */
           switch(mail.type) {
             case "confirmationreservation":
-              console.log("confirmationreservation");
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, keuzeDag: item.keuzeDag, metfactuur: item.metfactuur, adres: value.adres, item: item, moment: moment }, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
                   var mailOptions = {
                     from: mail.from,
@@ -969,10 +859,8 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     }else{
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
@@ -982,9 +870,7 @@
             case "confirmationoffer":
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationofferemail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, adres: value.adres, moment: moment}, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
-                  console.log(data);
                   var mailOptions = {
                     from: mail.from,
                     to: mail.to,
@@ -1000,23 +886,18 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("confirmationoffer");
               break;
             case "confirmationevent":
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/confirmationeventemail.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, item: item, adres: value.adres, moment: moment }, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
-                  console.log(data);
                   var mailOptions = {
                     from: mail.from,
                     to: mail.to,
@@ -1032,52 +913,17 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent")
                     }
                   });
                 }
               });
-              console.log("confirmationevent");
               break;
             case "cancellationreservation":
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationreservationemail.ejs'), { voornaam: item.user.voornaam, startdate: item.startdate, datedmy: item.datedmy, keuzeDag: item.keuzeDag, adres: value.adres, moment: moment }, function(err, data){
                 if(err){
-                  console.log(err);
-                } else {
-                  var mailOptions = {
-                    from: mail.from,
-                    to: mail.to,
-                    subject: mail.subject,
-                    text: "text", // plain text body
-                    html: data, // html body
-                    attachments: [{
-                      filename: 'logo.jpg',
-                      path: path.resolve(__dirname, '../public/images/Logo_PTLab-02.jpg'),
-                      cid: 'logoimage' //same cid value as in the html<img<src
-                    }]
-                  };
-
-                  transporter.sendMail(mailOptions, function(error, response){
-                    if(error){
-                      console.log(error);
-                      res.end("error");
-                    }else{
-                      console.log("Message sent: " + response.message);
-                      res.end("sent");
-                    }
-                  });
-                }
-              });
-              console.log("cancellationreservation");
-              break;
-            case "cancellationevent":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationeventemail.ejs'), { voornaam: item.user.voornaam, item: item, adres: value.adres, moment: moment}, function(err, data){
-                if(err){
-                  console.log(err);
                 } else {
                   var mailOptions = {
                     from: mail.from,
@@ -1094,54 +940,73 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
-                      res.end("error");
-                    } else {
-                      console.log("Message sent: " + response.message);
-                      res.end("sent")
-                    }
-                  });
-                }
-              });
-              console.log("cancellationevent");
-              break;
-            case "invoicecoworker":
-              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, item: item, adres: value.adres, btw: value.btw, iban: value.iban, bic: value.bic, moment: moment }, function(err, data){
-                if(err){
-                  console.log(err);
-                } else {
-                  var mailOptions = {
-                    from: mail.from,
-                    to: mail.to,
-                    subject: mail.subject,
-                    text: "text", // plain text body
-                    html: data, // html body
-                    attachments: [{
-                      filename: 'logo.jpg',
-                      path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
-                      cid: 'logoimage' //same cid value as in the html<img<src
-                    }]
-                  };
-
-                  transporter.sendMail(mailOptions, function(error, response){
-                    if(error){
-                      console.log(error);
                       res.end("error");
                     }else{
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("invoicecoworker");
+              break;
+            case "cancellationevent":
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/cancellationeventemail.ejs'), { voornaam: item.user.voornaam, item: item, adres: value.adres, moment: moment}, function(err, data){
+                if(err){
+                } else {
+                  var mailOptions = {
+                    from: mail.from,
+                    to: mail.to,
+                    subject: mail.subject,
+                    text: "text",
+                    html: data,
+                    attachments: [{
+                      filename: 'logo.jpg',
+                      path: path.resolve(__dirname, '../public/images/Logo_PTLab-02.jpg'),
+                      cid: 'logoimage'
+                    }]
+                  };
+
+                  transporter.sendMail(mailOptions, function(error, response){
+                    if(error){
+                      res.end("error");
+                    } else {
+                      res.end("sent")
+                    }
+                  });
+                }
+              });
+              break;
+            case "invoicecoworker":
+              ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicecoworker.ejs'), { fullname: item.user.fullName, email: item.user.username, startdate: item.startdate, keuzeDag: item.keuzeDag, ruimte: item.ruimte.name, prijs: item.price, item: item, adres: value.adres, btw: value.btw, iban: value.iban, bic: value.bic, moment: moment }, function(err, data){
+                if(err){
+                } else {
+                  var mailOptions = {
+                    from: mail.from,
+                    to: mail.to,
+                    subject: mail.subject,
+                    text: "text",
+                    html: data,
+                    attachments: [{
+                      filename: 'logo.jpg',
+                      path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
+                      cid: 'logoimage'
+                    }]
+                  };
+
+                  transporter.sendMail(mailOptions, function(error, response){
+                    if(error){
+                      res.end("error");
+                    }else{
+                      res.end("sent");
+                    }
+                  });
+                }
+              });
               break;
             case "invoicemanager":
               var totalprice = item.price + (item.priceperperson * item.aantalpersonen);
               var totalperperson = item.priceperperson * item.aantalpersonen;
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/invoicemanager.ejs'), { fullname: item.user.fullName, email: item.user.username, item: item, ruimte: item.ruimte.name, totalprice: totalprice, totalperperson: totalperperson, adres: value.adres, btw: value.btw, iban: value.iban, bic: value.bic, moment: moment}, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
                   var mailOptions = {
                     from: mail.from,
@@ -1158,22 +1023,17 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("invoicemanager")
               break;
             case "contactmail":
-            console.log("contactmail");
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/contactemail.ejs'), { voornaam: item.voornaam, naam: item.naam, telefoon: item.telefoon, email: item.email, bericht: item.bericht, adres: value.adres, moment: moment }, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
                   var mailOptions = {
                     from: mail.from,
@@ -1190,23 +1050,18 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("contact");
               break;
             case "offermail":
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/offeremail.ejs'), { voornaam: item.offerte.user.voornaam, naam: item.offerte.user.naam, email: item.offerte.user.username, offerte: item.offerte, item: item, adres: value.adres, moment: moment}, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
-                  console.log(data);
                   var mailOptions = {
                     from: mail.from,
                     to: mail.to,
@@ -1222,23 +1077,18 @@
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("offer");
               break;
             case "awaitingoffer":
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/awaitingoffer.ejs'), { voornaam: item.user.voornaam, naam: item.user.naam, email: item.user.username, offerte: item, adres: value.adres, moment: moment }, function(err, data) {
                 if(err){
-                  console.log(err);
                 } else {
-                  console.log(data);
                   var mailOptions = {
                     from: mail.from,
                     to: mail.to,
@@ -1254,19 +1104,15 @@
 
                   transporter.sendMail(mailOptions, function(error, response) {
                     if(error){
-                      console.log(error);
                       res.end("error");
                     } else {
-                      console.log("Message sent: " + response.message);
                       res.end("sent");
                     }
                   });
                 }
               });
-              console.log("awaitingoffer");
               break;
-            default: //Geen mail versturen.
-              console.log("default");
+            default: //Send no email
               break;
           }
         });
@@ -1282,7 +1128,6 @@
         if(err){
           return next(err);
         }
-        console.log(content);
         res.json(content);
       });
     });
@@ -1319,7 +1164,6 @@
     */
     router.post('/api/content', auth, function (req, res, next) {
         var content = new Content(req.body);
-        console.log(content);
         content.save(function (err, content) {
             if (err) {
                 return next(err);
@@ -1329,83 +1173,20 @@
 
     //END REGION WEBSITECONTENT
 
-    //HELPER METHODS
-    /*function checkReservationCanBeMade(item) {
-      var reserve = false;
-      var reservatie = new Reservatie(item);
-      var u = {}; //De user die wil reserveren
-      var r = {}; //Alle reservaties op de gekozen dag
-      var ru = {}; //De gewenste ruimte
-      var e = {}; //Events die die dag plaatsvinden
-      var plaatsen = 0;
-      var day = new Date(reservatie.startdate);
-      day.setHours(0,0,0,0)
-      var nextDay = new Date(reservatie.startdate);
-      nextDay.setDate(day.getDate()+1);
+    //REGION HELPER METHODS
 
-      return User.findById(reservatie.user).populate({path: 'reservaties', populate: {path: 'ruimte'}}).exec(function (err, user) {
-        u = user;
-        if (err) {
-            return next(err);
-        }
-        Evenement.find({'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': reservatie.ruimte}).exec(function (err, events) {
-          e = events;
-          if (err) {
-              return next(err);
-          }
-          Reservatie.find({'_id': {'$ne': reservatie._id}, 'startdate': {'$gte':day,"$lt": nextDay}, 'ruimte': reservatie.ruimte}).populate('user').populate('ruimte').exec(function (err, reservaties) {
-            r = reservaties;
-            if (err) {
-                return next(err);
-            }
-            Ruimte.findOne({ '_id' : reservatie.ruimte }).exec(function (err, ruimte) {
-              ru = ruimte;
-              if (err) {
-                  return next(err);
-              }
-              console.log(e);
-              console.log(u);
-              console.log(r);
-              console.log(ru);
-              console.log(reservatie);
-              if(e.length > 0){
-                console.log("EVENEMENTEN");
-                    for(var i=0; i<e.length; i++){
-                      if(e[i].keuzeDag == "volledigedag" || e[i].keuzeDag == reservatie.keuzeDag){
-                        reserve = false;
-                      }
-                    }
-                    plaatsen = berekenBeschikbarePlaatsen(ru, r, reservatie);
-
-                    if(plaatsen > 0){
-                      reserve = true;
-                    } else {
-                      reserve = false;
-                    }
-              } else {
-                console.log("GEEN EVENEMENTEN");
-                  plaatsen = berekenBeschikbarePlaatsen(ru, r, reservatie);
-                  console.log(plaatsen);
-                  if(plaatsen > 0){
-                    reserve = true;
-                  } else {
-                    reserve = false;
-                  }
-              }
-              console.log(reserve);
-              return reserve;
-            }); // Einde Ruimte.findOne
-          }); // Einde Reservatie.find
-        }); // Einde Evenement.find
-      }); // Einde User.findOne
-    } // EINDE Check reservation*/
-
+    /* Calculate available places in a room.
+        Params:
+          - ruimte: Calculate available places based on this room
+          - reservaties: All reservations taking place on a specific date (current reservation not included) in a specific room (equals to 'ruimte')
+          - reservatie: Current reservation
+     */
     function berekenBeschikbarePlaatsen(ruimte, reservaties, reservatie){
       var plaatsen = 0;
-      var temp = 0; //Voor de plaatsberekening
-      var voor = 0; //Voor de plaatsberekening
-      var na = 0; //Voor de plaatsberekening
-      var vol = 0; //Voor de plaatsberekening
+      var temp = 0; //Calculate free places
+      var voor = 0; //Calculate free places
+      var na = 0; //Calculate free places
+      var vol = 0; //Calculate free places
       if(!reservaties.length > 0){
         plaatsen = ruimte.aantalPlaatsen;
       } else {
@@ -1427,12 +1208,8 @@
               }
             });
           }
-          console.log(reservatie);
-          console.log("ruimte: " + ruimte.aantalPlaatsen);
-          console.log("temp: " + temp);
           plaatsen = ruimte.aantalPlaatsen - temp;
       }
-      //Einde Plaatsberekening
       return plaatsen;
     }
 

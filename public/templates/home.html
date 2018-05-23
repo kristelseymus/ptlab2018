@@ -10,7 +10,6 @@
                     width="304" height="150"
                     alt="Logo Planet Talent Lab"
                   />
-                  <!--<img logo-cycling src="images/Logo_PTLab-03.jpg" alt="Logo Planet Talent Lab" class="center-block" width="304" height="150" id="logo">-->
                   <p>
                     {{ctrl.home}}
                   </p>
@@ -49,48 +48,13 @@
                   </div>
                 </div>
                 <div class="text-center block-voorwie-row">
-                  <a href="/vraagofferteaan" class="block-voorwie-column btn btn-primary btn-block">Vraag een offerte aan</a>
+                  <a ng-href="/vraagofferteaan" class="block-voorwie-column btn btn-primary btn-block" ng-disabled="ctrl.userManager">Vraag een offerte aan</a>
                   <div class="block-voorwie-column-spacing"></div>
-                  <a href="/gratisplaats" class="block-voorwie-column btn btn-primary btn-block">Probeer gratis/Reserveer</a>
+                  <a ng-href="/gratisplaats" class="block-voorwie-column btn btn-primary btn-block" ng-disabled="ctrl.userCoworker">Probeer gratis/Reserveer</a>
                   <div class="block-voorwie-column-spacing"></div>
-                  <a href="/boekplaatsstudent" class="block-voorwie-column btn btn-primary btn-block">Boek je gratis plaats</a>
+                  <a ng-href="/boekplaatsstudent" class="block-voorwie-column btn btn-primary btn-block" ng-disabled="ctrl.userStudent">Boek je gratis plaats</a>
                 </div>
               </div>
-              <!--<table>
-                <tr>
-                  <th><div class="block-title">Trainers/Managers</div></th>
-                  <th><div class="block-title">Co-workers</div></th>
-                  <th><div class="block-title">Studenten</div></th>
-                </tr>
-                <tr>
-                  <td>
-                    <div id="trainerblock" class="block-text">
-                      {{ctrl.voorwie.manager}}
-                    </div>
-                  </td>
-                  <td>
-                    <div id="coworkingblock" class="block-text">
-                      {{ctrl.voorwie.coworker}}
-                    </div>
-                  </td>
-                  <td>
-                    <div id="studentenblock" class="block-text">
-                      {{ctrl.voorwie.student}}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/vraagofferteaan" class="btn btn-primary btn-block">Vraag een offerte aan</a>
-                  </td>
-                  <td>
-                    <a href="/gratisplaats" class="btn btn-primary btn-block">Probeer gratis/Reserveer</a>
-                  </td>
-                  <td>
-                    <a href="/boekplaatsstudent" class="btn btn-primary btn-block">Boek je gratis plaats</a>
-                  </td>
-                </tr>
-              </table>-->
             </div>
         </div>
 </section>
@@ -100,47 +64,6 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 text-center">
                     <h2 class="section-heading">Ruimtes</h2>
-                  <!--  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sem sit amet massa venenatis, nec accumsan mauris venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer libero augue, imperdiet non nunc congue, sollicitudin vestibulum erat. Nunc at orci nulla. Pellentesque scelerisque lectus non ante congue, non tincidunt eros malesuada. Nulla facilisi. Sed lorem ante, convallis at massa in, luctus semper nunc. Mauris vehicula odio nulla, tempus ullamcorper turpis aliquam sit amet.
-
-                    Aliquam efficitur tempus ipsum, sit amet vestibulum arcu hendrerit a. Donec sem sem, convallis in urna ut, cursus iaculis tortor. Vivamus at mauris quis arcu venenatis vulputate. Ut dignissim, risus in convallis aliquam, augue nibh dignissim dolor, nec mollis diam leo eget nulla. Vestibulum eget eros efficitur, viverra massa nec, aliquet odio. Morbi a leo egestas, finibus nisi ac, commodo mauris. Nulla rhoncus in lorem eget commodo. Suspendisse pretium leo fringilla elit porttitor aliquet.
-
-                    Pellentesque varius eros quis nisi ullamcorper, vel sagittis urna sodales. Etiam ante tortor, euismod vel ante nec, dapibus volutpat odio. Aenean erat lacus, cursus id feugiat in, pharetra a eros. Pellentesque vitae erat sit amet ligula blandit posuere id at dui. Maecenas faucibus nisi at justo rhoncus gravida. Sed a semper nisl. Maecenas sagittis eu elit a vehicula. Aenean dui lectus, vestibulum quis nunc nec, dignissim semper lorem. Fusce bibendum, dui vitae semper varius, nisl massa tincidunt orci, maximus interdum orci ex et dolor. Donec sed mi id ante finibus sollicitudin. Ut sed est fringilla, laoreet nisl ut, mollis tellus. In arcu odio, semper non consectetur nec, mattis vel risus. Aenean varius massa magna, a varius enim dictum quis. Phasellus eget ex eu erat tincidunt pulvinar.
-                    </p>
-                    <div>
-                      <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
-                        <div class="clickable-block" open-sections id="coworkinglabtitle">
-                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
-                          <div class="block-title">Co-working Lab</div>
-                          <div class="block-image image-coworking">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
-                        <div class="clickable-block" open-sections id="meetingroomtitle">
-                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
-                          <div class="block-title">Meeting Room</div>
-                          <div class="block-image image-meeting">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
-                        <div class="clickable-block" open-sections id="trainingroomtitle">
-                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
-                          <div class="block-title">Training Room</div>
-                          <div class="block-image image-training">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-6 text-center roomblock">
-                        <div class="clickable-block" open-sections id="boardroomtitle">
-                          <md-tooltip md-direction="top">Klik op mij voor meer info</md-tooltip>
-                          <div class="block-title">Board Room</div>
-                          <div class="block-image image-board">
-                          </div>
-                        </div>
-                      </div>
-                    </div>-->
                 </div>
             </div>
         </div>
@@ -169,68 +92,6 @@
           </div>
         </md-content>
 </section>
-<!--
-<section class="bg-red openSections" id="sectionCoworking">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1 text-center">
-        <h3>
-          Co-working Lab
-        </h3>
-        <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
-          <li>10 personen</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-red openSections" id="sectionMeetingRoom">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1 text-center">
-        <h3>
-          Meeting Room
-        </h3>
-        <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
-          <li>15 personen</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-red openSections" id="sectionTrainingRoom">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1 text-center">
-        <h3>
-          Training Room
-        </h3>
-        <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
-          <li>50 personen</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-red openSections" id="sectionBoardRoom">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1 text-center">
-        <h3>
-          Board Room
-        </h3>
-        <ul class="nobullets col-md-12 col-sm-12 col-xs-12">
-          <li>30 personen</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
--->
-
 <!-- Prijzen -->
 <section class="bg-black" id="prijzen">
       <div class="container">
@@ -239,7 +100,6 @@
                   <h2 class="section-heading">Prijzen</h2>
               </div>
           </div>
-
           <!-- Visible on mobile -->
           <ui-carousel slides="ctrl.ruimtes" slides-to-show="2" slides-to-scroll="1" initial-slide="1" autoplay="false" autoplay-speed="2000" dots="false" class="display-carousel">
             <carousel-item>
@@ -275,35 +135,16 @@
               </div>
             </carousel-item>
           </ui-carousel>
-
           <!-- Visible on desktop and large screens -->
           <div class="row block-center" ng-cloak>
             <div class="text-center block-prices display-block-prices">
               <div class="text-center block-voorwie-row">
                 <div class="block-price-column block-title-prices" ng-repeat="ruimte in ctrl.ruimtes">{{ruimte.name}}</div>
-                <!--<div class="block-voorwie-column-spacing"></div>-->
-                <!--<div class="block-price-column block-title-prices">{{ctrl.prijzen.meetingroom.name}}</div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-title-prices">{{ctrl.prijzen.trainingroom.name}}</div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-title-prices">{{ctrl.prijzen.boardroom.name}}</div>-->
               </div>
               <div class="text-center block-voorwie-row">
                 <div class="block-price-column bg-yellow block-price" ng-repeat="ruimte in ctrl.ruimtes">
                   <div class="prices-price">€ {{ruimte.price}}<div ng-show="ruimte.priceperperson > 0" class="prices-small"> + € {{ruimte.priceperperson}} p.p.</div></div> Per halve dag
                 </div>
-                <!--<div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-yellow block-price">
-                  <div class="prices-price">€ {{ctrl.prijzen.meetingroom.price}}<div ng-show="ctrl.prijzen.meetingroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.meetingroom.priceperperson}} p.p.</div></div> Per halve dag
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-yellow block-price">
-                  <div class="prices-price">€ {{ctrl.prijzen.trainingroom.price}}<div ng-show="ctrl.prijzen.trainingroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.trainingroom.priceperperson}} p.p.</div></div> Per halve dag
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column bg-yellow block-price">
-                  <div class="prices-price">€ {{ctrl.prijzen.boardroom.price}}<div ng-show="ctrl.prijzen.boardroom.priceperperson > 0" class="prices-small"> + € {{ctrl.prijzen.boardroom.priceperperson}} p.p.</div></div> Per halve dag
-                </div>-->
               </div>
               <div class="block-voorwie-row">
                 <div class="block-price-column block-prices-practicals" ng-repeat="ruimte in ctrl.ruimtes">
@@ -320,75 +161,8 @@
                       <div class="prices-practicals-icon"><md-icon style="{{ruimte.printeravailable ? 'color:#15B366;' : 'color:#A40D4E;'}}">{{ruimte.printeravailable ? 'done' : 'clear'}}</md-icon></div>
                       <div class="prices-practicals-text">Printer</div>
                     </div>
-                    <!--<div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Catering</div>
-                    </div>-->
                   </div>
                 </div>
-                <!--<div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-prices-practicals">
-                  <div class="prices-practicals-table">
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Internet</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Koffie en water</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Printer</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Catering</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-prices-practicals">
-                  <div class="prices-practicals-table">
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Internet</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Koffie en water</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Printer</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Catering</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="block-voorwie-column-spacing"></div>
-                <div class="block-price-column block-prices-practicals">
-                  <div class="prices-practicals-table">
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Internet</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Koffie en water</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #15B366;">done</md-icon></div>
-                      <div class="prices-practicals-text">Printer</div>
-                    </div>
-                    <div class="prices-practicals-row">
-                      <div class="prices-practicals-icon"><md-icon style="color: #A40D4E;">clear</md-icon></div>
-                      <div class="prices-practicals-text">Catering</div>
-                    </div>
-                  </div>
-                </div>-->
               </div>
             </div>
           </div>
@@ -459,9 +233,6 @@
       </div>
 </section>
 <div my-map=""></div>
-<!--<div id="map">
-
-</div>-->
 <!--Agenda-->
 <section id="agenda" ng-cloak>
       <div class="container">
@@ -473,7 +244,6 @@
       </div>
 </section>
 <div layout-gt-xs="row" ng-cloak>
-
   <div flex="60" class="eventcalendar">
     <multiple-date-picker calendar-id="'eventcalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
   </div>
@@ -497,43 +267,4 @@
       <p class="geenEvents">Er vinden geen evenementen plaats op deze dag.<p>
     </div>
   </div>
-
 </div>
-<!--<div tiny-calendar first-day="1" today="Vandaag" week-days="ZMDWDVZ" events="ctrl.testEvents"></div>-->
-<!--<div layout-gt-xs="row">
-  <calendar-md flex="60" layout layout-fill
-  calendar-direction="vertical"
-  on-prev-month="prevMonth"
-  on-next-month="nextMonth"
-  on-day-click="dayClick"
-  title-format="'MMMM y'"
-  ng-model='selectedDate'
-  week-starts-on="1"
-  tooltips="false"
-  day-format="dayFormat"
-  day-label-format="'EEE'"
-  day-label-tooltip-format="'EEEE'"
-  day-tooltip-format="'fullDate'"
-  day-content="setDayContent"
-  disable-future-selection="false"></calendar-md>
-  <div flex="40">
-    <md-toolbar layout="row">
-      <div class="md-toolbar-tools">
-        <span class="calendar-md-title">{{ctrl.selectedDate | date: 'EEEE d MMMM'}}</span>
-      </div>
-    </md-toolbar>
-    <md-content ng-show="ctrl.eventsday.length > 0">
-      <md-list>
-        <md-list-item ng-repeat="event in ctrl.eventsday" ng-click="ctrl.openDialog(event)">
-          <div class="md-list-item-text" layout="column">
-            <h5>{{event.name}}</h5>
-            <p>{{event.ruimte.name}} - {{event.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(event) | date: "HH:mm"}}</p>
-          </div>
-        </md-list-item>
-      </md-list>
-    </md-content>
-    <div ng-show="ctrl.eventsday.length === 0">
-      <p class="geenEvents">Er vinden geen evenementen plaats op deze dag.<p>
-    </div>
-  </div>
-</div>-->

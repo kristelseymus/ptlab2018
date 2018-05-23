@@ -8,6 +8,7 @@
 
     function ContactController($log, auth, $state, $stateParams, mailService, $mdToast) {
         var vm = this;
+
         vm.contact = {};
         vm.submitForm = submitForm;
 
@@ -20,6 +21,6 @@
           .hideDelay(3000));
           $state.go("home");
         }
-    } // EINDE ContactController
+    } // END ContactController
 
 })();

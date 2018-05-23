@@ -3,54 +3,54 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1 text-center">
         <h2 class="section-heading">Contact</h2>
-            <div class="wrapper-box" layout="column" layout-padding ng-cloak>
-              <br/>
-              <form ng-submit="ctrl.submitForm()" name="contactForm">
-              <md-content class="md-no-momentum no-background">
-                <div layout="row">
-                  <md-input-container md-no-float class="md-block" flex="50">
-                    <md-icon>person</md-icon>
-                    <input ng-model="ctrl.contact.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
-                    <div ng-messages="contactForm.voornaam.$error">
-                      <div ng-message="required">Voornaam is verplicht.</div>
-                    </div>
-                  </md-input-container>
-                  <md-input-container md-no-float class="md-block" flex="50">
-                    <input ng-model="ctrl.contact.naam" type="text" name="naam" placeholder="Naam *" required>
-                    <div ng-messages="contactForm.naam.$error">
-                      <div ng-message="required">Naam is verplicht.</div>
-                    </div>
-                  </md-input-container>
-                </div>
-                <md-input-container md-no-float class="md-block">
-                  <md-icon>phone</md-icon>
-                  <input ng-model="ctrl.contact.telefoon" type="text" placeholder="Telefoon">
-                </md-input-container>
-                <md-input-container md-no-float class="md-block">
-                  <md-icon>email</md-icon>
-                  <input ng-model="ctrl.contact.email" type="email" name="email" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" >
-                  <div ng-messages="contactForm.email.$error" multiple md-auto-hide="false">
-                    <div ng-message="required">
-                      Email is verplicht.
-                    </div>
-                    <div ng-message="pattern">
-                      Geen geldig email adres.
-                    </div>
+        <div class="wrapper-box" layout="column" layout-padding ng-cloak>
+          <br/>
+          <form ng-submit="ctrl.submitForm()" name="contactForm">
+            <md-content class="md-no-momentum no-background">
+              <div layout="row">
+                <md-input-container md-no-float class="md-block" flex="50">
+                  <md-icon>person</md-icon>
+                  <input ng-model="ctrl.contact.voornaam" type="text" name="voornaam" placeholder="Voornaam *" required>
+                  <div ng-messages="contactForm.voornaam.$error">
+                    <div ng-message="required">Voornaam is verplicht.</div>
                   </div>
                 </md-input-container>
-                <md-input-container md-no-float class="md-block">
-                  <md-icon>message</md-icon>
-                  <textarea ng-model="ctrl.contact.bericht" type="text" name="bericht" placeholder="Bericht *" required rows="3"></textarea>
-                  <div ng-messages="contactForm.bericht.$error">
-                    <div ng-message="required">Gelieve een bericht in te vullen.</div>
+                <md-input-container md-no-float class="md-block" flex="50">
+                  <input ng-model="ctrl.contact.naam" type="text" name="naam" placeholder="Naam *" required>
+                  <div ng-messages="contactForm.naam.$error">
+                    <div ng-message="required">Naam is verplicht.</div>
                   </div>
                 </md-input-container>
-                <div layout="row">
-                  <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Verzend</md-button>
+              </div>
+              <md-input-container md-no-float class="md-block">
+                <md-icon>phone</md-icon>
+                <input ng-model="ctrl.contact.telefoon" type="text" placeholder="Telefoon">
+              </md-input-container>
+              <md-input-container md-no-float class="md-block">
+                <md-icon>email</md-icon>
+                <input ng-model="ctrl.contact.email" type="email" name="email" placeholder="Email *" required ng-pattern="/^.+@.+\..+$/" >
+                <div ng-messages="contactForm.email.$error" multiple md-auto-hide="false">
+                  <div ng-message="required">
+                    Email is verplicht.
+                  </div>
+                  <div ng-message="pattern">
+                    Geen geldig email adres.
+                  </div>
                 </div>
-              </md-content>
-              </form>
-            </div>
+              </md-input-container>
+              <md-input-container md-no-float class="md-block">
+                <md-icon>message</md-icon>
+                <textarea ng-model="ctrl.contact.bericht" type="text" name="bericht" placeholder="Bericht *" required rows="3"></textarea>
+                <div ng-messages="contactForm.bericht.$error">
+                  <div ng-message="required">Gelieve een bericht in te vullen.</div>
+                </div>
+              </md-input-container>
+              <div layout="row">
+                <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Verzend</md-button>
+              </div>
+            </md-content>
+          </form>
+        </div>
       </div>
     </div>
   </div>

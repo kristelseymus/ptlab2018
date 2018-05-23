@@ -7,18 +7,14 @@
 
   function AuthController($state,auth,$log,$mdToast,$http,$stateParams){
       var vm = this;
+
       vm.user = {}; //CurrentUser
       vm.users = []; //All Users
       vm.password = null;
       vm.passwordcheck = null;
       vm.showPassword = false;
       vm.isLoading = false;
-      vm.typesUser = ['STUDENT','COWORKER','MANAGER'];
-      /* There are a total of 3 types of users that can make reservations/events:
-          - STUDENT
-          - COWORKER
-          - MANAGER
-       */
+      vm.typesUser = [{key: 'Student', value: "STUDENT"}, {key: 'Co-worker', value:"STUDENT"}, {key: "Manager", value:"MANAGER"}];
 
       vm.register = register;
       vm.logIn = logIn;
@@ -104,10 +100,10 @@
 
       /* Change a user password */
       function changePassword(form){
+        vm.message = "";
         vm.user = auth.getCurrentUser();
         vm.user.password = vm.password;
         vm.user.passwordcheck = vm.passwordcheck;
-        console.log(vm.user);
         return auth.changePassword(vm.user)
         .error(function(error){
           vm.error = error;
@@ -130,15 +126,18 @@
         vm.showPassword = !vm.showPassword;
       }
 
+      /* Check if user is logged in */
       function isLoggedIn(){
         return auth.isLoggedIn();
       }
 
+      /* Get the full name of the current user */
       function currentUser(){
         vm.user = auth.currentUser();
          return vm.user.fullName;
       }
 
+      /* Delete a user */
       function deleteUser(user){
           if(user.username === auth.currentUser()){
               vm.message = "You can't delete yourself";
@@ -150,10 +149,11 @@
           });
       }
 
+      /* Forgot password */
       function forgot(){
+        vm.message = "";
         vm.isLoading = true;
         return auth.forgotPassword(vm.user).error(function(err){
-          console.log(err);
           vm.message = err.message;
           vm.isLoading = false;
         })
@@ -168,19 +168,17 @@
         });
       }
 
+      /* Reset password */
       function resetPassword(){
         vm.message = "";
         vm.isLoading = true;
         vm.user.resetPasswordToken = $stateParams.token;
         vm.user.password = vm.password;
         vm.user.passwordcheck = vm.passwordcheck;
-        console.log(vm.user);
         return auth.resetPassword(vm.user)
         .error(function(err){
           vm.isLoading = false;
-          console.log(err);
           vm.error = err;
-
           if(vm.error.message === "Passwords don't match") {
             vm.message = "Wachtwoorden komen niet overeen. Probeer opnieuw."
           } else {
@@ -196,5 +194,5 @@
             $state.go('login');
         });
       }
-  } // EINDE AuthController
+  } // END AuthController
 })();

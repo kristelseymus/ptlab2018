@@ -40,7 +40,7 @@
           });
         }
 
-        /* Get an event with a specific id */
+        /* Get an event with a specific id (param) */
         function get(id) {
             return $http.get('/api/events/' + id).then(function (res) {
                 return res.data;
@@ -59,9 +59,9 @@
         }
 
         /* Get all eventtypes.
-        There are currently 2 types of events:
-          - A normal event
-          - A training
+        There are 2 types of events:
+          - "Evenement"
+          - "Training"
         */
         function getEventTypes() {
           return $http.get('/api/eventtypes').success(function (data) {
@@ -69,7 +69,7 @@
           });
         }
 
-        /* Get all events taking place on a specific date */
+        /* Get all events taking place on a specific date (param) */
         function getEventsByDay(date) {
           var d = new Date(date);
           d.setHours(0,0,0,0);
@@ -78,12 +78,11 @@
           })
         }
 
-        /* Get all events taking place in a specific room on a specific date */
+        /* Get all events taking place in a specific room (param) on a specific date (param) */
         function getEventsByDayInRoom(date, ruimteid){
           var d = new Date(date);
           d.setHours(0,0,0,0);
           return $http.get('/api/events/' + d + "/" + ruimteid).then(function (res){
-            console.log(res.data);
             return res.data;
           });
         }
@@ -100,5 +99,5 @@
               return error;
             });
         }
-    }
+    } // END eventService
 })();

@@ -2,97 +2,49 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-            <div class="wrapper-box" layout="column" layout-padding ng-cloak>
-
-              <div class="row">
-                <h2 class="section-heading">Login</h2>
-              </div>
-              <!--<div ng-show="ctrl.message" class="alert" role="alert">{{ctrl.message}}</div>-->
-              <form ng-submit="ctrl.logIn(signInForm)" name="signInForm" novalidate>
-              <md-content class="md-no-momentum no-background">
-                <div layout="row"><md-icon>person</md-icon></div>
-                <md-input-container md-no-float class="md-block" layout="row">
-                  <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email" required ng-pattern="/^.+@.+\..+$/">
-                  <div ng-messages="signInForm.username.$error" multiple md-auto-hide="false">
-                    <div ng-message="required">
-                      Gelieve een e-mailadres in te vullen.
-                    </div>
-                    <div ng-message="pattern">
-                      Geen geldig email adres.
-                    </div>
-                    <div ng-message="incorrectusername">
-                      Gebruiker bestaat niet.
-                    </div>
-                  </div>
-                </md-input-container>
-                <div layout="row"><md-icon>lock</md-icon></div>
-                <md-input-container md-no-float class="md-block">
-                  <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord" required>
-                  <div ng-messages="signInForm.wachtwoord.$error" md-auto-hide="false">
-                    <div ng-message="required">
-                      Gelieve een wachtoord in te vullen.
-                    </div>
-                    <div ng-message="incorrectpassword">
-                      Wachtwoord is niet geldig.
-                    </div>
-                  </div>
-                  <div class="left-align login-forgot">
-                    <a href="/forgot">Wachtwoord vergeten ?</a>
-                  </div>
-                </md-input-container>
-                <div layout="row">
-                  <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Login</md-button>
+        <div class="wrapper-box" layout="column" layout-padding ng-cloak>
+          <div class="row">
+            <h2 class="section-heading">Login</h2>
+          </div>
+          <form ng-submit="ctrl.logIn(signInForm)" name="signInForm" novalidate>
+          <md-content class="md-no-momentum no-background">
+            <div layout="row"><md-icon>person</md-icon></div>
+            <md-input-container md-no-float class="md-block" layout="row">
+              <input ng-model="ctrl.user.username" type="email" name="username" placeholder="Email" required ng-pattern="/^.+@.+\..+$/">
+              <div ng-messages="signInForm.username.$error" multiple md-auto-hide="false">
+                <div ng-message="required">
+                  Gelieve een e-mailadres in te vullen.
                 </div>
-              </md-content>
-              </form>
+                <div ng-message="pattern">
+                  Geen geldig email adres.
+                </div>
+                <div ng-message="incorrectusername">
+                  Gebruiker bestaat niet.
+                </div>
+              </div>
+            </md-input-container>
+            <div layout="row"><md-icon>lock</md-icon></div>
+            <md-input-container md-no-float class="md-block">
+              <input ng-model="ctrl.user.password" type="password" name="wachtwoord" placeholder="Wachtwoord" required>
+              <div ng-messages="signInForm.wachtwoord.$error" md-auto-hide="false">
+                <div ng-message="required">
+                  Gelieve een wachtoord in te vullen.
+                </div>
+                <div ng-message="incorrectpassword">
+                  Wachtwoord is niet geldig.
+                </div>
+              </div>
+              <div class="left-align login-forgot">
+                <a href="/forgot">Wachtwoord vergeten ?</a>
+              </div>
+            </md-input-container>
+            <div layout="row">
+              <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Login</md-button>
             </div>
+          </md-content>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-
-<!--<div class="wrapper">
-    <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-    <form ng-submit="ctrl.logIn()" class="form-signin">
-        <h2 class="form-signin-heading text-center">Login</h2>
-        <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required
-               autofocus ng-model="ctrl.user.username"
-        />
-        <input type="password" class="form-control form-login" name="password" placeholder="Password" required
-               ng-model="ctrl.user.password"
-        />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-    </form>
-</div>-->
-
-<!--<div class="md-padding" ng-controller="PanelController as ctrl">
-  <p>
-    A panel can be used to create dialogs, menus, and other overlays.
-  </p>
-  <h2>Options</h2>
-  <div layout="row">
-    <div flex="33">
-      <md-checkbox ng-model="ctrl.disableParentScroll">Disable Parent Scroll</md-checkbox
-    </div>
-
-  <div class="demo-md-panel-content">
-    <md-button class="md-primary md-raised demo-dialog-open-button"
-               ng-click="ctrl.showDialog($event)">
-      Dialog
-    </md-button>
-  </div>
-</div>-->
-<!--<div class="wrapper">
-    <div ng-show="ctrl.message" class="alert alert-danger alert-custom" role="alert">{{ctrl.message}}</div>
-    <form ng-submit="ctrl.logIn()" class="form-signin">
-        <h2 class="form-signin-heading text-center">Login</h2>
-        <input type="email" class="form-control form-login" name="username" placeholder="Email Address" required
-               autofocus ng-model="ctrl.user.username"
-        />
-        <input type="password" class="form-control form-login" name="password" placeholder="Password" required
-               ng-model="ctrl.user.password"
-        />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-    </form>
-</div>-->

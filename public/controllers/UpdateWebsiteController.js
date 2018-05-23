@@ -24,6 +24,7 @@
       getContent();
     }
 
+    /* Update the content of the website */
     function updateWebsite(){
       vm.content.openingsuren[0].openingsuur = vm.maandag.openingsuur.getHours()*60 + vm.maandag.openingsuur.getMinutes();
       vm.content.openingsuren[0].sluitingsuur = vm.maandag.sluitingsuur.getHours()*60 + vm.maandag.sluitingsuur.getMinutes();
@@ -44,6 +45,7 @@
        .hideDelay(3000));
     }
 
+    /* Get the content of the website */
     function getContent(){
       websiteService.getContent().then(function(res){
         vm.content = res.data;
@@ -80,16 +82,16 @@
       });
     }
 
+    /* Add a website content to the database (only if there doesn't exist one) */
     /*function postWebsite(){
       vm.content.openingsuren.push(vm.maandag);
       vm.content.openingsuren.push(vm.dinsdag);
       vm.content.openingsuren.push(vm.woensdag);
       vm.content.openingsuren.push(vm.donderdag);
       vm.content.openingsuren.push(vm.vrijdag);
-      console.log(vm.content);
       websiteService.postWebsite(vm.content);
     }*/
 
-  }
+  } // END UpdateWebsiteController
 
 })();

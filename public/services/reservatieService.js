@@ -43,21 +43,21 @@
           });
         }
 
-        /* Get a specific reservation by id */
+        /* Get a specific reservation by id (param) */
         function get(id) {
             return $http.get('/api/reservaties/' + id).then(function (res) {
                 return res.data;
             });
         }
 
-        /* Get all reservations from a user */
+        /* Get all reservations from a user (id param is user._id)*/
         function getReservatiesUser(id){
           return $http.get('/api/reservaties/user/' + id).then(function(res){
             return res.data;
           })
         }
 
-        /* Update an existing reservation */
+        /* Update a reservation */
         function update(id, reservatie) {
           reservatie.startdate.setHours(0,0,0,0);
             return $http.put('/api/reservaties/' + id, reservatie, {
@@ -116,7 +116,7 @@
           });
         }
 
-        /* Get all reservations from a specific date */
+        /* Get all reservations from a specific date (param) */
         function getReservatiesByDay(date) {
           var d = new Date(date);
           d.setHours(0,0,0,0);
@@ -127,7 +127,7 @@
           });
         }
 
-        /* Get all reservations from a specific date in a specific room */
+        /* Get all reservations from a specific date (param) in a specific room (param) */
         function getReservatiesByDayFromASpecificRoom(date, ruimteid){
           var d = new Date(date);
           d.setHours(0,0,0,0);
@@ -135,5 +135,5 @@
             return res.data;
           });
         }
-    }
+    } // END reservatieService
 })();

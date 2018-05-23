@@ -12,11 +12,21 @@
         vm.events = [];
         vm.ruimtes = [];
         vm.dateClicked = [];
-        vm.selectedDate = new Date();
-        vm.todayDate = new Date();
         vm.highlightDays = [];
         vm.feestdagen = [];
         vm.eventsday = {};
+        vm.event = {};
+        vm.selectedDate = new Date();
+        vm.todayDate = new Date();
+        vm.userStudent = true;
+        vm.userCoworker = true;
+        vm.userManager = true;
+
+        vm.home = "";
+        vm.prijzen = "";
+        vm.voorwie = {};
+        vm.practicals = {};
+        vm.practicals.openingsuren = [];
 
         $scope.dayClick = dayClick;
         vm.openDialog = openDialog;
@@ -28,18 +38,8 @@
         vm.toggleShow = toggleShow;
         vm.getUurString = getUurString;
 
-        vm.userStudent = true;
-        vm.userCoworker = true;
-        vm.userManager = true;
-        vm.event = {};
-
-        vm.home = "";
-        vm.prijzen = "";
-        vm.voorwie = {};
-        vm.practicals = {};
-        vm.practicals.openingsuren = [];
+        /* Logo cycling */
         vm.imageIndex = 0;
-
         $scope.images = [{
             source: "images/Logo_PTLab-01.jpg",
             title: "Green Logo"
@@ -52,15 +52,14 @@
             source: "images/Logo_PTLab-03.jpg",
             title: "Yellow Logo"
           }];
-
         $scope.image = getRandomLogo();
-
         $scope.showImage = function(index){
           $scope.image = $scope.images[index - 1];
         };
 
         activate();
 
+        /* On creation of the controller */
         function activate() {
           return load();
         }
@@ -94,7 +93,8 @@
           getEvents();
           getRuimtes();
           vm.eventsday = getEventsByDay(new Date());
-            /*switch (auth.getCurrentUser().typeuser) {
+          if(auth.isLoggedIn()){
+            switch (auth.getCurrentUser().typeuser) {
               case "STUDENT": vm.userStudent = false
                 break;
               case "COWORKER": vm.userCoworker = false
@@ -103,14 +103,15 @@
                 break;
             }
             if(auth.getCurrentUser().isAdmin){
-              //False is niet gedisabled
               vm.userStudent = false;
               vm.userCoworker = false;
               vm.userManager = false;
-            }*/
+            }
+          }
           startLogoCycle();
         }
 
+        /* Get a random starting logo for logo cycling */
         function getRandomLogo(){
           var imageCount = $scope.images.length;
           var index = Math.floor(
@@ -120,6 +121,7 @@
           return($scope.images[index]);
         }
 
+        /* Start up the log cycling (with 8sec interval) */
         function startLogoCycle(){
           var imageCount = $scope.images.length;
           vm.imageIndex = (vm.imageIndex + 1)%imageCount;
@@ -129,8 +131,9 @@
           }, 8000);
         }
 
+        /* Calculate holidays based on the year param */
         function berekenFeestdagen(Y){
-          //Date maken -> maanden = 0 tot 11
+          //Months: 0 to 11
           var pasen; //Nodig voor andere data te berekenen
           pasen = getEasterDate(Y);
           var paasmaandag; //pasen = zondag
@@ -168,6 +171,7 @@
           vm.feestdagen.push(kerstmis);
         }
 
+        /* Calculate easter based on the year param */
         function getEasterDate(Y) {
           var C = Math.floor(Y/100);
           var N = Y - 19*Math.floor(Y/19);
@@ -183,6 +187,7 @@
           return new Date(Y, M-1, D);
         }
 
+        /* Get all users */
         function getUsers() {
             return auth.getAll()
                 .then(function(data) {
@@ -191,6 +196,7 @@
                 });
         }
 
+        /* Get the content of the website */
         function getContents(){
             websiteService.getContent().then(function(res){
               vm.home = res.data.home;
@@ -202,14 +208,10 @@
               vm.practicals.content = res.data.practicals;
               vm.practicals.adres = res.data.adres;
               vm.practicals.openingsuren = res.data.openingsuren;
-              /*vm.home = data.data.home.content;
-              vm.voorwie = data.data.voorwie;
-              vm.prijzen = data.data.prijzen;
-              vm.practicals = data.data.practicals;
-              vm.practicals.openingsuren = data.data.practicals.openingsuren.dag;*/
             });
         }
 
+        /* Get all events and add the to an array to show them in the calendar */
         function getEvents(){
           vm.events = eventService.getAll().then(function(res){
             vm.events = res.data;
@@ -226,6 +228,7 @@
           });
         }
 
+        /* Get all rooms */
         function getRuimtes(){
           vm.ruimtes = ruimteService.getAll().then(function(res){
             vm.ruimtes = res.data;
@@ -233,23 +236,27 @@
           });
         }
 
+        /* Function that is triggered when a user clicks a date in the calendar on the Home page */
         function dayClick(event, date){
           vm.dateClicked.length = 0;
           vm.selectedDate = date.date._d;
           getEventsByDay(vm.selectedDate);
         }
 
+        /* Get the end time of an event */
         function getEndTime(ev){
           var tempDate = new Date(ev.startdate);
           tempDate.setMinutes(tempDate.getMinutes() + ev.duur);
           return tempDate;
         }
 
+        /* Open a pop-up with showDialog */
         function openDialog(e){
           vm.event = e;
           showDialog();
         }
 
+        /* Show a dialog with information about an event */
         function showDialog(ev) {
           $mdDialog.show({
             parent: angular.element(document.body),
@@ -269,6 +276,7 @@
           });
         }
 
+        /* Get all events taking place on a specific date (date param) */
         function getEventsByDay(date){
           vm.eventsday = eventService.getEventsByDay(date).then(function(res){
             vm.eventsday = res;
@@ -276,6 +284,7 @@
           });
         }
 
+        /* Toggle showing information about a room on the Home page */
         function toggleShow(ruimte){
           if(!ruimte.show || ruimte.show === 'undefined'){
             ruimte.show = true
@@ -284,6 +293,7 @@
           }
         }
 
+        /* Format opening and closing times as '12u00' for example */
         function getUurString(time){
           var uur = "";
           var temp;
@@ -300,6 +310,6 @@
             return uur;
           }
         }
-    } // EINDE MainController
+    } // END MainController
 
 })();

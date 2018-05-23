@@ -1,48 +1,38 @@
 <md-dialog aria-label="Event Dialog">
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>{{ctrl.eventday.name}}</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="ctrl.cancel()">
-          <md-icon aria-label="Close dialog" class="close-icon">close</md-icon>
-        </md-button>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>{{ctrl.eventday.name}}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+        <md-icon aria-label="Close dialog" class="close-icon">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content style="max-width:800px;max-height:810px;min-width:300px;">
+    <div layout-row class="dialogcontent">
+      <div layout-gt-xs="row" class="description">
+        <div flex="90"><p>{{ctrl.eventday.description}}</p></div>
       </div>
-    </md-toolbar>
-    <md-dialog-content style="max-width:800px;max-height:810px;min-width:300px;">
-      <!--<md-list ng-hide="ctrl.isEmpty()">
-        <md-list-item layout-gt-xs="row">
-
-        </md-list-item>
-      </md-list>-->
-      <div layout-row class="dialogcontent">
-        <div layout-gt-xs="row" class="description">
-          <div flex="90"><p>{{ctrl.eventday.description}}</p></div>
-        </div>
-        <div layout-gt-xs="row">
-          <div flex="40"><b>Ruimte</b></div>
-          <div flex="60">{{ctrl.eventday.ruimte.name}}</div>
-        </div>
-        <div layout-gt-xs="row">
-          <div flex="40"><b>Wanneer</b></div>
-          <div flex="60">{{ctrl.eventday.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(ctrl.eventday) | date: "HH:mm"}}</div>
-        </div>
-        <div layout-gt-xs="row">
-          <div flex="40"><b>Publiek</b></div>
-          <div flex="60">{{ctrl.eventday.publiek ? 'Ja' : 'Nee'}}</div>
-        </div>
-        <div layout-gt-xs="row">
-          <div flex="40"><b>Catering</b></div>
-          <div flex="60">{{ctrl.eventday.catering ? 'Ja' : 'Nee'}}</div>
-        </div>
-        <br/>
+      <div layout-gt-xs="row">
+        <div flex="40"><b>Ruimte</b></div>
+        <div flex="60">{{ctrl.eventday.ruimte.name}}</div>
       </div>
-      <div ng-show="ctrl.isEmpty()" class="div-empty">
-        <h5>Er zijn geen evenementen gepland op deze dag.<h5>
+      <div layout-gt-xs="row">
+        <div flex="40"><b>Wanneer</b></div>
+        <div flex="60">{{ctrl.eventday.startdate | date: "HH:mm"}} tot {{ctrl.getEndTime(ctrl.eventday) | date: "HH:mm"}}</div>
       </div>
-    </md-dialog-content>
-
-    <!--<md-dialog-actions layout="row">
-    Hier kunnen buttons worden toegevoegd om verschillende acties uit te voeren.
-    </md-dialog-actions>-->
-
+      <div layout-gt-xs="row">
+        <div flex="40"><b>Publiek</b></div>
+        <div flex="60">{{ctrl.eventday.publiek ? 'Ja' : 'Nee'}}</div>
+      </div>
+      <div layout-gt-xs="row">
+        <div flex="40"><b>Catering</b></div>
+        <div flex="60">{{ctrl.eventday.catering ? 'Ja' : 'Nee'}}</div>
+      </div>
+      <br/>
+    </div>
+    <div ng-show="ctrl.isEmpty()" class="div-empty">
+      <h5>Er zijn geen evenementen gepland op deze dag.<h5>
+    </div>
+  </md-dialog-content>
 </md-dialog>

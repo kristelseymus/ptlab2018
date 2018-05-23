@@ -12,6 +12,7 @@
         vm.sendInvoice = sendInvoice;
         vm.close = close;
 
+        /* Send an invoice to the co-worker */
         function sendInvoice(){
           mailService.sendInvoiceCoworker(invoice);
           reservatieService.deleteInvoice(invoice);
@@ -29,6 +30,6 @@
           mdPanelRef.close();
         };
 
-    } // EINDE UpdateReservatieController
+    } // END UpdateReservatieController
 
 })();

@@ -1,177 +1,167 @@
 <section id="sectiongratisplaats" ng-cloak>
-        <div class="container" id="gratisplaats">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+  <div class="container" id="gratisplaats">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+          <!-- Make a free reservation -->
+          <div class="wrapper-box" layout="column" layout-padding ng-cloak ng-show="ctrl.isGratis()">
+            <div class="row text-center">
+              <h2 class="section-heading">Reserveer een gratis plaats</h2>
+            </div>
+            <div class="row text-center">
+              <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+            </div>
+            <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
+              <md-content class="md-no-momentum no-background">
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Voornaam</label>
+                    <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                  <md-input-container md-no-float class="md-block" flex-gt-xs>
+                    <label>Naam</label>
+                    <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                </div>
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Email</label>
+                    <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                </div>
+                <div layout-gt-xs="row">
+                  <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" ng-change="ctrl.berekenPlaatsen()" aria-label="Datepicker Coworker Gratis">
+                    <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
+                    <div ng-messages="boekGratisPlaatsForm.date.$error">
+                      <div ng-message="required">Gelieve een datum te kiezen</div>
+                      <div ng-message="format">Verkeerd formaat</div>
+                      <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                      <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
+                    </div>
+                  </mdp-date-picker>
+                  <md-input-container class="md-block" flex>
+                    <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.berekenPlaatsen()" aria-label="Select deel van de dag">
+                      <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
+                        {{keuzeDag.name}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="boekGratisPlaatsForm.keuzeDag.$error">
+                      <div ng-message="required">Gelieve een optie te selecteren.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </md-content>
+              <div layout="row">
+                <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Reserveer</md-button>
+              </div>
+            </form>
+          </div>
 
-                  <!-- BOEKEN VAN EEN GRATIS PLAATS -->
-                  <div class="wrapper-box" layout="column" layout-padding ng-cloak ng-show="ctrl.isGratis()">
-                    <div class="row text-center">
-                      <h2 class="section-heading">Reserveer een gratis plaats</h2>
+          <!-- Make a reservation (with invoice) -->
+          <div class="wrapper-box" layout="column" layout-padding ng-cloak ng-hide="ctrl.isGratis()">
+            <div class="row text-center">
+              <h2 class="section-heading">Reserveer een plaats</h2>
+            </div>
+            <div class="row text-center">
+              <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+            </div>
+            <form ng-submit="ctrl.factureer()" name="factureerCoWorkerForm">
+              <md-content class="md-no-momentum no-background">
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Voornaam</label>
+                    <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                  <md-input-container md-no-float class="md-block" flex-gt-xs>
+                    <label>Naam</label>
+                    <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                </div>
+                <div layout-gt-xs="row">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>Email</label>
+                    <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" ng-disabled="ctrl.disabled">
+                  </md-input-container>
+                </div>
+                <div layout-gt-xs="row">
+                  <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" ng-change="ctrl.berekenPlaatsen()" aria-label="Datepicker Coworker Factuur">
+                    <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
+                    <div ng-messages="factureerCoWorkerForm.date.$error">
+                      <div ng-message="required">Gelieve een datum te kiezen</div>
+                      <div ng-message="format">Verkeerd formaat</div>
+                      <div ng-message="disabled">De datum is niet beschikbaar</div>
+                      <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
+                      <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
                     </div>
-                    <div class="row text-center">
-                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
+                  </mdp-date-picker>
+                  <md-input-container class="md-block" flex-gt-xs flex>
+                    <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.adjustPrice(); ctrl.berekenPlaatsen();" aria-label="Select deel van de dag">
+                      <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
+                        {{keuzeDag.name}}
+                      </md-option>
+                    </md-select>
+                    <div ng-messages="factureerCoWorkerForm.keuzeDag.$error">
+                      <div ng-message="required">Gelieve een optie te selecteren.</div>
                     </div>
-                    <form ng-submit="ctrl.probeerGratis()" name="boekGratisPlaatsForm">
-                    <md-content class="md-no-momentum no-background">
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs>
-                          <label>Voornaam</label>
-                          <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                        <md-input-container md-no-float class="md-block" flex-gt-xs>
-                          <label>Naam</label>
-                          <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs>
-                          <label>Email</label>
-                          <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" ng-change="ctrl.berekenPlaatsen()" aria-label="Datepicker Coworker Gratis">
-                          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
-                          <div ng-messages="boekGratisPlaatsForm.date.$error">
-                           <div ng-message="required">Gelieve een datum te kiezen</div>
-                           <div ng-message="format">Verkeerd formaat</div>
-                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
-                          </div>
-                        </mdp-date-picker>
-                        <md-input-container class="md-block" flex>
-                          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.berekenPlaatsen()" aria-label="Select deel van de dag">
-                            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
-                              {{keuzeDag.name}}
-                            </md-option>
-                          </md-select>
-                          <div ng-messages="boekGratisPlaatsForm.keuzeDag.$error">
-                            <div ng-message="required">Gelieve een optie te selecteren.</div>
-                          </div>
-                        </md-input-container>
-                      </div>
-                      </md-content>
-                      <div layout="row">
-                        <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Reserveer</md-button>
-                      </div>
-                    </form>
+                  </md-input-container>
+                </div>
+                <div layout-row-xs="row" ng-show="ctrl.reservatie.startdate != undefined" class="ng-hide">
+                  <table class="table table-hover">
+                    <thead>
+                    <tr>
+                      <th>Datum</th>
+                      <th>Prijs</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td ng-switch="ctrl.reservatie.keuzeDag">
+                        <div ng-switch-when="voormiddag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>
+                        <div ng-switch-when="namiddag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
+                        <div ng-switch-when="volledigedag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
+                      </td>
+                      <td class="price">€ {{ctrl.reservatie.price}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </md-content>
+            <div layout="row">
+              <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Reserveer</md-button>
+            </div>
+          </form>
+        </div>
+        <div class="wrapper-box" layout="column" layout-padding>
+          <div layout-gt-xs="row">
+            <div flex class="availablecalendar" >
+              <multiple-date-picker calendar-id="'availablecalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
+            </div>
+            <div flex class="text-center">
+              <div class=" reservation-legenda-box">
+                <h3>Legende</h3>
+                <div class="container">
+                  <div layout-gt-xs="row">
+                    <div class="legende-today"></div>
+                    <div class="legende-text">Vandaag</div>
                   </div>
-                  <!-- EINDE BOEKEN VAN EEN GRATIS PLAATS -->
-
-                  <!-- FACTUREREN COWORKER -->
-                  <div class="wrapper-box" layout="column" layout-padding ng-cloak ng-hide="ctrl.isGratis()">
-                    <div class="row text-center">
-                      <h2 class="section-heading">Reserveer een plaats</h2>
-                    </div>
-                    <div class="row text-center">
-                      <div class="alert alert-danger text-center custom-alert" ng-animate="{hide: 'animate-hide'}" ng-show="ctrl.message" role="alert">{{ctrl.message}}</div>
-                    </div>
-                    <form ng-submit="ctrl.factureer()" name="factureerCoWorkerForm">
-                    <md-content class="md-no-momentum no-background">
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs>
-                          <label>Voornaam</label>
-                          <input ng-model="ctrl.reservatie.user.voornaam" type="text" name="voornaam" placeholder="Voornaam *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                        <md-input-container md-no-float class="md-block" flex-gt-xs>
-                          <label>Naam</label>
-                          <input ng-model="ctrl.reservatie.user.naam" type="text" name="naam" placeholder="Naam *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs>
-                          <label>Email</label>
-                          <input ng-model="ctrl.reservatie.user.username" type="email" name="username" placeholder="Email *" ng-disabled="ctrl.disabled">
-                        </md-input-container>
-                      </div>
-                      <div layout-gt-xs="row">
-                        <mdp-date-picker mdp-placeholder="Kies een datum" ng-model="ctrl.reservatie.startdate" mdp-format="DD/MM/YYYY" mdp-min-date="ctrl.minDate" mdp-max-date="ctrl.maxDate" required name="date" mdp-date-filter="ctrl.disabledates" onkeydown="return false" ng-change="ctrl.berekenPlaatsen()" aria-label="Datepicker Coworker Factuur">
-                          <md-tooltip md-direction="top">Klik op het icoon om een datum te kiezen</md-tooltip>
-                          <div ng-messages="factureerCoWorkerForm.date.$error">
-                           <div ng-message="required">Gelieve een datum te kiezen</div>
-                           <div ng-message="format">Verkeerd formaat</div>
-                           <div ng-message="disabled">De datum is niet beschikbaar</div>
-                           <div ng-message="minDate">Minimum datum is {{ctrl.minDate | date: " dd MMMM yyyy"}}</div>
-                           <div ng-message="maxDate">Maximum datum is {{ctrl.maxDate | date: " dd MMMM yyyy"}}</div>
-                          </div>
-                        </mdp-date-picker>
-                        <md-input-container class="md-block" flex-gt-xs flex>
-                          <md-select ng-model="ctrl.reservatie.keuzeDag" name="keuzeDag" required ng-change="ctrl.adjustPrice(); ctrl.berekenPlaatsen();" aria-label="Select deel van de dag">
-                            <md-option ng-repeat="keuzeDag in ctrl.keuzeDagen" ng-value="keuzeDag.value" selected>
-                              {{keuzeDag.name}}
-                            </md-option>
-                          </md-select>
-                          <div ng-messages="factureerCoWorkerForm.keuzeDag.$error">
-                            <div ng-message="required">Gelieve een optie te selecteren.</div>
-                          </div>
-                        </md-input-container>
-                      </div>
-                      <!--<div layout-row-xs="row">
-                        <md-input-container class="md-block" flex-gt-xs flex>
-                          <input ng-model="ctrl.offerte.bankrekeningnummer">
-                        </md-input-container>
-                      </div>-->
-                      <div layout-row-xs="row" ng-show="ctrl.reservatie.startdate != undefined" class="ng-hide">
-                        <table class="table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Datum</th>
-                              <th>Prijs</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td ng-switch="ctrl.reservatie.keuzeDag">
-                                <div ng-switch-when="voormiddag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}} in de voormiddag</div>
-                                <div ng-switch-when="namiddag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}} in de namiddag</div>
-                                <div ng-switch-when="volledigedag">{{ctrl.reservatie.startdate | date: 'dd/MM/yyyy'}}, een volledige dag</div>
-                              </td>
-                              <td class="price">€ {{ctrl.reservatie.price}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      </md-content>
-
-                      <div layout="row">
-                        <md-button type="submit" class="md-raised md-primary btn-submit" flex="66">Reserveer</md-button>
-                      </div>
-                    </form>
+                  <div layout-gt-xs="row">
+                    <div class="legende-holiday"></div>
+                    <div class="legende-text">Feestdag of gesloten</div>
                   </div>
-                  <!-- EINDE FACTUREREN COWORKER -->
-                  <div class="wrapper-box" layout="column" layout-padding>
-                    <div layout-gt-xs="row">
-                      <div flex class="availablecalendar" >
-                        <multiple-date-picker calendar-id="'availablecalendar'" day-click="dayClick" week-days-off="[0, 6]" ng-model="ctrl.dateClicked" disallow-back-past-months="true" highlight-days="ctrl.highlightDays"></multiple-date-picker>
-                      </div>
-                      <div flex class="text-center">
-                        <div class=" reservation-legenda-box">
-                          <h3>Legende</h3>
-                          <div class="container">
-                            <div layout-gt-xs="row">
-                              <div class="legende-today"></div>
-                              <div class="legende-text">Vandaag</div>
-                            </div>
-                            <div layout-gt-xs="row">
-                              <div class="legende-holiday"></div>
-                              <div class="legende-text">Feestdag of gesloten</div>
-                            </div>
-                            <div layout-gt-xs="row">
-                              <div class="legende-custom"></div>
-                              <div class="legende-text">Evenement(en)</div>
-                            </div>
-                            <div layout-gt-xs="row">
-                              <div class="legende-weekend"></div>
-                              <div class="legende-text">Weekend</div>
-                            </div>
-                          </div>
-
-                          <h4>Aantal beschikbare plaatsen: {{ctrl.aantalBeschikbarePlaatsen}}</h4>
-                        </div>
-                      </div>
-                    </div>
+                  <div layout-gt-xs="row">
+                    <div class="legende-custom"></div>
+                    <div class="legende-text">Evenement(en)</div>
+                  </div>
+                  <div layout-gt-xs="row">
+                    <div class="legende-weekend"></div>
+                    <div class="legende-text">Weekend</div>
                   </div>
                 </div>
+                <h4>Aantal beschikbare plaatsen: {{ctrl.aantalBeschikbarePlaatsen}}</h4>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 </section>

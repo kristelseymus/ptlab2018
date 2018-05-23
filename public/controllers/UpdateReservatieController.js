@@ -25,8 +25,11 @@
         vm.nieuweKeuze;
         vm.updatereservatie = {};
 
-        vm.printReservation = printReservation;
-
+        /* Disable all dates that are
+            - a saturday
+            - a sunday
+            - a holiday
+            - a blocked date from the database */
         vm.disabledates = function(date) {
           var temp = new Date(date);
           var day = temp.getDay();
@@ -60,12 +63,14 @@
           //vm.updatereservatie.ruimte = reservatie.ruimte;
         }
 
+        /* Close the panel */
         function close() {
           mdPanelRef.close();
         };
 
+        /* Calculate holidays based on the year param */
         function berekenFeestdagen(Y){
-          //Date maken -> maanden = 0 tot 11
+          //Months: 0 to 11
           var pasen; //Nodig voor andere data te berekenen
           pasen = getEasterDate(Y);
           var paasmaandag; //pasen = zondag
@@ -103,6 +108,7 @@
           vm.feestdagen.push(kerstmis);
         }
 
+        /* Calculate easter based on the year param */
         function getEasterDate(Y) {
           var C = Math.floor(Y/100);
           var N = Y - 19*Math.floor(Y/19);
@@ -118,6 +124,7 @@
           return new Date(Y, M-1, D);
         }
 
+        /* Check if the date param is a holiday */
         function isFeestdag(date) {
           date.setHours(0,0,0,0);
           for(var i = 0; i < vm.feestdagen.length; i++){
@@ -127,6 +134,7 @@
           }
         }
 
+        /* Check if the date param is a blocked date (database) */
         function isBlockedDate(date){
           date.setHours(0,0,0,0);
           for(var i = 0; i < vm.blockeddatesyear.length; i++){
@@ -137,10 +145,9 @@
           }
         }
 
+        /* Update the reservation (non admin mode: can only update "keuzeDag") */
         function updateNonAdmin() {
           reservatie.keuzeDag = vm.nieuweKeuze;
-          console.log(reservatie);
-          console.log("update");
           reservatieService.update(reservatie._id, reservatie)
             .success(function(data){
               $mdToast.show($mdToast.simple()
@@ -156,13 +163,11 @@
             });
         }
 
+        /* Update the reservation (admin mode: can update "keuzeDag", "startdate" and "ruimte") */
         function updateAdmin() {
-          console.log(vm.updatereservatie);
           reservatie.keuzeDag = vm.updatereservatie.keuzeDag;
           reservatie.startdate = vm.updatereservatie.startdate;
           reservatie.ruimte = vm.updatereservatie.ruimte;
-          console.log(reservatie);
-          console.log("update");
           reservatieService.update(reservatie._id, reservatie)
             .success(function(data){
               $mdToast.show($mdToast.simple()
@@ -176,22 +181,17 @@
               reservatie.keuzeDag = vm.reservatieOrigineleKeuze;
               reservatie.startdate = vm.reservatieOrigineleDatum;
               reservatie.ruimte = vm.reservatieOrigineleRuimte;
-              console.log(err);
               vm.message = err.message;
             });
         }
 
+        /* Get all rooms */
         function getRuimtes(){
           ruimteService.getAll().then(function(res){
             vm.ruimtes = res.data;
             return vm.ruimtes;
           });
         }
-
-        function printReservation(){
-          console.log(vm.updatereservatie);
-          console.log(reservatie);
-        }
-    } // EINDE UpdateReservatieController
+    } // END UpdateReservatieController
 
 })();

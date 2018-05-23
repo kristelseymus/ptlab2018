@@ -82,8 +82,7 @@
           }
         }
 
-        /* Get the full name of the current user.
-        There is information stored about the user inside the JWT token */
+        /* Get the full name of the current user */
         function currentUser() {
             if (isLoggedIn()) {
                 var token = getToken();
@@ -92,7 +91,7 @@
             }
         }
 
-        /* Create a new account */
+        /* Create a new user */
         function register(user) {
             return $http.post('/api/users/register', user, {
                 headers: {
@@ -121,13 +120,12 @@
 
         /* Change the user's password */
         function changePassword(user){
-          console.log(user);
           return $http.put("/api/users/changepassword",user, {
               headers: {
                   Authorization: 'Bearer ' + getToken()
               }
           }).error(function(err){
-            console.log(err);
+            return err;
           });
         }
 
@@ -142,8 +140,7 @@
             })
         }
 
-        /* Get the current user in an object.
-        This method returns a complete user object. */
+        /* Get the current user (object) */
         function getCurrentUser(){
           var token = getToken();
           var payload = angular.fromJson($window.atob(token.split('.')[1]));
@@ -159,7 +156,7 @@
           return user;
         }
 
-        /* This method will send a "forgot password" email to the given email adres, if the user exists. */
+        /* Forgot password. If user exists, an email will be send to that user to reset his/her password */
         function forgotPassword(user){
           return $http.post('/api/users/forgot', user).success(function(data) {
           }).error(function(err){
@@ -167,14 +164,13 @@
           });
         }
 
-        /* Reset the users password with the same token as the token in the link send by email. */
+        /* Reset password. Password is reset for the user with the same token (token needs to be valid and not expired) */
         function resetPassword(user){
           return $http.put('/api/users/reset/' + user.resetPasswordToken, user).success(function(data) {
-              console.log(data);
+            return data;
           }).error(function(err){
-            console.log(err);
             return err;
           });
         }
-    }
+    } // END authService
 })();

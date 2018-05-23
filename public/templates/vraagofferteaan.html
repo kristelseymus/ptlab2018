@@ -2,9 +2,7 @@
         <div class="container" id="vraagofferteaan">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <!-- CONTENT TEST -->
                   <div class="wrapper-box" layout="column" layout-padding ng-cloak>
-
                     <div class="row text-center">
                       <h2 class="section-heading">Vraag een offerte aan</h2>
                     </div>
@@ -56,7 +54,6 @@
                            <div ng-message="required">Datum is verplicht</div>
                           </div>
                         </mdp-date-picker>
-                          <!--<md-datepicker ng-model="ctrl.offerte.startdate" md-placeholder="Kies een datum" md-min-date="ctrl.getTodayDate()" md-open-on-focus></md-datepicker>-->
                         <mdp-time-picker flex-gt-xs ng-model="ctrl.startTime" mdp-auto-switch="true" required name="starttime" aria-label="Timepicker Event" ng-change="ctrl.checkTimes(vraagOfferteAanForm)">
                           <md-tooltip md-direction="top">Klik op het klokje om een starttijd te kiezen</md-tooltip>
                           <div ng-messages="vraagOfferteAanForm.starttime.$error" multiple md-auto-hide="false">

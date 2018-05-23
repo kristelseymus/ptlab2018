@@ -1,13 +1,16 @@
 'use strict';
 
+/* Inject modules in the app */
 var app = angular.module('ptlab', ['ui.router', 'ngAnimate', 'ngMaterial', 'ngSanitize', 'ngMessages', 'duScroll', 'mdPickers', 'md.data.table', 'ui.carousel', 'multipleDatePicker']);
 
+/* Run when everything is set up */
 app.run(['$anchorScroll', '$location', '$rootScope', function($anchorScroll, $location, $rootScope) {
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     if($location.hash()) $anchorScroll();
   });
 }])
 
+/* Configure application (date locale) */
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
@@ -87,6 +90,8 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
        enabled: true,
        requireBase: false
   });
+
+  /* All states */
   $stateProvider
     .state('home', {
       url: '/home',
@@ -221,9 +226,3 @@ function($stateProvider, $urlRouterProvider, $mdDateLocaleProvider, $locationPro
         });
   $urlRouterProvider.otherwise('home');
 }]);// EINDE config
-
-/*$(document).on('click','.navbar-collapse.in',function(e) {
-    if( $(e.target).is('a:not(".dropdown-toggle")') ) {
-        $(this).collapse('hide');
-    }
-});*/

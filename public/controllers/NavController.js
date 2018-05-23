@@ -8,11 +8,12 @@
     function NavController(auth, $state, $mdToast){
       var vm = this;
 
+      vm.isOpen = false;
+      vm.users = [];
+
       vm.isLoggedIn = auth.isLoggedIn;
       vm.isAdmin = auth.isAdmin;
       vm.currentUser = auth.currentUser;
-      vm.isOpen = false;
-      vm.users = [];
       vm.logOut = logOut;
 
       function logOut() {
@@ -25,5 +26,5 @@
         $state.go('login');
       }
 
-    } // EINDE NavController
+    } // END NavController
 })();

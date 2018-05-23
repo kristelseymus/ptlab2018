@@ -23,6 +23,11 @@
       vm.blockeddates = [];
       vm.highlightDays = [];
 
+      /* Disable dates that are
+          - a saturday,
+          - a sunday,
+          - a holiday,
+          - or a blocked date from the database */
       vm.disabledates = function(date) {
         var temp = new Date(date);
         var day = temp.getDay();
@@ -31,6 +36,7 @@
         return day === 0 || day === 6 || feestdag || isblocked;
       };
 
+      /* Reservation startdate needs to be larger then today + 48 hours */
       vm.disableReservatieOptions = function(reservatie) {
         var tempdate = new Date(vm.todayDate);
         var startdate = new Date(reservatie.startdate);
@@ -161,10 +167,11 @@
         getBlockedDates(vm.todayDate.getFullYear());
 
         return vm.reservatie;
-      }// EINDE activate
+      }
 
+      /* Calculate holidays based on the year param */
       function berekenFeestdagen(Y){
-        //Date maken -> maanden = 0 tot 11
+        //Months: 0 to 11
         var pasen; //Nodig voor andere data te berekenen
         pasen = getEasterDate(Y);
         var paasmaandag; //pasen = zondag
@@ -202,6 +209,7 @@
         vm.feestdagen.push(kerstmis);
       }
 
+      /* Calculate easter based on the year param */
       function getEasterDate(Y) {
         var C = Math.floor(Y/100);
         var N = Y - 19*Math.floor(Y/19);
@@ -217,6 +225,7 @@
         return new Date(Y, M-1, D);
       }
 
+      /* Check if the date param is a holiday */
       function isFeestdag(date) {
         date.setHours(0,0,0,0);
         for(var i = 0; i < vm.feestdagen.length; i++){
@@ -226,6 +235,7 @@
         }
       }
 
+      /* Check if the date param is a blocked date (database) */
       function isBlockedDate(date){
         date.setHours(0,0,0,0);
         for(var i = 0; i < vm.blockeddates.length; i++){
@@ -236,16 +246,19 @@
         }
       }
 
+      /* Get all blocked dates in the database from a specific year (param) */
       function getBlockedDates(year){
         websiteService.getBlockedDates(year).then(function(res){
           return vm.blockeddates = res.data.blockeddates;
         });
       }
 
+      /* Get the current date */
       function getTodayDate(){
         return new Date();
-      }// EINDE getTodayDate
+      }
 
+      /* Get all rooms */
       function getRuimtes(){
         vm.ruimtes = ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
@@ -258,7 +271,6 @@
           }
           eventService.getEventsByDayInRoom(vm.todayDate, vm.reservatie.ruimte._id).then(function(response){
             vm.events = response;
-            console.log(vm.events);
             var dateBefore = new Date();
             vm.events.forEach(function(evenement){
               var temp = new Date(evenement.startdate);
@@ -285,25 +297,26 @@
           });
           return vm.ruimtes;
         });
-      }// EINDE getRuimtes
+      }
 
+      /* Check if a co-worker can make a reservation for free or needs to pay */
       function isGratis() {
           if(vm.reservaties.length === 0){
-            //Geen reservaties voor deze coworker. Hij/zij kan dus nog eens gratis proberen
             return true;
           } else {
-            //Coworker heeft wel al minimum 1 reservatie, dus hij/zij zal een offerte moeten aanmaken
             return false;
           }
-      }// EINDE isGratis
+      }
 
+      /* Get all event types: 'Training' and 'Evenement' */
       function getEventTypes(){
         vm.eventTypes = eventService.getEventTypes().then(function(res){
           vm.eventTypes = res.data;
           return vm.eventTypes;
         });
-      }// EINDE getEventTypes
+      }
 
+      /* Get all reservations from the current user */
       function getReservatiesUser(){
         vm.reservaties = reservatieService.getReservatiesUser(vm.currentUser._id).then(function(res){
           vm.reservaties = res;
@@ -318,8 +331,9 @@
           });
           return vm.reservaties;
         });
-      }// EINDE getReservatiesUser
+      }
 
+      /* Delete a reservation */
       function deleteReservatie(reservatie){
         var confirm = $mdDialog.confirm()
           .title('Annuleer reservatie')
@@ -349,8 +363,9 @@
               .parent($("#toast-container-alert"))
               .hideDelay(3000));
             });
-      }// EINDE deleteReservatie
+      }
 
+      /* Make a reservation as a student */
       function boekPlaatsStudent(){
         vm.message = "";
         return  reservatieService.create(vm.reservatie)
@@ -368,8 +383,9 @@
           .hideDelay(3000));
           $state.go("home")
         });
-      }// EINDE boekPlaatsStudent
+      }
 
+      /* Request an offer as a manager */
       function vraagOfferteAan(){
         vm.offerte.startdate.setHours(vm.startTime.getHours());
         vm.offerte.startdate.setMinutes(vm.startTime.getMinutes());
@@ -417,7 +433,7 @@
               .parent($("#toast-container"))
               .hideDelay(3000)
              );
-             //$state.go('home');
+             $state.go('home');
            } else {
              var tempres = [];
              for(var i = 0; i<res.data.length; i++){
@@ -466,10 +482,11 @@
                 );
                 $state.go('home');
              }
-           } // EINDE else
+           }
          });
-      }// EINDE vraagOfferteAan
+      }
 
+      /* Make a free reservation as a co-worker */
       function probeerGratis(){
         vm.message = "";
         return reservatieService.create(vm.reservatie)
@@ -487,11 +504,10 @@
           $state.go("home");
         });
 
-      } // EINDE probeerGratis
+      }
 
+      /* Make a reservation as a co-worker and get an invoice in the mailbox */
       function factureer() {
-        //Factuur aanmaken en verzenden naar het email adres van de gebruiker.
-        //Daarna zal ook een reservatie moeten worden aangemaakt.
         vm.message = "";
         return reservatieService.create(vm.reservatie)
         .error(function (err){
@@ -502,7 +518,6 @@
           mailService.sendConfirmationReservation(vm.reservatie);
 
           reservatieService.saveInvoice(vm.reservatie);
-          //mailService.sendInvoiceCoworker(vm.reservatie);
 
           $mdToast.show($mdToast.simple()
           .content('U hebt succesvol een plaats gereserveerd.')
@@ -511,8 +526,9 @@
           .hideDelay(3000));
           $state.go("home");
         });
-      }// EINDE factureer
+      }
 
+      /* Adjust the price of a reservation by a co-worker. The reservation is a complete day, the price is doubled. Otherwise the price stays the same */
       function adjustPrice() {
         if(vm.reservatie.ruimte){
           if(vm.reservatie.keuzeDag == "volledigedag"){
@@ -521,8 +537,9 @@
             vm.reservatie.price = vm.reservatie.ruimte.price;
           }
         }
-      }// EINDE adjustPrice
+      }
 
+      /* Update a reservation (open panel) */
       function updateReservatie(reservatie){
         var position = vm._mdPanel.newPanelPosition()
           .absolute()
@@ -548,8 +565,9 @@
         };
 
         vm._mdPanel.open(config);
-      }// EINDE updateReservatie
+      }
 
+      /* Check if starttime is larger then endtime. Endtime needs to be lower the starttime. */
       function checkTimes(form){
         if(vm.startTime > vm.endtime){
           form.starttime.$error.startgreaterend = true;
@@ -558,6 +576,7 @@
         }
       }
 
+      /* Calculate the number of available places in a room */
       function berekenPlaatsen(){
         if(vm.reservatie.ruimte != null){
           var calc = true;
@@ -579,12 +598,12 @@
         }
       }
 
-      /* Bereken het aantal beschikbare plaatsen om te reserveren.
-      Deze methode zal enkel gebruikt worden indien er geen events plaatsvinden op het gekozen moment.
-      Er zullen 3 params moeten worden meegegeven:
-       - ruimte: De gewenste ruimte (dit zal het co-working lab zijn bij reservaties door studenten en co-workers)
-       - reservaties: Alle reservaties op de gekozen dag in de gekozen ruimte (de gekozen ruimte = boven vernoemde ruimte)
-       - reservatie: De huidige reservatie
+      /* Calculate the number of available places.
+      This function will only be used when there are no events taking place on the chosen moment.
+      3 params:
+       - ruimte: The chosen room (this is the Co-working Lab for students and co-workers by default)
+       - reservaties: All reservations on the chosen date in a room (same room as 'ruimte')
+       - reservatie: The reservation
       */
       function berekenBeschikbarePlaatsen(ruimte, reservaties, reservatie){
         var plaatsen = 0;
@@ -618,6 +637,6 @@
         return plaatsen;
       }
 
-    } // EINDE ReservatieController
+    } // END ReservatieController
 
 })();

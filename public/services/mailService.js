@@ -21,7 +21,7 @@
         };
         return service;
 
-        /* Send a confirmation e-mail for a reservation */
+        /* Send a confirmation email for a reservation */
         function sendConfirmationReservation(item){
           item.datedmy = moment(item.startdate).format('LL');
           item.dated = moment(item.startdate).format('dddd');
@@ -37,7 +37,7 @@
           sendMail(mail);
         }
 
-        /* Send a confirmation e-mail for an offer */
+        /* Send a confirmation email for an offer */
         function sendConfirmationOffer(item){
           item.datedmy = moment(item.startdate).format( 'LL' );
           item.van = moment(item.startdate).format( 'LT' );
@@ -54,7 +54,7 @@
           sendMail(mail);
         }
 
-        /* Send a confirmation e-mail for an event */
+        /* Send a confirmation email for an event */
         function sendConfirmationEvent(item){
           item.datedmy = moment(item.startdate).format( 'LL' );
           item.van = moment(item.startdate).format( 'LT' );
@@ -71,7 +71,7 @@
           sendMail(mail);
         }
 
-        /* Send an e-mail to notify the manager that the event is canceled */
+        /* Send an email to a manager to notify him/her that the event is cancelled */
         function sendCancellationEvent(item){
           item.datedmy = moment(item.startdate).format( 'LL' );
           item.van = moment(item.startdate).format( 'LT' );
@@ -88,7 +88,7 @@
           sendMail(mail);
         }
 
-        /* Send an e-mail to a user to notify him/her that his/her reservation is cancelled */
+        /* Send an email to a user to notify him/her that the reservation is cancelled */
         function sendCancellationReservation(item){
           item.datedmy = moment(item.startdate).format( 'LL' );
           var mail = {
@@ -103,7 +103,7 @@
           sendMail(mail);
         }
 
-        /* Send an invoice to a coworker */
+        /* Send an invoice to a co-worker */
         function sendInvoiceCoworker(item){
           item.factuurdatum = moment().format('LL');
           item.vervaldatum = moment().add(1, 'M').format('LL');
@@ -157,7 +157,7 @@
           sendMail(mail);
         }
 
-        /* Send an e-mail to Planet Talent to notify them that an offer has been made */
+        /* Send an email to Planet Talent to notify them that an offer has been made */
         function sendOfferMail(item){
           item.datedmy = moment(item.offerte.startdate).format( 'LL' );
           item.van = moment(item.offerte.startdate).format( 'LT' );
@@ -174,8 +174,8 @@
           sendMail(mail);
         }
 
-        /* Send an e-mail that the offer is being handled.
-        This e-mail is sent when there are reservations in the same room at the same time. */
+        /* Send an email to a manager that the offer is being handled.
+        This email is sent when there are reservations in the same room at the same time. */
         function sendAwaitingOfferMail(offerte) {
           offerte.datedmy = moment(offerte.startdate).format( 'LL' );
           offerte.van = moment(offerte.startdate).format( 'LT' );
@@ -192,7 +192,7 @@
           sendMail(mail);
         }
 
-        /* API request to send the given e-mail */
+        /* Send the given email */
         function sendMail(mail){
           return $http.post('/api/sendmail', mail, {
             headers: {
@@ -204,5 +204,5 @@
             return err;
           });
         }
-    }
+    } // END mailService
 })();

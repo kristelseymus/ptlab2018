@@ -37,7 +37,6 @@
 
     /* POST register */
     router.post('/register', function(req, res, next) {
-      console.log(req.body);
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
                 message: 'Vul alle velden in'
@@ -79,7 +78,6 @@
     });
     /* POST login */
     router.post('/login', function(req, res, next) {
-      console.log("inside login api");
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
                 message: 'Vul alle velden in'
@@ -176,7 +174,6 @@
           Content.findOne({}, 'adres', function(err, value){
             ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, link: link, moment: moment}, function(err, data){
               if(err){
-                console.log(err);
               } else {
                 var mailOptions = {
                   from: "Planet Talent <contact@planet-talent.com>",
@@ -193,10 +190,8 @@
 
                 transporter.sendMail(mailOptions, function(error, response){
                   if(error){
-                    console.log(error);
                     res.end("error");
                   } else {
-                    console.log("Message sent: " + response.message);
                     res.json({message: "Er is een e-mail verzonden naar " + user.username + " met verdere instructies."});
                     done(error, 'done');
                   }
@@ -214,11 +209,8 @@
     });
     /* POST reset password */
     router.put('/reset/:token', function(req, res){
-      //Test
       User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires' : { '$gt' : Date.now() } }, function(err, user){
         if(!user){
-          //return res.json({message: 'De reset token is niet geldig of is verlopen.'});
-          //return res.redirect(400, 'index');
           return res.status(500).send({
               success: false,
               message: "De reset token is niet geldig of is verlopen."
@@ -241,7 +233,6 @@
             Content.findOne({}, 'adres', function(err, value){
               ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordsuccessemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, moment: moment}, function(err, data){
                 if(err){
-                  console.log(err);
                 } else {
                   var mailOptions = {
                     from: "Planet Talent <contact@planet-talent.com>",
@@ -254,7 +245,7 @@
                       path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
                       cid: 'logoimage'
                     }]
-                  }; // mail options
+                  };
 
                   transporter.sendMail(mailOptions, function(error, response){
                     if(error){
@@ -262,83 +253,13 @@
                     } else {
                       res.json({message: "Wachtwoord succesvol gewijzigd."});
                     }
-                  }); // transporter.sendMail
-                } // else --> geen error
-              }); // renderFile --> render email
-            }); // Content.findOne
-          } // else
-        }); // user.save
-      }); // User.findOne
-
-
-      /*async.waterfall([
-        function(done){ //Search for a user in the database with the same reset token and where the expiration date (time) is greater then the current date (time).
-          //This is exactly the same check as when the user clicks on the link inside the mail.
-          //There will be a new search for a user in the database because it is possible a user left, with the same session still open.
-          User.findOne({ 'resetPasswordToken' : req.params.token, 'resetPasswordExpires' : { '$gt' : Date.now() } }, function(err, user){
-            if(!user){
-              //return res.json({message: 'De reset token is niet geldig of is verlopen.'});
-              //return res.redirect(400, 'index');
-              return res.status(500).send({
-                  success: false,
-                  message: "De reset token is niet geldig of is verlopen."
+                  });
+                }
               });
-            }
-            if (req.body.password != req.body.passwordcheck) {
-              return res.status(500).send({
-                  success: false,
-                  message: "Passwords don't match"
-              });
-            }
-            user.setPassword(req.body.password);
-            user.resetPasswordToken = undefined;
-            user.resetPasswordExpires = undefined;
-
-            user.save(function(err){
-              if(err){
-                done(err, user);
-              }
-              res.json(user);
             });
-          });
-        },
-        function(user, done){
-          Content.findOne({}, 'adres', function(err, value){
-            ejs.renderFile(path.resolve(__dirname, '../public/templates/emails/forgotpasswordsuccessemail.ejs'), { voornaam: user.voornaam, naam: user.naam, email: user.username, adres: value.adres, moment: moment}, function(err, data){
-              if(err){
-                console.log(err);
-              } else {
-                var mailOptions = {
-                  from: "Planet Talent <contact@planet-talent.com>",
-                  to: user.username,
-                  subject: "Wachtwoord gewijzigd",
-                  text: "text",
-                  html: data,
-                  attachments: [{
-                    filename: 'logo.jpg',
-                    path: path.resolve(__dirname, '../public/images/Logo_PTLab-01.jpg'),
-                    cid: 'logoimage'
-                  }]
-                };
-
-                transporter.sendMail(mailOptions, function(error, response){
-                  if(error){
-                    console.log(error);
-                    res.end("error");
-                  } else {
-                    console.log("Message sent: " + response.message);
-                    res.json({message: "Wachtwoord succesvol gewijzigd."});
-                    done(error, 'done');
-                  }
-                });
-              }
-            });
-          });
-        }
-      ], function(err){
-
-        res.redirect('/');
-      });*/
+          }
+        });
+      });
     });
     /* PUT changepassword */
     router.put('/changepassword', auth, function(req, res, next) {

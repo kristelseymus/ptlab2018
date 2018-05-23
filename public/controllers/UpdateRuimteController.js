@@ -8,16 +8,17 @@
 
     function UpdateRuimteController($mdPanel, ruimte, ruimteService, mdPanelRef, $mdToast) {
         var vm = this;
+
         vm.update = update;
         vm.close = close;
 
+        /* Close the panel */
         function close() {
           mdPanelRef.close();
         };
 
+        /* Update the room */
         function update() {
-          console.log(ruimte);
-          console.log("update");
           ruimteService.update(ruimte._id, ruimte)
             .success(function(data){
               $mdToast.show($mdToast.simple()
@@ -31,6 +32,6 @@
               vm.message = "Er is een fout opgetreden. Probeer opnieuw."
             });
         }
-    } // EINDE UpdateRuimteController
+    } // END UpdateRuimteController
 
 })();

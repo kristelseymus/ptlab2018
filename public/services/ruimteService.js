@@ -33,7 +33,7 @@
             });
         }
 
-        /* Get a specific room by id */
+        /* Get a specific room by id (param) */
         function get(id) {
             return $http.get('/api/ruimtes/' + id).then(function (res) {
                 return res.data;
@@ -62,5 +62,5 @@
                 return res.data;
             })
         }
-    }
+    } // END ruimteService
 })();

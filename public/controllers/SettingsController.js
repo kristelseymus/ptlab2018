@@ -59,6 +59,11 @@
 
       vm.feestdagen = [];
 
+      /* Disable all dates that are
+          - a saturday,
+          - a sunday,
+          - a holiday,
+          - or a blocked date (database) */
       vm.disabledates = function(date) {
         var temp = new Date(date);
         var day = temp.getDay();
@@ -155,8 +160,9 @@
         return getRuimtes();
       }
 
+      /* Calculate holidays based on the year param */
       function berekenFeestdagen(Y){
-        //Date maken -> maanden = 0 tot 11
+        //Months: 0 to 11
         var pasen; //Nodig voor andere data te berekenen
         pasen = getEasterDate(Y);
         var paasmaandag; //pasen = zondag
@@ -194,6 +200,7 @@
         vm.feestdagen.push(kerstmis);
       }
 
+      /* Calculate easter based on the year param */
       function getEasterDate(Y) {
         var C = Math.floor(Y/100);
         var N = Y - 19*Math.floor(Y/19);
@@ -209,6 +216,7 @@
         return new Date(Y, M-1, D);
       }
 
+      /* Check if the date param is a holiday */
       function isFeestdag(date) {
         date.setHours(0,0,0,0);
         for(var i = 0; i < vm.feestdagen.length; i++){
@@ -218,6 +226,7 @@
         }
       }
 
+      /* Check if the date param is a blocked date (database) */
       function isBlockedDate(date){
         date.setHours(0,0,0,0);
         for(var i = 0; i < vm.blockeddatesyear.length; i++){
@@ -228,12 +237,14 @@
         }
       }
 
+      /* Refresh reservations */
       function reload(){
         vm.reloadreservations = $timeout(function () {
           getReservaties();
         }, 2000);
       }
 
+      /* Get all users that are managers */
       function getUsers(){
         auth.getAll().then(function(data) {
           data.data.forEach(function(u){
@@ -245,6 +256,7 @@
         });
       }
 
+      /* Get all rooms */
       function getRuimtes(){
         ruimteService.getAll().then(function(res){
           vm.ruimtes = res.data;
@@ -252,6 +264,7 @@
         });
       }
 
+      /* Get all reservations */
       function getReservaties(){
         reservatieService.getAll().then(function(res){
           vm.reservaties = res.data;
@@ -259,6 +272,7 @@
         });
       }
 
+      /* Get all events */
       function getEvents(){
         eventService.getAll().then(function(res){
           vm.events = res.data;
@@ -266,6 +280,7 @@
         });
       }
 
+      /* Get all event types. 'Training' and 'Evenement' */
       function getEventTypes(){
         eventService.getEventTypes().then(function(res){
           vm.eventTypes = res.data;
@@ -273,11 +288,13 @@
         });
       }
 
+      /* Create a room */
       function createRuimte(){
         ruimteService.create(vm.ruimte);
         getRuimtes();
       }
 
+      /* Create an event */
       function createEvent(){
         vm.event.startdate.setHours(vm.starttime.getHours());
         vm.event.startdate.setMinutes(vm.starttime.getMinutes());
@@ -285,14 +302,10 @@
         enddate.setHours(vm.endtime.getHours());
         enddate.setMinutes(vm.endtime.getMinutes());
 
-        //Bepalen of het event in de voormiddag of namiddag is, of het een volledige dag duurt.
         if(vm.event.startdate.getHours() >= 12){
-          //Event begint na de middag.
           vm.event.keuzeDag = "namiddag";
         } else {
-          //Bepaal voormiddag of volledige dag.
           if(enddate.getHours() > 12){
-            //Het event zal ten vroegste om 13 uur eindigen.
             vm.event.keuzeDag = "volledigedag";
           } else {
             if (enddate.getHours() === 12){
@@ -302,13 +315,11 @@
                 vm.event.keuzeDag = "volledigedag";
               }
             } else {
-              //tempdate.getHours() < 12
               vm.event.keuzeDag = "voormiddag";
             }
           }
         }
 
-        //Difference calculator
         var diff = enddate - vm.event.startdate;
         var minutesdiff = diff/(1000*60);
 
@@ -335,11 +346,10 @@
         }).error(function(err){
           vm.message = err.message;
         });
-        console.log(vm.event);
-
         return;
       }
 
+      /* Get all reservations on a specific date */
       function getReservatiesByDay() {
         reservatieService.getReservatiesByDay(vm.dayReservaties).then(function (res) {
           vm.reservatiesday = res.data;
@@ -347,6 +357,7 @@
         });
       }
 
+      /* Get all events on a specific date */
       function getEventsByDay() {
         eventService.getEventsByDay(vm.dayEvents).then(function (res) {
           vm.eventsday = res;
@@ -354,6 +365,7 @@
         });
       }
 
+      /* Get the end time of an event */
       function getEndTime(ev) {
         var enddate = new Date(ev.startdate);
         var startdate = new Date(ev.startdate);
@@ -361,6 +373,7 @@
         return enddate;
       }
 
+      /* Delete the selected reservation */
       function deleteReservatie(selectedreservatie) {
         var confirm = $mdDialog.confirm()
           .title('Annuleer reservatie')
@@ -394,6 +407,7 @@
         );
       }
 
+      /* Delete the selected event */
       function deleteEvent(selectedevent) {
         var confirm = $mdDialog.confirm()
           .title('Annuleer evenement')
@@ -426,6 +440,7 @@
         );
       }
 
+      /* Update a room */
       function updateRuimte(ruimte) {
         var position = vm._mdPanel.newPanelPosition()
           .absolute()
@@ -453,6 +468,7 @@
         vm._mdPanel.open(config);
       }
 
+      /* Update a reservation */
       function updateReservatie(reservatie){
         var position = vm._mdPanel.newPanelPosition()
           .absolute()
@@ -480,6 +496,7 @@
         vm._mdPanel.open(config);
       }
 
+      /* Create an administrator (password will be the same as the email address) */
       function createAdmin(form) {
         vm.admin.typeUser = "MANAGER";
         vm.admin.isAdmin = true;
@@ -495,10 +512,10 @@
           .position('bottom left')
           .parent($("#toast-container"))
           .hideDelay(3000));
-          //$state.go('login');
         });
       }
 
+      /* Block selected dates */
       function blokkeerdata(){
         if(vm.datesClicked.length > 0){
           for(var i = 0; i < vm.datesClicked.length; i++){
@@ -507,8 +524,9 @@
           }
           vm.datesClicked.length = 0;
         }
-      }// EINDE blokkeerdata()
+      }
 
+      /* Add the new blocked date to the database and the calendar */
       function checkAndBlockDate(date){
         websiteService.getBlockedDates(date.getFullYear()).then(function(res){
           if(res.data){
@@ -535,6 +553,7 @@
         });
       }
 
+      /* Delete a custom blocked date. Make it selectable again */
       function deleteBlockedDate(){
         websiteService.deleteBlockedDate({
           year: vm.selectedblockeddate.getFullYear(),
@@ -553,6 +572,7 @@
         });
       }
 
+      /* Send an invoice to the co-worker. The admin will need to insert an invoice number, confirm and send the invoice to the user. */
       function sendInvoice(invoice){
         var position = vm._mdPanel.newPanelPosition()
           .absolute()
@@ -581,6 +601,7 @@
         vm._mdPanel.open(config);
       }
 
+      /* Get all invoices for co-workers saved in the database */
       function getAllInvoices(){
         reservatieService.getAllInvoices().then(function (res) {
           vm.invoices = res.data;
@@ -588,6 +609,7 @@
         });
       }
 
+      /* Refresh invoices */
       function reloadInvoices(){
         vm.reloadinvoices = $timeout(function () {
           getAllInvoices();
@@ -595,5 +617,5 @@
       }
 
 
-    } // EINDE SettingsController
+    } // END SettingsController
 })();
