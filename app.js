@@ -25,7 +25,7 @@ moment.locale('nl');
 //mongodb://localhost/ptlab
 //mongodb://admin:admin@ds251988.mlab.com:51988/ptlab
 /* Connect to mongo database */
-mongoose.connect('mongodb://admin:admin@ds251988.mlab.com:51988/ptlab', {
+mongoose.connect('mongodb://kristelseymus:PTLab-2018@ds135290.mlab.com:35290/ptlab', {
    useMongoClient: true
  }, function (err, db) {
    if (!err) {
